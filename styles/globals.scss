@@ -1,0 +1,45 @@
+:root {
+  --bs-success: #338b37;
+}
+
+body,
+html {
+  height: 100%;
+}
+body {
+  font-family: $font-family-sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: normal;
+  letter-spacing: 0.03rem;
+  color: $dark-bg;
+  @include media-breakpoints-down-lg {
+    font-size: 0.875rem;
+  }
+}
+p {
+  font-size: 1.1rem;
+  @include media-breakpoints-down-lg {
+    font-size: 1rem;
+  }
+}
+// body > div:first-child {
+body > #__next {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  .studio-pages {
+    flex: 1;
+  }
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+a {
+  cursor: pointer;
+}

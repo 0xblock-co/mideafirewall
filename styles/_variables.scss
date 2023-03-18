@@ -1,38 +1,12 @@
-$font-family-sans-serif: "Proxima Nova", -apple-system, "Segoe UI", Roboto,
+$font-family-sans-serif: "Inter", -apple-system, "Segoe UI", Roboto,
   "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 
 $enable-smooth-scroll: false !default;
 
-$primary: #ffa72b;
-$secondary: #c82a6f;
-$info: #2b2e34;
-$success: #338b37 !default;
-$dark-bg: #000;
-
-$error-color: #e63946;
-
-$border-radius: 4px;
-$min-contrast-ratio: 4 !default;
-$navbar-toggler-focus-width: none;
-
-// button
-
-$btn-padding-y: 0.5rem !default;
-$btn-padding-x: 1.5rem !default;
-$btn-box-shadow: none !default;
-$btn-focus-box-shadow: none !default;
-$btn-active-box-shadow: none !default;
-$btn-focus-width: none;
-
-// navbar
-
-$navbar-padding-y: 0rem;
-$navbar-toggler-padding-y: 0.25rem !default;
-$navbar-toggler-padding-x: 0.4rem !default;
-$navbar-toggler-focus-width: 0 !default;
-$nav-link-padding-y: 0.7rem !default;
-$nav-link-padding-y: 1rem !default;
+$primary: #5E0496;
+$text-dark:#161616;
+$text-desc:#474C56;
 
 $box-shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.51) !default;
 
@@ -44,23 +18,10 @@ $grid-breakpoints: (
   xl: 1200px,
   xxl: 1400px,
 ) !default;
-$list-group-border-color: transparent !default;
-$list-group-item-padding-y: 0.15rem !default;
-$list-group-item-padding-x: 0rem !default;
+$headings-font-family:        'Lato';
+$headings-font-weight:        900;
+$navbar-nav-link-padding-x:         2.5rem; 
+$btn-padding-x:               1.5rem;
+$btn-font-size:               0.875rem;
 
-// modal
 
-$modal-content-border-radius: 10px !default;
-
-$input-border-color: #999999 !default;
-$input-border-radius: 0 !default;
-$input-focus-bg: none !default;
-$input-focus-box-shadow: none !default;
-
-$accordion-bg: transparent;
-$accordion-button-bg: $accordion-bg;
-$accordion-button-active-color: $info;
-$accordion-button-focus-box-shadow: none;
-
-$progress-height: 0.4rem;
-$progress-bar-bg: $secondary;

@@ -1,29 +1,14 @@
-:root {
-  --bs-success: #338b37;
-}
-
+@import "../public/fonts/stylesheet.css";
 body,
 html {
   height: 100%;
 }
 body {
-  font-family: $font-family-sans-serif;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: normal;
+  font-family: $font-family-sans-serif; 
+  font-weight: 500;
   letter-spacing: 0.03rem;
-  color: $dark-bg;
-  @include media-breakpoints-down-lg {
-    font-size: 0.875rem;
-  }
-}
-p {
-  font-size: 1.1rem;
-  @include media-breakpoints-down-lg {
-    font-size: 1rem;
-  }
-}
+  color: $text-dark; 
+} 
 // body > div:first-child {
 body > #__next {
   display: flex;
@@ -37,9 +22,13 @@ body > #__next {
 img {
   width: 100%;
   height: 100%;
+  position: unset !important;
   object-fit: cover;
   object-position: center;
 }
 a {
   cursor: pointer;
+}
+.mdf__main_top_fix{
+  margin-top: 80px;
 }

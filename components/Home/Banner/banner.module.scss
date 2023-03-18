@@ -1,0 +1,30 @@
+.mdf__banner__back {
+  background: url("/images/banner.jpg");
+  padding: 1rem;
+  min-height: 680px;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  .mdf__banner_text {
+    margin-left: 5rem;
+    width: 30%;
+    h1 {
+      letter-spacing: 0.055em;
+      text-shadow: 3px 2px 7px rgba(0, 0, 0, 0.25);
+      line-height: 54px;
+    }
+    .text_gredient {
+      background: radial-gradient(
+          26.27% 475.55% at 40.9% 5.15%,
+          rgba(254, 121, 0, 0.81) 0%,
+          #9500de 100%,
+          #9600de 100%
+        )
+        /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  }
+}

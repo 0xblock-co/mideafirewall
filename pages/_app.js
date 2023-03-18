@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import "@/styles/module-style.scss";
 import { useEffect } from "react";
 

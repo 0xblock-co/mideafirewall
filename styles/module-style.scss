@@ -1,3 +1,6 @@
-// global style
+// global stylev
 @import "@/styles/common.scss";
+@import "bootstrap/scss/bootstrap";
 @import "@/styles/globals.scss";
+@import "@/components/layouts/header/header.module.scss";
+@import "@/components/Home/Banner/banner.module.scss";

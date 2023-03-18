@@ -3,22 +3,6 @@
   -moz-transition: all 0.5s ease;
   -webkit-transition: all 0.5s ease;
 }
-@mixin translate-layer {
-  transform: translate(-4px, -4px);
-  -webkit-transform: translate(-4px, -4px);
-  -moz-transform: translate(-4px, -4px);
-}
-@mixin p-absolute {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-@mixin fw-bolder {
-  font-weight: 800 !important;
-}
 
 @mixin media-breakpoints-down-sm {
   @media (max-width: 767.98px) {
@@ -43,36 +27,5 @@
 @mixin media-breakpoints-up-xxl {
   @media (min-width: 1400px) {
     @content;
-  }
-}
-@mixin btn-background {
-  height: 56px;
-  padding: 0;
-  width: 100%;
-  @include media-breakpoints-down-sm {
-    height: 50px;
-    mask-size: cover;
-  }
-}
-@mixin button-media {
-  @include transition;
-  mask-repeat: repeat;
-  mask-size: auto;
-  border: none;
-  mask-repeat: no-repeat;
-  mask-size: cover;
-  text-transform: uppercase;
-  font-weight: 800;
-}
-@mixin btn-small {
-  min-width: 220px;
-  height: 60px;
-  color: #fff;
-  @include media-breakpoints-down-lg {
-    min-width: 160px;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    height: 52px;
-    background-size: contain;
   }
 }

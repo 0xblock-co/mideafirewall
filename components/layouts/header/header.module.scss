@@ -1,0 +1,12 @@
+.mdf__top_navbar {
+    font-size: 0.875rem;
+    background-color: #fff;
+    box-shadow: 0px 1px 12px 1px rgba(0, 0, 0, 0.05); 
+    padding: 4px 0;
+    .nav-link{
+      color: $text-dark;
+    }
+  .mdf__logo_modal {
+    width: 100px !important;
+  }
+}

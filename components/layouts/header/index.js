@@ -18,7 +18,7 @@ export default function HeaderTop() {
                 className="mdf__logo_modal"
                 layout='fill'
                 src="/images/logo.png"
-                alt=""
+                alt="A globe icon with filter and text."
               /></Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbarMediaFirewall-expand-lg`} />
             <Navbar.Offcanvas

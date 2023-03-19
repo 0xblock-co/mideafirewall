@@ -2,12 +2,14 @@ import "@/styles/module-style.scss";
 import { useEffect } from "react";
 import { DefaultSeo } from "next-seo";
 import { Helmet } from "react-helmet";
+import ToastContainerConfig from "@/components/ToastContainer";
+import { QueryClientWrapper } from "@/services/QueryClientWrapper";
 
 export default function App({ Component, pageProps }) {
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.min.js");
   }, []);
-
+  
   return (
     <>
       <DefaultSeo
@@ -26,7 +28,10 @@ export default function App({ Component, pageProps }) {
       <Helmet>
         <html lang="en" />
       </Helmet>
-      <Component {...pageProps} />
+      <QueryClientWrapper>
+        <Component {...pageProps} />
+        <ToastContainerConfig />
+      </QueryClientWrapper>
     </>
   );
 }

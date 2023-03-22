@@ -1,14 +1,20 @@
 import Header from "@/components/layouts/header";
 import Banner from "@/components/Home/Banner";
-import React, { useState } from "react";
-import { NextSeo } from "next-seo";
+import Moderation from "@/components/Home/Moderation";
+import Feature from "@/components/Home/Features";
+import OfferBlock from "@/components/Home/Offer";
+import Footer from "@/components/layouts/footer";
 
 export default function LandingScreen() {
   return (
     <div>
       <Header />
       <main className="mdf__main_top_fix">
-        <Banner />
+      <Banner/>
+      <Moderation/>
+      <Feature/>
+      <OfferBlock/>
+      <Footer/>
       </main>
     </div>
   );

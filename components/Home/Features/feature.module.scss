@@ -1,0 +1,46 @@
+.mdf__personalized_feature {
+  background: #e8e7f3;
+  padding: 80px 0;
+  .mdf__btn-large {
+    background: #f6ecec;
+    border: 1px solid #5e0496;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    color: $text-dark;
+    font-weight: 800;
+    padding: 1rem 2rem;
+    &:hover {
+      color: #fff;
+      background: #5e0496;
+    }
+  }
+  .mdf__feature__card_block{
+    width: 19.3333%; 
+    margin-top: 2rem;
+    .mdf__feature__card {
+      border: double 0.25em transparent;
+      border-radius: 30px;
+      height: 100%;
+      background-image: linear-gradient(white, white),
+        linear-gradient(to bottom, rgba(142, 0, 210, 1), rgba(150, 0, 222, 0));
+      background-origin: border-box;
+      background-clip: content-box, border-box;
+      box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.55);
+      img{
+        border-top-left-radius: 27px;
+        border-top-right-radius: 27px;
+        width: 100%;
+        height: 245px;
+        object-fit: cover;
+      }
+    }
+    .later__spacing{
+      letter-spacing: 2.75px;
+      text-underline-position: under;
+      margin-top: 1rem;
+    }
+    p{
+      font-size: 12px;
+    }
+  }
+}

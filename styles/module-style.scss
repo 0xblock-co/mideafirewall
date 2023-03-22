@@ -1,0 +1,10 @@
+// global stylev
+@import "@/styles/common.scss";
+@import "bootstrap/scss/bootstrap";
+@import "@/styles/globals.scss";
+@import "@/components/layouts/header/header.module.scss";
+@import "@/components/Home/Banner/banner.module.scss";
+@import "@/components/Home/Moderation/moderation.module.scss";
+@import "@/components/Home/Features/feature.module.scss";
+@import "@/components/Home/Offer/offer.module.scss";
+@import "@/components/layouts/footer/footer.module.scss";

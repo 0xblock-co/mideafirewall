@@ -1,14 +1,12 @@
-import Header from "@/components/layouts/header";
 import { NextSeo } from "next-seo";
+import { Fragment } from "react";
 
 const LoginScreen = () => {
   return (
-    <>
+    <Fragment>
       <NextSeo title="Login" />
-      <div>
-        <Header />
-      </div>
-    </>
+      <div>login screen</div>
+    </Fragment>
   );
 }
 

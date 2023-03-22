@@ -4,6 +4,7 @@ import { DefaultSeo } from "next-seo";
 import { Helmet } from "react-helmet";
 import ToastContainerConfig from "@/components/ToastContainer";
 import { QueryClientWrapper } from "@/services/QueryClientWrapper";
+import MainLayout from "@/components/layouts/main";
 
 export default function App({ Component, pageProps }) {
   useEffect(() => {
@@ -28,10 +29,12 @@ export default function App({ Component, pageProps }) {
       <Helmet>
         <html lang="en" />
       </Helmet>
-      <QueryClientWrapper>
-        <Component {...pageProps} />
-        <ToastContainerConfig />
-      </QueryClientWrapper>
+      <MainLayout>
+        <QueryClientWrapper>
+          <Component {...pageProps} />
+          <ToastContainerConfig />
+        </QueryClientWrapper>
+      </MainLayout>
     </>
   );
 }

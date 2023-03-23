@@ -17,8 +17,8 @@ export default function LandingScreen() {
       <Moderation/>
       <Feature/>
       <OfferBlock/>
-      <Footer/>
       </main>
+      <Footer/>
     </div>
   );
 }

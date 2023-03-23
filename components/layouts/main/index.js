@@ -1,6 +1,7 @@
-import HeaderComponent from "@/components/layouts/header";
-import FooterComponent from "@/components/layouts/footer";
 import { Fragment } from "react";
+
+import FooterComponent from "@/components/layouts/footer";
+import HeaderComponent from "@/components/layouts/header";
 
 const MainLayout = ({ children }) => {
   return (

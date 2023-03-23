@@ -1,9 +1,9 @@
-import React, { useState } from "react"; 
+import React from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 export default function FeatureBlog() {
    return (
       <section className="mdf__personalized_feature">
-         <Container fluid className="px-5"> 
+         <Container fluid className="px-5">
          <Row className="justify-content-center">
                <Col lg={5}>
                <h1 className="fw-bold text-shadow text-center">Personalized features to match your requirements</h1>

@@ -1,8 +1,9 @@
-import Banner from "@/components/Home/Banner";
-import Moderation from "@/components/Home/Moderation";
-import Feature from "@/components/Home/Features";
-import OfferBlock from "@/components/Home/Offer";
 import { Fragment } from "react";
+
+import Banner from "@/components/Home/Banner";
+import Feature from "@/components/Home/Features";
+import Moderation from "@/components/Home/Moderation";
+import OfferBlock from "@/components/Home/Offer";
 
 export default function LandingScreen() {
   return (

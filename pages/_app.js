@@ -1,10 +1,12 @@
 import "@/styles/module-style.scss";
-import { useEffect } from "react";
+
 import { DefaultSeo } from "next-seo";
+import { useEffect } from "react";
 import { Helmet } from "react-helmet";
+
+import MainLayout from "@/components/layouts/main";
 import ToastContainerConfig from "@/components/ToastContainer";
 import { QueryClientWrapper } from "@/services/QueryClientWrapper";
-import MainLayout from "@/components/layouts/main";
 
 export default function App({ Component, pageProps }) {
   useEffect(() => {

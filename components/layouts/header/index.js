@@ -37,7 +37,7 @@ export default function HeaderTop() {
                   <Nav.Link href="#action2">Demo </Nav.Link>
                   <Nav.Link href="#action3">Pricing </Nav.Link>
                   <Nav.Link href="#action4">Documentation </Nav.Link>
-                  <Nav.Link href="#action5">Log In</Nav.Link>
+                  <Nav.Link href="/auth/login">Log In</Nav.Link>
                 </Nav>
                 <Button variant="outline-primary" className='rounded-pill fw-bold border-2'>Create Account</Button>
               </Offcanvas.Body>

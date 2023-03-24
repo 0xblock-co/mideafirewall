@@ -1,0 +1,49 @@
+.mdf__authpage__section{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .mdf__authpage__blocks{
+    background: linear-gradient(269.24deg, #7B5B9E -81.4%, #ECEBF7 99.1%);
+    box-shadow: -2px 1px 26px rgba(0, 0, 0, 0.8);
+    border-radius: 61px; 
+    min-height: 90vh;
+    align-items: center;
+    }
+    .mdf__logo_auth{ 
+       width: 60% !important;
+       height: unset !important;
+    }
+    .mdf__login_right-block{
+        padding: 1.5rem 2rem;
+        .text_blue{
+            color: #192B52;
+        }
+    }
+    .mdf__form__input{
+        padding-left: 3rem;
+    }
+}
+.social_button__blocks{
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #D1D8E6;
+    width: fit-content;
+    button{
+        background-color: #fff;
+        border: none;
+        color: $text-dark;
+        display: flex;
+        flex-direction: column;
+        width: 120px;
+        height: 100px;
+        justify-content: center;
+        align-items: center;
+        .social__icons{
+            width: 30px !important;
+            height: 30px !important;
+            margin-bottom: 1rem;
+        }
+    }
+}

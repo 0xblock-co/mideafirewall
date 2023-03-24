@@ -53,7 +53,7 @@ export default function RegisterBlock() {
                 Sign Up
            </a>
            <div className="text-center mt-3">
-            <p>Already have an account ?  <a href="/auth/login" className="text-primary text-decoration-none fw-bold">Sign in</a> </p>
+            <p>Already have an account ?  <a href="/account-security/login" className="text-primary text-decoration-none fw-bold">Sign in</a> </p>
            </div>
             </Form>
 

@@ -49,7 +49,7 @@ export default function LoginBlock() {
                 Sign In
            </Button>
            <div className="text-center mt-3">
-            <p>Don't have an account? <a href="/auth/register" className="text-primary text-decoration-none fw-bold">Sign up</a> </p>
+            <p>Don't have an account? <a href="/account-security/register" className="text-primary text-decoration-none fw-bold">Sign up</a> </p>
            </div>
             </Form>
 

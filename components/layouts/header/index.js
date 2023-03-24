@@ -1,5 +1,6 @@
-
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -8,38 +9,58 @@ import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 export default function HeaderTop() {
+  const router = useRouter();
   return (
     <>
       {["lg"].map((expand) => (
-        <Navbar key={expand} expand={expand} fixed="top" className="mdf__top_navbar">
+        <Navbar
+          key={expand}
+          expand={expand}
+          fixed="top"
+          className="mdf__top_navbar"
+        >
           <Container>
-            <Navbar.Brand href="#">
-              <Image
-                className="mdf__logo_modal"
-                layout='fill'
-                src="/images/logo.png"
-                alt="A globe icon with filter and text."
-              /></Navbar.Brand>
-            <Navbar.Toggle aria-controls={`offcanvasNavbarMediaFirewall-expand-lg`} />
+            <Link href="/">
+              <Navbar.Brand>
+                <Image
+                  className="mdf__logo_modal"
+                  layout="fill"
+                  src="/images/logo.png"
+                  alt="A globe icon with filter and text."
+                />
+              </Navbar.Brand>
+            </Link>
+            <Navbar.Toggle
+              aria-controls={`offcanvasNavbarMediaFirewall-expand-lg`}
+            />
             <Navbar.Offcanvas
               id={`offcanvasNavbarMediaFirewall-expand-lg`}
               aria-labelledby={`offcanvasNavbarMediaFirewallLabel-expand-lg`}
               placement="end"
             >
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarMediaFirewallLabel-expand-lg`}>
+                <Offcanvas.Title
+                  id={`offcanvasNavbarMediaFirewallLabel-expand-lg`}
+                >
                   Offcanvas
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Products</Nav.Link>
-                  <Nav.Link href="#action2">Demo </Nav.Link>
-                  <Nav.Link href="#action3">Pricing </Nav.Link>
-                  <Nav.Link href="#action4">Documentation </Nav.Link>
-                  <Nav.Link href="/auth/login">Log In</Nav.Link>
+                  <Link href="#action1" className="nav-link">Products</Link>
+                  <Link href="#action2" className="nav-link">Demo </Link>
+                  <Link href="#action3" className="nav-link">Pricing </Link>
+                  <Link href="#action4" className="nav-link">Documentation </Link>
+                  <Link href="/account-security/login" className="nav-link">Log In</Link>
                 </Nav>
-                <Button variant="outline-primary" className='rounded-pill fw-bold border-2'>Create Account</Button>
+                
+                <Button
+                  variant="outline-primary"
+                  className="rounded-pill fw-bold border-2"
+                  onClick={()=> router.push("/account-security/signup")}
+                >
+                  Create Account
+                </Button>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

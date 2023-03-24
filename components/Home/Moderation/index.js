@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { IoClose,IoCheckmarkSharp } from "react-icons/io5";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import React from "react";
+import { Card, Col, Container, Row } from "react-bootstrap";
+import { IoCheckmarkSharp,IoClose } from "react-icons/io5";
 export default function Moderation() {
    return (
       <section className="mdf__moderation__back">

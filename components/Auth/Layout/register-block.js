@@ -49,7 +49,7 @@ export default function RegisterBlock() {
                     <Form.Control type="password" placeholder="Retype Password" className="mdf__form__input" />
                 </Form.Group>
            <div className="text-end"><a href="#" className="text-primary text-decoration-none fw-bold ">Forgot Password?</a></div>
-           <a href="/auth/survey1" className="btn btn-primary w-100 mt-3 py-3">
+           <a href="/auth/survey" className="btn btn-primary w-100 mt-3 py-3">
                 Sign Up
            </a>
            <div className="text-center mt-3">

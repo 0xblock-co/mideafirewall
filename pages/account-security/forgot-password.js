@@ -1,16 +1,23 @@
+import dynamic from "next/dynamic";
 import { NextSeo } from "next-seo";
+import { Fragment } from "react";
 
-import Header from "@/components/layouts/header";
+const BoxContainerWithFilterIconWrapper = dynamic(() =>
+  import("@/components/BoxContainerWithFilterIcon")
+);
+const ForgotPasswordBlock = dynamic(() =>
+  import("@/components/Auth/Layout/forgot-password-block")
+);
 
 const ForgotPasswordScreen = () => {
   return (
-    <>
-      <NextSeo title="Request New Password" />
-      <div>
-        <Header />
-      </div>
-    </>
+    <Fragment>
+      <NextSeo title="Forgot Password" />
+      <BoxContainerWithFilterIconWrapper lg={8} xl={6}>
+        <ForgotPasswordBlock />
+      </BoxContainerWithFilterIconWrapper>
+    </Fragment>
   );
-}
+};
 
 export default ForgotPasswordScreen;

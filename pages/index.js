@@ -1,9 +1,10 @@
+import dynamic from "next/dynamic";
 import { Fragment } from "react";
 
-import Banner from "@/components/Home/Banner";
-import Feature from "@/components/Home/Features";
-import Moderation from "@/components/Home/Moderation";
-import OfferBlock from "@/components/Home/Offer";
+const Banner = dynamic(() => import("@/components/Home/Banner"));
+const Feature = dynamic(() => import("@/components/Home/Features"));
+const Moderation = dynamic(() => import("@/components/Home/Moderation"));
+const OfferBlock = dynamic(() => import("@/components/Home/Offer"));
 
 export default function LandingScreen() {
   return (
@@ -15,3 +16,12 @@ export default function LandingScreen() {
     </Fragment>
   );
 }
+
+// export async function getServerSideProps() {
+//   const response = await asyncGetProducts();
+
+//   console.log("response :>> ", response);
+//   return {
+//     props: { data: response },
+//   };
+// }

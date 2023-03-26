@@ -47,17 +47,27 @@ export default function HeaderTop() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Link href="#action1" className="nav-link">Products</Link>
-                  <Link href="#action2" className="nav-link">Demo </Link>
-                  <Link href="#action3" className="nav-link">Pricing </Link>
-                  <Link href="#action4" className="nav-link">Documentation </Link>
-                  <Link href="/account-security/login" className="nav-link">Log In</Link>
+                  <Link href="/" className="nav-link">
+                    Products
+                  </Link>
+                  <Link href="/demo" className="nav-link">
+                    Demo{" "}
+                  </Link>
+                  <Link href="/" className="nav-link">
+                    Pricing{" "}
+                  </Link>
+                  <Link href="/" className="nav-link">
+                    Documentation{" "}
+                  </Link>
+                  <Link href="/account-security/login" className="nav-link">
+                    Log In
+                  </Link>
                 </Nav>
-                
+
                 <Button
                   variant="outline-primary"
                   className="rounded-pill fw-bold border-2"
-                  onClick={()=> router.push("/account-security/signup")}
+                  onClick={() => router.push("/account-security/signup")}
                 >
                   Create Account
                 </Button>

@@ -30,7 +30,11 @@
       font-weight: bold;
       color: $text-dark;
     }
-    .btn-check:checked + .checkbox__primary, :not(.btn-check) + .checkbox__primary:active, .checkbox__primary:first-child:active, .checkbox__primary.active, .checkbox__primary.show{
+    .btn-check:checked + .checkbox__primary,
+    :not(.btn-check) + .checkbox__primary:active,
+    .checkbox__primary:first-child:active,
+    .checkbox__primary.active,
+    .checkbox__primary.show {
       background: $primary;
       color: #fff;
     }

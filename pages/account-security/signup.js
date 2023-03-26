@@ -1,13 +1,8 @@
-import dynamic from "next/dynamic";
 import { NextSeo } from "next-seo";
 import { Fragment } from "react";
 
-const BoxContainerWithFilterIconWrapper = dynamic(() =>
-  import("@/components/BoxContainerWithFilterIcon")
-);
-const RegisterBlock = dynamic(() =>
-  import("@/components/Auth/Layout/register-block")
-);
+import RegisterBlock from "@/components/Auth/Layout/register-block";
+import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 
 const SignupScreen = () => {
   return (

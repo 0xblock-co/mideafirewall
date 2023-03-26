@@ -8,11 +8,11 @@ import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilt
 export default function Survey() {
   return (
     <BoxContainerWithFilterIconWrapper>
-      <SurveyName />
+      {/* <SurveyName /> */}
       {/* <SurveyEmail/> */}
       {/* <SelectSurvey/> */}
       {/* <CompanyCatSurvey/> */}
-      {/* <FeatureSurvey/> */}
+      <FeatureSurvey/>
     </BoxContainerWithFilterIconWrapper>
   );
 }

@@ -13,7 +13,7 @@ const SignupScreen = () => {
           <Row className="align-items-center justify-content-center">
             <Col lg={10}>
               <Row className="mdf__authpage__blocks justify-content-between">
-                <Col lg={4} xl={5} className="ps-0">
+                <Col lg={4} xl={5} className="ps-0 align-self-center">
                   <Image
                     className="mdf__logo_auth"
                     layout="fill"

@@ -59,7 +59,7 @@ export default function HeaderTop() {
                     </NavDropdown.Item>
                   </NavDropdown>
                   <Link href="#action2" className="nav-link">Demo </Link>
-                  <Link href="#action3" className="nav-link">Pricing </Link>
+                  <Link href="/pricing-page" className="nav-link">Pricing </Link>
                   <Link href="#action4" className="nav-link">Documentation </Link>
                   <Link href="/account-security/login" className="nav-link">Log In</Link>
                 </Nav>

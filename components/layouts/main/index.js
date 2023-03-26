@@ -1,7 +1,8 @@
+import dynamic from "next/dynamic";
 import { Fragment } from "react";
 
-import FooterComponent from "@/components/layouts/footer";
-import HeaderComponent from "@/components/layouts/header";
+const FooterComponent = dynamic(() => import("@/components/layouts/footer"));
+const HeaderComponent = dynamic(() => import("@/components/layouts/header"));
 
 const MainLayout = ({ children }) => {
   return (

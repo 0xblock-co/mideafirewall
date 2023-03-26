@@ -1,18 +1,33 @@
-import SurveyName from "@/components/Auth/Layout/survey-name.js";
-import SurveyEmail from "@/components/Auth/Layout/survey-email";
-import SelectSurvey from "@/components/Auth/Layout/select-survey";
-import CompanyCatSurvey from "@/components/Auth/Layout/company-category-survey";
-import FeatureSurvey from "@/components/Auth/Layout/features-survey";
+import Router from "next/router";
+import { useState } from "react";
+
+import SurveyForm from "@/components/Auth/Layout/surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import { formElements } from "@/utils/constants";
 
 export default function Survey() {
+  const [formData, setFormData] = useState(formElements);
+
+  const onSubmitForm = (data, id) => {
+    console.log("data :>> ", data);
+    const lastElement = formData[formData?.length - 1];
+    if (id === lastElement.id) {
+      Router.push("/");
+      return;
+    }
+    const newFormData = formData?.map((value) =>
+      value.id === id
+        ? { ...value, isRender: false }
+        : value.id === id + 1
+        ? { ...value, isRender: true }
+        : { ...value }
+    );
+    setFormData(newFormData);
+  };
+
   return (
     <BoxContainerWithFilterIconWrapper>
-      <SurveyName />
-      {/* <SurveyEmail/> */}
-      {/* <SelectSurvey/> */}
-      {/* <CompanyCatSurvey/> */}
-      {/* <FeatureSurvey/> */}
+      <SurveyForm elements={formData} onSubmit={onSubmitForm} />
     </BoxContainerWithFilterIconWrapper>
   );
 }

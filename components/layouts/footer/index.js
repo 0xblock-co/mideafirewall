@@ -1,78 +1,151 @@
-
 import Image from "next/image";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import Link from "next/link";
 
 export default function FooterBottom() {
   return (
     <footer className="mdf__footer">
-        <Container>
-            <Row>
-            <Col sm={12}>
+      <Container>
+        <Row>
+          <Col sm={12}>
             <Image
-                className="mdf__logo_modal"
-                layout='fill'
-                src="/images/footer-logo.png"
-                alt=""
-              /></Col>
-                <Col lg={6} xl={3}>
-                    <h5 className="mt-3">Features</h5>
-                    <ul className="list-unstyled">
-                        <li className="py-2"> <a href="#"> 85+ Video Avatars </a></li>
-                        <li className="py-2"> <a href="#"> 120+ Languages </a></li>
-                        <li className="py-2"> <a href="#"> 55+ Templates </a></li>
-                        <li className="py-2"> <a href="#"> Custom Avatars </a></li>
-                        <li className="py-2"> <a href="#"> PowerPoint to Video </a></li>
-                        <li className="py-2"> <a href="#"> Alternatives </a></li>
-                        <li className="py-2"> <a href="#"> Text to Video </a></li>
-                        <li className="py-2"> <a href="#"> AI Video Generator </a></li>
-                        <li className="py-2"> <a href="#"> Online Video Maker </a></li>
-                    </ul>
-                </Col>
-                <Col lg={6} xl={3}>
-                <h5 className="mt-3">Use Cases</h5>
-                    <ul className="list-unstyled">
-                        <li className="py-2"> <a href="#"> Training Videos </a></li>
-                        <li className="py-2"> <a href="#"> How-to Videos </a></li>
-                        <li className="py-2"> <a href="#"> Marketing Videos </a></li>
-                    </ul>
-                </Col>
-                <Col lg={6} xl={3}>
-                <h5 className="mt-3">Resources</h5>
-                    <ul className="list-unstyled">
-                        <li className="py-2"> <a href="#"> Pricing </a></li>
-                        <li className="py-2"> <a href="#"> Book a Demo </a></li>
-                        <li className="py-2"> <a href="#"> Blog </a></li>
-                        <li className="py-2"> <a href="#"> Case Studies </a></li>
-                        <li className="py-2"> <a href="#"> Example videos </a></li>
-                        <li className="py-2"> <a href="#"> How-to Guides </a></li>
-                        <li className="py-2"> <a href="#"> Synthesia Academy </a></li>
-                        <li className="py-2"> <a href="#"> Integrations </a></li>
-                        <li className="py-2"> <a href="#"> Service Providers </a></li>
-                        <li className="py-2"> <a href="#"> Tools </a></li>
-                        <li className="py-2"> <a href="#"> Future of Synthetic Media </a></li>
-                        <li className="py-2"> <a href="#"> Help Center </a></li>
-                        <li className="py-2"> <a href="#"> Product Updates </a></li>
-                        <li className="py-2"> <a href="#"> Glossary </a></li>
-                    </ul>
-                </Col>
-                <Col lg={6} xl={3}>
-                <h5 className="mt-3">Company</h5>
-                    <ul className="list-unstyled">
-                        <li className="py-2"> <a href="#"> About Us </a></li>
-                        <li className="py-2"> <a href="#"> Ethics Guidelines </a></li>
-                        <li className="py-2"> <a href="#"> AI Research </a></li>
-                        <li className="py-2"> <a href="#"> Jobs </a></li>
-                        <li className="py-2"> <a href="#"> Contact Sales </a></li>
-                        <li className="py-2"> <a href="#"> Press Kit </a></li>
-                        <li className="py-2"> <a href="#"> Affiliates / Referrals </a></li>
-                        <li className="py-2"> <a href="#"> Privacy Policy </a></li>
-                        <li className="py-2"> <a href="#"> Terms of Service </a></li>
-                        <li className="py-2"> <a href="#"> Security </a></li>
-                    </ul>
-                </Col>
-            </Row>
-        </Container>
+              className="mdf__logo_modal"
+              layout="fill"
+              src="/images/footer-logo.png"
+              alt=""
+            />
+          </Col>
+          <Col lg={6} xl={3}>
+            <h5 className="mt-3">Features</h5>
+            <ul className="list-unstyled">
+              <li className="py-2">
+                <Link href="#"> 85+ Video Avatars </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> 120+ Languages </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> 55+ Templates </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Custom Avatars </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> PowerPoint to Video </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Alternatives </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Text to Video </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> AI Video Generator </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Online Video Maker </Link>
+              </li>
+            </ul>
+          </Col>
+          <Col lg={6} xl={3}>
+            <h5 className="mt-3">Use Cases</h5>
+            <ul className="list-unstyled">
+              <li className="py-2">
+                <Link href="#"> Training Videos </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> How-to Videos </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Marketing Videos </Link>
+              </li>
+            </ul>
+          </Col>
+          <Col lg={6} xl={3}>
+            <h5 className="mt-3">Resources</h5>
+            <ul className="list-unstyled">
+              <li className="py-2">
+                <Link href="#"> Pricing </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Book a Demo </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Blog </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Case Studies </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Example videos </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> How-to Guides </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Synthesia Academy </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Integrations </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Service Providers </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Tools </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Future of Synthetic Media </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Help Center </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Product Updates </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Glossary </Link>
+              </li>
+            </ul>
+          </Col>
+          <Col lg={6} xl={3}>
+            <h5 className="mt-3">Company</h5>
+            <ul className="list-unstyled">
+              <li className="py-2">
+                <Link href="#"> About Us </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Ethics Guidelines </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> AI Research </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Jobs </Link>
+              </li>
+              <li className="py-2">
+                <Link href="/contact-us"> Contact Sales </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Press Kit </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Affiliates / Referrals </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Privacy Policy </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Terms of Service </Link>
+              </li>
+              <li className="py-2">
+                <Link href="#"> Security </Link>
+              </li>
+            </ul>
+          </Col>
+        </Row>
+      </Container>
     </footer>
   );
 }

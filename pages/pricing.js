@@ -6,12 +6,12 @@ import PricingModerate from "@/components/Pricing/moderate";
 import PricingFaqs from "@/components/Pricing/pricing-faqs";
 export default function LandingScreen() {
   return (
-    <Fragment> 
-        <PricingBanner/> 
-        <PricingBlock/> 
-        <CalculateSaving/>
-        <PricingModerate/>
-        <PricingFaqs/>
+    <Fragment>
+      <PricingBanner />
+      <PricingBlock />
+      <CalculateSaving />
+      <PricingModerate />
+      <PricingFaqs />
     </Fragment>
   );
 }

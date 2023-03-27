@@ -7,12 +7,11 @@ import { Helmet } from "react-helmet";
 import MainLayout from "@/components/layouts/main";
 import ToastContainerConfig from "@/components/ToastContainer";
 import { QueryClientWrapper } from "@/services/QueryClientWrapper";
-
 export default function App({ Component, pageProps }) {
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.min.js");
   }, []);
-  
+
   return (
     <>
       <DefaultSeo

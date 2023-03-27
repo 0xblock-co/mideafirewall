@@ -56,14 +56,17 @@ export default function HeaderTop() {
                       Something else here
                     </NavDropdown.Item>
                   </NavDropdown>
-                  <Link href="#action2" className="nav-link">
-                    Demo{" "}
+                  <Link href="/demo" className="nav-link">
+                    Demo
                   </Link>
                   <Link href="/pricing" className="nav-link">
-                    Pricing{" "}
+                    Pricing
                   </Link>
-                  <Link href="#action4" className="nav-link">
-                    Documentation{" "}
+                  <Link href="/" className="nav-link">
+                    Products
+                  </Link>
+                  <Link href="/" className="nav-link">
+                    Documentation
                   </Link>
                   <Link href="/account-security/login" className="nav-link">
                     Log In

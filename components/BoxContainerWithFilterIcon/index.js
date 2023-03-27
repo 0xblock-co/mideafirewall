@@ -1,7 +1,7 @@
-import { Col, Container, Row } from "react-bootstrap";
 import Image from "next/image";
+import { Col, Container, Row } from "react-bootstrap";
 
-function BoxContainerWithFilterIconWrapper({ children }) {
+function BoxContainerWithFilterIconWrapper({ children, lg = 8, xl = 7 }) {
   return (
     <section className="mdf__authpage__section">
       <Container>
@@ -16,7 +16,7 @@ function BoxContainerWithFilterIconWrapper({ children }) {
                   alt=""
                 />
               </Col>
-              <Col lg={8} xl={7}>
+              <Col lg={lg} xl={xl}>
                 <Image
                   className="mdf__logo_modal mx-3"
                   layout="fill"

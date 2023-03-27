@@ -6,7 +6,7 @@ import { ErrorData, SuccessData, Response, SentryErrorData } from "./types";
 export default class Api {
   instance: any;
 
-  constructor (baseUrl: string | null = null) {
+  constructor(baseUrl: string | null = null) {
     this.instance = instanceCreator(baseUrl);
   }
 
@@ -20,6 +20,10 @@ export default class Api {
     const { status } = response;
     switch (status) {
       case 200:
+        return Promise.resolve(
+          Api.getSuccessData(response.data, isSuccessHandle)
+        );
+      case 201:
         return Promise.resolve(
           Api.getSuccessData(response.data, isSuccessHandle)
         );
@@ -49,7 +53,7 @@ export default class Api {
         return Promise.reject(
           Api.getErrorData(
             {
-              message: error?.message,
+              message: error?.response.data || error?.message,
               code: error?.response?.data?.errorCode || error?.code,
             },
             isErrorHandle
@@ -114,7 +118,7 @@ export default class Api {
       isSuccessHandle
     );
   }
-  
+
   put(
     url: string,
     data: any = {},
@@ -122,14 +126,7 @@ export default class Api {
     isErrorHandle: boolean = true,
     isSuccessHandle: boolean = true
   ): Promise<ErrorData | SuccessData> {
-    return this.request(
-      "put",
-      url,
-      data,
-      conf,
-      isErrorHandle,
-      isSuccessHandle
-    );
+    return this.request("put", url, data, conf, isErrorHandle, isSuccessHandle);
   }
 
   patch(
@@ -152,21 +149,21 @@ export default class Api {
   static getErrorData(
     data: any,
     isHandle: boolean = false
-  ): { isSuccess: boolean, isStore: boolean, message: string } {
-    if (data.code && isHandle) {
-      showToast("error", data.code);
+  ): { isSuccess: boolean; isStore: boolean; message: string } {
+    if (data.code && isHandle && data?.message) {
+      showToast("error", data?.message?.detail || data.code);
     }
     return {
       isSuccess: false,
       isStore: false,
-      message: data.code || errorString.catchError,
+      message: data?.message?.detail || data.code || errorString.catchError,
     };
   }
 
   static getSuccessData(
     data: any,
     isHandle: boolean = false
-  ): { isSuccess: boolean, data: any } {
+  ): { isSuccess: boolean; data: any } {
     if (isHandle) {
       showToast("success", data?.successCode || errorString.catchError);
     }

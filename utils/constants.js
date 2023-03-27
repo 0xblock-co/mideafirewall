@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import * as yup from "yup";
 export const localStorageKeys = {
   authKey: "token",
@@ -16,6 +17,11 @@ export const staticImagesUrl = {
 export const captchaKey = {
   siteKey: "6LfRXjIlAAAAANLpVkmRmqvZH-1ptcGG54wP0ATJ",
   secretKey: "6LfRXjIlAAAAAM-QkQRZAf80c2NXEqPZoH1hrIpu",
+};
+
+export const regex = {
+  passwordRegex:
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>\/?]).{8,}$/,
 };
 
 export const formElements = [

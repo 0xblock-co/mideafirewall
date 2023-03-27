@@ -1,11 +1,27 @@
 import Router from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth/Layout/surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import { asyncGetQuestions } from "@/services/product/product.service";
 import { formElements } from "@/utils/constants";
+import { getFilteredData } from "@/utils/globalFunctions";
 
 export default function Survey() {
+  useEffect(() => {
+    getQuestions();
+  }, []);
+
+  const getQuestions = async () => {
+    const response = await asyncGetQuestions();
+    if (response && response.isSuccess && response.data) {
+      const data = getFilteredData(response.data.items[0].questions);
+      // if (data) {
+      //   setFormData(data);
+      // }
+    }
+  };
+
   const [formData, setFormData] = useState(formElements);
 
   const onSubmitForm = (data, id) => {

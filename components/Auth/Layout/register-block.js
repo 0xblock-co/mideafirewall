@@ -9,26 +9,31 @@ import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
-import { HiLockClosed, HiMail } from "react-icons/hi";
+import { HiLockClosed, HiMail, HiUser } from "react-icons/hi";
 import * as yup from "yup";
 
+import { asyncSignUpService } from "@/services/auth/auth.service";
 import { auth } from "@/services/firebase";
-import { captchaKey } from "@/utils/constants";
+import { captchaKey, regex } from "@/utils/constants";
 
 //Validation Schema
 const schema = yup.object().shape({
-  email: yup
+  userId: yup
     .string()
     .email("Invalid email address")
     .required("Email is required"),
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
   password: yup
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
-  passwordConfirmation: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Password confirmation is required"),
+    .matches(
+      regex.passwordRegex,
+      "Password must contain at least 8 characters, including at least one lowercase letter, one uppercase letter, and one special character."
+    )
+    .required("Password is required."),
+  passwordConfirmation: yup.string(),
+  // .oneOf([yup.ref("password"), null], "Passwords must match.")
+  // .required("Confirm password is required."),
 });
 
 const RegisterBlock = () => {
@@ -53,12 +58,12 @@ const RegisterBlock = () => {
   const handleGoogleSignup = async () => {
     try {
       const result = await signInWithPopup(auth, googleAuth);
+
       if (result && result.user) {
         Router.push("/auth/survey");
       }
-      console.log("result :>> ", result);
     } catch (error) {
-      console.log("error :>> ", error);
+      // console.log("error :>> ", error);
     }
   };
 
@@ -67,15 +72,18 @@ const RegisterBlock = () => {
   };
 
   //Form submit method
-  const onSubmitSingUp = (data) => {
-    console.log("isCaptchaVerify :>> ", isCaptchaVerify);
+  const onSubmitSingUp = async (data) => {
     if (!isCaptchaVerify) {
       setError("captcha", { message: "Please verify captcha" });
       return;
     }
-    console.log(data);
-    console.log("captchaToken :>> ", captchaToken);
-    Router.push("/auth/survey");
+    delete data.passwordConfirmation;
+    const response = await asyncSignUpService({ ...data, active: true });
+    if (response && response.isSuccess && response.data) {
+      // console.log(data);
+      // console.log("captchaToken :>> ", captchaToken);
+      Router.push("/auth/survey");
+    }
   };
 
   //captcha verification functions
@@ -127,13 +135,47 @@ const RegisterBlock = () => {
             className="position-absolute input__icon"
           />
           <Form.Control
-            {...register("email")}
+            {...register("userId")}
             type="email"
             placeholder="Email"
             className="mdf__form__input"
           />
         </Form.Group>
-        {errors.email && <span>{errors.email.message}</span>}
+        {errors.userId && <span>{errors.userId.message}</span>}
+        <Form.Group
+          className="mb-2 position-relative"
+          controlId="exampleForm.ControlInput1"
+        >
+          <HiUser
+            size={22}
+            color="#BDCBEC"
+            className="position-absolute input__icon"
+          />
+          <Form.Control
+            {...register("firstName")}
+            type="text"
+            placeholder="First Name"
+            className="mdf__form__input"
+          />
+        </Form.Group>
+        {errors.firstName && <span>{errors.firstName.message}</span>}
+        <Form.Group
+          className="mb-2 position-relative"
+          controlId="exampleForm.ControlInput1"
+        >
+          <HiUser
+            size={22}
+            color="#BDCBEC"
+            className="position-absolute input__icon"
+          />
+          <Form.Control
+            {...register("lastName")}
+            type="text"
+            placeholder="Last Name"
+            className="mdf__form__input"
+          />
+        </Form.Group>
+        {errors.lastName && <span>{errors.lastName.message}</span>}
         <Form.Group
           className="mb-2 position-relative"
           controlId="exampleForm.ControlInput1"

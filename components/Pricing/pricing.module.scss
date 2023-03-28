@@ -1,0 +1,89 @@
+.mdf__pricing-banner { 
+  background-color: #7B5B9E;
+  height: 260px;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+} 
+.mdf__pricing-block{
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+  padding: 80px 0;
+}
+.mdf__pricingcard{
+  box-shadow: -2px -2px 11px rgba(0, 0, 0, 0.4);
+  border-radius: 26px;
+  p,span{
+    color: #707070;
+    font-size: 0.875rem;
+  }
+}
+.card__price__yellow{
+  border: 2px solid #DFBC05;
+  .title{
+    color: #DFBC05;
+  }
+}
+.card__price__purple{
+  border: 2px solid #6C63FF;
+  .title{
+    color: #6C63FF;
+  }
+}
+.card__price__orange{
+  border: 2px solid #F96A03;
+  .title{
+    color: #F96A03;
+  }
+}
+.card__price__red{
+  border: 2px solid #EB001B;
+  .title{
+    color: #EB001B;
+  }
+}
+.card__price__blue{
+  border: 2px solid #0C3DBC;
+  .title{
+    color: #0C3DBC;
+  }
+}
+.mdf__calculate__saving{
+  padding-top: 80px;
+  background-color: #D3CBE6;
+  .checkbox__primary {
+    background: #ffffff;
+    border-radius: 10px;
+    font-size: 18px;
+    border: transparent;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    color: $text-dark;
+    &:hover{
+      background-color: #fff; 
+     }
+  }
+  .btn-check:checked + .checkbox__primary, :not(.btn-check) + .checkbox__primary:active, .checkbox__primary:first-child:active, .checkbox__primary.active, .checkbox__primary.show{
+    background: $primary;
+    color: #fff;
+  }
+  .mdf__bg__drak_banner{
+      background-color: $primary;
+      color: #fff;
+      padding: 1.5rem;
+      text-align: center;
+  }
+}
+.mdf__moderate-banner{
+  background-image: url('/images/moderate.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 150px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mdf__pricing-faqs{
+  padding: 80px 0;
+}

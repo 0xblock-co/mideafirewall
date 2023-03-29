@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
 import Badge from "react-bootstrap/Badge";
-export default function PricingBlock() {
+import Form from "react-bootstrap/Form";
+export default function PricingBlock({ priceData = [] }) {
   return (
     <section className="mdf__pricing-block">
       <Container fluid className="px-5">
@@ -26,24 +26,41 @@ export default function PricingBlock() {
           </Col>
         </Row>
         <Row className="justify-content-center mt-5">
-          <Col sm={6} lg={3} xxl={2}>
-            <Card className="mdf__pricingcard card__price__yellow text-center p-3 h-100">
-              <div className="text mb-5 h-100">
-                <h3 className="title my-4">Free</h3>
-                <label className="display-5">$0</label>
-                <span>/Month</span>
-                <h4 className="my-4"> 5,000 </h4>
-                <p>operations per month (max 500 per day)</p>
-                <h4>1</h4>
-                <p>simultaneous video stream</p>
-                <p>Content Moderation</p>
-              </div>
-              <Button variant="primary" className="text-uppercase" size="lg">
-                Get Started
-              </Button>
-            </Card>
-          </Col>
-          <Col sm={6} lg={3} xxl={2}>
+          {priceData &&
+            priceData?.map((item, index) => {
+              return (
+                <Col sm={6} lg={3} xxl={2} key={index}>
+                  <Card className="mdf__pricingcard card__price__yellow text-center p-3 h-100">
+                    <div className="text mb-5 h-100">
+                      <h3 className="title my-4">{item?.name}</h3>
+                      <label className="display-5">${item?.price}</label>
+                      <span>/Month</span>
+                      <h4 className="my-4"> {item.operations} </h4>
+                      <p>
+                        operations per month (max {item?.parallelProcessing} per
+                        day)
+                      </p>
+                      <h4>{item?.parallelProcessing}</h4>
+                      {item?.support &&
+                        item?.support?.supportAvailability != "NA" &&
+                        item?.support?.supportTypes?.length > 0 &&
+                        item?.support?.supportTypes?.map((item, index) => {
+                          return <p key={index}>{item}</p>;
+                        })}
+                    </div>
+                    <Button
+                      variant="primary"
+                      className="text-uppercase"
+                      size="lg"
+                    >
+                      Get Started
+                    </Button>
+                  </Card>
+                </Col>
+              );
+            })}
+
+          {/* <Col sm={6} lg={3} xxl={2}>
             <Card className="mdf__pricingcard card__price__purple text-center p-3 h-100">
               <div className="text mb-5 h-100">
                 <h3 className="title my-4">Starter</h3>
@@ -136,7 +153,7 @@ export default function PricingBlock() {
                 Get Started
               </Button>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     </section>

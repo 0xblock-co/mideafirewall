@@ -6,10 +6,10 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Offcanvas from "react-bootstrap/Offcanvas";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Offcanvas from "react-bootstrap/Offcanvas";
 
-export default function HeaderTop() {
+export default function HeaderTop({ headerData }) {
   const router = useRouter();
   return (
     <>
@@ -49,21 +49,17 @@ export default function HeaderTop() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <NavDropdown title="Products" id="navbarScrollingDropdown">
-                    <NavDropdown.Item href="#">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#">Another action</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
-                      Something else here
-                    </NavDropdown.Item>
+                    {headerData &&
+                      headerData?.map((data) => {
+                        return (
+                          <NavDropdown.Item href="" key={data?.id}>
+                            {data.name}
+                          </NavDropdown.Item>
+                        );
+                      })}
                   </NavDropdown>
-                  <Link href="/demo" className="nav-link">
-                    Demo
-                  </Link>
                   <Link href="/pricing" className="nav-link">
                     Pricing
-                  </Link>
-                  <Link href="/" className="nav-link">
-                    Products
                   </Link>
                   <Link href="/" className="nav-link">
                     Documentation

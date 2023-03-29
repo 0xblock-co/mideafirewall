@@ -8,6 +8,7 @@ import { formElements } from "@/utils/constants";
 import { getFilteredData } from "@/utils/globalFunctions";
 
 export default function Survey() {
+  const [formData, setFormData] = useState(formElements);
   useEffect(() => {
     getQuestions();
   }, []);
@@ -21,8 +22,6 @@ export default function Survey() {
       // }
     }
   };
-
-  const [formData, setFormData] = useState(formElements);
 
   const onSubmitForm = (data, id) => {
     console.log("data :>> ", data);

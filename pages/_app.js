@@ -1,16 +1,31 @@
 import "@/styles/module-style.scss";
 
 import { DefaultSeo } from "next-seo";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 
 import MainLayout from "@/components/layouts/main";
 import ToastContainerConfig from "@/components/ToastContainer";
+import { asyncGetProducts } from "@/services/product/product.service";
 import { QueryClientWrapper } from "@/services/QueryClientWrapper";
 export default function App({ Component, pageProps }) {
+  const [headerData, setHeaderData] = useState([]);
+  const dataFetchedRef = useRef(false);
+
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.min.js");
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    getProducts();
   }, []);
+
+  const getProducts = async () => {
+    const response = await asyncGetProducts();
+
+    if (response && response.isSuccess && response.data) {
+      setHeaderData(response.data.items);
+    }
+  };
 
   return (
     <>
@@ -30,7 +45,7 @@ export default function App({ Component, pageProps }) {
       <Helmet>
         <html lang="en" />
       </Helmet>
-      <MainLayout>
+      <MainLayout headerData={headerData}>
         <QueryClientWrapper>
           <Component {...pageProps} />
           <ToastContainerConfig />

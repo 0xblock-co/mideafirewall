@@ -53,7 +53,7 @@ export default class Api {
         return Promise.reject(
           Api.getErrorData(
             {
-              message: error?.response.data || error?.message,
+              message: error?.response?.data || error?.message,
               code: error?.response?.data?.errorCode || error?.code,
             },
             isErrorHandle
@@ -165,7 +165,7 @@ export default class Api {
     isHandle: boolean = false
   ): { isSuccess: boolean; data: any } {
     if (isHandle) {
-      showToast("success", data?.successCode || errorString.catchError);
+      // showToast("success", data?.successCode || errorString.catchError);
     }
     return {
       isSuccess: true,

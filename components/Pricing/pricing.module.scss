@@ -20,6 +20,9 @@
 }
 .card__price__yellow{
   border: 2px solid #DFBC05;
+  .b_bottom{
+    border-bottom: 2px solid #DFBC05;
+  }
   .title{
     color: #DFBC05;
   }
@@ -29,11 +32,17 @@
   .title{
     color: #6C63FF;
   }
+  .b_bottom{
+    border-bottom: 2px solid #6C63FF;
+  }
 }
 .card__price__orange{
   border: 2px solid #F96A03;
   .title{
     color: #F96A03;
+  }
+  .b_bottom{
+    border-bottom: 2px solid #F96A03;
   }
 }
 .card__price__red{
@@ -41,11 +50,22 @@
   .title{
     color: #EB001B;
   }
+  .b_bottom{
+    border-bottom: 2px solid #EB001B;
+  }
 }
 .card__price__blue{
   border: 2px solid #0C3DBC;
   .title{
     color: #0C3DBC;
+  }
+  .b_bottom{
+    border-bottom: 2px solid #0C3DBC;
+  }
+}
+.card__price__primary{
+  .b_bottom{
+    border-bottom: 2px solid $primary;
   }
 }
 .mdf__calculate__saving{

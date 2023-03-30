@@ -1,4 +1,7 @@
 import * as yup from "yup";
+
+import { localStorageKeys } from "./constants";
+import { readCookie } from "./cookieCreator";
 export const getFilteredData = (dataObj) => {
   const formElements = Object.values(dataObj).flatMap((objArray) =>
     objArray.map((obj) => {
@@ -80,4 +83,15 @@ export const getFilteredData = (dataObj) => {
 
   formElements[0].isRender = true;
   return formElements;
+};
+
+export const checkIsAuth = () => {
+  if (typeof window !== "undefined") {
+    const user = readCookie(localStorageKeys.authKey);
+    if (user) {
+      return true;
+    }
+    return false;
+  }
+  return false;
 };

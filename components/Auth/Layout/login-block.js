@@ -5,16 +5,18 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import ReCAPTCHA from "react-google-recaptcha";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 import { HiLockClosed, HiMail } from "react-icons/hi";
 import * as yup from "yup";
 
+import Loader from "@/components/Loader";
 import { auth } from "@/services/firebase";
-import { captchaKey } from "@/utils/constants";
+import { localStorageKeys, regex } from "@/utils/constants";
+import { createCookie } from "@/utils/cookieCreator";
 
 //Validation Schema
 const schema = yup.object().shape({
@@ -22,7 +24,13 @@ const schema = yup.object().shape({
     .string()
     .email("Invalid email address")
     .required("Email is required"),
-  password: yup.string().required("Password is required"),
+  password: yup
+    .string()
+    .matches(
+      regex.passwordRegex,
+      "Password must contain at least 8 characters, including at least one lowercase letter, one uppercase letter, and one special character."
+    )
+    .required("Password is required."),
 });
 
 const LoginBlock = () => {
@@ -38,8 +46,7 @@ const LoginBlock = () => {
 
   const [isCaptchaVerify, setIsCaptchaVerify] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
-  const captcha = useRef(null);
-
+  const [isLoading, setIsLoading] = useState(false);
   //google auth provider from firebase
   const googleAuth = new GoogleAuthProvider();
 
@@ -60,26 +67,34 @@ const LoginBlock = () => {
     console.log("facebook login clicked");
   };
 
+  // Create an event handler so you can call the verification on button click event or form submit
+  const handleReCaptchaVerify = useCallback(async (token) => {
+    setCaptchaToken(token);
+    setIsCaptchaVerify(true);
+    // Do whatever you want with the token
+  }, []);
+
   //Form submit method
-  const onSubmitLogin = (data) => {
+  const onSubmitLogin = async (data) => {
+    setIsLoading(true);
     if (!isCaptchaVerify) {
       setError("captcha", { message: "Please verify captcha" });
       return;
     }
-    console.log(data);
-    console.log("captchaToken :>> ", captchaToken);
+
+    console.log("object :>> ", captchaToken);
+    createCookie(localStorageKeys.authKey, data.email, 1);
     Router.push("/auth/survey");
-  };
-
-  //captcha verification functions
-  const onVerifyCaptchaCallback = (response) => {
-    setCaptchaToken(response);
-    setIsCaptchaVerify(true);
-  };
-
-  const onErrorInCaptcha = async () => {
-    setIsCaptchaVerify(false);
-    setCaptchaToken("");
+    setIsLoading(false);
+    //TODO: comment out the code after the api works fine
+    // const response = await asyncLoginService({
+    //   ...data,
+    //   recaptchaResponse: captchaToken,
+    // });
+    // if (response && response.isSuccess && response.data) {
+    //   createCookie(localStorageKeys.authKey, data.email, 1);
+    //   Router.push("/auth/survey");
+    // }
   };
 
   //render method
@@ -149,13 +164,8 @@ const LoginBlock = () => {
         {errors.password && (
           <span className="error-message">{errors.password.message}</span>
         )}
-        <ReCAPTCHA
-          ref={captcha}
-          sitekey={captchaKey.siteKey}
-          onChange={onVerifyCaptchaCallback}
-          onExpired={onErrorInCaptcha}
-          onErrored={onErrorInCaptcha}
-        />
+
+        <GoogleReCaptcha onVerify={handleReCaptchaVerify} />
         {errors.captcha && (
           <span className="error-message">{errors.captcha.message}</span>
         )}
@@ -182,6 +192,7 @@ const LoginBlock = () => {
           </p>
         </div>
       </Form>
+      <Loader isLoading={isLoading} />
     </section>
   );
 };

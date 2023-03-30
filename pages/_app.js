@@ -8,6 +8,7 @@ import MainLayout from "@/components/layouts/main";
 import ToastContainerConfig from "@/components/ToastContainer";
 import { asyncGetProducts } from "@/services/product/product.service";
 import { QueryClientWrapper } from "@/services/QueryClientWrapper";
+import { checkIsAuth } from "@/utils/globalFunctions";
 export default function App({ Component, pageProps }) {
   const [headerData, setHeaderData] = useState([]);
   const dataFetchedRef = useRef(false);
@@ -17,6 +18,13 @@ export default function App({ Component, pageProps }) {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
     getProducts();
+  }, []);
+
+  const [isUserLogin, setIsUserLogin] = useState(false);
+  useEffect(() => {
+    if (checkIsAuth()) {
+      setIsUserLogin(true);
+    }
   }, []);
 
   const getProducts = async () => {
@@ -45,7 +53,7 @@ export default function App({ Component, pageProps }) {
       <Helmet>
         <html lang="en" />
       </Helmet>
-      <MainLayout headerData={headerData}>
+      <MainLayout headerData={headerData} isUserLogin={isUserLogin}>
         <QueryClientWrapper>
           <Component {...pageProps} />
           <ToastContainerConfig />

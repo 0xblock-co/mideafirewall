@@ -15,8 +15,8 @@ export const staticImagesUrl = {
 };
 
 export const captchaKey = {
-  siteKey: "6LfRXjIlAAAAANLpVkmRmqvZH-1ptcGG54wP0ATJ",
-  secretKey: "6LfRXjIlAAAAAM-QkQRZAf80c2NXEqPZoH1hrIpu",
+  siteKey: "6LeV7UIlAAAAAD0Yql_CW-4xJbncZRSWdpvnvYcN", //v3
+  secretKey: "6LeV7UIlAAAAAGNOTFsW83gWQ3cnmlrFjrleYd8W", //v3
 };
 
 export const regex = {

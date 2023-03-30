@@ -34,11 +34,13 @@ export default function PricingBlock({ priceData = [] }) {
                     <div className="text mb-5 h-100">
                       <h3 className="title my-4">{item?.name}</h3>
                       <label className="display-5">${item?.price}</label>
-                      <span>/Month</span>
+                      <span>/{item?.operationPeriod}</span>
                       <h4 className="my-4"> {item.operations} </h4>
                       <p>
-                        operations per month (max {item?.parallelProcessing} per
-                        day)
+                        operations per month{" "}
+                        {item?.dailyOperationsLimit != "-1"
+                          ? `(max ${item?.dailyOperationsLimit} per day)`
+                          : `+ $${item?.additionalPricePerOperation} per additional op`}
                       </p>
                       <h4>{item?.parallelProcessing}</h4>
                       {item?.support &&

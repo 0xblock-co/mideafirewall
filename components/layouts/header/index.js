@@ -9,8 +9,17 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-export default function HeaderTop({ headerData }) {
+import { localStorageKeys } from "@/utils/constants";
+import { eraseCookie } from "@/utils/cookieCreator";
+
+export default function HeaderTop({ headerData, isUserLogin }) {
   const router = useRouter();
+
+  const handleOnClickLogout = () => {
+    eraseCookie(localStorageKeys.authKey);
+    localStorage.clear();
+    router.push("/");
+  };
   return (
     <>
       {["lg"].map((expand) => (
@@ -52,9 +61,27 @@ export default function HeaderTop({ headerData }) {
                     {headerData &&
                       headerData?.map((data) => {
                         return (
-                          <NavDropdown.Item href="" key={data?.id}>
-                            {data.name}
-                          </NavDropdown.Item>
+                          <NavDropdown
+                            title={data.name}
+                            id="nested-dropdown"
+                            key={data?.id}
+                          >
+                            {data?.examples &&
+                              data?.examples?.map((example, index) => {
+                                return (
+                                  <NavDropdown.Item
+                                    href={
+                                      isUserLogin
+                                        ? "/demo"
+                                        : "/account-security/login"
+                                    }
+                                    key={index}
+                                  >
+                                    {example}
+                                  </NavDropdown.Item>
+                                );
+                              })}
+                          </NavDropdown>
                         );
                       })}
                   </NavDropdown>
@@ -64,18 +91,29 @@ export default function HeaderTop({ headerData }) {
                   <Link href="/" className="nav-link">
                     Documentation
                   </Link>
-                  <Link href="/account-security/login" className="nav-link">
-                    Log In
-                  </Link>
+                  {!isUserLogin && (
+                    <Link href="/account-security/login" className="nav-link">
+                      Log In
+                    </Link>
+                  )}
                 </Nav>
-
-                <Button
-                  variant="outline-primary"
-                  className="rounded-pill fw-bold border-2"
-                  onClick={() => router.push("/account-security/signup")}
-                >
-                  Create Account
-                </Button>
+                {!isUserLogin ? (
+                  <Button
+                    variant="outline-primary"
+                    className="rounded-pill fw-bold border-2"
+                    onClick={() => router.push("/account-security/signup")}
+                  >
+                    Create Account
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline-primary"
+                    className="rounded-pill fw-bold border-2"
+                    onClick={() => handleOnClickLogout()}
+                  >
+                    Logout
+                  </Button>
+                )}
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

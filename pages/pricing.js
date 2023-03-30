@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { useQuery } from "react-query";
 
+import Loader from "@/components/Loader";
 import PricingBanner from "@/components/Pricing/banner";
 import CalculateSaving from "@/components/Pricing/calculate-saving";
 import PricingModerate from "@/components/Pricing/moderate";
@@ -11,7 +12,7 @@ export default function Pricing() {
   const { isLoading, data } = useQuery("pricing", asyncGetAllPricingData);
 
   return isLoading ? (
-    <div>Loading...</div>
+    <Loader isLoading={isLoading} />
   ) : (
     <Fragment>
       <PricingBanner />

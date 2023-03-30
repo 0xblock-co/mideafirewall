@@ -5,11 +5,15 @@ import SurveyForm from "@/components/Auth/Layout/surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import { asyncGetQuestions } from "@/services/product/product.service";
 import { formElements } from "@/utils/constants";
-import { getFilteredData } from "@/utils/globalFunctions";
+import { checkIsAuth, getFilteredData } from "@/utils/globalFunctions";
 
 export default function Survey() {
   const [formData, setFormData] = useState(formElements);
   useEffect(() => {
+    if (!checkIsAuth()) {
+      Router.push("/");
+      return;
+    }
     getQuestions();
   }, []);
 

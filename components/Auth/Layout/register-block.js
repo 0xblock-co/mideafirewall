@@ -4,17 +4,18 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import { HiLockClosed, HiMail, HiUser } from "react-icons/hi";
 import * as yup from "yup";
 
+import Loader from "@/components/Loader";
 import { asyncSignUpService } from "@/services/auth/auth.service";
 import { auth } from "@/services/firebase";
-import { captchaKey, regex } from "@/utils/constants";
+import { localStorageKeys, regex } from "@/utils/constants";
+import { createCookie } from "@/utils/cookieCreator";
 
 //Validation Schema
 const schema = yup.object().shape({
@@ -31,9 +32,10 @@ const schema = yup.object().shape({
       "Password must contain at least 8 characters, including at least one lowercase letter, one uppercase letter, and one special character."
     )
     .required("Password is required."),
-  passwordConfirmation: yup.string(),
-  // .oneOf([yup.ref("password"), null], "Passwords must match.")
-  // .required("Confirm password is required."),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match.")
+    .required("Confirm password is required."),
 });
 
 const RegisterBlock = () => {
@@ -42,14 +44,16 @@ const RegisterBlock = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
+    // setError,
   } = useForm({
     resolver: yupResolver(schema), // set the validation schema resolver
   });
 
-  const [isCaptchaVerify, setIsCaptchaVerify] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState("");
-  const captcha = useRef(null);
+  // const [isCaptchaVerify, setIsCaptchaVerify] = useState(false);
+  // const [captchaToken, setCaptchaToken] = useState("");
+  // const captcha = useRef(null);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   //google auth provider from firebase
   const googleAuth = new GoogleAuthProvider();
@@ -73,13 +77,18 @@ const RegisterBlock = () => {
 
   //Form submit method
   const onSubmitSingUp = async (data) => {
-    if (!isCaptchaVerify) {
-      setError("captcha", { message: "Please verify captcha" });
-      return;
-    }
+    // if (!isCaptchaVerify) {
+    //   setError("captcha", { message: "Please verify captcha" });
+    //   return;
+    // }
+    setIsLoading(true);
+
     delete data.passwordConfirmation;
     const response = await asyncSignUpService({ ...data, active: true });
+    setIsLoading(false);
+    console.log("response :>> ", response);
     if (response && response.isSuccess && response.data) {
+      createCookie(localStorageKeys.authKey, data.userId, 1);
       // console.log(data);
       // console.log("captchaToken :>> ", captchaToken);
       Router.push("/auth/survey");
@@ -87,15 +96,15 @@ const RegisterBlock = () => {
   };
 
   //captcha verification functions
-  const onVerifyCaptchaCallback = (response) => {
-    setCaptchaToken(response);
-    setIsCaptchaVerify(true);
-  };
+  // const onVerifyCaptchaCallback = (response) => {
+  //   setCaptchaToken(response);
+  //   setIsCaptchaVerify(true);
+  // };
 
-  const onErrorInCaptcha = async () => {
-    setIsCaptchaVerify(false);
-    setCaptchaToken("");
-  };
+  // const onErrorInCaptcha = async () => {
+  //   setIsCaptchaVerify(false);
+  //   setCaptchaToken("");
+  // };
 
   return (
     <section className="mdf__login_right-block">
@@ -212,13 +221,13 @@ const RegisterBlock = () => {
         {errors.passwordConfirmation && (
           <span>{errors.passwordConfirmation.message}</span>
         )}
-        <ReCAPTCHA
+        {/* <ReCAPTCHA
           ref={captcha}
           sitekey={captchaKey.siteKey}
           onChange={onVerifyCaptchaCallback}
           onExpired={onErrorInCaptcha}
           onErrored={onErrorInCaptcha}
-        />
+        /> */}
         {errors.captcha && <span>{errors.captcha.message}</span>}
         <div className="text-end">
           <Link
@@ -243,6 +252,7 @@ const RegisterBlock = () => {
           </p>
         </div>
       </Form>
+      <Loader isLoading={isLoading} />
     </section>
   );
 };

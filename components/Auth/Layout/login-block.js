@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
 import React, { useCallback, useState } from "react";
+import { useContext } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -14,6 +15,8 @@ import { HiLockClosed, HiMail } from "react-icons/hi";
 import * as yup from "yup";
 
 import Loader from "@/components/Loader";
+import { AuthContext } from "@/pages/_app";
+import { asyncLoginService } from "@/services/auth/auth.service";
 import { auth } from "@/services/firebase";
 import { localStorageKeys, regex } from "@/utils/constants";
 import { createCookie } from "@/utils/cookieCreator";
@@ -34,6 +37,8 @@ const schema = yup.object().shape({
 });
 
 const LoginBlock = () => {
+  const { handleLogin } = useContext(AuthContext);
+
   //useForm
   const {
     register,
@@ -57,15 +62,15 @@ const LoginBlock = () => {
       if (result && result.user) {
         Router.push("/auth/survey");
       }
-      console.log("result :>> ", result);
+      // console.log("result :>> ", result);
     } catch (error) {
       console.log("error :>> ", error);
     }
   };
 
-  const handleFacebookLogin = async () => {
-    console.log("facebook login clicked");
-  };
+  // const handleFacebookLogin = async () => {
+  //   console.log("facebook login clicked");
+  // };
 
   // Create an event handler so you can call the verification on button click event or form submit
   const handleReCaptchaVerify = useCallback(async (token) => {
@@ -76,25 +81,25 @@ const LoginBlock = () => {
 
   //Form submit method
   const onSubmitLogin = async (data) => {
-    setIsLoading(true);
     if (!isCaptchaVerify) {
       setError("captcha", { message: "Please verify captcha" });
       return;
     }
+    setIsLoading(true);
 
-    console.log("object :>> ", captchaToken);
-    createCookie(localStorageKeys.authKey, data.email, 1);
-    Router.push("/auth/survey");
+    const params = {
+      email: data.email,
+      passWord: data.password,
+      recaptchaResponse: captchaToken,
+    };
+    const response = await asyncLoginService(params);
+    console.log("response :>> ", response);
     setIsLoading(false);
-    //TODO: comment out the code after the api works fine
-    // const response = await asyncLoginService({
-    //   ...data,
-    //   recaptchaResponse: captchaToken,
-    // });
-    // if (response && response.isSuccess && response.data) {
-    //   createCookie(localStorageKeys.authKey, data.email, 1);
-    //   Router.push("/auth/survey");
-    // }
+    if (response && response.isSuccess) {
+      createCookie(localStorageKeys.authKey, data.email, 1);
+      handleLogin();
+      Router.push("/auth/survey");
+    }
   };
 
   //render method
@@ -114,7 +119,7 @@ const LoginBlock = () => {
           />
           Google
         </Button>
-        <Button className="ms-3" onClick={handleFacebookLogin}>
+        {/* <Button className="ms-3" onClick={handleFacebookLogin}>
           <Image
             className="social__icons"
             layout="fill"
@@ -122,7 +127,7 @@ const LoginBlock = () => {
             alt=""
           />
           Facebook
-        </Button>
+        </Button> */}
       </div>
       <p className="mt-3">Or, sign-in with your email</p>
       <Form onSubmit={handleSubmit(onSubmitLogin)}>

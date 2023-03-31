@@ -13,9 +13,11 @@ export const asyncSignUpService = async (payload) => {
 
 export const asyncLoginService = async (payload) => {
   try {
-    const response = await api.post("/user", payload).then(async (res) => {
-      return res;
-    });
+    const response = await api
+      .post("/users/form", payload)
+      .then(async (res) => {
+        return res;
+      });
     return response;
   } catch (error) {
     return error;

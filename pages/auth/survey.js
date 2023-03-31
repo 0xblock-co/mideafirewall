@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import SurveyForm from "@/components/Auth/Layout/surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import { asyncGetQuestions } from "@/services/product/product.service";
-import { formElements } from "@/utils/constants";
 import { checkIsAuth, getFilteredData } from "@/utils/globalFunctions";
 
 export default function Survey() {
-  const [formData, setFormData] = useState(formElements);
+  const [formData, setFormData] = useState([]);
+  const [defaultValue, setDefaultValue] = useState({});
+
   useEffect(() => {
     if (!checkIsAuth()) {
       Router.push("/");
@@ -21,9 +22,20 @@ export default function Survey() {
     const response = await asyncGetQuestions();
     if (response && response.isSuccess && response.data) {
       const data = getFilteredData(response.data.items[0].questions);
-      // if (data) {
-      //   setFormData(data);
-      // }
+      // console.log("data :>> ", data);
+      // console.log("formElements 1 :>> ", formElements);
+      if (data) {
+        const defaultValue = {};
+        data.forEach((element) => {
+          if (element.type == "checkbox") {
+            defaultValue[element.name] = [];
+          } else {
+            defaultValue[element.name] = element.defaultValues;
+          }
+        });
+        setDefaultValue(defaultValue);
+        setFormData(data);
+      }
     }
   };
 
@@ -46,7 +58,11 @@ export default function Survey() {
 
   return (
     <BoxContainerWithFilterIconWrapper>
-      <SurveyForm elements={formData} onSubmit={onSubmitForm} />
+      <SurveyForm
+        elements={formData}
+        defaultValue={defaultValue}
+        onSubmit={onSubmitForm}
+      />
     </BoxContainerWithFilterIconWrapper>
   );
 }

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -9,15 +10,18 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
+import { AuthContext } from "@/pages/_app";
 import { localStorageKeys } from "@/utils/constants";
 import { eraseCookie } from "@/utils/cookieCreator";
 
-export default function HeaderTop({ headerData, isUserLogin }) {
+export default function HeaderTop({ headerData }) {
   const router = useRouter();
+  const { isLogin, handleLogout } = useContext(AuthContext);
 
   const handleOnClickLogout = () => {
     eraseCookie(localStorageKeys.authKey);
     localStorage.clear();
+    handleLogout();
     router.push("/");
   };
   return (
@@ -71,7 +75,7 @@ export default function HeaderTop({ headerData, isUserLogin }) {
                                 return (
                                   <NavDropdown.Item
                                     href={
-                                      isUserLogin
+                                      isLogin
                                         ? "/demo"
                                         : "/account-security/login"
                                     }
@@ -91,13 +95,13 @@ export default function HeaderTop({ headerData, isUserLogin }) {
                   <Link href="/" className="nav-link">
                     Documentation
                   </Link>
-                  {!isUserLogin && (
+                  {!isLogin && (
                     <Link href="/account-security/login" className="nav-link">
                       Log In
                     </Link>
                   )}
                 </Nav>
-                {!isUserLogin ? (
+                {!isLogin ? (
                   <Button
                     variant="outline-primary"
                     className="rounded-pill fw-bold border-2"

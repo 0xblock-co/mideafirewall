@@ -1,7 +1,12 @@
 import { showToast } from "@/utils/alert";
 import { errorString } from "@/utils/constants";
 import instanceCreator from "@/services/api/instantCreator";
-import { ErrorData, SuccessData, Response, SentryErrorData } from "./types";
+import {
+  ErrorData,
+  SuccessData,
+  Response,
+  SentryErrorData,
+} from "@/services/api/types";
 
 export default class Api {
   instance: any;
@@ -30,6 +35,8 @@ export default class Api {
       case 401:
         response.message = "Logout";
         return Promise.resolve(Api.getErrorData(response, isErrorHandle));
+      case 400:
+        return Promise.resolve(Api.getErrorData(response, isErrorHandle));
       default:
         Api.sendSentryErrorInfo(url, response, data, false);
         return Promise.resolve(Api.getErrorData(response, isErrorHandle));
@@ -49,7 +56,6 @@ export default class Api {
         this.handleResponse(url, response, isErrorHandle, isSuccessHandle, data)
       )
       .catch((error: any) => {
-        Api.sendSentryErrorInfo(url, error, data, false);
         return Promise.reject(
           Api.getErrorData(
             {
@@ -151,7 +157,7 @@ export default class Api {
     isHandle: boolean = false
   ): { isSuccess: boolean; isStore: boolean; message: string } {
     if (data.code && isHandle && data?.message) {
-      showToast("error", data?.message?.detail || data.code);
+      showToast("error", data?.message || data?.message?.detail || data.code);
     }
     return {
       isSuccess: false,

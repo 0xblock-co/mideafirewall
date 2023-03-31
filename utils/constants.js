@@ -15,14 +15,16 @@ export const staticImagesUrl = {
 };
 
 export const captchaKey = {
-  siteKey: "6LeV7UIlAAAAAD0Yql_CW-4xJbncZRSWdpvnvYcN", //v3
-  secretKey: "6LeV7UIlAAAAAGNOTFsW83gWQ3cnmlrFjrleYd8W", //v3
+  siteKey: "6Ldd6xolAAAAAKdJCeABbANGhFTLvs8q2lEClIWS", //v3
+  secretKey: "6Ldd6xolAAAAAJNLD9gHX0TsBm3zZkDNMYyK3gbv", //v3
 };
 
 export const regex = {
   passwordRegex:
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>\/?]).{8,}$/,
 };
+
+export const colors = ["yellow", "purple", "orange", "red", "blue", "primary"];
 
 export const formElements = [
   {

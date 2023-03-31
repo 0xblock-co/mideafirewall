@@ -2,6 +2,8 @@ import React from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Badge from "react-bootstrap/Badge";
 import Form from "react-bootstrap/Form";
+
+import { colors } from "@/utils/constants";
 export default function PricingBlock({ priceData = [] }) {
   return (
     <section className="mdf__pricing-block">
@@ -26,7 +28,55 @@ export default function PricingBlock({ priceData = [] }) {
           </Col>
         </Row>
         <Row className="justify-content-center mt-5">
-          <Col sm={6} lg={3} xxl={2}>
+          {priceData &&
+            priceData?.map((item, index) => {
+              let className = "yellow";
+              if (index >= colors.length) {
+                className = colors[index % colors.length];
+              } else {
+                className = colors[index];
+              }
+              return (
+                <Col sm={6} lg={3} xxl={2} key={index}>
+                  <Card
+                    className={`mdf__pricingcard card__price__${className} text-center h-100`}
+                  >
+                    <div className="text mb-5 h-100">
+                      <h3 className="title my-4">{item?.name}</h3>
+                      <div className="b_bottom">
+                        <label className="display-5 mb-4">${item?.price}</label>
+                        <span>/{item?.operationPeriod}</span>
+                      </div>
+                      <h4 className="my-4"> {item.operations} </h4>
+                      <p className="px-2">
+                        {item?.dailyOperationsLimit != "-1"
+                          ? `operations per month  (max ${item?.dailyOperationsLimit} per day)`
+                          : `operations per month +$${item?.additionalPricePerOperation} per additional op`}
+                      </p>
+                      <h4>{item?.parallelProcessing}</h4>
+                      {item?.support &&
+                        item?.support?.supportAvailability != "NA" &&
+                        item?.support?.supportTypes?.length > 0 &&
+                        item?.support?.supportTypes?.map((item, index) => {
+                          return (
+                            <p className="px-2" key={index}>
+                              {item}
+                            </p>
+                          );
+                        })}
+                    </div>
+                    <Button
+                      variant="primary"
+                      className="mx-3 mb-3 text-uppercase"
+                      size="lg"
+                    >
+                      Get Started
+                    </Button>
+                  </Card>
+                </Col>
+              );
+            })}
+          {/* <Col sm={6} lg={3} xxl={2}>
             <Card className="mdf__pricingcard card__price__yellow text-center h-100">
               <div className="text mb-5 h-100">
                 <h3 className="title my-4">Free</h3>
@@ -182,7 +232,7 @@ export default function PricingBlock({ priceData = [] }) {
                 Get Started
               </Button>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     </section>

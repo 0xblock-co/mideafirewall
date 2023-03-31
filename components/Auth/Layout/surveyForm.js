@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -8,7 +8,7 @@ import InputCheckBoxComponent from "@/components/UI/InputCheckBox";
 import InputRadioBoxComponent from "@/components/UI/InputRadioBox";
 import InputTypeTextComponent from "@/components/UI/InputTextBox";
 
-const SurveyForm = ({ elements, onSubmit }) => {
+const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
   const validationSchema = yup
     .object()
     .shape(
@@ -19,19 +19,21 @@ const SurveyForm = ({ elements, onSubmit }) => {
       )
     );
 
-  const defaultValues = {};
-  elements.forEach((element) => {
-    defaultValues[element.name] = element.defaultValues;
-  });
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
+    defaultValues: defaultValue,
   });
+
+  useEffect(() => {
+    for (const key in defaultValue) {
+      setValue(key, defaultValue[key]);
+    }
+  }, [defaultValue, setValue]);
 
   const onFormSubmit = (data) => {
     const currentElement = elements.find((element) => element.isRender);

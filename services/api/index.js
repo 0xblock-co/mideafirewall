@@ -1,27 +1,15 @@
+import instanceCreator from "@/services/api/instantCreator";
 import { showToast } from "@/utils/alert";
 import { errorString } from "@/utils/constants";
-import instanceCreator from "@/services/api/instantCreator";
-import {
-  ErrorData,
-  SuccessData,
-  Response,
-  SentryErrorData,
-} from "@/services/api/types";
 
 export default class Api {
-  instance: any;
+  instance;
 
-  constructor(baseUrl: string | null = null) {
+  constructor(baseUrl = null) {
     this.instance = instanceCreator(baseUrl);
   }
 
-  handleResponse(
-    url: string,
-    response: Response,
-    isErrorHandle: boolean,
-    isSuccessHandle: boolean,
-    data: any
-  ): Promise<ErrorData | SuccessData> {
+  handleResponse(url, response, isErrorHandle, isSuccessHandle, data) {
     const { status } = response;
     switch (status) {
       case 200:
@@ -44,18 +32,18 @@ export default class Api {
   }
 
   request(
-    method: string,
-    url: string,
-    data: any = {},
-    conf: any = {},
-    isErrorHandle: boolean = true,
-    isSuccessHandle: boolean = true
-  ): Promise<ErrorData | SuccessData> {
+    method,
+    url,
+    data = {},
+    conf = {},
+    isErrorHandle = true,
+    isSuccessHandle = true
+  ) {
     return this.instance[method](url, data, conf)
-      .then((response: Response) =>
+      .then((response) =>
         this.handleResponse(url, response, isErrorHandle, isSuccessHandle, data)
       )
-      .catch((error: any) => {
+      .catch((error) => {
         return Promise.reject(
           Api.getErrorData(
             {
@@ -68,22 +56,17 @@ export default class Api {
       });
   }
 
-  get(
-    url: string,
-    conf: any = {},
-    isErrorHandle: boolean = true,
-    isSuccessHandle: boolean = true
-  ): Promise<ErrorData | SuccessData> {
+  get(url, conf = {}, isErrorHandle = true, isSuccessHandle = true) {
     return this.request("get", url, null, conf, isErrorHandle, isSuccessHandle);
   }
 
   delete(
-    url: string,
-    data: any = {},
-    conf: any = {},
-    isErrorHandle: boolean = true,
-    isSuccessHandle: boolean = true
-  ): Promise<ErrorData | SuccessData> {
+    url,
+    data = {},
+    conf = {},
+    isErrorHandle = true,
+    isSuccessHandle = true
+  ) {
     return this.request(
       "delete",
       url,
@@ -94,27 +77,27 @@ export default class Api {
     );
   }
 
-  head(url: string, conf: any = {}): Promise<Response> {
+  head(url, conf = {}) {
     return this.instance
       .head(url, conf)
-      .then((response: Response) => Promise.resolve(response))
-      .catch((error: any) => Promise.reject(error));
+      .then((response) => Promise.resolve(response))
+      .catch((error) => Promise.reject(error));
   }
 
-  options(url: string, conf: any = {}): Promise<Response> {
+  options(url, conf = {}) {
     return this.instance
       .options(url, conf)
-      .then((response: Response) => Promise.resolve(response))
-      .catch((error: any) => Promise.reject(error));
+      .then((response) => Promise.resolve(response))
+      .catch((error) => Promise.reject(error));
   }
 
   post(
-    url: string,
-    data: any = {},
-    conf: any = {},
-    isErrorHandle: boolean = true,
-    isSuccessHandle: boolean = true
-  ): Promise<ErrorData | SuccessData> {
+    url,
+    data = {},
+    conf = {},
+    isErrorHandle = true,
+    isSuccessHandle = true
+  ) {
     return this.request(
       "post",
       url,
@@ -125,23 +108,17 @@ export default class Api {
     );
   }
 
-  put(
-    url: string,
-    data: any = {},
-    conf: any = {},
-    isErrorHandle: boolean = true,
-    isSuccessHandle: boolean = true
-  ): Promise<ErrorData | SuccessData> {
+  put(url, data = {}, conf = {}, isErrorHandle = true, isSuccessHandle = true) {
     return this.request("put", url, data, conf, isErrorHandle, isSuccessHandle);
   }
 
   patch(
-    url: string,
-    data: any = {},
-    conf: any = {},
-    isErrorHandle: boolean = true,
-    isSuccessHandle: boolean = true
-  ): Promise<ErrorData | SuccessData> {
+    url,
+    data = {},
+    conf = {},
+    isErrorHandle = true,
+    isSuccessHandle = true
+  ) {
     return this.request(
       "patch",
       url,
@@ -152,10 +129,7 @@ export default class Api {
     );
   }
 
-  static getErrorData(
-    data: any,
-    isHandle: boolean = false
-  ): { isSuccess: boolean; isStore: boolean; message: string } {
+  static getErrorData(data, isHandle = false) {
     if (data.code && isHandle && data?.message) {
       showToast("error", data?.message || data?.message?.detail || data.code);
     }
@@ -166,10 +140,7 @@ export default class Api {
     };
   }
 
-  static getSuccessData(
-    data: any,
-    isHandle: boolean = false
-  ): { isSuccess: boolean; data: any } {
+  static getSuccessData(data, isHandle = false) {
     if (isHandle) {
       // showToast("success", data?.successCode || errorString.catchError);
     }
@@ -179,13 +150,8 @@ export default class Api {
     };
   }
 
-  static sendSentryErrorInfo(
-    path: string,
-    response: any,
-    param: any,
-    isCatch: boolean
-  ): SentryErrorData {
-    const sentryDataOpt: SentryErrorData = {
+  static sendSentryErrorInfo(path, response, param, isCatch) {
+    const sentryDataOpt = {
       param,
       path,
       response: isCatch ? undefined : response,

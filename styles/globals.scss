@@ -24,9 +24,19 @@ a {
 .mdf__logo_modal {
   width: 90px !important;
   height: auto !important;
+  @include media-breakpoints-down-sm{
+    width: 100% !important;
+  }
+}
+.mdf__logo_footer{
+  width: 90px !important;
+  height: auto !important;
 }
 .mdf__main_top_fix {
   margin-top: 60px;
+  @include media-breakpoints-down-sm{
+    margin-top: 45px;
+  }
 }
 .button_primary {
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.37);

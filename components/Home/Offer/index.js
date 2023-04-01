@@ -10,13 +10,13 @@ export default function OfferBlock() {
                </Col>
             </Row>
             <Row className="flex flex-column align-items-center">
-            <Col lg={3} xl={2}>
+            <Col sm={4} lg={3} xl={2}>
             <Button variant="primary" className="mt-4 rounded-pill w-100">See Demo</Button>
             </Col>
-            <Col lg={3} xl={2}>
+            <Col sm={4} lg={3} xl={2}>
             <Button variant="outline-primary" className="mt-4 rounded-pill w-100">See pricing</Button>
             </Col>
-            <Col lg={3} xl={2}>
+            <Col sm={4} lg={3} xl={2}>
             <Button variant="outline-primary" className="mt-4 rounded-pill w-100">Contact Us</Button>
             </Col>
             </Row>

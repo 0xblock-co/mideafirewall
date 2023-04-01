@@ -25,8 +25,8 @@ export default function PricingBlock() {
             </Form>
           </Col>
         </Row>
-        <Row className="justify-content-center mt-5">
-          <Col sm={6} lg={3} xxl={2}>
+        <Row className="justify-content-center mt-2 mt-xxl-5">
+          <Col sm={4} lg={3} xxl={2} className="mt-3 mt-xxl-0">
             <Card className="mdf__pricingcard card__price__yellow text-center h-100">
               <div className="text mb-5 h-100">
                 <h3 className="title my-4">Free</h3>
@@ -45,7 +45,7 @@ export default function PricingBlock() {
               </Button>
             </Card>
           </Col>
-          <Col sm={6} lg={3} xxl={2}>
+          <Col sm={4} lg={3} xxl={2} className="mt-3 mt-xxl-0">
             <Card className="mdf__pricingcard card__price__purple text-center h-100">
               <div className="text mb-5 h-100">
                 <h3 className="title my-4">Starter</h3>
@@ -64,7 +64,7 @@ export default function PricingBlock() {
               </Button>
             </Card>
           </Col>
-          <Col sm={6} lg={3} xxl={2}>
+          <Col sm={4} lg={3} xxl={2} className="mt-3 mt-xxl-0">
             <Card className="mdf__pricingcard card__price__orange text-center h-100">
               <div className="text mb-5 h-100">
                 <h3 className="title my-4">Medium</h3>
@@ -84,7 +84,7 @@ export default function PricingBlock() {
               </Button>
             </Card>
           </Col>
-          <Col sm={6} lg={3} xxl={2}>
+          <Col sm={4} lg={3} xxl={2} className="mt-3 mt-xxl-0">
             <Card className="mdf__pricingcard card__price__red text-center h-100">
               <div className="text mb-5 h-100">
                 <h3 className="title my-4">Growth</h3>
@@ -104,7 +104,7 @@ export default function PricingBlock() {
               </Button>
             </Card>
           </Col>
-          <Col sm={6} lg={3} xxl={2}>
+          <Col sm={4} lg={3} xxl={2} className="mt-3 mt-xxl-0">
             <Card className="mdf__pricingcard card__price__blue text-center h-100">
               <div className="text mb-5 h-100">
                 <h3 className="title my-4">Pro</h3>
@@ -125,7 +125,7 @@ export default function PricingBlock() {
               </Button>
             </Card>
           </Col>
-          <Col sm={6} lg={3} xxl={2}>
+          <Col sm={4} lg={3} xxl={2} className="mt-3 mt-xxl-0">
             <Card className="mdf__pricingcard card__price__primary border border-2 border-primary text-center h-100">
               <div className="text mb-5 h-100">
                 <h3 className="title text-primary my-4">Enterprise</h3>
@@ -133,9 +133,7 @@ export default function PricingBlock() {
                 <label className="fs-5">Custom Pricing</label>
                 </div>
                 <h4 className="mt-4 mb-0">Contact Us </h4>
-                <p className="px-2">custom number of operations</p>
-                <h4 className="mt-4 mb-0"> Contact Us</h4>
-                <p className="px-2">custom number of simultaneous streams</p>
+                <p className="px-2">custom number of operations</p> 
 
                 <p className="px-2">Content Moderation</p>
                 <p className="px-2">Image, Video Anonymization</p>

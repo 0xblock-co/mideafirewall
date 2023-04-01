@@ -4,7 +4,7 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 export default function FeatureBlog() {
   return (
     <section className="mdf__personalized_feature">
-      <Container fluid className="px-5">
+      <Container fluid className="px-xl-5">
         <Row className="justify-content-center">
           <Col lg={5}>
             <h1 className="fw-bold text-shadow text-center">
@@ -13,26 +13,26 @@ export default function FeatureBlog() {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={8} className="d-flex justify-content-around">
-            <Button variant="outline-primary" className="mdf__btn-large mt-4">
+          <Col lg={8} className="d-flex flex-wrap justify-content-lg-around">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
               Micro Blogging
             </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-4">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
               Real State Broker
             </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-4">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
               Social Review Sites
             </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-4">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
               Media Sharing{" "}
             </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-4">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
               Social Network
             </Button>
           </Col>
         </Row>
-        <Row className="justify-content-center">
-          <div className="mdf__feature__card_block px-4">
+        <Row className="justify-content-lg-center">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"
@@ -49,7 +49,7 @@ export default function FeatureBlog() {
               </Card.Body>
             </Card>
           </div>
-          <div className="mdf__feature__card_block px-4">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"
@@ -64,7 +64,7 @@ export default function FeatureBlog() {
               </Card.Body>
             </Card>
           </div>
-          <div className="mdf__feature__card_block px-4">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"
@@ -79,7 +79,7 @@ export default function FeatureBlog() {
               </Card.Body>
             </Card>
           </div>
-          <div className="mdf__feature__card_block px-4">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"
@@ -94,7 +94,7 @@ export default function FeatureBlog() {
               </Card.Body>
             </Card>
           </div>
-          <div className="mdf__feature__card_block px-4">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"
@@ -109,7 +109,7 @@ export default function FeatureBlog() {
               </Card.Body>
             </Card>
           </div>
-          <div className="mdf__feature__card_block px-4">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"
@@ -126,7 +126,7 @@ export default function FeatureBlog() {
               </Card.Body>
             </Card>
           </div>
-          <div className="mdf__feature__card_block px-4">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"
@@ -141,7 +141,7 @@ export default function FeatureBlog() {
               </Card.Body>
             </Card>
           </div>
-          <div className="mdf__feature__card_block px-4">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"
@@ -156,7 +156,7 @@ export default function FeatureBlog() {
               </Card.Body>
             </Card>
           </div>
-          <div className="mdf__feature__card_block px-4">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"
@@ -171,7 +171,7 @@ export default function FeatureBlog() {
               </Card.Body>
             </Card>
           </div>
-          <div className="mdf__feature__card_block px-4">
+          <div className="mdf__feature__card_block px-3 px-xl-4">
             <Card className="mdf__feature__card">
               <Card.Img
                 variant="top"

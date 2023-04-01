@@ -37,13 +37,13 @@ export default function HeaderTop() {
             <Navbar.Offcanvas
               id={`offcanvasNavbarMediaFirewall-expand-lg`}
               aria-labelledby={`offcanvasNavbarMediaFirewallLabel-expand-lg`}
-              placement="end"
+              placement="start"
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title
                   id={`offcanvasNavbarMediaFirewallLabel-expand-lg`}
                 >
-                  Offcanvas
+                  Media Firewall
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>

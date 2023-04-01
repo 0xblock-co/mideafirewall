@@ -18,7 +18,7 @@ function BoxContainerWithFilterIconWrapper({ children, lg = 8, xl = 7 }) {
               </Col>
               <Col lg={lg} xl={xl}>
                 <Image
-                  className="mdf__logo_modal mx-3"
+                  className="mx-3 mdf__logo_footer"
                   layout="fill"
                   src="/images/logo.png"
                   alt=""

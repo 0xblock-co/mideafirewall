@@ -11,13 +11,13 @@ export default function Moderation() {
                </Col>
             </Row>
             <Row className="justify-content-center">
-               <Col lg={6} className="mt-5">
-               <Card className="p-5 h-100">
-                  <Card.Title className="text-center mb-5 text-primary">
+               <Col md={6} className="mt-3 mt-lg-5">
+               <Card className="p-3 p-lg-5 h-100">
+                  <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
                   Traditional Manual moderation
                   </Card.Title>
                   <Card.Img variant="top" src="/images/moderation-1.png" className="mdf__img__rounded" />
-                  <ul className="list-unstyled mt-5">
+                  <ul className="list-unstyled mt-3 mt-lg-5 mb-0">
                      <li className="mb-3"><IoClose size={24} color="#FF3407" /> <strong>Time-consuming:</strong> It requires significant time and effort. </li>
                      <li className="mb-3"><IoClose size={24} color="#FF3407" /> <strong>Inconsistent:</strong> Moderation decisions can vary between moderators. </li>
                      <li className="mb-3"><IoClose size={24} color="#FF3407" /> <strong>Limited Scale:</strong> Manual moderation becomes difficult at scale. </li>
@@ -26,13 +26,13 @@ export default function Moderation() {
                   </ul>
                </Card>
                </Col>
-               <Col lg={6} className="mt-5">
-               <Card className="py-5 h-100">
-                  <Card.Title className="text-center mb-5 text-primary">
+               <Col md={6} className="mt-3 mt-lg-5">
+               <Card className="py-3 py-lg-5 h-100">
+                  <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
                   Midea Firewall Content Moderation
                   </Card.Title>
                   <Card.Img variant="top" src="/images/moderation-2.png" className="mdf__img__rounded" />
-                  <ul className="list-unstyled mt-5 px-5">
+                  <ul className="list-unstyled mt-3 mt-lg-5 mb-0 px-3 px-lg-5">
                      <li className="mb-3"><IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Time-consuming:</strong> It requires significant time and effort. </li>
                      <li className="mb-3"><IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Inconsistent:</strong> Moderation decisions can vary between moderators. </li>
                      <li className="mb-3"><IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Limited Scale:</strong> Manual moderation becomes difficult at scale. </li>

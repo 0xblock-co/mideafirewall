@@ -10,13 +10,13 @@ export default function FooterBottom() {
         <Row>
           <Col sm={12}>
             <Image
-              className="mdf__logo_modal"
+              className="mdf__logo_footer"
               layout="fill"
               src="/images/footer-logo.png"
               alt=""
             />
           </Col>
-          <Col lg={6} xl={3}>
+          <Col md={3} xl={3} xs={6}>
             <h5 className="mt-3">Features</h5>
             <ul className="list-unstyled">
               <li className="py-2">
@@ -48,7 +48,7 @@ export default function FooterBottom() {
               </li>
             </ul>
           </Col>
-          <Col lg={6} xl={3}>
+          <Col md={3} xl={3} xs={6}>
             <h5 className="mt-3">Use Cases</h5>
             <ul className="list-unstyled">
               <li className="py-2">
@@ -62,7 +62,7 @@ export default function FooterBottom() {
               </li>
             </ul>
           </Col>
-          <Col lg={6} xl={3}>
+          <Col md={3} xl={3} xs={6}>
             <h5 className="mt-3">Resources</h5>
             <ul className="list-unstyled">
               <li className="py-2">
@@ -109,7 +109,7 @@ export default function FooterBottom() {
               </li>
             </ul>
           </Col>
-          <Col lg={6} xl={3}>
+          <Col md={3} xl={3} xs={6}>
             <h5 className="mt-3">Company</h5>
             <ul className="list-unstyled">
               <li className="py-2">

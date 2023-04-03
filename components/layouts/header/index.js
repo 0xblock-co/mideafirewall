@@ -76,7 +76,7 @@ export default function HeaderTop({ headerData }) {
                                   <NavDropdown.Item
                                     href={
                                       isLogin
-                                        ? "/demo"
+                                        ? "/network-blog"
                                         : "/account-security/login"
                                     }
                                     key={index}

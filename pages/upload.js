@@ -3,7 +3,7 @@ import UploadTabs from "@/components/UploadBlocks/upload-tabs";
 export default function Uploads() {
   return (
     <BoxContainerWithFilterIconWrapper>
-        <UploadTabs/>
-  </BoxContainerWithFilterIconWrapper>
+      <UploadTabs />
+    </BoxContainerWithFilterIconWrapper>
   );
 }

@@ -31,7 +31,7 @@ export default function HomeBanner() {
             title="HTML &amp; Amp Email Creation | No-Code Approach | Ampier Plugin for Figma  Workflow"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
+            allowFullScreen
           ></iframe>
         </div>
       </div>

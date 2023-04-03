@@ -27,7 +27,7 @@ export default function PricingBlock({ priceData = [] }) {
             </Form>
           </Col>
         </Row>
-        <Row className="justify-content-center mt-5">
+        <Row className="justify-content-center mt-2 mt-xxl-5">
           {priceData &&
             priceData?.map((item, index) => {
               let className = "yellow";
@@ -37,7 +37,13 @@ export default function PricingBlock({ priceData = [] }) {
                 className = colors[index];
               }
               return (
-                <Col sm={6} lg={3} xxl={2} key={index}>
+                <Col
+                  sm={4}
+                  lg={3}
+                  xxl={2}
+                  className="mt-3 mt-xxl-0"
+                  key={index}
+                >
                   <Card
                     className={`mdf__pricingcard card__price__${className} text-center h-100`}
                   >
@@ -76,163 +82,6 @@ export default function PricingBlock({ priceData = [] }) {
                 </Col>
               );
             })}
-          {/* <Col sm={6} lg={3} xxl={2}>
-            <Card className="mdf__pricingcard card__price__yellow text-center h-100">
-              <div className="text mb-5 h-100">
-                <h3 className="title my-4">Free</h3>
-                <div className="b_bottom">
-                  <label className="display-5 mb-4">$0</label>
-                  <span>/Month</span>
-                </div>
-                <h4 className="my-4"> 5,000 </h4>
-                <p className="px-2">operations per month (max 500 per day)</p>
-                <h4>1</h4>
-                <p className="px-2">simultaneous video stream</p>
-                <p className="px-2">Content Moderation</p>
-              </div>
-              <Button
-                variant="primary"
-                className="mx-3 mb-3 text-uppercase"
-                size="lg"
-              >
-                Get Started
-              </Button>
-            </Card>
-          </Col>
-          <Col sm={6} lg={3} xxl={2}>
-            <Card className="mdf__pricingcard card__price__purple text-center h-100">
-              <div className="text mb-5 h-100">
-                <h3 className="title my-4">Starter</h3>
-                <div className="b_bottom">
-                  <label className="display-5 mb-4">$29</label>
-                  <span>/Month</span>
-                </div>
-                <h4 className="my-4"> 10,000 </h4>
-                <p className="px-2">
-                  operations per month +$0.02 per additional op
-                </p>
-                <h4>1</h4>
-                <p className="px-2">simultaneous video stream</p>
-                <p className="px-2">Content Moderation</p>
-              </div>
-              <Button
-                variant="primary"
-                className="mx-3 mb-3 text-uppercase"
-                size="lg"
-              >
-                Get Started
-              </Button>
-            </Card>
-          </Col>
-          <Col sm={6} lg={3} xxl={2}>
-            <Card className="mdf__pricingcard card__price__orange text-center h-100">
-              <div className="text mb-5 h-100">
-                <h3 className="title my-4">Medium</h3>
-                <div className="b_bottom">
-                  <label className="display-5 mb-4">$49</label>
-                  <span>/Month</span>
-                </div>
-                <h4 className="my-4">20,000 </h4>
-                <p className="px-2">
-                  operations per month +$0.02 per additional op
-                </p>
-                <h4>1</h4>
-                <p className="px-2">simultaneous video stream</p>
-                <p className="px-2">Content Moderation</p>
-                <p className="px-2">Email support</p>
-              </div>
-              <Button
-                variant="primary"
-                className="mx-3 mb-3 text-uppercase"
-                size="lg"
-              >
-                Get Started
-              </Button>
-            </Card>
-          </Col>
-          <Col sm={6} lg={3} xxl={2}>
-            <Card className="mdf__pricingcard card__price__red text-center h-100">
-              <div className="text mb-5 h-100">
-                <h3 className="title my-4">Growth</h3>
-                <div className="b_bottom">
-                  <label className="display-5 mb-4">$99</label>
-                  <span>/Month</span>
-                </div>
-                <h4 className="my-4">50,000 </h4>
-                <p className="px-2">
-                  operations per month +$0.02 per additional op
-                </p>
-                <h4>2</h4>
-                <p className="px-2">simultaneous video stream</p>
-                <p className="px-2">Content Moderation</p>
-                <p className="px-2">Email support</p>
-              </div>
-              <Button
-                variant="primary"
-                className="mx-3 mb-3 text-uppercase"
-                size="lg"
-              >
-                Get Started
-              </Button>
-            </Card>
-          </Col>
-          <Col sm={6} lg={3} xxl={2}>
-            <Card className="mdf__pricingcard card__price__blue text-center h-100">
-              <div className="text mb-5 h-100">
-                <h3 className="title my-4">Pro</h3>
-                <div className="b_bottom">
-                  <label className="display-5 mb-4">$299</label>
-                  <span>/Month</span>
-                </div>
-                <h4 className="my-4">2,00,000 </h4>
-                <p className="px-2">
-                  operations per month +$0.0015 per additional op
-                </p>
-                <h4>5</h4>
-                <p className="px-2">simultaneous video stream</p>
-                <p className="px-2">Content Moderation</p>
-                <p className="px-2">Prioritized processing for Optimal Speed</p>
-                <p className="px-2">Prioritized Support</p>
-              </div>
-              <Button
-                variant="primary"
-                className="mx-3 mb-3 text-uppercase"
-                size="lg"
-              >
-                Get Started
-              </Button>
-            </Card>
-          </Col>
-          <Col sm={6} lg={3} xxl={2}>
-            <Card className="mdf__pricingcard card__price__primary border border-2 border-primary text-center h-100">
-              <div className="text mb-5 h-100">
-                <h3 className="title text-primary my-4">Enterprise</h3>
-                <div className="b_bottom">
-                  <label className="fs-5">Custom Pricing</label>
-                </div>
-                <h4 className="mt-4 mb-0">Contact Us </h4>
-                <p className="px-2">custom number of operations</p>
-                <h4 className="mt-4 mb-0"> Contact Us</h4>
-                <p className="px-2">custom number of simultaneous streams</p>
-
-                <p className="px-2">Content Moderation</p>
-                <p className="px-2">Image, Video Anonymization</p>
-                <p className="px-2">
-                  Dedicated infrastructure for Unparalleled performance
-                </p>
-                <p className="px-2">Dedicated Customer Support Engineer</p>
-                <p className="px-2">Enterprise-class SLA</p>
-                <p className="px-2">Exclusive Enterprise premium options</p>
-              </div>
-              <Button
-                variant="primary"
-                className="mx-3 mb-3 text-uppercase"
-                size="lg"
-              >
-                Get Started
-              </Button>
-            </Card>
-          </Col> */}
         </Row>
       </Container>
     </section>

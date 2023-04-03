@@ -9,23 +9,26 @@ const instanceCreator = (baseUrl = appConfig.BASE_URL) => {
     baseURL: baseUrl || appConfig.BASE_URL,
     timeout: 120000, // 60000
     headers: {
-      customHeader: "customHeader",
+      Accept: "*/*",
+      "Accept-Encoding": "gzip, deflate, br",
+      Connection: "keep-alive",
       "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
     },
   });
 
-  instance.interceptors.request.use(async (config) => {
-    const token = readCookie(localStorageKeys.authKey);
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  // instance.interceptors.request.use(async (config) => {
+  //   const token = readCookie(localStorageKeys.authKey);
+  //   if (token) {
+  //     config.headers.Authorization = `Bearer ${token}`;
+  //   }
 
-    if (config.url === "/auth/logout" && config.headers?.Authorization !== "") {
-      delete config.headers.Authorization;
-    }
+  //   if (config.url === "/auth/logout" && config.headers?.Authorization !== "") {
+  //     delete config.headers.Authorization;
+  //   }
 
-    return config;
-  });
+  //   return config;
+  // });
 
   instance.interceptors.response.use(
     (response) => response,

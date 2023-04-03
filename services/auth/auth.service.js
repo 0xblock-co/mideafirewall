@@ -23,3 +23,17 @@ export const asyncLoginService = async (payload) => {
     return error;
   }
 };
+
+export const asyncSurveySubmitAnswers = async (payload) => {
+  try {
+    const response = await api
+      .post("/mfw/web/Questionnaire/answers/users/beta", payload)
+      .then(async (res) => {
+        console.log("res: ", res);
+        return res;
+      });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

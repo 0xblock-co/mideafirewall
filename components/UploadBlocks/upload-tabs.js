@@ -4,7 +4,11 @@ import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+
+import CodeBlock from "./CodeBlock";
 export default function UploadTabs() {
+  const code = `const greeting = "Hello, world!";
+  console.log(greeting);`;
   return (
     <div className="mdf__upload__tab bg-white mt-5 rounded ">
       <Tabs defaultActiveKey="web" id="uncontrolled-tab-example">
@@ -27,13 +31,7 @@ export default function UploadTabs() {
           </div>
         </Tab>
         <Tab eventKey="program" className="p-3" title="Program">
-          When I have seen by Time's fell hand defac'd The rich-proud cost of
-          outworn buried age; When sometime lofty towers I see down-raz'd, And
-          brass eternal slave to mortal rage; When I have seen the hungry ocean
-          gain Advantage on the kingdom of the shore, And the firm soil win of
-          the watery main, Increasing store with loss, and loss with store; When
-          I have seen such interchange of state, Or state itself confounded, to
-          decay;
+          <CodeBlock language="javascript" code={code} />
         </Tab>
         <Tab eventKey="amazon" className="p-3" title="Amazons3">
           When I have seen by Time's fell hand defac'd The rich-proud cost of

@@ -2,9 +2,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import twilio from "twilio";
-const WhatsAppChatWithTwilio = ({ phone, message }) => {
+const WhatsAppChatWithTwilio = ({ phone, _messagee }) => {
   const [message, setMessage] = useState("");
-  const handleSend = async () => {
+  const handleClickOnWhatsapp = async () => {
     const client = twilio(
       process.env.TWILIO_ACCOUNT_SID,
       process.env.TWILIO_AUTH_TOKEN,

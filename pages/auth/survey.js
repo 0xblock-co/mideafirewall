@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth/Layout/surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import { asyncSurveySubmitAnswers } from "@/services/auth/auth.service";
 import { asyncGetQuestions } from "@/services/product/product.service";
 import { checkIsAuth, getFilteredData } from "@/utils/globalFunctions";
-import { asyncSurveySubmitAnswers } from "@/services/auth/auth.service";
 export default function Survey() {
   const [formData, setFormData] = useState([]);
   const [defaultValue, setDefaultValue] = useState({});

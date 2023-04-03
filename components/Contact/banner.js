@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 export default function ContactBanner() {
     return (
@@ -10,7 +10,7 @@ export default function ContactBanner() {
 Contact us today to learn more about our products and services.</h2>
                     </Col>
                 </Row>
-            </Container> 
+            </Container>
         </section>
     );
 }

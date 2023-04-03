@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Form from 'react-bootstrap/Form';
+import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 export default function CalculateSaving() {
     return (
         <section className="mdf__calculate__saving">
@@ -17,25 +17,25 @@ export default function CalculateSaving() {
                         <div className="d-flex flex-wrap">
                             <Form.Group className="me-3 mt-3">
                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined012" hidden />
-                                <label class="btn btn-outline-primary checkbox__primary" for="btn-check-outlined012">
+                                <label className="btn btn-outline-primary checkbox__primary" htmlFor="btn-check-outlined012">
                                     0-50
                                 </label>
                             </Form.Group >
                             <Form.Group className="me-3 mt-3">
                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined02365" hidden />
-                                <label class="btn btn-outline-primary checkbox__primary" for="btn-check-outlined02365">
+                                <label className="btn btn-outline-primary checkbox__primary" htmlFor="btn-check-outlined02365">
                                     50-100
                                 </label>
                             </Form.Group >
                             <Form.Group className="me-3 mt-3">
                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined036545" hidden />
-                                <label class="btn btn-outline-primary checkbox__primary" for="btn-check-outlined036545">
+                                <label className="btn btn-outline-primary checkbox__primary" htmlFor="btn-check-outlined036545">
                                     100-500
                                 </label>
                             </Form.Group >
                             <Form.Group className="me-3 mt-3">
                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined036545" hidden />
-                                <label class="btn btn-outline-primary checkbox__primary" for="btn-check-outlined036545">
+                                <label className="btn btn-outline-primary checkbox__primary" htmlFor="btn-check-outlined036545">
                                     500 and more
                                 </label>
                             </Form.Group >
@@ -46,25 +46,25 @@ export default function CalculateSaving() {
                         <div className="d-flex flex-wrap">
                             <Form.Group className="me-3 mt-3">
                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined012" hidden />
-                                <label class="btn btn-outline-primary checkbox__primary" for="btn-check-outlined012">
+                                <label className="btn btn-outline-primary checkbox__primary" htmlFor="btn-check-outlined012">
                                     0-1 min
                                 </label>
                             </Form.Group >
                             <Form.Group className="me-3 mt-3">
                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined02365" hidden />
-                                <label class="btn btn-outline-primary checkbox__primary" for="btn-check-outlined02365">
+                                <label className="btn btn-outline-primary checkbox__primary" htmlFor="btn-check-outlined02365">
                                     1-5 min
                                 </label>
                             </Form.Group >
                             <Form.Group className="me-3 mt-3">
                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined036545" hidden />
-                                <label class="btn btn-outline-primary checkbox__primary" for="btn-check-outlined036545">
+                                <label className="btn btn-outline-primary checkbox__primary" htmlFor="btn-check-outlined036545">
                                     5-10 min
                                 </label>
                             </Form.Group >
                             <Form.Group className="me-3 mt-3">
                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined036545" hidden />
-                                <label class="btn btn-outline-primary checkbox__primary" for="btn-check-outlined036545">
+                                <label className="btn btn-outline-primary checkbox__primary" htmlFor="btn-check-outlined036545">
                                     more than 10 min
                                 </label>
                             </Form.Group >
@@ -76,7 +76,7 @@ export default function CalculateSaving() {
                                 <Col sm={2}>
                                 <Form.Group className="me-3 mt-3">
                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined012" hidden />
-                                <label class="btn btn-outline-primary checkbox__primary" for="btn-check-outlined012">
+                                <label className="btn btn-outline-primary checkbox__primary" htmlFor="btn-check-outlined012">
                                     Rs. 0
                                 </label>
                             </Form.Group >

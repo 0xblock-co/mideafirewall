@@ -2,15 +2,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Offcanvas from "react-bootstrap/Offcanvas";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Offcanvas from "react-bootstrap/Offcanvas";
 
-export default function HeaderTop() {
+import { AuthContext } from "@/pages/_app";
+import { localStorageKeys } from "@/utils/constants";
+import { eraseCookie } from "@/utils/cookieCreator";
+
+export default function HeaderTop({ headerData }) {
   const router = useRouter();
+  const { isLogin, handleLogout } = useContext(AuthContext);
+
+  const handleOnClickLogout = () => {
+    eraseCookie(localStorageKeys.authKey);
+    localStorage.clear();
+    handleLogout();
+    router.push("/");
+  };
   return (
     <>
       {["lg"].map((expand) => (
@@ -49,37 +62,62 @@ export default function HeaderTop() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <NavDropdown title="Products" id="navbarScrollingDropdown">
-                    <NavDropdown.Item href="#">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#">Another action</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
-                      Something else here
-                    </NavDropdown.Item>
+                    {headerData &&
+                      headerData?.map((data) => {
+                        return (
+                          <NavDropdown
+                            title={data.name}
+                            id="nested-dropdown"
+                            key={data?.id}
+                          >
+                            {data?.examples &&
+                              data?.examples?.map((example, index) => {
+                                return (
+                                  <NavDropdown.Item
+                                    href={
+                                      isLogin
+                                        ? "/demo"
+                                        : "/account-security/login"
+                                    }
+                                    key={index}
+                                  >
+                                    {example}
+                                  </NavDropdown.Item>
+                                );
+                              })}
+                          </NavDropdown>
+                        );
+                      })}
                   </NavDropdown>
-                  <Link href="/demo" className="nav-link">
-                    Demo
-                  </Link>
                   <Link href="/pricing" className="nav-link">
                     Pricing
                   </Link>
                   <Link href="/" className="nav-link">
-                    Products
-                  </Link>
-                  <Link href="/" className="nav-link">
                     Documentation
                   </Link>
-                  <Link href="/account-security/login" className="nav-link">
-                    Log In
-                  </Link>
+                  {!isLogin && (
+                    <Link href="/account-security/login" className="nav-link">
+                      Log In
+                    </Link>
+                  )}
                 </Nav>
-
-                <Button
-                  variant="outline-primary"
-                  className="rounded-pill fw-bold border-2"
-                  onClick={() => router.push("/account-security/signup")}
-                >
-                  Create Account
-                </Button>
+                {!isLogin ? (
+                  <Button
+                    variant="outline-primary"
+                    className="rounded-pill fw-bold border-2"
+                    onClick={() => router.push("/account-security/signup")}
+                  >
+                    Create Account
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline-primary"
+                    className="rounded-pill fw-bold border-2"
+                    onClick={() => handleOnClickLogout()}
+                  >
+                    Logout
+                  </Button>
+                )}
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

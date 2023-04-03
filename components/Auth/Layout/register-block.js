@@ -4,31 +4,39 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import Router from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
-import { HiLockClosed, HiMail } from "react-icons/hi";
+import { HiLockClosed, HiMail, HiUser } from "react-icons/hi";
 import * as yup from "yup";
 
+import Loader from "@/components/Loader";
+import { asyncSignUpService } from "@/services/auth/auth.service";
 import { auth } from "@/services/firebase";
-import { captchaKey } from "@/utils/constants";
+import { showToast } from "@/utils/alert";
+import { localStorageKeys, regex } from "@/utils/constants";
+import { createCookie } from "@/utils/cookieCreator";
 
 //Validation Schema
 const schema = yup.object().shape({
-  email: yup
+  userId: yup
     .string()
     .email("Invalid email address")
     .required("Email is required"),
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
   password: yup
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
+    .matches(
+      regex.passwordRegex,
+      "Password must contain at least 8 characters, including at least one lowercase letter, one uppercase letter, and one special character."
+    )
+    .required("Password is required."),
   passwordConfirmation: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Password confirmation is required"),
+    .oneOf([yup.ref("password"), null], "Passwords must match.")
+    .required("Confirm password is required."),
 });
 
 const RegisterBlock = () => {
@@ -37,14 +45,16 @@ const RegisterBlock = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
+    // setError,
   } = useForm({
     resolver: yupResolver(schema), // set the validation schema resolver
   });
 
-  const [isCaptchaVerify, setIsCaptchaVerify] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState("");
-  const captcha = useRef(null);
+  // const [isCaptchaVerify, setIsCaptchaVerify] = useState(false);
+  // const [captchaToken, setCaptchaToken] = useState("");
+  // const captcha = useRef(null);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   //google auth provider from firebase
   const googleAuth = new GoogleAuthProvider();
@@ -53,41 +63,49 @@ const RegisterBlock = () => {
   const handleGoogleSignup = async () => {
     try {
       const result = await signInWithPopup(auth, googleAuth);
+
       if (result && result.user) {
         Router.push("/auth/survey");
       }
-      console.log("result :>> ", result);
     } catch (error) {
-      console.log("error :>> ", error);
+      // console.log("error :>> ", error);
+      showToast("error", error);
     }
   };
 
   const handleFacebookSignup = async () => {
-    console.log("facebook login clicked");
+    // console.log("facebook login clicked");
   };
 
   //Form submit method
-  const onSubmitSingUp = (data) => {
-    console.log("isCaptchaVerify :>> ", isCaptchaVerify);
-    if (!isCaptchaVerify) {
-      setError("captcha", { message: "Please verify captcha" });
-      return;
+  const onSubmitSingUp = async (data) => {
+    // if (!isCaptchaVerify) {
+    //   setError("captcha", { message: "Please verify captcha" });
+    //   return;
+    // }
+    setIsLoading(true);
+
+    delete data.passwordConfirmation;
+    const response = await asyncSignUpService({ ...data, active: true });
+    setIsLoading(false);
+    if (response && response.isSuccess && response.data) {
+      createCookie(localStorageKeys.authKey, data.userId, 1);
+      // console.log(data);
+      // console.log("captchaToken :>> ", captchaToken);
+      Router.push("/auth/survey");
     }
-    console.log(data);
-    console.log("captchaToken :>> ", captchaToken);
-    Router.push("/auth/survey");
   };
 
   //captcha verification functions
-  const onVerifyCaptchaCallback = (response) => {
-    setCaptchaToken(response);
-    setIsCaptchaVerify(true);
-  };
+  // const onVerifyCaptchaCallback = (response) => {
+  //   setCaptchaToken(response);
+  //   setIsCaptchaVerify(true);
+  // };
 
-  const onErrorInCaptcha = async () => {
-    setIsCaptchaVerify(false);
-    setCaptchaToken("");
-  };
+  // const onErrorInCaptcha = async () => {
+  //   setIsCaptchaVerify(false);
+  //   setCaptchaToken("");
+  // };
 
   return (
     <section className="mdf__login_right-block">
@@ -127,13 +145,47 @@ const RegisterBlock = () => {
             className="position-absolute input__icon"
           />
           <Form.Control
-            {...register("email")}
+            {...register("userId")}
             type="email"
             placeholder="Email"
             className="mdf__form__input"
           />
         </Form.Group>
-        {errors.email && <span>{errors.email.message}</span>}
+        {errors.userId && <span>{errors.userId.message}</span>}
+        <Form.Group
+          className="mb-2 position-relative"
+          controlId="exampleForm.ControlInput1"
+        >
+          <HiUser
+            size={22}
+            color="#BDCBEC"
+            className="position-absolute input__icon"
+          />
+          <Form.Control
+            {...register("firstName")}
+            type="text"
+            placeholder="First Name"
+            className="mdf__form__input"
+          />
+        </Form.Group>
+        {errors.firstName && <span>{errors.firstName.message}</span>}
+        <Form.Group
+          className="mb-2 position-relative"
+          controlId="exampleForm.ControlInput1"
+        >
+          <HiUser
+            size={22}
+            color="#BDCBEC"
+            className="position-absolute input__icon"
+          />
+          <Form.Control
+            {...register("lastName")}
+            type="text"
+            placeholder="Last Name"
+            className="mdf__form__input"
+          />
+        </Form.Group>
+        {errors.lastName && <span>{errors.lastName.message}</span>}
         <Form.Group
           className="mb-2 position-relative"
           controlId="exampleForm.ControlInput1"
@@ -170,13 +222,13 @@ const RegisterBlock = () => {
         {errors.passwordConfirmation && (
           <span>{errors.passwordConfirmation.message}</span>
         )}
-        <ReCAPTCHA
+        {/* <ReCAPTCHA
           ref={captcha}
           sitekey={captchaKey.siteKey}
           onChange={onVerifyCaptchaCallback}
           onExpired={onErrorInCaptcha}
           onErrored={onErrorInCaptcha}
-        />
+        /> */}
         {errors.captcha && <span>{errors.captcha.message}</span>}
         <div className="text-end">
           <Link
@@ -201,6 +253,7 @@ const RegisterBlock = () => {
           </p>
         </div>
       </Form>
+      <Loader isLoading={isLoading} />
     </section>
   );
 };

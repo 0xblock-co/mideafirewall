@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Tab from 'react-bootstrap/Tab';
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import Nav from 'react-bootstrap/Nav';
-import Form from "react-bootstrap/Form";
 import Image from "next/image";
+import React from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
+import Tab from "react-bootstrap/Tab";
 export default function NeetworkBlock() {
     return (
         <section className="p-5 mdf__network__block_tabs">
@@ -33,7 +33,7 @@ export default function NeetworkBlock() {
                                     <Row>
                                         <Col md={4} xl={3} className="mt-4">
                                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined012" hidden />
-                                                <label class="btn btn-outline-primary card__primary" for="btn-check-outlined012">
+                                                <label className="btn btn-outline-primary card__primary" htmlFor="btn-check-outlined012">
                                                     <div><Image
                                                         className="mdf__card_img"
                                                         layout="fill"
@@ -47,7 +47,7 @@ export default function NeetworkBlock() {
                                         </Col>
                                         <Col md={4} xl={3} className="mt-4">
                                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined013" hidden />
-                                                <label class="btn btn-outline-primary card__primary" for="btn-check-outlined013">
+                                                <label className="btn btn-outline-primary card__primary" htmlFor="btn-check-outlined013">
                                                     <div><Image
                                                         className="mdf__card_img"
                                                         layout="fill"
@@ -61,7 +61,7 @@ export default function NeetworkBlock() {
                                         </Col>
                                         <Col md={4} xl={3} className="mt-4">
                                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined014" hidden />
-                                                <label class="btn btn-outline-primary card__primary" for="btn-check-outlined014">
+                                                <label className="btn btn-outline-primary card__primary" htmlFor="btn-check-outlined014">
                                                     <div><Image
                                                         className="mdf__card_img"
                                                         layout="fill"
@@ -75,7 +75,7 @@ export default function NeetworkBlock() {
                                         </Col>
                                         <Col md={4} xl={3} className="mt-4">
                                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined015" hidden />
-                                                <label class="btn btn-outline-primary card__primary" for="btn-check-outlined015">
+                                                <label className="btn btn-outline-primary card__primary" htmlFor="btn-check-outlined015">
                                                     <div><Image
                                                         className="mdf__card_img"
                                                         layout="fill"
@@ -89,7 +89,7 @@ export default function NeetworkBlock() {
                                         </Col>
                                         <Col md={4} xl={3} className="mt-4">
                                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined016" hidden />
-                                                <label class="btn btn-outline-primary card__primary" for="btn-check-outlined016">
+                                                <label className="btn btn-outline-primary card__primary" htmlFor="btn-check-outlined016">
                                                     <div><Image
                                                         className="mdf__card_img"
                                                         layout="fill"
@@ -103,7 +103,7 @@ export default function NeetworkBlock() {
                                         </Col>
                                         <Col md={4} xl={3} className="mt-4">
                                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined017" hidden />
-                                                <label class="btn btn-outline-primary card__primary" for="btn-check-outlined017">
+                                                <label className="btn btn-outline-primary card__primary" htmlFor="btn-check-outlined017">
                                                     <div><Image
                                                         className="mdf__card_img"
                                                         layout="fill"
@@ -117,7 +117,7 @@ export default function NeetworkBlock() {
                                         </Col>
                                         <Col md={4} xl={3} className="mt-4">
                                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined018" hidden />
-                                                <label class="btn btn-outline-primary card__primary" for="btn-check-outlined018">
+                                                <label className="btn btn-outline-primary card__primary" htmlFor="btn-check-outlined018">
                                                     <div><Image
                                                         className="mdf__card_img"
                                                         layout="fill"
@@ -131,7 +131,7 @@ export default function NeetworkBlock() {
                                         </Col>
                                         <Col md={4} xl={3} className="mt-4">
                                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined019" hidden />
-                                                <label class="btn btn-outline-primary card__primary" for="btn-check-outlined019">
+                                                <label className="btn btn-outline-primary card__primary" htmlFor="btn-check-outlined019">
                                                     <div><Image
                                                         className="mdf__card_img"
                                                         layout="fill"
@@ -145,7 +145,7 @@ export default function NeetworkBlock() {
                                         </Col>
                                         <Col md={4} xl={3} className="mt-4">
                                                 <Form.Control type="checkbox" class="btn-check" id="btn-check-outlined020" hidden />
-                                                <label class="btn btn-outline-primary card__primary" for="btn-check-outlined020">
+                                                <label className="btn btn-outline-primary card__primary" htmlFor="btn-check-outlined020">
                                                     <div><Image
                                                         className="mdf__card_img"
                                                         layout="fill"

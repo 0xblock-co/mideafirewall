@@ -1,9 +1,9 @@
 const apiPath = {
-  v1: "/api/v1",
+  v1: "/",
 };
 
 const ports = {
-  backendPort: 4000,
+  backendPort: 5550,
 };
 
 const envMode = process.env.NEXT_PUBLIC_ENV_MODE;
@@ -31,9 +31,9 @@ const getBaseUrl = () => {
   switch (envMode) {
     case "production":
     case "development":
-      return ``;
+      return `http://3.6.168.137:${ports.backendPort}/mfw/web`;
     default:
-      return `http://localhost:${ports.backendPort}`;
+      return `http://3.6.168.137:${ports.backendPort}/mfw/web`;
   }
 };
 

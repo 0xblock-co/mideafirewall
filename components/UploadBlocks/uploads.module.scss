@@ -1,0 +1,11 @@
+
+.mdf__upload__tab {
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  .tab-content {
+    border: 2px;
+    border-style: solid;
+    height: 100%;
+    border-color: $primary;
+    border-top: 0px;
+  } 
+}

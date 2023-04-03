@@ -6,7 +6,7 @@ import { eraseCookie, readCookie } from "@/utils/cookieCreator";
 
 const instanceCreator = (baseUrl = appConfig.BASE_URL) => {
   const instance = axios.create({
-    baseURL: baseUrl,
+    baseURL: baseUrl || appConfig.BASE_URL,
     timeout: 120000, // 60000
     headers: {
       customHeader: "customHeader",

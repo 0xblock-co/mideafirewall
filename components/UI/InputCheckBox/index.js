@@ -21,6 +21,7 @@ export default function InputCheckBoxComponent({
                 hidden
                 {...register(name)}
                 value={item.value}
+                // defaultChecked={}
               />
               <label
                 className="btn btn-outline-primary checkbox__primary"

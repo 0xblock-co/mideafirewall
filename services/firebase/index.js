@@ -7,12 +7,13 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyD8F-H-D-kIFsItUMOh5KLezClABZ1lijQ",
-  authDomain: "media-firewall-demo.firebaseapp.com",
-  projectId: "media-firewall-demo",
-  storageBucket: "media-firewall-demo.appspot.com",
-  messagingSenderId: "898478893874",
-  appId: "1:898478893874:web:5a36e5c9b0731c8172c52b",
+  apiKey: "AIzaSyDGsljcqNhhYMjvZdk9J792pyO4LbKQSpk",
+  authDomain: "media-firewall.firebaseapp.com",
+  projectId: "media-firewall",
+  storageBucket: "media-firewall.appspot.com",
+  messagingSenderId: "572156649371",
+  appId: "1:572156649371:web:75ecb54b2ab1ba9db14b3e",
+  measurementId: "G-EMK98NB7Y7",
 };
 
 // Initialize Firebase

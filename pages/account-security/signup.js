@@ -1,10 +1,18 @@
+import Router from "next/router";
 import { NextSeo } from "next-seo";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 import RegisterBlock from "@/components/Auth/Layout/register-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import { checkIsAuth } from "@/utils/globalFunctions";
 
 const SignupScreen = () => {
+  useEffect(() => {
+    if (checkIsAuth()) {
+      Router.push("/demo");
+      return;
+    }
+  }, []);
   return (
     <Fragment>
       <NextSeo title="Create Account" />

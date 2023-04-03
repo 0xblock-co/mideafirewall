@@ -16,12 +16,3 @@ export default function LandingScreen() {
     </Fragment>
   );
 }
-
-// export async function getServerSideProps() {
-//   const response = await asyncGetProducts();
-
-//   console.log("response :>> ", response);
-//   return {
-//     props: { data: response },
-//   };
-// }

@@ -1,3 +1,4 @@
+import Router from "next/router";
 import React from "react";
 import { Button } from "react-bootstrap";
 export default function HomeBanner() {
@@ -16,6 +17,7 @@ export default function HomeBanner() {
         <Button
           variant="primary"
           className="rounded-pill button_primary py-2 px-4"
+          onClick={() => Router.push("/demo")}
         >
           See Demo
         </Button>

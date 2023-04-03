@@ -24,4 +24,11 @@ $navbar-nav-link-padding-x:         2.5rem;
 $btn-padding-x:               1.5rem;
 $btn-font-size:               0.875rem;
 
+$nav-tabs-border-color:             $primary;  
+$nav-tabs-border-width:             2px;
 
+$nav-tabs-link-hover-border-color:  transparent;
+$nav-tabs-link-active-border-color: $primary $primary transparent;
+$breadcrumb-divider:                quote("");
+
+$breadcrumb-active-color:           rgba(255, 119, 21, 1);

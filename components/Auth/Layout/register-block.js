@@ -14,6 +14,7 @@ import * as yup from "yup";
 import Loader from "@/components/Loader";
 import { asyncSignUpService } from "@/services/auth/auth.service";
 import { auth } from "@/services/firebase";
+import { showToast } from "@/utils/alert";
 import { localStorageKeys, regex } from "@/utils/constants";
 import { createCookie } from "@/utils/cookieCreator";
 
@@ -68,11 +69,12 @@ const RegisterBlock = () => {
       }
     } catch (error) {
       // console.log("error :>> ", error);
+      showToast("error", error);
     }
   };
 
   const handleFacebookSignup = async () => {
-    console.log("facebook login clicked");
+    // console.log("facebook login clicked");
   };
 
   //Form submit method
@@ -86,7 +88,6 @@ const RegisterBlock = () => {
     delete data.passwordConfirmation;
     const response = await asyncSignUpService({ ...data, active: true });
     setIsLoading(false);
-    console.log("response :>> ", response);
     if (response && response.isSuccess && response.data) {
       createCookie(localStorageKeys.authKey, data.userId, 1);
       // console.log(data);

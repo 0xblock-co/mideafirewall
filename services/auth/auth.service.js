@@ -1,4 +1,4 @@
-import Api from "@/services/Api";
+import Api from "@/services/api";
 const api = new Api();
 export const asyncSignUpService = async (payload) => {
   try {

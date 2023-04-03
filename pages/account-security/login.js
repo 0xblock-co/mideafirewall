@@ -11,7 +11,7 @@ import { captchaKey } from "@/utils/constants";
 import { AuthContext } from "../_app";
 
 const LoginScreen = () => {
-  const { isLogin, handleLogin } = useContext(AuthContext);
+  const { isLogin } = useContext(AuthContext);
   useEffect(() => {
     if (isLogin) {
       Router.push("/demo");

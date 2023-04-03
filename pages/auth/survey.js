@@ -40,7 +40,6 @@ export default function Survey() {
   };
 
   const onSubmitForm = (data, id) => {
-    console.log("data :>> ", data);
     const lastElement = formData[formData?.length - 1];
     if (id === lastElement.id) {
       Router.push("/");

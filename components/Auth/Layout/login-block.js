@@ -18,6 +18,7 @@ import Loader from "@/components/Loader";
 import { AuthContext } from "@/pages/_app";
 import { asyncLoginService } from "@/services/auth/auth.service";
 import { auth } from "@/services/firebase";
+import { showToast } from "@/utils/alert";
 import { localStorageKeys, regex } from "@/utils/constants";
 import { createCookie } from "@/utils/cookieCreator";
 
@@ -64,7 +65,8 @@ const LoginBlock = () => {
       }
       // console.log("result :>> ", result);
     } catch (error) {
-      console.log("error :>> ", error);
+      // console.log("error :>> ", error);
+      showToast("error", error);
     }
   };
 

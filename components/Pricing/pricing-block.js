@@ -1,10 +1,15 @@
+import Router from "next/router";
 import React from "react";
+import { useContext } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Badge from "react-bootstrap/Badge";
 import Form from "react-bootstrap/Form";
 
+import { AuthContext } from "@/pages/_app";
 import { colors } from "@/utils/constants";
 export default function PricingBlock({ priceData = [] }) {
+  const { isLogin } = useContext(AuthContext);
+
   return (
     <section className="mdf__pricing-block">
       <Container fluid className="px-5">
@@ -75,6 +80,11 @@ export default function PricingBlock({ priceData = [] }) {
                       variant="primary"
                       className="mx-3 mb-3 text-uppercase"
                       size="lg"
+                      onClick={() =>
+                        Router.push(
+                          isLogin ? "/network-blog" : "/account-security/login"
+                        )
+                      }
                     >
                       Get Started
                     </Button>

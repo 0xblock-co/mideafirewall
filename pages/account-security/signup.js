@@ -9,7 +9,7 @@ import { checkIsAuth } from "@/utils/globalFunctions";
 const SignupScreen = () => {
   useEffect(() => {
     if (checkIsAuth()) {
-      Router.push("/demo");
+      Router.push("/network-blog");
       return;
     }
   }, []);

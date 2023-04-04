@@ -1,7 +1,12 @@
 import Router from "next/router";
 import React from "react";
+import { useContext } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
+
+import { AuthContext } from "@/pages/_app";
 export default function OfferBlock() {
+  const { isLogin } = useContext(AuthContext);
+
   return (
     <section className="mdf__offer__block">
       <Container>
@@ -18,7 +23,11 @@ export default function OfferBlock() {
             <Button
               variant="primary"
               className="mt-4 rounded-pill w-100"
-              onClick={() => Router.push("/demo")}
+              onClick={() =>
+                Router.push(
+                  isLogin ? "/network-blog" : "/account-security/login"
+                )
+              }
             >
               See Demo
             </Button>

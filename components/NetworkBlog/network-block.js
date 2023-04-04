@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Router from "next/router";
 import React from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
@@ -319,6 +320,7 @@ export default function NeetworkBlock() {
             <Button
               variant="primary"
               className="shadow-lg px-5 py-2 mt-5 rounded-4"
+              onClick={() => Router.push("/upload")}
             >
               Proceed
             </Button>

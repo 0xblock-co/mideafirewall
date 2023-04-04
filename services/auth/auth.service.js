@@ -27,7 +27,7 @@ export const asyncLoginService = async (payload) => {
 export const asyncSurveySubmitAnswers = async (payload) => {
   try {
     const response = await api
-      .post("/mfw/web/Questionnaire/answers/users/beta", payload)
+      .post("/Questionnaire/answers/users/beta", payload)
       .then(async (res) => {
         console.log("res: ", res);
         return res;

@@ -61,6 +61,8 @@ const LoginBlock = () => {
     try {
       const result = await signInWithPopup(auth, googleAuth);
       if (result && result.user) {
+        createCookie(localStorageKeys.authKey, result.user.email, 1);
+        handleLogin();
         Router.push("/auth/survey");
       }
       // console.log("result :>> ", result);

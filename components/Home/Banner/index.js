@@ -1,7 +1,12 @@
 import Router from "next/router";
 import React from "react";
+import { useContext } from "react";
 import { Button } from "react-bootstrap";
+
+import { AuthContext } from "@/pages/_app";
 export default function HomeBanner() {
+  const { isLogin } = useContext(AuthContext);
+
   return (
     <section className="mdf__banner__back">
       <div className="mdf__banner_text">
@@ -17,7 +22,9 @@ export default function HomeBanner() {
         <Button
           variant="primary"
           className="rounded-pill button_primary py-2 px-4"
-          onClick={() => Router.push("/demo")}
+          onClick={() =>
+            Router.push(isLogin ? "/network-blog" : "/account-security/login")
+          }
         >
           See Demo
         </Button>

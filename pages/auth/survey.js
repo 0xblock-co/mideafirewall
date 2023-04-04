@@ -76,7 +76,7 @@ export default function Survey() {
     if (id === lastElement.id) {
       console.log("cloneFormAnswerData: Finall ", cloneFormAnswerData);
       asyncSurveySubmitAnswers(cloneFormAnswerData);
-      Router.push("/upload");
+      Router.push("/network-blog");
       return;
     }
     setFormData(newFormData);

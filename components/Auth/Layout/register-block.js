@@ -151,7 +151,9 @@ const RegisterBlock = () => {
             className="mdf__form__input"
           />
         </Form.Group>
-        {errors.userId && <span>{errors.userId.message}</span>}
+        {errors.userId && (
+          <span className="error-message">{errors.userId.message}</span>
+        )}
         <Form.Group
           className="mb-2 position-relative"
           controlId="exampleForm.ControlInput1"
@@ -168,7 +170,9 @@ const RegisterBlock = () => {
             className="mdf__form__input"
           />
         </Form.Group>
-        {errors.firstName && <span>{errors.firstName.message}</span>}
+        {errors.firstName && (
+          <span className="error-message">{errors.firstName.message}</span>
+        )}
         <Form.Group
           className="mb-2 position-relative"
           controlId="exampleForm.ControlInput1"
@@ -185,7 +189,9 @@ const RegisterBlock = () => {
             className="mdf__form__input"
           />
         </Form.Group>
-        {errors.lastName && <span>{errors.lastName.message}</span>}
+        {errors.lastName && (
+          <span className="error-message">{errors.lastName.message}</span>
+        )}
         <Form.Group
           className="mb-2 position-relative"
           controlId="exampleForm.ControlInput1"
@@ -202,7 +208,9 @@ const RegisterBlock = () => {
             className="mdf__form__input"
           />
         </Form.Group>
-        {errors.password && <span>{errors.password.message}</span>}
+        {errors.password && (
+          <span className="error-message">{errors.password.message}</span>
+        )}
         <Form.Group
           className="mb-1 position-relative"
           controlId="exampleForm.ControlInput1"
@@ -220,7 +228,9 @@ const RegisterBlock = () => {
           />
         </Form.Group>
         {errors.passwordConfirmation && (
-          <span>{errors.passwordConfirmation.message}</span>
+          <span className="error-message">
+            {errors.passwordConfirmation.message}
+          </span>
         )}
         {/* <ReCAPTCHA
           ref={captcha}
@@ -229,7 +239,9 @@ const RegisterBlock = () => {
           onExpired={onErrorInCaptcha}
           onErrored={onErrorInCaptcha}
         /> */}
-        {errors.captcha && <span>{errors.captcha.message}</span>}
+        {errors.captcha && (
+          <span className="error-message">{errors.captcha.message}</span>
+        )}
         <div className="text-end">
           <Link
             href="/account-security/forgot-password"

@@ -14,7 +14,7 @@ const LoginScreen = () => {
   const { isLogin } = useContext(AuthContext);
   useEffect(() => {
     if (isLogin) {
-      Router.push("/demo");
+      Router.push("/network-blog");
       return;
     }
   }, []);

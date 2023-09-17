@@ -7,6 +7,7 @@ import * as yup from "yup";
 import InputCheckBoxComponent from "@/components/UI/InputCheckBox";
 import InputRadioBoxComponent from "@/components/UI/InputRadioBox";
 import InputTypeTextComponent from "@/components/UI/InputTextBox";
+import RangeBox from "@/components/UI/RangeBox";
 
 const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
   const validationSchema = yup
@@ -24,6 +25,7 @@ const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValue,
@@ -41,7 +43,7 @@ const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onFormSubmit)}>
+    <Form onSubmit={handleSubmit(onFormSubmit)} className="px-4">
       {elements.map((element, index) => {
         if (element.isRender) {
           switch (element.type) {
@@ -82,14 +84,30 @@ const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
                   />
                 </div>
               );
+            case "scroller":
+              return (
+                <div key={index}>
+                  <RangeBox
+                    title={element.title}
+                    register={register}
+                    watch={watch}
+                    name={element.name}
+                    errors={errors}
+                    min={element.minValue}
+                    max={element.maxValue}
+                  />
+                </div>
+              );
             default:
               return null;
           }
         }
       })}
-      <Button variant="primary" className="w-100 mt-3 py-3" type="submit">
-        Next
-      </Button>
+      <div className="mb-4">
+        <Button variant="primary" className="w-100 mt-3 py-3" type="submit">
+          Next
+        </Button>
+      </div>
     </Form>
   );
 };

@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -10,18 +9,18 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-import { AuthContext } from "@/pages/_app";
+import { useAuth } from "@/contexts/AuthContext";
 import { localStorageKeys } from "@/utils/constants";
 import { eraseCookie } from "@/utils/cookieCreator";
 
 export default function HeaderTop({ headerData }) {
   const router = useRouter();
-  const { isLogin, handleLogout } = useContext(AuthContext);
+  const { isLogin, logout } = useAuth();
 
   const handleOnClickLogout = () => {
     eraseCookie(localStorageKeys.authKey);
     localStorage.clear();
-    handleLogout();
+    logout();
     router.push("/");
   };
   return (
@@ -33,7 +32,7 @@ export default function HeaderTop({ headerData }) {
           fixed="top"
           className="mdf__top_navbar"
         >
-          <Container>
+          <Container fluid="md">
             <Link href="/">
               <Navbar.Brand>
                 <Image
@@ -69,6 +68,7 @@ export default function HeaderTop({ headerData }) {
                             title={data.name}
                             id="nested-dropdown"
                             key={data?.id}
+                            drop="end"
                           >
                             {data?.examples &&
                               data?.examples?.map((example, index) => {

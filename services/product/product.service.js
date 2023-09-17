@@ -18,7 +18,23 @@ export const asyncGetProducts = async () => {
 export const asyncGetQuestions = async () => {
   try {
     const response = await api
-      .get("/Questionnaire/?activate=true&pageNumber=0&pageSize=10")
+      .get("/Questionnaire/mfw_customer")
+      .then(async (res) => {
+        if (res && res?.isSuccess) {
+          return res;
+        }
+      });
+    return response;
+  } catch (e) {
+    console.log("e :>> ", e);
+    return e.message;
+  }
+};
+
+export const asyncGetPricingQuestions = async () => {
+  try {
+    const response = await api
+      .get("/Questionnaire/mfw_pricing")
       .then(async (res) => {
         if (res && res?.isSuccess) {
           return res;
@@ -44,5 +60,32 @@ export const asyncGetAllPricingData = async () => {
   } catch (e) {
     console.log("e :>> ", e);
     return e;
+  }
+};
+
+export const asyncGetDefaultMeeting = async () => {
+  try {
+    const response = await api.get("/meetings/default").then(async (res) => {
+      if (res && res?.isSuccess) {
+        return res;
+      }
+    });
+    return response;
+  } catch (e) {
+    console.log("e :>> ", e);
+    return e.message;
+  }
+};
+
+export const asyncCreateMeeting = async (payload, user) => {
+  try {
+    const response = await api
+      .post(`/meetings/${user?.userId}`, payload)
+      .then(async (res) => {
+        return res;
+      });
+    return response;
+  } catch (error) {
+    return error;
   }
 };

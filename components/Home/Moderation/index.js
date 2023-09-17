@@ -4,14 +4,14 @@ import { IoCheckmarkSharp,IoClose } from "react-icons/io5";
 export default function Moderation() {
    return (
       <section className="mdf__moderation__back">
-         <Container>
+         <Container fluid="md">
             <Row className="justify-content-center">
-               <Col lg={5}>
+               <Col lg={10} xxl={5}>
                <h1 className="fw-bold text-shadow text-center">Say goodbye to expensive traditional manual moderation</h1>
                </Col>
             </Row>
             <Row className="justify-content-center">
-               <Col md={6} className="mt-3 mt-lg-5">
+               <Col sm={6} className="mt-3 mt-lg-5">
                <Card className="p-3 p-lg-5 h-100">
                   <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
                   Traditional Manual moderation
@@ -26,7 +26,7 @@ export default function Moderation() {
                   </ul>
                </Card>
                </Col>
-               <Col md={6} className="mt-3 mt-lg-5">
+               <Col sm={6} className="mt-3 mt-lg-5">
                <Card className="py-3 py-lg-5 h-100">
                   <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
                   Midea Firewall Content Moderation

@@ -113,6 +113,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @include media-breakpoints-down-lg{
+    padding: 80px 0;
+  }
+  @include media-breakpoints-down-md{
+    padding: 40px 0;
+  }
 }
 .mdf__pricing-faqs{
   padding: 80px 0;

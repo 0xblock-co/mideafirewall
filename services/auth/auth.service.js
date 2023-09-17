@@ -24,12 +24,11 @@ export const asyncLoginService = async (payload) => {
   }
 };
 
-export const asyncSurveySubmitAnswers = async (payload) => {
+export const asyncSurveySubmitAnswers = async (payload, user) => {
   try {
     const response = await api
-      .post("/Questionnaire/answers/users/beta", payload)
+      .post(`/Questionnaire/answers/users/${user?.userId}`, payload)
       .then(async (res) => {
-        console.log("res: ", res);
         return res;
       });
     return response;

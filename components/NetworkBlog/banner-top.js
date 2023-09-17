@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 export default function NeetworkBanner() {
   return (
-    <section className="mdf__network-banner p-5">
+    <section className="mdf__network-banner p-3 p-lg-5">
       <Container>
         <Row className="justify-content-center">
           <Col md={6}>

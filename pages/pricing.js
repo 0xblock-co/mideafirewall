@@ -1,27 +1,42 @@
-import { Fragment } from "react";
-import { useQuery } from "react-query";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import Loader from "@/components/Loader";
 import PricingBanner from "@/components/Pricing/banner";
-import CalculateSaving from "@/components/Pricing/calculate-saving";
 import PricingModerate from "@/components/Pricing/moderate";
 import PricingBlock from "@/components/Pricing/pricing-block";
 import PricingFaqs from "@/components/Pricing/pricing-faqs";
 import { asyncGetAllPricingData } from "@/services/product/product.service";
 export default function Pricing() {
-  const { isLoading, data } = useQuery("pricing", asyncGetAllPricingData);
+  const [priceData, setPriceData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const dataFetchedRef = useRef(false);
 
-  return isLoading ? (
-    <Loader isLoading={isLoading} />
-  ) : (
+  useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    getPrices();
+  }, []);
+
+  const getPrices = async () => {
+    setIsLoading(true);
+    const response = await asyncGetAllPricingData();
+    setIsLoading(false);
+
+    if (response && response.isSuccess && response.data) {
+      setPriceData(response.data.items);
+    }
+  };
+
+  return (
     <Fragment>
       <PricingBanner />
-      {data && data.isSuccess && data.data && (
-        <PricingBlock priceData={data.data.items} />
+      {priceData && priceData.length > 0 && (
+        <PricingBlock priceData={priceData} />
       )}
-      <CalculateSaving />
+      {/* <CalculateSaving /> */}
       <PricingModerate />
       <PricingFaqs />
+      <Loader isLoading={isLoading} />
     </Fragment>
   );
 }

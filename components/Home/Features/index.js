@@ -6,27 +6,27 @@ export default function FeatureBlog() {
     <section className="mdf__personalized_feature">
       <Container fluid className="px-xl-5">
         <Row className="justify-content-center">
-          <Col lg={5}>
+          <Col xxl={5}>
             <h1 className="fw-bold text-shadow text-center">
               Personalized features to match your requirements
             </h1>
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={8} className="d-flex flex-wrap justify-content-lg-around">
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
+          <Col lg={10} xxl={9} className="d-flex flex-wrap justify-content-md-around">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
               Micro Blogging
             </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
               Real State Broker
             </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
               Social Review Sites
             </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
               Media Sharing{" "}
             </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-lg-0 mt-lg-4">
+            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
               Social Network
             </Button>
           </Col>

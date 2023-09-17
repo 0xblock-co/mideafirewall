@@ -8,7 +8,7 @@ export default function InputCheckBoxComponent({
   errors,
 }) {
   return (
-    <section className="mdf__login_right-block">
+    <section className="mdf__serve_right-block">
       <Form.Label className="fs-4 my-0 fw-bold mb-3">{title}</Form.Label>
       <div className="d-flex flex-wrap">
         {options?.map((item, index) => {

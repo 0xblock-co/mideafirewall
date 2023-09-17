@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { Col, Container, Row } from "react-bootstrap";
 
-function BoxContainerWithFilterIconWrapper({ children, lg = 8, xl = 7 }) {
+function BoxContainerWithFilterIconWrapper({ children, lg = 12, xl = 7, xxl = 6 }) {
   return (
     <section className="mdf__authpage__section">
       <Container>
         <Row className="justify-content-center">
-          <Col lg={10}>
-            <Row className="mdf__authpage__blocks justify-content-between">
-              <Col lg={4} xl={5} className="ps-0 align-self-center">
+          <Col lg={8} xl={10}>
+            <Row className="mdf__authpage__blocks justify-content-center justify-content-xl-between">
+              <Col lg={3} xl={5} className="ps-0 align-self-center d-none d-xl-block">
                 <Image
                   className="mdf__logo_auth"
                   layout="fill"
@@ -16,7 +16,7 @@ function BoxContainerWithFilterIconWrapper({ children, lg = 8, xl = 7 }) {
                   alt=""
                 />
               </Col>
-              <Col lg={lg} xl={xl}>
+              <Col lg={lg} xl={xl} xxl={xxl}>
                 <Image
                   className="mx-3 mdf__logo_footer"
                   layout="fill"

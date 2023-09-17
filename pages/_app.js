@@ -1,41 +1,28 @@
 import "@/styles/module-style.scss";
 
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import { DefaultSeo } from "next-seo";
 import { useEffect, useRef, useState } from "react";
-import { createContext } from "react";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Helmet } from "react-helmet";
 
 import MainLayout from "@/components/layouts/main";
 import ToastContainerConfig from "@/components/ToastContainer";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { asyncGetProducts } from "@/services/product/product.service";
-import { QueryClientWrapper } from "@/services/QueryClientWrapper";
-import { checkIsAuth } from "@/utils/globalFunctions";
+import { captchaKey } from "@/utils/constants";
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_CLIENT_KEY);
 
-export const AuthContext = createContext();
 export default function App({ Component, pageProps }) {
   const [headerData, setHeaderData] = useState([]);
   const dataFetchedRef = useRef(false);
-
-  const [isLogin, setIsLogin] = useState(false);
-
-  // Define a function to set the isLogin state and set the cookie
-  const handleLogin = () => {
-    setIsLogin(true);
-    // setCookie("isLogin", true);
-  };
-
-  // Define a function to clear the isLogin state and remove the cookie
-  const handleLogout = () => {
-    setIsLogin(false);
-    // setCookie("isLogin", false);
-  };
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.min.js");
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
     getProducts();
-    setIsLogin(checkIsAuth());
   }, []);
 
   const getProducts = async () => {
@@ -64,14 +51,25 @@ export default function App({ Component, pageProps }) {
       <Helmet>
         <html lang="en" />
       </Helmet>
-      <AuthContext.Provider value={{ isLogin, handleLogin, handleLogout }}>
-        <MainLayout headerData={headerData}>
-          <QueryClientWrapper>
-            <Component {...pageProps} />
+
+      <AuthProvider>
+        <Elements stripe={stripePromise}>
+          <MainLayout headerData={headerData}>
+            <GoogleReCaptchaProvider
+              reCaptchaKey={captchaKey.siteKey || ""}
+              scriptProps={{
+                async: false,
+                defer: false,
+                appendTo: "head",
+                nonce: undefined,
+              }}
+            >
+              <Component {...pageProps} />
+            </GoogleReCaptchaProvider>
             <ToastContainerConfig />
-          </QueryClientWrapper>
-        </MainLayout>
-      </AuthContext.Provider>
+          </MainLayout>
+        </Elements>
+      </AuthProvider>
     </>
   );
 }

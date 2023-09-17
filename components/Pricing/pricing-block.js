@@ -1,19 +1,27 @@
 import Router from "next/router";
 import React from "react";
-import { useContext } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import Badge from "react-bootstrap/Badge";
-import Form from "react-bootstrap/Form";
 
-import { AuthContext } from "@/pages/_app";
-import { colors } from "@/utils/constants";
+import { useAuth } from "@/contexts/AuthContext";
+import { colors, localStorageKeys } from "@/utils/constants";
+import { createCookie } from "@/utils/cookieCreator";
+import { encodeData } from "@/utils/globalFunctions";
 export default function PricingBlock({ priceData = [] }) {
-  const { isLogin } = useContext(AuthContext);
+  const { isLogin } = useAuth();
+
+  const handleGetStartedClick = (e, data) => {
+    e.preventDefault();
+    console.log("data :>> ", data);
+    const token = encodeData(data, localStorageKeys.priceData);
+    createCookie(localStorageKeys.priceData, token, 5);
+    Router.push("/payment");
+    // Router.push(isLogin ? "/payment" : "/account-security/signup");
+  };
 
   return (
     <section className="mdf__pricing-block">
       <Container fluid className="px-5">
-        <Row className="justify-content-center">
+        {/* <Row className="justify-content-center">
           <Col md={6}>
             <Form>
               <Form.Range />
@@ -31,7 +39,7 @@ export default function PricingBlock({ priceData = [] }) {
               </div>
             </Form>
           </Col>
-        </Row>
+        </Row> */}
         <Row className="justify-content-center mt-2 mt-xxl-5">
           {priceData &&
             priceData?.map((item, index) => {
@@ -80,11 +88,7 @@ export default function PricingBlock({ priceData = [] }) {
                       variant="primary"
                       className="mx-3 mb-3 text-uppercase"
                       size="lg"
-                      onClick={() =>
-                        Router.push(
-                          isLogin ? "/network-blog" : "/account-security/login"
-                        )
-                      }
+                      onClick={(e) => handleGetStartedClick(e, item)}
                     >
                       Get Started
                     </Button>

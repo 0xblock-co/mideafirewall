@@ -8,6 +8,9 @@
   margin-top: -2rem;
   color: white;
   text-align: center;
+  @include media-breakpoints-down-md{
+    border-radius: 0px 0px 50px 50px;
+  }
   .breadcrumb {
     justify-content: center;
     .breadcrumb-item a {

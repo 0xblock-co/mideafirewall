@@ -1,12 +1,11 @@
-.mdf__contactus-banner {
-  background-image: url("/images/Contactus.png");
-  background-position: right bottom;
-  height: 460px;
+.mdf__contactus-banner { 
   display: flex;
-  align-items: center;
-  background-repeat: no-repeat;
+  align-items: center; 
   color: #2e475d;
   line-height: 45px;
+  @include media-breakpoints-down-sm{
+    padding-top: 2.5rem;
+  }
 }
 .chat__icons {
   width: 40px !important;

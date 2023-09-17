@@ -4,12 +4,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @include media-breakpoints-down-sm{
+      padding: 1.5rem;
+    }
   .mdf__authpage__blocks {
     padding: 2rem 1rem 1rem 0;
     background: linear-gradient(269.24deg, #7b5b9e -81.4%, #ecebf7 99.1%);
     box-shadow: -2px 1px 26px rgba(0, 0, 0, 0.8);
     border-radius: 61px;
     min-height: 90vh; 
+    @include media-breakpoints-down-lg{
+      padding: 0rem;
+      min-height: 100%;
+      padding-top: 1.5rem;
+      border-radius: 30px;
+    } 
   }
   .mdf__logo_auth {
     width: 65% !important;
@@ -17,6 +26,27 @@
   }
   .mdf__login_right-block {
     padding: 1.5rem 2rem;
+    @include media-breakpoints-down-sm{
+      padding: 1rem;
+    }
+    .text_blue {
+      color: #192b52;
+    }
+    .checkbox__primary {
+      background: #ffffff;
+      border-radius: 16px;
+      font-size: 16px;
+      border: transparent;
+      padding: 1rem 1.5rem;
+      font-weight: bold;
+      color: $text-dark;
+    }
+    .btn-check:checked + .checkbox__primary, :not(.btn-check) + .checkbox__primary:active, .checkbox__primary:first-child:active, .checkbox__primary.active, .checkbox__primary.show{
+      background: $primary;
+      color: #fff;
+    }
+  }
+  .mdf__serve_right-block{
     .text_blue {
       color: #192b52;
     }

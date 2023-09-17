@@ -3,19 +3,19 @@ import React from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
 import WhatsAppChat from "./UI/whatsapp";
-export default function ContactChatBlock() {
+export default function ContactChatBlock({ handleBookMeeting }) {
   return (
     <section className="mdf__contactus-chatcard">
       <Container>
         <Row className="justify-content-center">
-          <Col md={4} xl={3} xxl={2}>
+          <Col md={4} lg={3} xxl={2} className="mb-3">
             <WhatsAppChat
               phone={process.env.NEXT_PUBLIC_WHATSAPP_PHONE_NUMBER}
               message="Hello there!"
             />
           </Col>
-          <Col md={4} xl={3} xxl={2}>
-            <Card className="mdf__chatcard">
+          <Col md={4} lg={3} xxl={2}>
+            <Card className="mdf__chatcard mb-3">
               <Image
                 className="chat__icons"
                 layout="fill"
@@ -26,8 +26,8 @@ export default function ContactChatBlock() {
               <Button variant="primary">Chat with Sales</Button>
             </Card>
           </Col>
-          <Col md={4} xl={3} xxl={2}>
-            <Card className="mdf__chatcard">
+          <Col md={4} lg={3} xxl={2}>
+            <Card className="mdf__chatcard mb-3">
               <Image
                 className="chat__icons"
                 layout="fill"
@@ -38,8 +38,8 @@ export default function ContactChatBlock() {
               <Button variant="primary">Get a demo</Button>
             </Card>
           </Col>
-          <Col md={4} xl={3} xxl={2}>
-            <Card className="mdf__chatcard">
+          <Col md={4} lg={3} xxl={2}>
+            <Card className="mdf__chatcard mb-3">
               <Image
                 className="chat__icons"
                 layout="fill"
@@ -47,7 +47,9 @@ export default function ContactChatBlock() {
                 alt="A globe icon with filter and text."
               />
               <h6 className="my-4">Book a Meeting</h6>
-              <Button variant="primary">Book</Button>
+              <Button variant="primary" onClick={() => handleBookMeeting(true)}>
+                Book
+              </Button>
             </Card>
           </Col>
         </Row>

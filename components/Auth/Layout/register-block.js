@@ -3,20 +3,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
-import Router from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { HiLockClosed, HiMail, HiUser } from "react-icons/hi";
 import * as yup from "yup";
 
-import Loader from "@/components/Loader";
-import { asyncSignUpService } from "@/services/auth/auth.service";
 import { auth } from "@/services/firebase";
 import { showToast } from "@/utils/alert";
-import { localStorageKeys, regex } from "@/utils/constants";
-import { createCookie } from "@/utils/cookieCreator";
+import { regex } from "@/utils/constants";
 
 //Validation Schema
 const schema = yup.object().shape({
@@ -39,7 +35,7 @@ const schema = yup.object().shape({
     .required("Confirm password is required."),
 });
 
-const RegisterBlock = () => {
+const RegisterBlock = ({ handleSubmitSingUp }) => {
   //useForm
   const {
     register,
@@ -50,22 +46,23 @@ const RegisterBlock = () => {
     resolver: yupResolver(schema), // set the validation schema resolver
   });
 
-  // const [isCaptchaVerify, setIsCaptchaVerify] = useState(false);
-  // const [captchaToken, setCaptchaToken] = useState("");
-  // const captcha = useRef(null);
-
-  const [isLoading, setIsLoading] = useState(false);
-
   //google auth provider from firebase
   const googleAuth = new GoogleAuthProvider();
+  // const { login } = useAuth();
 
   //Handle method of google login
   const handleGoogleSignup = async () => {
     try {
       const result = await signInWithPopup(auth, googleAuth);
-
       if (result && result.user) {
-        Router.push("/auth/survey");
+        const user = {
+          firstName: result.user?.displayName?.split(" ")?.[0] || "test",
+          lastName: result.user?.displayName?.split(" ")?.[1] || "user",
+          email: result.user.email,
+          authType: "google",
+          password: "Password1230*",
+        };
+        handleSubmitSingUp(user);
       }
     } catch (error) {
       // console.log("error :>> ", error);
@@ -73,39 +70,15 @@ const RegisterBlock = () => {
     }
   };
 
-  const handleFacebookSignup = async () => {
-    // console.log("facebook login clicked");
-  };
+  // const handleFacebookSignup = async () => {
+  //   console.log("facebook login clicked");
+  // };
 
   //Form submit method
   const onSubmitSingUp = async (data) => {
-    // if (!isCaptchaVerify) {
-    //   setError("captcha", { message: "Please verify captcha" });
-    //   return;
-    // }
-    setIsLoading(true);
-
     delete data.passwordConfirmation;
-    const response = await asyncSignUpService({ ...data, active: true });
-    setIsLoading(false);
-    if (response && response.isSuccess && response.data) {
-      createCookie(localStorageKeys.authKey, data.userId, 1);
-      // console.log(data);
-      // console.log("captchaToken :>> ", captchaToken);
-      Router.push("/auth/survey");
-    }
+    handleSubmitSingUp({ ...data, authType: "Credentials" });
   };
-
-  //captcha verification functions
-  // const onVerifyCaptchaCallback = (response) => {
-  //   setCaptchaToken(response);
-  //   setIsCaptchaVerify(true);
-  // };
-
-  // const onErrorInCaptcha = async () => {
-  //   setIsCaptchaVerify(false);
-  //   setCaptchaToken("");
-  // };
 
   return (
     <section className="mdf__login_right-block">
@@ -123,7 +96,7 @@ const RegisterBlock = () => {
           />
           Google
         </Button>
-        <Button className="ms-3" onClick={handleFacebookSignup}>
+        {/* <Button className="ms-3" onClick={handleFacebookSignup}>
           <Image
             className="social__icons"
             layout="fill"
@@ -131,7 +104,7 @@ const RegisterBlock = () => {
             alt=""
           />
           Facebook
-        </Button>
+        </Button> */}
       </div>
       <p className="mt-3">Or, sign-up with your email</p>
       <Form onSubmit={handleSubmit(onSubmitSingUp)}>
@@ -265,7 +238,6 @@ const RegisterBlock = () => {
           </p>
         </div>
       </Form>
-      <Loader isLoading={isLoading} />
     </section>
   );
 };

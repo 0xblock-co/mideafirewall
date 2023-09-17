@@ -3,6 +3,7 @@ import * as yup from "yup";
 
 import { localStorageKeys } from "./constants";
 import { readCookie } from "./cookieCreator";
+const jwt = require("jwt-simple");
 
 export const getFilteredData = (dataObj) => {
   const formElements = [];
@@ -43,11 +44,19 @@ export const getFilteredData = (dataObj) => {
           break;
 
         case "radio":
-          const options = question.options.map((option) => ({
-            image: option.urlToIcon,
-            value: option.id,
-            label: option.label,
-          }));
+          const options =
+            question.options && question.options.length > 0
+              ? question.options.map((option) => ({
+                  image: option.urlToIcon,
+                  value: option.id,
+                  label: option.label,
+                }))
+              : question.ranges.map((option) => ({
+                  endValue: option.endValue,
+                  startValue: option.startValue,
+                  label: option.label,
+                  value: option.label,
+                }));
           formElements.push({
             id: counter++,
             name: component.label.toLowerCase(),
@@ -88,6 +97,31 @@ export const getFilteredData = (dataObj) => {
               .required(`Please select at least one option`),
           });
           break;
+        case "scroller":
+          formElements.push({
+            id: counter++,
+            name: component.label.toLowerCase(),
+            label: component.label,
+            title: question.question,
+            type: "scroller",
+            isRender: false,
+            options: [],
+            defaultValues: component.defaultValue,
+            validation: yup
+              .number()
+              .typeError("Please enter a number")
+              .min(
+                component.minValue,
+                `Value must be greater than ${component.minValue}`
+              )
+              .max(
+                component.maxValue,
+                `Value must be less than ${component.maxValue}`
+              ),
+            minValue: component.minValue,
+            maxValue: component.maxValue,
+          });
+          break;
 
         default:
           break;
@@ -99,13 +133,43 @@ export const getFilteredData = (dataObj) => {
   return formElements;
 };
 
-export const checkIsAuth = () => {
+export const checkAuthRoute = () => {
   if (typeof window !== "undefined") {
     const user = readCookie(localStorageKeys.authKey);
     if (user) {
-      return true;
+      return {
+        isActive: true,
+        route: "/network-blog",
+      };
     }
-    return false;
   }
-  return false;
+  return { isActive: false, route: "/" };
+};
+
+export const encodeData = (data, key) => {
+  return jwt.encode(data, key);
+};
+
+export const decodeData = (token, key) => {
+  if (token) {
+    return jwt.decode(token, key);
+  } else {
+    return null;
+  }
+};
+
+export const getComponentType = (type) => {
+  switch (type) {
+    case "text-box":
+    case "email":
+      return "TEXTBOX";
+    case "checkbox":
+      return "CHECK_BOX";
+    case "radio":
+      return "CHOICE_BOX";
+    case "scroller":
+      return "SCROLLER";
+    default:
+      return "";
+  }
 };

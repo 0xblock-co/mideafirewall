@@ -4,17 +4,22 @@ import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth/Layout/surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import { useAuth } from "@/contexts/AuthContext";
 import { asyncSurveySubmitAnswers } from "@/services/auth/auth.service";
 import { asyncGetQuestions } from "@/services/product/product.service";
-import { checkIsAuth, getFilteredData } from "@/utils/globalFunctions";
+import { showToast } from "@/utils/alert";
+import { checkAuthRoute, getFilteredData } from "@/utils/globalFunctions";
 export default function Survey() {
   const [formData, setFormData] = useState([]);
   const [defaultValue, setDefaultValue] = useState({});
   const [formAnswerData, setFormAnswerData] = useState([]);
 
+  const { user } = useAuth();
+
   useEffect(() => {
-    if (!checkIsAuth()) {
-      Router.push("/");
+    const { isActive, route } = checkAuthRoute();
+    if (!isActive) {
+      Router.push(route);
       return;
     }
     getQuestions();
@@ -23,7 +28,7 @@ export default function Survey() {
   const getQuestions = async () => {
     const response = await asyncGetQuestions();
     if (response && response.isSuccess && response.data) {
-      const data = getFilteredData(response.data.items[0].questions);
+      const data = getFilteredData(response.data.questions);
       // console.log("data :>> ", data);
       // console.log("formElements 1 :>> ", formElements);
       if (data) {
@@ -40,9 +45,9 @@ export default function Survey() {
       }
     }
   };
-  const onSubmitForm = (data, id) => {
-    console.log("id: ", id);
-    console.log("data: ", data);
+  const onSubmitForm = async (data, id) => {
+    // console.log("id: ", id);
+    // console.log("data: ", data);
 
     const questionObj = formData.find((value) => value.id === id);
     const cloneFormAnswerData = cloneDeep(formAnswerData);
@@ -54,7 +59,7 @@ export default function Survey() {
         (item) => item.value == ans
       )?.label;
       ans = radioSelectedValue;
-      console.log("radioObj: ", radioSelectedValue);
+      // console.log("radioObj: ", radioSelectedValue);
     }
 
     const answerObj = {
@@ -74,55 +79,23 @@ export default function Survey() {
     }));
 
     if (id === lastElement.id) {
-      console.log("cloneFormAnswerData: Finall ", cloneFormAnswerData);
-      asyncSurveySubmitAnswers(cloneFormAnswerData);
-      Router.push("/network-blog");
-      return;
+      // console.log("cloneFormAnswerData: Finall ", cloneFormAnswerData);
+      const response = await asyncSurveySubmitAnswers(
+        cloneFormAnswerData,
+        user
+      );
+      if (response) {
+        if (response.isSuccess) {
+          Router.push("/network-blog");
+          return;
+        } else {
+          showToast("error", response?.message || "Something went wrong");
+          Router.reload();
+        }
+      }
     }
     setFormData(newFormData);
   };
-
-  // const onSubmitForm = (data, id) => {
-  //   console.log("id: ", id);
-  //   console.log("data: ", data);
-  //   const cloneFormAnswerData = cloneDeep(formAnswerData);
-  //   const lastElement = formData[formData?.length - 1];
-  //   console.log("formData: ", formData);
-  //   const newFormData = formData?.map((value) =>
-  //     value.id === id
-  //       ? { ...value, isRender: false }
-  //       : value.id === id + 1
-  //       ? { ...value, isRender: true }
-  //       : { ...value }
-  //   );
-
-  //   if (newFormData && newFormData.length > 0) {
-  //     const questionObj = newFormData.find((item) => {
-  //       return item.id == id;
-  //     });
-
-  //     let ans = data[questionObj.name];
-  //     if (questionObj.type == "radio") {
-  //       const radioSelectedValue = questionObj.options.find((item) => {
-  //         return item.value == ans;
-  //       }).label;
-  //       ans = radioSelectedValue;
-  //       console.log("radioObj: ", radioSelectedValue);
-  //     }
-  //     const answerObj = {
-  //       id: questionObj.id,
-  //       title: questionObj.label,
-  //       question: questionObj.title,
-  //       answers: Array.isArray(ans) ? ans : [ans],
-  //     };
-  //     cloneFormAnswerData.push(answerObj);
-  //     setFormAnswerData(cloneFormAnswerData);
-  //   }
-  //   if (id === lastElement.id) {
-  //     console.log("cloneFormAnswerData: Finall ", cloneFormAnswerData);
-  //   }
-  //   setFormData(newFormData);
-  // };
 
   return (
     <BoxContainerWithFilterIconWrapper>

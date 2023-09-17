@@ -8,7 +8,7 @@ const ForgotPasswordScreen = () => {
   return (
     <Fragment>
       <NextSeo title="Forgot Password" />
-      <BoxContainerWithFilterIconWrapper lg={8} xl={6}>
+      <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
         <ForgotPasswordBlock />
       </BoxContainerWithFilterIconWrapper>
     </Fragment>

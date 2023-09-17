@@ -14,18 +14,20 @@
   }
   @include media-breakpoints-down-sm{
     min-height: 100%;
-    padding: 1.5rem 0;
+    padding: 1.5rem 0;     
+    justify-content: center;
   }
   .mdf__banner_text {
     margin-left: 6rem;
-    width: 30%;
+    width: 25%;
     @include media-breakpoints-down-lg{
-      width: 40%;  
-      margin-left:0 ;
+      width: 42%;   
+      margin-left: 3rem;
       padding: 0 1rem;
     }
-    @include media-breakpoints-down-xs{
-      width: 100%; 
+    @include media-breakpoints-down-sm{
+      width: 100%;  
+      margin-left: 0; 
     }
     h1 {
       letter-spacing: 0.055em;
@@ -44,7 +46,7 @@
       background: transparent; 
       margin-top: 1rem;
     }
-    @include media-breakpoints-down-xs{
+    @include media-breakpoints-down-sm{
       width: 100%;  
       height: 230px;
       border-radius: 10px 10px 10px 10px;

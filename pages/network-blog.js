@@ -1,15 +1,27 @@
-import { Fragment } from "react";
+import Router from "next/router";
+import { Fragment, useEffect } from "react";
 
 import NeetworkBanner from "@/components/NetworkBlog/banner-top";
 import NeetworkBlock from "@/components/NetworkBlog/network-block";
+import { checkAuthRoute } from "@/utils/globalFunctions";
 
-export default function NetworkBlog() {
+const NetworkBlog = () => {
+  useEffect(() => {
+    const { isActive, route } = checkAuthRoute();
+    if (!isActive) {
+      Router.push(route);
+      return;
+    }
+  }, []);
+
   return (
     <Fragment>
-        <div className="bg__light_blue">
-        <NeetworkBanner/>
+      <div className="bg__light_blue">
+        <NeetworkBanner />
         <NeetworkBlock />
-        </div>
+      </div>
     </Fragment>
   );
-}
+};
+
+export default NetworkBlog;

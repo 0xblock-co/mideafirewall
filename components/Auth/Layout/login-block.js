@@ -4,23 +4,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
-import Router from "next/router";
-import React, { useCallback, useState } from "react";
-import { useContext } from "react";
+import { signIn } from "next-auth/react";
+import React, { useCallback } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { GoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 import { HiLockClosed, HiMail } from "react-icons/hi";
 import * as yup from "yup";
 
-import Loader from "@/components/Loader";
-import { AuthContext } from "@/pages/_app";
-import { asyncLoginService } from "@/services/auth/auth.service";
 import { auth } from "@/services/firebase";
 import { showToast } from "@/utils/alert";
-import { localStorageKeys, regex } from "@/utils/constants";
-import { createCookie } from "@/utils/cookieCreator";
+import { regex } from "@/utils/constants";
 
 //Validation Schema
 const schema = yup.object().shape({
@@ -37,8 +32,8 @@ const schema = yup.object().shape({
     .required("Password is required."),
 });
 
-const LoginBlock = () => {
-  const { handleLogin } = useContext(AuthContext);
+const LoginBlock = ({ handleLoginSubmit }) => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   //useForm
   const {
@@ -50,9 +45,6 @@ const LoginBlock = () => {
     resolver: yupResolver(schema), // set the validation schema resolver
   });
 
-  const [isCaptchaVerify, setIsCaptchaVerify] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   //google auth provider from firebase
   const googleAuth = new GoogleAuthProvider();
 
@@ -61,13 +53,13 @@ const LoginBlock = () => {
     try {
       const result = await signInWithPopup(auth, googleAuth);
       if (result && result.user) {
-        createCookie(localStorageKeys.authKey, result.user.email, 1);
-        handleLogin();
-        Router.push("/auth/survey");
+        const formData = {
+          email: result.user.email,
+          authType: "google",
+        };
+        await handleLoginSubmit(formData);
       }
-      // console.log("result :>> ", result);
     } catch (error) {
-      // console.log("error :>> ", error);
       showToast("error", error);
     }
   };
@@ -76,35 +68,21 @@ const LoginBlock = () => {
   //   console.log("facebook login clicked");
   // };
 
-  // Create an event handler so you can call the verification on button click event or form submit
-  const handleReCaptchaVerify = useCallback(async (token) => {
-    setCaptchaToken(token);
-    setIsCaptchaVerify(true);
-    // Do whatever you want with the token
-  }, []);
-
   //Form submit method
-  const onSubmitLogin = async (data) => {
-    if (!isCaptchaVerify) {
-      setError("captcha", { message: "Please verify captcha" });
-      return;
-    }
-    setIsLoading(true);
 
-    const params = {
-      email: data.email,
-      passWord: data.password,
-      recaptchaResponse: captchaToken,
-    };
-    const response = await asyncLoginService(params);
-    console.log("response :>> ", response);
-    setIsLoading(false);
-    if (response && response.isSuccess) {
-      createCookie(localStorageKeys.authKey, data.email, 1);
-      handleLogin();
-      Router.push("/auth/survey");
-    }
-  };
+  const onSubmitLogin = useCallback(
+    (data) => {
+      if (!executeRecaptcha) {
+        setError("captcha", { message: "Please verify captcha" });
+        return;
+      }
+      executeRecaptcha("login").then(async (gReCaptchaToken) => {
+        await handleLoginSubmit({ ...data, gReCaptchaToken });
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [executeRecaptcha, setError]
+  );
 
   //render method
   return (
@@ -123,15 +101,15 @@ const LoginBlock = () => {
           />
           Google
         </Button>
-        {/* <Button className="ms-3" onClick={handleFacebookLogin}>
+        <Button className="ms-3" onClick={() => signIn("linkedin")}>
           <Image
             className="social__icons"
             layout="fill"
             src="/images/facebook-icon.png"
             alt=""
           />
-          Facebook
-        </Button> */}
+          Linkedin
+        </Button>
       </div>
       <p className="mt-3">Or, sign-in with your email</p>
       <Form onSubmit={handleSubmit(onSubmitLogin)}>
@@ -174,7 +152,6 @@ const LoginBlock = () => {
           <span className="error-message">{errors.password.message}</span>
         )}
 
-        <GoogleReCaptcha onVerify={handleReCaptchaVerify} />
         {errors.captcha && (
           <span className="error-message">{errors.captcha.message}</span>
         )}
@@ -201,7 +178,6 @@ const LoginBlock = () => {
           </p>
         </div>
       </Form>
-      <Loader isLoading={isLoading} />
     </section>
   );
 };

@@ -7,25 +7,28 @@ import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
 export default function NeetworkBlock() {
   return (
-    <section className="p-5 mdf__network__block_tabs">
+    <section className="p-3 p-xl-5 mdf__network__block_tabs">
       <Container>
         <Row className="justify-content-center">
-          <Col md={10}>
+          <Col xl={10}>
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-              <Nav variant="pills" className="flex-row justify-content-around">
-                <Nav.Item>
+              <Nav
+                variant="pills"
+                className="flex-row flex-wrap justify-content-lg-around"
+              >
+                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
                   <Nav.Link eventKey="first">Micro Blogging</Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
                   <Nav.Link eventKey="second">Media Sharing</Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
                   <Nav.Link eventKey="third">Social Network</Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
                   <Nav.Link eventKey="forth">Real State Broker </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
                   <Nav.Link eventKey="fifth">Social Review Site </Nav.Link>
                 </Nav.Item>
               </Nav>
@@ -35,7 +38,7 @@ export default function NeetworkBlock() {
                     <Col md={4} xl={3} className="mt-4">
                       <Form.Control
                         type="checkbox"
-                        class="btn-check"
+                        className="btn-check"
                         id="btn-check-outlined012"
                         hidden
                       />
@@ -66,7 +69,7 @@ export default function NeetworkBlock() {
                     <Col md={4} xl={3} className="mt-4">
                       <Form.Control
                         type="checkbox"
-                        class="btn-check"
+                        className="btn-check"
                         id="btn-check-outlined013"
                         hidden
                       />
@@ -97,7 +100,7 @@ export default function NeetworkBlock() {
                     <Col md={4} xl={3} className="mt-4">
                       <Form.Control
                         type="checkbox"
-                        class="btn-check"
+                        className="btn-check"
                         id="btn-check-outlined014"
                         hidden
                       />
@@ -128,7 +131,7 @@ export default function NeetworkBlock() {
                     <Col md={4} xl={3} className="mt-4">
                       <Form.Control
                         type="checkbox"
-                        class="btn-check"
+                        className="btn-check"
                         id="btn-check-outlined015"
                         hidden
                       />
@@ -159,7 +162,7 @@ export default function NeetworkBlock() {
                     <Col md={4} xl={3} className="mt-4">
                       <Form.Control
                         type="checkbox"
-                        class="btn-check"
+                        className="btn-check"
                         id="btn-check-outlined016"
                         hidden
                       />
@@ -190,7 +193,7 @@ export default function NeetworkBlock() {
                     <Col md={4} xl={3} className="mt-4">
                       <Form.Control
                         type="checkbox"
-                        class="btn-check"
+                        className="btn-check"
                         id="btn-check-outlined017"
                         hidden
                       />
@@ -221,7 +224,7 @@ export default function NeetworkBlock() {
                     <Col md={4} xl={3} className="mt-4">
                       <Form.Control
                         type="checkbox"
-                        class="btn-check"
+                        className="btn-check"
                         id="btn-check-outlined018"
                         hidden
                       />
@@ -252,7 +255,7 @@ export default function NeetworkBlock() {
                     <Col md={4} xl={3} className="mt-4">
                       <Form.Control
                         type="checkbox"
-                        class="btn-check"
+                        className="btn-check"
                         id="btn-check-outlined019"
                         hidden
                       />
@@ -283,7 +286,7 @@ export default function NeetworkBlock() {
                     <Col md={4} xl={3} className="mt-4">
                       <Form.Control
                         type="checkbox"
-                        class="btn-check"
+                        className="btn-check"
                         id="btn-check-outlined020"
                         hidden
                       />

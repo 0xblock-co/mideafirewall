@@ -1,11 +1,11 @@
 import Router from "next/router";
 import React from "react";
-import { useContext } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
-import { AuthContext } from "@/pages/_app";
+import { useAuth } from "@/contexts/AuthContext";
+
 export default function OfferBlock() {
-  const { isLogin } = useContext(AuthContext);
+  const { isLogin } = useAuth();
 
   return (
     <section className="mdf__offer__block">

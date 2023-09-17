@@ -28,6 +28,9 @@
       width: 25%;
     }
     @include media-breakpoints-down-sm{
+      width: 33.333%;
+    }
+    @include media-breakpoints-down-xs{
       width: 50%;
     }
     .mdf__feature__card {

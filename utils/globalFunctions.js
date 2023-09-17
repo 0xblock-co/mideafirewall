@@ -6,7 +6,7 @@ import { readCookie } from "./cookieCreator";
 
 export const getFilteredData = (dataObj) => {
   const formElements = [];
-
+  let counter = 0;
   for (const category in dataObj) {
     for (const question of dataObj[category]) {
       const component = JSON.parse(question.component.customAttributes);
@@ -14,20 +14,20 @@ export const getFilteredData = (dataObj) => {
       switch (component.type) {
         case "text-box":
           formElements.push({
-            id: parseInt(question.id),
+            id: counter++,
             name: component.label.toLowerCase(),
             label: component.label,
             title: question.question,
             placeholder: component.placeholder,
             type: "text",
-            isRender: true,
+            isRender: false,
             validation: yup.string().required(`${component.label} is required`),
           });
           break;
 
         case "email":
           formElements.push({
-            id: parseInt(question.id),
+            id: counter++,
             name: component.label.toLowerCase(),
             label: component.label,
             title: question.question,
@@ -49,7 +49,7 @@ export const getFilteredData = (dataObj) => {
             label: option.label,
           }));
           formElements.push({
-            id: parseInt(question.id),
+            id: counter++,
             name: component.label.toLowerCase(),
             label: component.label,
             title: question.question,
@@ -74,7 +74,7 @@ export const getFilteredData = (dataObj) => {
             label: option.label,
           }));
           formElements.push({
-            id: parseInt(question.id),
+            id: counter++,
             name: component.label.toLowerCase(),
             label: component.label,
             title: question.question,

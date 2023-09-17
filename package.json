@@ -1,5 +1,5 @@
 {
-  "name": "mideafirewall",
+  "name": "medeafirewall",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint -- --fix"
+    "lint:fix": "next lint -- --fix",
+    "start:port": "next start -p $PORT",
+    "build:serve": "next start",
+    "build:serve:prod": "next start",
+    "start:local": "next start",
+    "lint:with:files": "eslint --fix \"./**/*.{js,jsx,ts,tsx,json}\"",
+    "format": "prettier  --write \"**/*.+(js|jsx|ts|tsx|json|css|less|md)\"",
+    "bump": "npm version --no-git-tag-version"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.0.0",

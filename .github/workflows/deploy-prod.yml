@@ -1,0 +1,94 @@
+name: (PROD) Code deploy
+# Trigger deployment only on push to master branch
+on:
+  workflow_dispatch:
+    inputs:
+      tagName:
+        description: "Ref (tag name, branch, etc.)"
+        default: ""
+        required: false
+
+jobs:
+  deploy:
+    name: "Build and Deploy"
+    environment: PROD
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["16.x"]
+    steps:
+      - name: Check Secrets
+        run: |
+          if [ "$SSH_PRIVATE_KEY" ] 
+          then 
+            echo "Found ec2 key."
+          fi
+        env:
+          SSH_PRIVATE_KEY: ${ { secrets.EC2_SSH_KEY }}
+
+      - name: Checkout ${{ inputs.tagName || github.ref }}
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.tagName || github.ref }}
+
+      - name: Setup and use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
+      - name: Cache next build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      - name: create env file
+        env:
+          ENV_FILE: "${{ vars.ENV_FILE }}"
+        run: |
+          touch .env
+          echo $ENV_FILE | base64 --decode > .env
+
+      - name: Run build task
+        run: npm run build --if-present
+
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: ".next scripts .env package.json"
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
+          EXCLUDE: ""
+        with:
+          SCRIPT_AFTER: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            sh ${{ secrets.TARGET_DIR }}/scripts/deploy-prod.sh

@@ -9,7 +9,7 @@ import {
   asyncCreateMeeting,
   asyncGetDefaultMeeting,
 } from "@/services/product/product.service";
-import { showToast } from "@/utils/alert";
+import { showToast } from "@/components/ToastContainer/toaster";
 export default function LandingScreen() {
   const { user } = useAuth();
 

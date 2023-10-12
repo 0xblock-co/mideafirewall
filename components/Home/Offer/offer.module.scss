@@ -1,6 +1,8 @@
-.mdf__offer__block { 
-  padding: 80px 0; 
-  @include media-breakpoints-down-lg{
+@import "@/styles/common.scss";
+
+.mdf__offer__block {
+  padding: 80px 0;
+  @include media-breakpoints-down-lg {
     padding: 40px 0;
   }
 }

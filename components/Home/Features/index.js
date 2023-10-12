@@ -1,191 +1,127 @@
-import React from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
 
-export default function FeatureBlog() {
+import { newInfoAlert } from "@/utils/toastMessage.utils";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+import { FormattedMessage } from "react-intl";
+import style from "./feature.module.scss";
+import { useState } from "react";
+
+export default function FeatureBlog({ headerData }) {
+  const [activeTab, setActiveTab] = useState("2");
+  const handleTabChange = (key) => setActiveTab(key);
+
+  const handleFeatureCardOnClick = (feature) => {
+    if (!feature.active) {
+      newInfoAlert(
+        "Personalized Feature Activation",
+        "If you'd like to activate this feature for your account, please get in touch with us via email, and we'll take care of it for you.",
+        "Okay"
+      );
+    }
+  };
+
+  const Link = ({ id, children, title }) => (
+    <OverlayTrigger
+      placement="right"
+      overlay={<Tooltip id={id}>{title}</Tooltip>}
+    >
+      <a href="#">{children}</a>
+    </OverlayTrigger>
+  );
+
   return (
-    <section className="mdf__personalized_feature">
+    <section className={style.mdf__personalized_feature}>
       <Container fluid className="px-xl-5">
         <Row className="justify-content-center">
           <Col xxl={5}>
             <h1 className="fw-bold text-shadow text-center">
-              Personalized features to match your requirements
+              <FormattedMessage id="page.home.featureBlog.mainTitle" />
             </h1>
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={10} xxl={9} className="d-flex flex-wrap justify-content-md-around">
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
-              Micro Blogging
-            </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
-              Real State Broker
-            </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
-              Social Review Sites
-            </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
-              Media Sharing{" "}
-            </Button>
-            <Button variant="outline-primary" className="mdf__btn-large mt-3 me-3 me-md-0 mt-lg-4">
-              Social Network
-            </Button>
+          <Col
+            xl={10}
+            // xxl={9}
+            className="mt-4"
+          >
+            <Tab.Container
+              id="left-tabs-example"
+              activeKey={activeTab}
+              onSelect={handleTabChange}
+            >
+              <Nav
+                variant="pills"
+                className="flex-row flex-wrap justify-content-lg-around gap-1"
+              >
+                {headerData?.map(
+                  (headerOption) =>
+                    headerOption.active && (
+                      <Nav.Item key={headerOption.id}>
+                        <Nav.Link
+                          className="mdf__btn_large"
+                          eventKey={headerOption.id}
+                        >
+                          {headerOption.name}
+                        </Nav.Link>
+                      </Nav.Item>
+                    )
+                )}
+              </Nav>
+              <Tab.Content>
+                {headerData?.map((headerOption) => (
+                  <Tab.Pane key={headerOption.id} eventKey={headerOption.id}>
+                    <Row className="justify-content-lg-center">
+                      {headerOption.features.map((feature, index) => (
+                        <div
+                          key={index}
+                          className={`${style.mdf__feature__card_block} col-md-6 `}
+                          onClick={() => handleFeatureCardOnClick(feature)}
+                        >
+                          <Card
+                            className={`${style.mdf__feature__card} ${
+                              !feature.active
+                                ? style.mdf__feature__card_inactive
+                                : ""
+                            } `}
+                          >
+                            <Row>
+                              <Col xs={4} xl={3}>
+                                {/* <Image
+                                  variant="top"
+                                  src={feature.imgUrl}
+                                  alt={feature.name}
+                                /> */}
+                                <img
+                                  src={feature.imgUrl}
+                                  alt={feature.name}
+                                />
+                              </Col>
+                              <Col xs={8} xl={9}>
+                                <div className="p-0">
+                                  <h6
+                                    className={`text-primary mt-0 ${style.later__spacing}`}
+                                  >
+                                    {feature.name}
+                                  </h6>
+                                  <p className={`${style.text_wrap}`}>
+                                    {feature.description}
+                                    {/* <Link title={feature.description} id={feature.index}>
+                                     </Link>{' '} */}
+                                  </p>
+                                </div>
+                              </Col>
+                            </Row>
+                          </Card>
+                        </div>
+                      ))}
+                    </Row>
+                  </Tab.Pane>
+                ))}
+              </Tab.Content>
+            </Tab.Container>
           </Col>
-        </Row>
-        <Row className="justify-content-lg-center">
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature01.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  Nudity Detection
-                </h6>
-                <p>
-                  Determine the nudity level, from explicit to mildly suggestive
-                </p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature02.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  Violence Detection
-                </h6>
-                <p>Detect violent and inappropriate content</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature03.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  Image light Quality
-                </h6>
-                <p>Detects light quality of image</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature04.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  Violent Text
-                </h6>
-                <p>Detects violent text from the image</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature05.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  GDPR
-                </h6>
-                <p>Detects Government documents from the image</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature01.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  Nudity Detection
-                </h6>
-                <p>
-                  Determine the nudity level, from explicit to mildly suggestive
-                </p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature02.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  Violence Detection
-                </h6>
-                <p>Detect violent and inappropriate content</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature03.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  Image light Quality
-                </h6>
-                <p>Detects light quality of image</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature04.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  Violent Text
-                </h6>
-                <p>Detects violent text from the image</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="mdf__feature__card_block px-3 px-xl-4">
-            <Card className="mdf__feature__card">
-              <Card.Img
-                variant="top"
-                src="/images/feature05.png"
-                className="mdf__img-rounded"
-              />
-              <Card.Body className="text-center p-1">
-                <h6 className="text-primary text-decoration-underline later__spacing">
-                  GDPR
-                </h6>
-                <p>Detects Government documents from the image</p>
-              </Card.Body>
-            </Card>
-          </div>
         </Row>
       </Container>
     </section>

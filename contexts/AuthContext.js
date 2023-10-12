@@ -1,9 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import { localStorageKeys } from "@/utils/constants";
-import { readCookie } from "@/utils/cookieCreator";
-import { createCookie } from "@/utils/cookieCreator";
-import { eraseCookie } from "@/utils/cookieCreator";
+import { localStorageKeys } from "@/constants/global.constants";
+import { createCookie, eraseCookie, readCookie } from "@/utils/cookieCreator";
 import { decodeData, encodeData } from "@/utils/globalFunctions";
 
 //api here is an axios instance which has the baseURL set according to the env.
@@ -13,6 +11,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [allFeatures, setAllFeatures] = useState([]);
 
   useEffect(() => {
     async function loadUserFromCookies() {
@@ -39,9 +38,21 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const setAllFeatureList = (featureList) => {
+    setAllFeatures(featureList);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isLogin: !!user, user, login, loading, logout }}
+      value={{
+        isLogin: !!user,
+        user,
+        login,
+        loading,
+        logout,
+        setAllFeatureList,
+        allFeatures,
+      }}
     >
       {children}
     </AuthContext.Provider>

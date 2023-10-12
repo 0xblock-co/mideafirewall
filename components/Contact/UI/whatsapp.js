@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { Button, Card } from "react-bootstrap";
 
+import style from "../contact.module.scss";
+
 const WhatsAppChat = ({ phone, message }) => {
   const handleClickOnWhatsapp = () => {
     window.open(
@@ -10,9 +12,9 @@ const WhatsAppChat = ({ phone, message }) => {
   };
 
   return (
-    <Card className="mdf__chatcard">
+    <Card className={style.mdf__chatcard}>
       <Image
-        className="chat__icons"
+        className={style.chat__icons}
         layout="fill"
         src="/images/Whatsapp.png"
         alt="A globe icon with filter and text."

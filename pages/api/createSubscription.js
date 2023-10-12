@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const stripe = require("stripe")(process.env.NEXT_PUBLIC_STRIPE_SERVER_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
 module.exports = async (request, res) => {
   const { email, payment_method, name, priceId } = request.body;
   try {

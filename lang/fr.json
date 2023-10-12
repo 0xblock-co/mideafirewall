@@ -1,0 +1,22 @@
+{
+  "button.See Demo": "Voir la démo",
+  "button.Contact Us": "Contactez-nous",
+  "button.See pricing": "Voir les tarifs",
+  "button.Micro Blogging": "Microblogging",
+  "button.Real State Broker": "Agent immobilier",
+  "button.Social Review Sites": "Sites d'avis sociaux",
+  "button.Media Sharing": "Partage de médias",
+  "button.Social Network": "Réseau social",
+  "page.home.banner.mainTitle": "L'outil ultime de <span>modération de contenu</span> par IA",
+  "page.home.banner.paragraph": "Media Firewall est un puissant outil de modération de contenu basé sur l'IA qui aide les communautés en ligne à maintenir leurs plateformes sûres et exemptes de contenu nuisible.",
+  "page.home.moderation.mainTitle": "Dites adieu à la modération manuelle traditionnelle coûteuse",
+  "page.home.moderation.Traditional Manual moderation": "Modération manuelle traditionnelle",
+  "page.home.moderation.listItem.Time-consuming": "<strong>Chronophage :</strong> Cela nécessite beaucoup de temps et d'efforts.",
+  "page.home.moderation.listItem.Inconsistent": "<strong>Incohérente :</strong> Les décisions de modération peuvent varier entre les modérateurs.",
+  "page.home.moderation.listItem.Limited Scale": "<strong>Échelle limitée :</strong> La modération manuelle devient difficile à grande échelle.",
+  "page.home.moderation.listItem.Costly": "<strong>Coûteuse :</strong> Cela nécessite des modérateurs dédiés, ce qui ajoute des coûts.",
+  "page.home.moderation.listItem.Human Error": "<strong>Erreur humaine :</strong> Les modérateurs sont susceptibles de commettre des erreurs.",
+  "page.home.moderation.Midea Firewall Content Moderation": "Modération de contenu Media Firewall",
+  "page.home.featureBlog.mainTitle": "Fonctionnalités personnalisées pour correspondre à vos besoins",
+  "page.home.offerBlock.mainTitle": "Commencez à économiser <span>80%</span> de votre temps et de votre budget dès aujourd'hui !"
+}

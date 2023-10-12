@@ -1,10 +1,11 @@
+@import "@/styles/common.scss";
+
 .mdf__personalized_feature {
-  background: #e8e7f3;
   padding: 80px 0;
-  @include media-breakpoints-down-lg{
+  @include media-breakpoints-down-lg {
     padding: 40px 0;
   }
-  .mdf__btn-large {
+  .mdf__btn_large {
     background: #f6ecec;
     border: 1px solid #5e0496;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -15,48 +16,53 @@
     &:hover {
       color: #fff;
       background: #5e0496;
-    } 
-    @include media-breakpoints-down-lg{
+    }
+    @include media-breakpoints-down-lg {
       padding: 0.5rem 1rem;
       border-radius: 4px;
     }
   }
-  .mdf__feature__card_block{
-    width: 19.3333%; 
+  .mdf__feature__card_block {
     margin-top: 2rem;
-    @include media-breakpoints-down-md{
-      width: 25%;
-    }
-    @include media-breakpoints-down-sm{
-      width: 33.333%;
-    }
-    @include media-breakpoints-down-xs{
-      width: 50%;
-    }
     .mdf__feature__card {
-      border: double 0.25em transparent;
-      border-radius: 30px;
+      display: -webkit-box;
+      border: 1px solid #c8c8c8;
+      border-radius: 20px;
       height: 100%;
-      background-image: linear-gradient(white, white),
-        linear-gradient(to bottom, rgba(142, 0, 210, 1), rgba(150, 0, 222, 0));
-      background-origin: border-box;
-      background-clip: content-box, border-box;
-      box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.55);
-      img{
-        border-top-left-radius: 27px;
-        border-top-right-radius: 27px;
+      box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
+      padding: 1rem;
+      cursor: pointer;
+      &.mdf__feature__card_inactive {
+        background-color: #5e04965a;
+        // mix-blend-mode: overlay;
+        cursor: not-allowed;
+      }
+      img {
+        border-radius: 18px;
         width: 100%;
-        height: 245px;
+        border: 1px solid #c8c8c8;
+        height: 120px;
         object-fit: cover;
       }
     }
-    .later__spacing{
-      letter-spacing: 2.75px;
-      text-underline-position: under;
+    .later__spacing {
       margin-top: 1rem;
+      font-size: 1.15rem;
     }
-    p{
+    a,
+    p {
       font-size: 12px;
+      text-decoration: none;
+      color: #595959;
+      line-height: 1.5;
+    }
+    .text_wrap {
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0;
     }
   }
 }

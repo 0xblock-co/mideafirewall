@@ -1,335 +1,233 @@
-import Image from "next/image";
-import Router from "next/router";
-import React from "react";
+import CommonUtility from "@/utils/common.utils";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
-export default function NeetworkBlock() {
+import style from "./network-blog.module.scss";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAppSelector } from "@/store/hooks";
+import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
+
+export default function NeetworkBlock({ allFeatures }) {
+  const headerData = useAppSelector(getAllHeaderDataOptions);
+  const [activeTab, setActiveTab] = useState("2");
+  const handleTabChange = (key) => setActiveTab(key);
+
+  const router = useRouter();
+  const { isLogin } = useAuth();
+  const [selectedFeatureIds, setSelectedFeatureIds] = useState([]); // Store selected feature IDs
+  const [selectedOptions, setSelectedOptions] = useState({}); // Store selected options
+  useEffect(() => {
+    console.log("selectedOptions::", selectedOptions);
+  }, [selectedOptions]);
+  const handleCheckboxChange = (featureId) => {
+    if (selectedFeatureIds.includes(featureId)) {
+      setSelectedFeatureIds(
+        selectedFeatureIds.filter((id) => id !== featureId)
+      );
+    } else {
+      setSelectedFeatureIds([...selectedFeatureIds, featureId]);
+    }
+  };
+
+  const handleOptionChange = (featureId, selectedOption) => {
+    console.log("featureId, selectedOption .", featureId, selectedOption);
+    setSelectedOptions({ ...selectedOptions, [featureId]: selectedOption });
+  };
+
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!isLogin) {
+        newInfoAlert(
+          "Login Required for Demo Access",
+          "To access the demo, you need to either log in or sign up for an account. Please proceed with login or sign-up to get a demo.",
+          "Continue",
+          "warning"
+        ).then(() => {
+          router.push("/account-security/login");
+        });
+        return;
+      }
+      const formData = {
+        selectedFeatureIds,
+        selectedOptions,
+      };
+      if (formData) {
+        if (CommonUtility.isValidArray(formData.selectedFeatureIds)) {
+          let finalString = "";
+          formData.selectedFeatureIds.map((item) => {
+            if (formData.selectedOptions[item]) {
+              finalString =
+                finalString +
+                `,${item}(${CommonUtility.removeWhiteSpace(
+                  formData.selectedOptions[item]
+                )})`;
+            } else {
+              finalString = finalString + `,${item}`;
+            }
+          });
+
+          if (finalString && finalString !== "") {
+            router.push(
+              `upload?filters=${CommonUtility.removeStartingComma(
+                finalString.trim()
+              )}`
+            );
+          }
+        } else {
+          newInfoAlert(
+            "",
+            "Please select any features along with associated sub feature.",
+            "OK"
+          );
+        }
+      }
+    },
+    [selectedFeatureIds, selectedOptions]
+  );
+
   return (
-    <section className="p-3 p-xl-5 mdf__network__block_tabs">
-      <Container>
-        <Row className="justify-content-center">
-          <Col xl={10}>
-            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-              <Nav
-                variant="pills"
-                className="flex-row flex-wrap justify-content-lg-around"
+    <section className={`p-3 p-xl-5 ${style.mdf__network__block_tabs}`}>
+      <Form onSubmit={onSubmit}>
+        <Container>
+          <Row className="justify-content-center">
+            <Col xl={10}>
+              <Tab.Container
+                id="left-tabs-example"
+                activeKey={activeTab}
+                onSelect={handleTabChange}
               >
-                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
-                  <Nav.Link eventKey="first">Micro Blogging</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
-                  <Nav.Link eventKey="second">Media Sharing</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
-                  <Nav.Link eventKey="third">Social Network</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
-                  <Nav.Link eventKey="forth">Real State Broker </Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="me-3 me-lg-0 mt-3 mt-lg-0">
-                  <Nav.Link eventKey="fifth">Social Review Site </Nav.Link>
-                </Nav.Item>
-              </Nav>
-              <Tab.Content>
-                <Tab.Pane eventKey="first">
-                  <Row>
-                    <Col md={4} xl={3} className="mt-4">
-                      <Form.Control
-                        type="checkbox"
-                        className="btn-check"
-                        id="btn-check-outlined012"
-                        hidden
-                      />
-                      <label
-                        className="btn btn-outline-primary card__primary"
-                        htmlFor="btn-check-outlined012"
-                      >
-                        <div>
-                          <Image
-                            className="mdf__card_img"
-                            layout="fill"
-                            src="/images/blog.png"
-                            alt="A globe icon with filter and text."
-                          />
-                        </div>
-                        <Button variant="primary" className="mt-3">
-                          Nudity Filter
-                        </Button>
-                        <p className="fw-semibold mt-3">
-                          Determine the nudity level, from explicit to mildly
-                          suggestive
-                        </p>
-                        <Button variant="primary" size="sm">
-                          See Demo
-                        </Button>
-                      </label>
-                    </Col>
-                    <Col md={4} xl={3} className="mt-4">
-                      <Form.Control
-                        type="checkbox"
-                        className="btn-check"
-                        id="btn-check-outlined013"
-                        hidden
-                      />
-                      <label
-                        className="btn btn-outline-primary card__primary"
-                        htmlFor="btn-check-outlined013"
-                      >
-                        <div>
-                          <Image
-                            className="mdf__card_img"
-                            layout="fill"
-                            src="/images/blog.png"
-                            alt="A globe icon with filter and text."
-                          />
-                        </div>
-                        <Button variant="primary" className="mt-3">
-                          Nudity Filter
-                        </Button>
-                        <p className="fw-semibold mt-3">
-                          Determine the nudity level, from explicit to mildly
-                          suggestive
-                        </p>
-                        <Button variant="primary" size="sm">
-                          See Demo
-                        </Button>
-                      </label>
-                    </Col>
-                    <Col md={4} xl={3} className="mt-4">
-                      <Form.Control
-                        type="checkbox"
-                        className="btn-check"
-                        id="btn-check-outlined014"
-                        hidden
-                      />
-                      <label
-                        className="btn btn-outline-primary card__primary"
-                        htmlFor="btn-check-outlined014"
-                      >
-                        <div>
-                          <Image
-                            className="mdf__card_img"
-                            layout="fill"
-                            src="/images/blog.png"
-                            alt="A globe icon with filter and text."
-                          />
-                        </div>
-                        <Button variant="primary" className="mt-3">
-                          Nudity Filter
-                        </Button>
-                        <p className="fw-semibold mt-3">
-                          Determine the nudity level, from explicit to mildly
-                          suggestive
-                        </p>
-                        <Button variant="primary" size="sm">
-                          See Demo
-                        </Button>
-                      </label>
-                    </Col>
-                    <Col md={4} xl={3} className="mt-4">
-                      <Form.Control
-                        type="checkbox"
-                        className="btn-check"
-                        id="btn-check-outlined015"
-                        hidden
-                      />
-                      <label
-                        className="btn btn-outline-primary card__primary"
-                        htmlFor="btn-check-outlined015"
-                      >
-                        <div>
-                          <Image
-                            className="mdf__card_img"
-                            layout="fill"
-                            src="/images/blog.png"
-                            alt="A globe icon with filter and text."
-                          />
-                        </div>
-                        <Button variant="primary" className="mt-3">
-                          Nudity Filter
-                        </Button>
-                        <p className="fw-semibold mt-3">
-                          Determine the nudity level, from explicit to mildly
-                          suggestive
-                        </p>
-                        <Button variant="primary" size="sm">
-                          See Demo
-                        </Button>
-                      </label>
-                    </Col>
-                    <Col md={4} xl={3} className="mt-4">
-                      <Form.Control
-                        type="checkbox"
-                        className="btn-check"
-                        id="btn-check-outlined016"
-                        hidden
-                      />
-                      <label
-                        className="btn btn-outline-primary card__primary"
-                        htmlFor="btn-check-outlined016"
-                      >
-                        <div>
-                          <Image
-                            className="mdf__card_img"
-                            layout="fill"
-                            src="/images/blog.png"
-                            alt="A globe icon with filter and text."
-                          />
-                        </div>
-                        <Button variant="primary" className="mt-3">
-                          Nudity Filter
-                        </Button>
-                        <p className="fw-semibold mt-3">
-                          Determine the nudity level, from explicit to mildly
-                          suggestive
-                        </p>
-                        <Button variant="primary" size="sm">
-                          See Demo
-                        </Button>
-                      </label>
-                    </Col>
-                    <Col md={4} xl={3} className="mt-4">
-                      <Form.Control
-                        type="checkbox"
-                        className="btn-check"
-                        id="btn-check-outlined017"
-                        hidden
-                      />
-                      <label
-                        className="btn btn-outline-primary card__primary"
-                        htmlFor="btn-check-outlined017"
-                      >
-                        <div>
-                          <Image
-                            className="mdf__card_img"
-                            layout="fill"
-                            src="/images/blog.png"
-                            alt="A globe icon with filter and text."
-                          />
-                        </div>
-                        <Button variant="primary" className="mt-3">
-                          Nudity Filter
-                        </Button>
-                        <p className="fw-semibold mt-3">
-                          Determine the nudity level, from explicit to mildly
-                          suggestive
-                        </p>
-                        <Button variant="primary" size="sm">
-                          See Demo
-                        </Button>
-                      </label>
-                    </Col>
-                    <Col md={4} xl={3} className="mt-4">
-                      <Form.Control
-                        type="checkbox"
-                        className="btn-check"
-                        id="btn-check-outlined018"
-                        hidden
-                      />
-                      <label
-                        className="btn btn-outline-primary card__primary"
-                        htmlFor="btn-check-outlined018"
-                      >
-                        <div>
-                          <Image
-                            className="mdf__card_img"
-                            layout="fill"
-                            src="/images/blog.png"
-                            alt="A globe icon with filter and text."
-                          />
-                        </div>
-                        <Button variant="primary" className="mt-3">
-                          Nudity Filter
-                        </Button>
-                        <p className="fw-semibold mt-3">
-                          Determine the nudity level, from explicit to mildly
-                          suggestive
-                        </p>
-                        <Button variant="primary" size="sm">
-                          See Demo
-                        </Button>
-                      </label>
-                    </Col>
-                    <Col md={4} xl={3} className="mt-4">
-                      <Form.Control
-                        type="checkbox"
-                        className="btn-check"
-                        id="btn-check-outlined019"
-                        hidden
-                      />
-                      <label
-                        className="btn btn-outline-primary card__primary"
-                        htmlFor="btn-check-outlined019"
-                      >
-                        <div>
-                          <Image
-                            className="mdf__card_img"
-                            layout="fill"
-                            src="/images/blog.png"
-                            alt="A globe icon with filter and text."
-                          />
-                        </div>
-                        <Button variant="primary" className="mt-3">
-                          Nudity Filter
-                        </Button>
-                        <p className="fw-semibold mt-3">
-                          Determine the nudity level, from explicit to mildly
-                          suggestive
-                        </p>
-                        <Button variant="primary" size="sm">
-                          See Demo
-                        </Button>
-                      </label>
-                    </Col>
-                    <Col md={4} xl={3} className="mt-4">
-                      <Form.Control
-                        type="checkbox"
-                        className="btn-check"
-                        id="btn-check-outlined020"
-                        hidden
-                      />
-                      <label
-                        className="btn btn-outline-primary card__primary"
-                        htmlFor="btn-check-outlined020"
-                      >
-                        <div>
-                          <Image
-                            className="mdf__card_img"
-                            layout="fill"
-                            src="/images/blog.png"
-                            alt="A globe icon with filter and text."
-                          />
-                        </div>
-                        <Button variant="primary" className="mt-3">
-                          Nudity Filter
-                        </Button>
-                        <p className="fw-semibold mt-3">
-                          Determine the nudity level, from explicit to mildly
-                          suggestive
-                        </p>
-                        <Button variant="primary" size="sm">
-                          See Demo
-                        </Button>
-                      </label>
-                    </Col>
-                  </Row>
-                </Tab.Pane>
-              </Tab.Content>
-            </Tab.Container>
-          </Col>
-          <Col md={12} className="text-center">
-            <Button
-              variant="primary"
-              className="shadow-lg px-5 py-2 mt-5 rounded-4"
-              onClick={() => Router.push("/upload")}
-            >
-              Proceed
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+                <Nav
+                  variant="pills"
+                  className="flex-row flex-wrap justify-content-lg-around"
+                >
+                  {CommonUtility.isValidArray(headerData) &&
+                    headerData.map(
+                      (headerOption) =>
+                        headerOption.active && (
+                          <Nav.Item
+                            key={headerOption.id}
+                            className="me-3 me-lg-0 mt-3 mt-lg-0"
+                          >
+                            <Nav.Link
+                              className="mdf__btn_large"
+                              eventKey={headerOption.id}
+                            >
+                              {headerOption.name}
+                            </Nav.Link>
+                          </Nav.Item>
+                        )
+                    )}
+                </Nav>
+                <Tab.Content>
+                  {headerData?.map((headerOption) => (
+                    <Tab.Pane key={headerOption.id} eventKey={headerOption.id}>
+                      <Row>
+                        {CommonUtility.isValidArray(allFeatures) &&
+                          allFeatures.map((item) => (
+                            <Col md={6} xl={4} className="mt-4" key={item.name}>
+                              <Form.Control
+                                type="checkbox"
+                                className="btn-check"
+                                value={item.webFeatureKey}
+                                id={`btn-check-outlined ${item.featureId}`}
+                                hidden
+                                onChange={() => {
+                                  if (!item.active) {
+                                    newInfoAlert(
+                                      "Personalized Feature Activation",
+                                      "If you'd like to activate this feature for your account, please get in touch with us via email, and we'll take care of it for you.",
+                                      "Okay"
+                                    );
+                                  }
+                                  handleCheckboxChange(item.webFeatureKey);
+                                }}
+                              />
+                              <label
+                                className={`btn btn-outline ${
+                                  style.card__primary
+                                } ${
+                                  !item.active
+                                    ? style.mdf__feature__card_inactive
+                                    : ""
+                                }`}
+                                htmlFor={`btn-check-outlined ${item.featureId}`}
+                              >
+                                <div>
+                                  <img
+                                    className={`${style.mdf__card_img}`}
+                                    src={item.imgUrl}
+                                    alt="A globe icon with filter and text."
+                                  />
+                                  {/* <Image
+                                    className={`${style.mdf__card_img}`}
+                                    layout="fill"
+                                    src={item.imgUrl}
+                                    alt="A globe icon with filter and text."
+                                  /> */}
+                                </div>
+                                <h5 className="text-dark mt-3 mb-3">
+                                  {item.name}
+                                </h5>
+                                <p className="mt-3">{item.description}</p>
+                                <div className="d-flex flex-wrap mt-3 gap-3">
+                                  {CommonUtility.isValidArray(item.options) &&
+                                    item.options.map((opt) => {
+                                      return (
+                                        <div key={item.featureId + opt.name}>
+                                          <input
+                                            type="radio"
+                                            className="btn-check"
+                                            name={opt.name}
+                                            checked={
+                                              selectedOptions[
+                                                item.webFeatureKey
+                                              ] === opt.name
+                                            }
+                                            onChange={() =>
+                                              handleOptionChange(
+                                                item.webFeatureKey,
+                                                opt.name
+                                              )
+                                            }
+                                            id={item.featureId + opt.name}
+                                            autoComplete="off"
+                                          />
+                                          <label
+                                            className="btn btn-outline-dark px-2 text-xs"
+                                            htmlFor={item.featureId + opt.name}
+                                          >
+                                            {opt.name}
+                                          </label>
+                                        </div>
+                                      );
+                                    })}
+                                </div>
+                              </label>
+                            </Col>
+                          ))}
+                      </Row>
+                    </Tab.Pane>
+                  ))}
+                </Tab.Content>
+              </Tab.Container>
+            </Col>
+            <Col md={12} className="text-center">
+              <Button
+                type="submit"
+                variant="primary"
+                className="shadow-lg px-5 py-2 mt-5 rounded-4"
+              >
+                Proceed
+              </Button>
+            </Col>
+          </Row>
+        </Container>
+      </Form>
     </section>
   );
 }

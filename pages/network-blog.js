@@ -1,27 +1,37 @@
-import Router from "next/router";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 
 import NeetworkBanner from "@/components/NetworkBlog/banner-top";
 import NeetworkBlock from "@/components/NetworkBlog/network-block";
-import { checkAuthRoute } from "@/utils/globalFunctions";
+import style from "@/components/NetworkBlog/network-blog.module.scss";
+import {
+  getAllFeatures,
+  getRunningQueriesThunk,
+} from "@/services/shared/common.service";
+import { wrapper } from "@/store";
 
-const NetworkBlog = () => {
-  useEffect(() => {
-    const { isActive, route } = checkAuthRoute();
-    if (!isActive) {
-      Router.push(route);
-      return;
-    }
-  }, []);
-
+const NetworkBlog = (props) => {
   return (
     <Fragment>
-      <div className="bg__light_blue">
+      <div className={style.bg__light_blue}>
         <NeetworkBanner />
-        <NeetworkBlock />
+        <NeetworkBlock
+          allFeatures={
+            props.result.data?.isSuccess && props.result.data?.response
+          }
+        />
       </div>
     </Fragment>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    store.dispatch(getAllFeatures.initiate({}));
+    const res = await Promise.all(store.dispatch(getRunningQueriesThunk()));
+    return {
+      props: { result: res[0] },
+    };
+  }
+);
 
 export default NetworkBlog;

@@ -1,3 +1,4 @@
+import { COUNTRY_LIST_WITH_CODE } from "@/data";
 import {
   CardCvcElement,
   CardExpiryElement,
@@ -5,11 +6,10 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 
-import { countryList } from "@/utils/constants";
 const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function PaymentRightBlock({ handlePaymentSubmit }) {
@@ -149,7 +149,7 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
   };
 
   return (
-    <div className="mdf__payment-right-banner p-5">
+    <div className={`mdf__payment-right-banner p-5`}>
       <h4>Pay with card</h4>
       <Form.Group className="mt-3" controlId="exampleForm.ControlInput56">
         <Form.Control
@@ -238,7 +238,7 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
           onChange={(e) => handleOnChangeFields(e, "country")}
         >
           <option defaultValue="">Select Country</option>
-          {countryList.map((country, index) => {
+          {COUNTRY_LIST_WITH_CODE.map((country, index) => {
             return (
               <option value={country.code} key={index}>
                 {country.name}

@@ -1,12 +1,12 @@
-import Router from "next/router";
 import { NextSeo } from "next-seo";
+import Router from "next/router";
 import { Fragment, useEffect, useState } from "react";
 
-import RegisterBlock from "@/components/Auth/Layout/register-block";
+import RegisterBlock from "@/components/Auth//register-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
 import { useAuth } from "@/contexts/AuthContext";
-import { asyncSignUpService } from "@/services/auth/auth.service";
+import { asyncLoginAndSignupService } from "@/services/auth/auth.service";
 import { checkAuthRoute } from "@/utils/globalFunctions";
 
 const SignupScreen = () => {
@@ -21,20 +21,30 @@ const SignupScreen = () => {
     }
   }, []);
 
-  const handleSubmitSingUp = async (data) => {
+  const handleSubmitSingUp = async (formData) => {
     setIsLoading(true);
+    const params = {
+      email: formData.email,
+      passWord: formData.password || "",
+      recaptchaResponse: formData.gReCaptchaToken,
+      authType: formData?.authType || "",
+    };
 
-    delete data.passwordConfirmation;
-    const response = await asyncSignUpService({ ...data, active: true });
+    const response = await asyncLoginAndSignupService(
+      params,
+      formData?.idToken
+    );
     setIsLoading(false);
     if (response && response.isSuccess && response.data) {
       const { user, userToken } = response.data;
-      login({ ...user, ...userToken });
-      if (user.isSurveyDone) {
-        Router.push("/network-blog");
+      // TODO:: Need to handle survey form api Currently it's not getting proper response
+      Router.push("/network-blog");
+      if (user.survey) {
+        // Router.push("/network-blog");
       } else {
-        Router.push("/survey");
+        // Router.push("/survey");
       }
+      login({ ...user, ...userToken });
     }
   };
 

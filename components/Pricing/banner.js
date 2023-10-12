@@ -1,8 +1,9 @@
-import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
+
+import style from "./pricing.module.scss";
 export default function PricingBanner() {
   return (
-    <section className="mdf__pricing-banner">
+    <section className={style.mdf__pricing_banner}>
       <Container>
         <Row className="justify-content-center">
           <Col md={6} xl={4} className="text-center">

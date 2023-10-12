@@ -1,13 +1,17 @@
 import dynamic from "next/dynamic";
 import { Fragment } from "react";
 
-const FooterComponent = dynamic(() => import("@/components/layouts/footer"));
-const HeaderComponent = dynamic(() => import("@/components/layouts/header"));
+const FooterComponent = dynamic(() => import("@/components/layouts/footer"), {
+  ssr: false,
+});
+const HeaderComponent = dynamic(() => import("@/components/layouts/header"), {
+  ssr: false,
+});
 
-const MainLayout = ({ headerData, children }) => {
+const MainLayout = ({ children }) => {
   return (
     <Fragment>
-      <HeaderComponent headerData={headerData} />
+      <HeaderComponent />
       <main className="mdf__main_top_fix">
         {children}
         <FooterComponent />

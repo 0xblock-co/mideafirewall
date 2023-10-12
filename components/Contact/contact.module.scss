@@ -1,9 +1,11 @@
-.mdf__contactus-banner { 
+@import "@/styles/common.scss";
+
+.mdf__contactus_banner {
   display: flex;
-  align-items: center; 
+  align-items: center;
   color: #2e475d;
   line-height: 45px;
-  @include media-breakpoints-down-sm{
+  @include media-breakpoints-down-sm {
     padding-top: 2.5rem;
   }
 }
@@ -11,8 +13,9 @@
   width: 40px !important;
   height: auto !important;
 }
-.mdf__contactus-chatcard {
-  margin-top: -2rem;
+.mdf__contactus_chatcard {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   .mdf__chatcard {
     display: flex;
     flex-direction: column;
@@ -26,10 +29,10 @@
     border: none;
   }
 }
-.mdf__book__meeting{
+.mdf__book__meeting {
   color: #2e475d;
   margin: 2rem 0;
-  .card{
+  .card {
     background-color: #f6f9fc;
     border: none;
   }

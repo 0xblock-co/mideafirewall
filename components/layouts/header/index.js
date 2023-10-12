@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -10,27 +9,35 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 import { useAuth } from "@/contexts/AuthContext";
-import { localStorageKeys } from "@/utils/constants";
+import { localStorageKeys } from "@/constants/global.constants";
 import { eraseCookie } from "@/utils/cookieCreator";
 
-export default function HeaderTop({ headerData }) {
+import styles from "./header.module.scss";
+import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
+import { useAppSelector } from "@/store/hooks";
+import CommonUtility from "@/utils/common.utils";
+
+export default function HeaderTop() {
   const router = useRouter();
   const { isLogin, logout } = useAuth();
+  const headerData = useAppSelector(getAllHeaderDataOptions);
 
-  const handleOnClickLogout = () => {
+  const handleLogout = () => {
     eraseCookie(localStorageKeys.authKey);
     localStorage.clear();
     logout();
     router.push("/");
   };
+
+  const { locales } = useRouter();
   return (
     <>
-      {["lg"].map((expand) => (
+      {["lg"].map((expand, index) => (
         <Navbar
-          key={expand}
+          key={expand + index}
           expand={expand}
           fixed="top"
-          className="mdf__top_navbar"
+          className={styles.mdf__top_navbar}
         >
           <Container fluid="md">
             <Link href="/">
@@ -62,45 +69,58 @@ export default function HeaderTop({ headerData }) {
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <NavDropdown title="Products" id="navbarScrollingDropdown">
                     {headerData &&
-                      headerData?.map((data) => {
-                        return (
-                          <NavDropdown
-                            title={data.name}
-                            id="nested-dropdown"
-                            key={data?.id}
-                            drop="end"
-                          >
-                            {data?.examples &&
-                              data?.examples?.map((example, index) => {
-                                return (
-                                  <NavDropdown.Item
-                                    href={
-                                      isLogin
-                                        ? "/network-blog"
-                                        : "/account-security/login"
-                                    }
-                                    key={index}
-                                  >
-                                    {example}
-                                  </NavDropdown.Item>
-                                );
-                              })}
-                          </NavDropdown>
-                        );
-                      })}
+                      headerData?.map((data, index) => (
+                        <NavDropdown
+                          title={data.name}
+                          id={`nested-dropdown-${index}`}
+                          key={`nested-dropdown-${index}`}
+                          drop="end"
+                        >
+                          {CommonUtility.isValidArray(data?.examples) &&
+                            data?.examples?.map((example, index) => (
+                              <Link
+                                key={example + index}
+                                href="/network-blog"
+                                className="nav-link"
+                              >
+                                {example}
+                              </Link>
+                            ))}
+                        </NavDropdown>
+                      ))}
                   </NavDropdown>
                   <Link href="/pricing" className="nav-link">
                     Pricing
                   </Link>
-                  <Link href="/" className="nav-link">
+                  {/* <Link href="/" className="nav-link">
                     Documentation
-                  </Link>
+                  </Link> */}
+                  {isLogin && (
+                    <Link href="/network-blog" className="nav-link">
+                      Demo
+                    </Link>
+                  )}
+
                   {!isLogin && (
                     <Link href="/account-security/login" className="nav-link">
                       Log In
                     </Link>
                   )}
+
+                  <div>
+                    {[...locales].sort().map((locale) => (
+                      <Link
+                        key={locale}
+                        href="/"
+                        locale={locale}
+                        style={{ marginRight: "10px" }}
+                      >
+                        {locale}
+                      </Link>
+                    ))}
+                  </div>
                 </Nav>
+
                 {!isLogin ? (
                   <Button
                     variant="outline-primary"
@@ -113,7 +133,7 @@ export default function HeaderTop({ headerData }) {
                   <Button
                     variant="outline-primary"
                     className="rounded-pill fw-bold border-2"
-                    onClick={() => handleOnClickLogout()}
+                    onClick={handleLogout}
                   >
                     Logout
                   </Button>

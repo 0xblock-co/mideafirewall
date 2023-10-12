@@ -1,15 +1,21 @@
+@import "@/styles/common.scss";
+
 .mdf__moderation__back {
-  background: conic-gradient(from 180deg at 50% 0%, #D3CBE6 0deg, #7B5B9E 360deg);
+  background: conic-gradient(
+    from 180deg at 50% 0%,
+    #d3cbe6 0deg,
+    #7b5b9e 360deg
+  );
   padding: 80px 0;
   background-position: center;
-  background-repeat: no-repeat; 
-  @include media-breakpoints-down-lg{
+  background-repeat: no-repeat;
+  @include media-breakpoints-down-lg {
     padding: 40px 0;
   }
-  .mdf__img__rounded{
+  .mdf__img__rounded {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 45px;
-    @include media-breakpoints-down-lg{
+    @include media-breakpoints-down-lg {
       border-radius: 10px;
     }
   }

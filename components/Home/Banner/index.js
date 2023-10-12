@@ -1,22 +1,32 @@
 import Router from "next/router";
-import React from "react";
 import { Button } from "react-bootstrap";
 
 import { useAuth } from "@/contexts/AuthContext";
+
+import { FormattedMessage } from "react-intl";
+import style from "./banner.module.scss";
+
 export default function HomeBanner() {
   const { isLogin } = useAuth();
 
   return (
-    <section className="mdf__banner__back">
-      <div className="mdf__banner_text">
+    <section className={style.mdf__banner__back}>
+      <div className={style.mdf__banner_text}>
         <h1>
-          The Ultimate AI{" "}
-          <span className="text_gredient">Content Moderation</span> Tool
+          <FormattedMessage
+            id="page.home.banner.mainTitle"
+            values={{
+              span: (chunks) => <span className="text_gredient">{chunks}</span>,
+            }}
+          />
+          {/* The Ultimate AI{" "} */}
+          {/* <span className="text_gredient">Content Moderation</span> Tool */}
         </h1>
         <p className="fw-semibold">
-          Media Firewall is a powerful AI-based content moderation tool that
+          <FormattedMessage id="page.home.banner.paragraph" />
+          {/* Media Firewall is a powerful AI-based content moderation tool that
           helps online communities keep their platforms safe and free from
-          harmful content.
+          harmful content. */}
         </p>
         <Button
           variant="primary"
@@ -25,11 +35,11 @@ export default function HomeBanner() {
             Router.push(isLogin ? "/network-blog" : "/account-security/login")
           }
         >
-          See Demo
+          <FormattedMessage id="button.See Demo" />
         </Button>
       </div>
-      <div className="mdf__banner__video">
-        <div className="mdf__video">
+      <div className={style.mdf__banner__video}>
+        <div className={style.mdf__video}>
           <iframe
             width="100%"
             height="100%"

@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
+import style from "./footer.module.scss";
 export default function FooterBottom() {
   return (
-    <footer className="mdf__footer">
+    <footer className={style.mdf__footer}>
       <Container>
         <Row>
           <Col sm={12}>

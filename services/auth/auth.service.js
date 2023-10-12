@@ -1,20 +1,14 @@
-import Api from "@/services/api";
-const api = new Api();
-export const asyncSignUpService = async (payload) => {
-  try {
-    const response = await api.post("/users/", payload).then(async (res) => {
-      return res;
-    });
-    return response;
-  } catch (error) {
-    return error;
-  }
-};
+import Api from "../RTK/axiosAPI.handler";
 
-export const asyncLoginService = async (payload) => {
+const api = Api.getInstance();
+export const asyncLoginAndSignupService = (payload, idToken) => {
   try {
-    const response = await api
-      .post("/users/form", payload)
+    const response = api
+      .post("/form", payload, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      })
       .then(async (res) => {
         return res;
       });
@@ -24,9 +18,9 @@ export const asyncLoginService = async (payload) => {
   }
 };
 
-export const asyncSurveySubmitAnswers = async (payload, user) => {
+export const asyncSurveySubmitAnswers = (payload, user) => {
   try {
-    const response = await api
+    const response = api
       .post(`/Questionnaire/answers/users/${user?.userId}`, payload)
       .then(async (res) => {
         return res;

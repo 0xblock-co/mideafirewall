@@ -20,3 +20,5 @@ dist/*
 .vscode
 assets/*
 styles/*
+services/RTK/*
+utils/toastMessage.utils.ts

@@ -1,22 +1,36 @@
 import Image from "next/image";
 import { Col, Container, Row } from "react-bootstrap";
 
-function BoxContainerWithFilterIconWrapper({ children, lg = 12, xl = 7, xxl = 6 }) {
+import style from "@/components/Auth/auth.module.scss";
+
+function BoxContainerWithFilterIconWrapper({
+  children,
+  lg = 12,
+  xl = 7,
+  xxl = 6,
+}) {
   return (
-    <section className="mdf__authpage__section">
+    <section className={style.mdf__authpage__section}>
       <Container>
         <Row className="justify-content-center">
           <Col lg={8} xl={10}>
-            <Row className="mdf__authpage__blocks justify-content-center justify-content-xl-between">
-              <Col lg={3} xl={5} className="ps-0 align-self-center d-none d-xl-block">
+            <Row
+              className={`${style.mdf__authpage__blocks} justify-content-center justify-content-xl-between`}
+            >
+              <Col
+                lg={3}
+                xl={5}
+                className="ps-0 align-self-center d-none d-xl-block"
+              >
                 <Image
-                  className="mdf__logo_auth"
+                  className={style.mdf__logo_auth}
                   layout="fill"
                   src="/images/auto_logo.png"
                   alt=""
                 />
               </Col>
               <Col lg={lg} xl={xl} xxl={xxl}>
+                <div className="min-h-50v">
                 <Image
                   className="mx-3 mdf__logo_footer"
                   layout="fill"
@@ -24,6 +38,7 @@ function BoxContainerWithFilterIconWrapper({ children, lg = 12, xl = 7, xxl = 6 
                   alt=""
                 />
                 {children}
+                </div>
               </Col>
             </Row>
           </Col>

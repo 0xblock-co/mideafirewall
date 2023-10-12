@@ -11,8 +11,8 @@ body {
   color: $text-dark;
 }
 img {
-  width: 100% !important;
-  height: 100% !important;
+  width: 100%;
+  height: 100%;
   position: unset !important;
   object-fit: cover;
   object-position: center;
@@ -20,14 +20,14 @@ img {
 a {
   cursor: pointer;
 }
-.text-orange{
-  color: #FF7715;
+.text-orange {
+  color: #ff7715;
 }
 .mdf__logo_modal {
   width: 90px !important;
-  height: auto !important; 
+  height: auto !important;
 }
-.mdf__logo_footer{
+.mdf__logo_footer {
   width: 90px !important;
   height: auto !important;
 }
@@ -84,11 +84,14 @@ a {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.text-sm{
+.text-sm {
   font-size: 14px;
 }
-.payment__success__block{
-  background: linear-gradient(180deg, #7B5B9E 9.9%, #D3CBE6 100%);
+.text-xs {
+  font-size: 10px;
+}
+.payment__success__block {
+  background: linear-gradient(180deg, #7b5b9e 9.9%, #d3cbe6 100%);
   height: 90vh;
 }
 
@@ -163,5 +166,100 @@ a {
   }
   .stepper-item:last-child::after {
     content: none;
+  }
+}
+.bn13 {
+  display: inline-block;
+  padding: 0.65em 1.6em;
+  border: 3px solid #ffffff;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.2s;
+  animation: bn13bouncy 5s infinite linear;
+  position: relative;
+}
+
+.bn13:hover {
+  background-color: white;
+  color: #000000;
+}
+
+@keyframes bn13bouncy {
+  0% {
+    top: 0em;
+  }
+  40% {
+    top: 0em;
+  }
+  43% {
+    top: -0.9em;
+  }
+  46% {
+    top: 0em;
+  }
+  48% {
+    top: -0.4em;
+  }
+  50% {
+    top: 0em;
+  }
+  100% {
+    top: 0em;
+  }
+}
+.ff_popup_bg {
+  border-radius: 16px;
+  .ff_popup_title {
+    color: #000000;
+    font-weight: 600;
+  }
+  .swal2-html-container {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #000000;
+  }
+  .ff_new_alert_btn {
+    background-color: $primary;
+    border-radius: 20px;
+    min-width: 120px;
+  }
+}
+.image_hover {
+  height: 120px !important;
+  width: 190px !important;
+}
+.my_tabs {
+  .tab-content {
+    margin-top: 1rem;
+    border: none;
+    height: 380px;
+    overflow: auto;
+  }
+}
+.mdf__btn_large {
+  background: #f6ecec !important;
+  border: 1px solid #5e0496 !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px !important;
+  color: $text-dark;
+  font-weight: 800;
+  padding: 1rem 2rem;
+  &:hover {
+    color: #fff;
+    background: #5e0496 !important;
+  }
+  @include media-breakpoints-down-lg {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+  }
+  &.active {
+    background: $primary !important;
+    color: #fff !important;
   }
 }

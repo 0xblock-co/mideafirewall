@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import * as yup from "yup";
 
-import { localStorageKeys } from "./constants";
+import { localStorageKeys } from "@/constants/global.constants";
 import { readCookie } from "./cookieCreator";
 const jwt = require("jwt-simple");
 

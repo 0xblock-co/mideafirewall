@@ -1,13 +1,15 @@
 import Router from "next/router";
-import React from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
 import { useAuth } from "@/contexts/AuthContext";
+
+import style from "./pricing.module.scss";
+
 export default function PricingModerate() {
   const { isLogin } = useAuth();
 
   return (
-    <section className="mdf__moderate-banner">
+    <section className={style.mdf__moderate_banner}>
       <Container>
         <Row className="justify-content-center">
           <Col md={6} xl={4} className="text-center">

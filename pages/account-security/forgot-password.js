@@ -1,7 +1,7 @@
 import { NextSeo } from "next-seo";
 import { Fragment } from "react";
 
-import ForgotPasswordBlock from "@/components/Auth/Layout/forgot-password-block";
+import ForgotPasswordBlock from "@/components/Auth/forgot-password-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 
 const ForgotPasswordScreen = () => {

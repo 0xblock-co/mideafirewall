@@ -1,20 +1,28 @@
 import Router from "next/router";
-import React from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import { FormattedMessage } from "react-intl";
 
 import { useAuth } from "@/contexts/AuthContext";
+
+import style from "./offer.module.scss";
 
 export default function OfferBlock() {
   const { isLogin } = useAuth();
 
   return (
-    <section className="mdf__offer__block">
+    <section className={style.mdf__offer__block}>
       <Container>
         <Row className="justify-content-center">
           <Col sm={10} lg={6}>
             <h1 className="fw-bold text-shadow text-center">
-              Start saving <span className="fw-bolder text_gredient">80%</span>{" "}
-              of your time and budget today!
+              <FormattedMessage
+                id="page.home.offerBlock.mainTitle"
+                values={{
+                  span: (chunks) => (
+                    <span className="fw-bolder text_gredient">{chunks}</span>
+                  ),
+                }}
+              />
             </h1>
           </Col>
         </Row>
@@ -29,7 +37,7 @@ export default function OfferBlock() {
                 )
               }
             >
-              See Demo
+              <FormattedMessage id="button.See Demo" />
             </Button>
           </Col>
           <Col sm={4} lg={3} xl={2}>
@@ -38,7 +46,7 @@ export default function OfferBlock() {
               className="mt-4 rounded-pill w-100"
               onClick={() => Router.push("/pricing")}
             >
-              See pricing
+              <FormattedMessage id="button.See pricing" />
             </Button>
           </Col>
           <Col sm={4} lg={3} xl={2}>
@@ -47,7 +55,7 @@ export default function OfferBlock() {
               className="mt-4 rounded-pill w-100"
               onClick={() => Router.push("/contact-us")}
             >
-              Contact Us
+              <FormattedMessage id="button.Contact Us" />
             </Button>
           </Col>
         </Row>

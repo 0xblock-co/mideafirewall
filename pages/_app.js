@@ -1,40 +1,50 @@
+import en from "@/lang/en.json";
+import fr from "@/lang/fr.json";
+import nl_NL from "@/lang/nl-NL.json";
 import "@/styles/module-style.scss";
-
 import { Elements } from "@stripe/react-stripe-js";
+import { IntlProvider } from "react-intl";
+import MainLayout from "@/components/layouts/main";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { wrapper } from "@/store";
 import { loadStripe } from "@stripe/stripe-js";
 import { DefaultSeo } from "next-seo";
-import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { Fragment, useEffect } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Helmet } from "react-helmet";
-
-import MainLayout from "@/components/layouts/main";
+import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import ToastContainerConfig from "@/components/ToastContainer";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { asyncGetProducts } from "@/services/product/product.service";
-import { captchaKey } from "@/utils/constants";
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_CLIENT_KEY);
+import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
+import getConfig from "next/config";
+const messages = {
+  en,
+  fr,
+  "nl-NL": nl_NL,
+};
 
-export default function App({ Component, pageProps }) {
-  const [headerData, setHeaderData] = useState([]);
-  const dataFetchedRef = useRef(false);
+export function App({ Component, pageProps }) {
+  const { locale } = useRouter();
+  const { publicRuntimeConfig } = getConfig();
+  const stripePromise = loadStripe(publicRuntimeConfig.stripeClientKey);
+
+  const dispatch = useAppDispatch();
+  const headerData = useAppSelector(getAllHeaderDataOptions);
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.min.js");
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-    getProducts();
+    if (headerData && headerData?.length == 0) {
+      getProducts();
+    }
   }, []);
 
   const getProducts = async () => {
-    const response = await asyncGetProducts();
-
-    if (response && response.isSuccess && response.data) {
-      setHeaderData(response.data.items);
-    }
+    dispatch(asyncGetAllHeaderData({}));
   };
 
   return (
-    <>
+    <Fragment>
       <DefaultSeo
         title="Media Firewall"
         titleTemplate="Media Firewall | %s"
@@ -52,24 +62,28 @@ export default function App({ Component, pageProps }) {
         <html lang="en" />
       </Helmet>
 
-      <AuthProvider>
-        <Elements stripe={stripePromise}>
-          <MainLayout headerData={headerData}>
-            <GoogleReCaptchaProvider
-              reCaptchaKey={captchaKey.siteKey || ""}
-              scriptProps={{
-                async: false,
-                defer: false,
-                appendTo: "head",
-                nonce: undefined,
-              }}
-            >
-              <Component {...pageProps} />
-            </GoogleReCaptchaProvider>
-            <ToastContainerConfig />
-          </MainLayout>
-        </Elements>
-      </AuthProvider>
-    </>
+      <IntlProvider locale={locale} messages={messages[locale]}>
+        <AuthProvider>
+          <Elements stripe={stripePromise}>
+            <MainLayout>
+              <GoogleReCaptchaProvider
+                reCaptchaKey={publicRuntimeConfig.reCaptchaSiteKey || ""}
+                scriptProps={{
+                  async: false,
+                  defer: false,
+                  appendTo: "head",
+                  nonce: undefined,
+                }}
+              >
+                <Component {...pageProps} />
+              </GoogleReCaptchaProvider>
+              <ToastContainerConfig />
+            </MainLayout>
+          </Elements>
+        </AuthProvider>
+      </IntlProvider>
+    </Fragment>
   );
 }
+
+export default wrapper.withRedux(App);

@@ -1,11 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
 
-import { timeZones } from "@/utils/constants";
+import style from "./contact.module.scss";
+import { TIME_ZONE } from "@/data";
 
 //Validation Schema
 const schema = yup.object().shape({
@@ -84,7 +84,7 @@ export default function BookMeeting({
   };
 
   return (
-    <section className="mdf__book__meeting">
+    <section className={style.mdf__book__meeting}>
       <Container>
         <Row className="justify-content-center">
           <Col md={8}>
@@ -223,7 +223,7 @@ export default function BookMeeting({
                         <option defaultValue="Asia/Kolkata">
                           Asia/Kolkata
                         </option>
-                        {timeZones.map((zone, index) => {
+                        {TIME_ZONE.map((zone, index) => {
                           return (
                             <option value={zone} key={index}>
                               {zone}
@@ -287,7 +287,7 @@ export default function BookMeeting({
                         {...register("wantToCC")}
                       />
                       <label
-                        className="btn btn-outline-primary checkbox__primary"
+                        className={`btn btn-outline-primary ${style.checkbox__primary}`}
                         htmlFor="ccEmail"
                       >
                         Want to CC?

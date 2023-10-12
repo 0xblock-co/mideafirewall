@@ -1,12 +1,13 @@
 import Image from "next/image";
-import React from "react";
 import { HiCheck } from "react-icons/hi";
+
+import style from "./payment.module.scss";
 export default function PaymentLeftBlock({ priceData }) {
   return (
-    <div className="mdf__payment-left-banner">
-      <div className="mdf__image__content p-5">
+    <div className={style.mdf__payment_left_banner}>
+      <div className={`mdf__image__content p-5`}>
         <Image
-          className="mb-3 mdf__logo_footer"
+          className={`mb-3 mdf__logo_footer`}
           layout="fill"
           src="/images/logo.png"
           alt=""

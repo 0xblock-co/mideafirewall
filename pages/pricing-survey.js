@@ -2,12 +2,12 @@ import { cloneDeep } from "lodash";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 
-import SurveyForm from "@/components/Auth/Layout/surveyForm";
+import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import { useAuth } from "@/contexts/AuthContext";
 import { asyncSurveySubmitAnswers } from "@/services/auth/auth.service";
 import { asyncGetPricingQuestions } from "@/services/product/product.service";
-import { showToast } from "@/utils/alert";
+import { showToast } from "@/components/ToastContainer/toaster";
 import {
   checkAuthRoute,
   getComponentType,

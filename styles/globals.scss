@@ -60,7 +60,13 @@ a {
   color: #bdcbec;
   padding: 1rem 1.25rem;
 }
-
+.mdf__form__input1 {
+  background: #fdfeff;
+  border: 1px solid #d1d8e6;
+  border-radius: 6px;
+  color: #bdcbec;
+  padding: 1rem 1.25rem;
+}
 .input__icon {
   top: 1rem;
   left: 1rem;
@@ -262,4 +268,22 @@ a {
     background: $primary !important;
     color: #fff !important;
   }
+}
+//
+.checkbox__primary {
+  background: #ffffff;
+  border-radius: 16px;
+  font-size: 16px;
+  border: transparent;
+  padding: 1rem 1.5rem;
+  font-weight: bold;
+  color: $text-dark;
+}
+.btn-check:checked + .checkbox__primary,
+:not(.btn-check) + .checkbox__primary:active,
+.checkbox__primary:first-child:active,
+.checkbox__primary.active,
+.checkbox__primary.show {
+  background: $primary;
+  color: #fff;
 }

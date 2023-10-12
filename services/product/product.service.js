@@ -88,7 +88,9 @@ export const asyncGetHeaderData = async () => {
 export const asyncGetQuestions = async () => {
   try {
     const response = api
-      .get("/Questionnaire/mfw_customer")
+      .get(
+        "https://mediafirewall.themillionvisions.com/mfw/web/Questionnaire/mfw_customer"
+      )
       .then(async (res) => {
         if (res && res?.isSuccess) {
           return res;

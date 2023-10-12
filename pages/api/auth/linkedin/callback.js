@@ -1,7 +1,8 @@
 import querystring from "querystring";
 import axios from "axios";
 
-export const LINKEDIN_ACCESS_TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken";
+export const LINKEDIN_ACCESS_TOKEN_URL =
+  "https://www.linkedin.com/oauth/v2/accessToken";
 export const LINKEDIN_PROFILE_URL = "https://api.linkedin.com/v2/me";
 
 export async function callbackHandler(req, res) {

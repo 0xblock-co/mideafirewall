@@ -1,10 +1,11 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import style from "@/components/Auth/auth.module.scss";
 
 const RangeBox = ({ title, register, watch, name, errors, min, max }) => {
   const rangeValue = watch(name);
   return (
-    <section className="mdf__serve_right-block">
+    <section className={style.mdf__serve_right_block}>
       <Form.Label className="fs-4 my-0 fw-bold mb-3">{title}</Form.Label>
       <div className="d-flex flex-wrap">
         <label

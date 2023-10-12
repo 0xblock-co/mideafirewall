@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import Form from "react-bootstrap/Form";
 import { HiUser } from "react-icons/hi";
+import style from "@/components/Auth/auth.module.scss";
 
 const InputTypeTextComponent = ({
   title,
@@ -16,15 +17,15 @@ const InputTypeTextComponent = ({
         className="mb-2 position-relative"
         controlId="exampleForm.ControlInput1"
       >
-        <HiUser
+        {/* <HiUser
           size={22}
           color="#BDCBEC"
-          className="position-absolute input__icon"
-        />
+          className={`position-absolute ${style.input__icon}`}
+        /> */}
         <Form.Control
           type="text"
           placeholder={placeholder}
-          className="mdf__form__input"
+          className={`mdf__form__input ${style.mdf__form__input1}`}
           {...register(name)}
         />
       </Form.Group>

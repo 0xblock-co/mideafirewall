@@ -1,5 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
+import style from "@/components/Auth/auth.module.scss";
+
 export default function InputCheckBoxComponent({
   title,
   register,
@@ -8,7 +10,7 @@ export default function InputCheckBoxComponent({
   errors,
 }) {
   return (
-    <section className="mdf__serve_right-block">
+    <section className={`${style.mdf__serve_right_block}`}>
       <Form.Label className="fs-4 my-0 fw-bold mb-3">{title}</Form.Label>
       <div className="d-flex flex-wrap">
         {options?.map((item, index) => {
@@ -24,7 +26,7 @@ export default function InputCheckBoxComponent({
                 // defaultChecked={}
               />
               <label
-                className="btn btn-outline-primary checkbox__primary"
+                className={`btn btn-outline-primary checkbox__primary`}
                 htmlFor={`${item.value}`}
               >
                 {item.label}

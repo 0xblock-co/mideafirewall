@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import style from "@/components/Auth/auth.module.scss";
 
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -8,7 +9,7 @@ const InputRadioBoxComponent = ({ title, name, options, register, errors }) => {
   const { user } = useAuth();
 
   return (
-    <section className="mdf__login__card_button">
+    <section className={style.mdf__login__card_button}>
       <h5 className="text_blue fw-bold mt-3">
         Hello there {user?.firstName + " " + user?.lastName}{" "}
       </h5>
@@ -29,7 +30,7 @@ const InputRadioBoxComponent = ({ title, name, options, register, errors }) => {
                   {...register(name)}
                 />
                 <label
-                  className="btn btn-outline-primary raio__button__card"
+                  className={`btn btn-outline-primary ${style.raio__button__card}`}
                   htmlFor={`${name}-${item.value}`}
                 >
                   {item.image && (

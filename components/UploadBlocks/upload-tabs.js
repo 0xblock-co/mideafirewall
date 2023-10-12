@@ -199,6 +199,8 @@ export default function UploadTabs() {
         //   user.token
         // );
         // console.log("contentEventLogs: ", contentEventLogs);
+      } else {
+        await setIsUploading(false);
       }
     } else {
       await setIsUploading(false);

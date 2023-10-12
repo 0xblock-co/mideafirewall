@@ -33,11 +33,11 @@ const shouldStopFetching = (data) => {
   return data?.modelStatus && Object.keys(data?.modelStatus).length > 0;
 };
 
-const fetchInterval = 5000; // Adjust the interval as needed
+const fetchInterval = 5000;
 
 function getMatchingValues(data) {
   console.log("data: ", data);
-  if (data && Object.keys(data.modelStatus) && Object.keys(data.eventLog)) {
+  if (data && data.modelStatus && data.eventLog) {
     console.log("1");
     const { modelStatus, eventLog } = data;
     const matchingValues = {};
@@ -60,7 +60,85 @@ export default function DemoPage() {
   const router = useRouter();
   const { user } = useAuth();
   const [isFetchingState, setIsFetchingState] = useState(true);
+  // const [eventLogData, setEventLogData] = useState({
+  //   videoId: "V490787171680137_sams@trek.com_URL_61743",
+  //   userId: "sams@trek.com",
+  //   complete: false,
+  //   requestType: "URL",
+  //   eventStartTime: "2023-10-09T07:06:21.797",
+  //   processExitStatus: false,
+  //   startTime: "2023-10-09T07:06:21.797",
+  //   eventLog: {
+  //     A: {
+  //       modelId: "A",
+  //       webFeatureKey: "Nudity",
+  //       eventId:
+  //         "sams@trek.com_V490787171680137_sams@trek.com_URL_61743_A_2023-10-09T07:06:23:675548_2023-10-09T07:06:29:651765",
+  //       processingStartTime: "2023-10-09T07:06:23:675548",
+  //       processingEndTime: "2023-10-09T07:06:29:651765",
+  //       report: {
+  //         imageUrls: [],
+  //         clipUrls: [],
+  //         videoUrls: [],
+  //         documentReport: {
+  //           report: {
+  //             Model: "Success",
+  //             Model_Name: "Nudity",
+  //             InputVideoUrl:
+  //               "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
+  //             TotalFramesProcessed: "1",
+  //             "Video processing time in minutes": "0.09960",
+  //           },
+  //         },
+  //       },
+  //       operations: 1,
+  //     },
+  //     2: {
+  //       modelId: "2",
+  //       webFeatureKey: "Type",
+  //       eventId:
+  //         "sams@trek.com_V490787171680137_sams@trek.com_URL_61743_2_2023-10-09T07:06:45:357037_2023-10-09T07:06:45:357338",
+  //       processingStartTime: "2023-10-09T07:06:45:357037",
+  //       processingEndTime: "2023-10-09T07:06:45:357338",
+  //       report: {
+  //         imageUrls: [],
+  //         clipUrls: [],
+  //         videoUrls: [],
+  //         documentReport: {
+  //           report: {
+  //             Model: "Success",
+  //             InputVideoUrl:
+  //               "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
+  //             "Image Quality": "Bad",
+  //             "Total Frames processed": "0",
+  //             "Video processing time in minutes": "0.00",
+  //           },
+  //         },
+  //       },
+  //       operations: 0,
+  //     },
+  //   },
+  //   operations: 1,
+  //   modelStatus: {
+  //     A: false,
+  //     Nudity: false,
+  //     2: false,
+  //     Type: false,
+  //   },
+  //   featureStatus: {},
+  //   video: {
+  //     inputVideoURL:
+  //       "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
+  //     videoSizeInKB: 0,
+  //     videoSizeInMB: 0,
+  //     videoDurationInSeconds: 0,
+  //     type: "IMAGE",
+  //     frames: 0,
+  //     fps: 0,
+  //   },
+  // });
   const [eventLogData, setEventLogData] = useState(null);
+
   const [selectedOption, setSelectedOption] = useState("email"); // Default option is 'email'
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
@@ -76,6 +154,7 @@ export default function DemoPage() {
     }
 
     const fetchData = async () => {
+      console.log("router: ", router);
       while (
         isFetching &&
         router.query.videoId &&
@@ -118,6 +197,7 @@ export default function DemoPage() {
       isFetching = false;
     };
   }, []);
+
   const { control, handleSubmit, reset } = useForm();
   const onSubmit = async (data) => {
     try {
@@ -259,7 +339,7 @@ export default function DemoPage() {
                 id=""
               >
                 <Tab eventKey="table" className="pt-3" title="Table">
-                  <Col lg={8}>
+                  <Col lg={12}>
                     <section>
                       <RenderIf isTrue={isFetchingState}>
                         <div className="d-flex flex-column justify-content-center">
@@ -356,16 +436,14 @@ export default function DemoPage() {
                           </thead>
                           <tbody>
                             {Object.keys(getMatchingValues(eventLogData)).map(
-                              (key) => {
+                              (key, index) => {
                                 const item = eventLogData.eventLog[key];
                                 return (
                                   <tr key={key}>
-                                    <th scope="row">1</th>
+                                    <th scope="row">{index + 1}</th>
                                     <td>
-                                      {
-                                        item.report?.documentReport?.report
-                                          ?.Model_Name
-                                      }
+                                      {item.report?.documentReport?.report
+                                        ?.Model_Name || item?.webFeatureKey}
                                     </td>
                                     <td>
                                       <Link

@@ -95,7 +95,7 @@ export default function NeetworkBlock({ allFeatures }) {
       <Form onSubmit={onSubmit}>
         <Container>
           <Row className="justify-content-center">
-            <Col xl={10}>
+            <Col xl={11}>
               <Tab.Container
                 id="left-tabs-example"
                 activeKey={activeTab}
@@ -148,7 +148,7 @@ export default function NeetworkBlock({ allFeatures }) {
                                 }}
                               />
                               <label
-                                className={`btn btn-outline ${
+                                className={`btn btn-outline-info ${
                                   style.card__primary
                                 } ${
                                   !item.active

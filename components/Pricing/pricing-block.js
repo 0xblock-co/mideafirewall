@@ -91,12 +91,12 @@ export default function PricingBlock({ priceData = [] }) {
                               <p className="px-2" key={index}>
                                 {item.name} at ${item.price?.value}
                               </p>
-                              <ul className="p-0 d-flex flex-column align-items-center">
+                              <ul className="p-0 d-flex flex-wrap align-items-center text-start">
                                 {CommonUtility.isValidArray(
                                   item.supportFeatures
                                 ) &&
                                   item.supportFeatures.map((feature, index) => (
-                                    <li className="text-start" key={index}>
+                                    <li className="w-75 ms-auto" key={index}>
                                       {feature}
                                     </li>
                                   ))}

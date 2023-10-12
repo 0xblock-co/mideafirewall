@@ -239,6 +239,18 @@ a {
 .image_hover {
   height: 120px !important;
   width: 190px !important;
+  position: relative;
+  transition: all 0.5s ease;
+}
+.icon_sm_top{
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  top: 20px;
+  right: 20px;
+  z-index: 1040;
 }
 .my_tabs {
   .tab-content {

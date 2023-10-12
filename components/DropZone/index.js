@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useCallback, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
+import { HiOutlineX } from "react-icons/hi";
 
 const DropZoneComponent = ({
   onContentDrop,
@@ -24,14 +25,14 @@ const DropZoneComponent = ({
           }
           if (err.code === "file-too-large") {
             newInfoAlert("Error: ", `${err.message}`, "OK")
-              .then(() => {})
-              .catch(() => {});
+              .then(() => { })
+              .catch(() => { });
           }
 
           if (err.code === "file-invalid-type") {
             newInfoAlert("Error: ", `${err.message}`, "OK")
-              .then(() => {})
-              .catch(() => {});
+              .then(() => { })
+              .catch(() => { });
           }
         });
       });
@@ -78,7 +79,7 @@ const DropZoneComponent = ({
           controlId="formFile"
           className="mt-4"
           {...getRootProps()}
-          style={{ border: "1px dashed", padding: 20 }}
+          style={{ border: "1px dashed", padding: 20, borderRadius: 6 }}
         >
           <Form.Label>Drop files here or click to upload</Form.Label>
           <Form.Control type="file" {...getInputProps()} />
@@ -86,12 +87,17 @@ const DropZoneComponent = ({
       </div>
       <div className="d-flex gap-3 overflow-auto">
         {filePreviews.map((file, index) => (
-          <img
-            key={index}
-            src={file.preview}
-            alt=""
-            className="object-fit rounded-4 image_hover mt-3"
-          />
+          <div className="position-relative">
+            <img
+              key={index}
+              src={file.preview}
+              alt=""
+              className="object-fit rounded-4 image_hover mt-3"
+            />
+            <div className="icon_sm_top position-absolute d-flex justify-content-center align-items-center">
+              <HiOutlineX style={{fontSize:'18px'}} />
+            </div>
+          </div>
         ))}
       </div>
     </section>

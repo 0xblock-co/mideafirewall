@@ -18,11 +18,9 @@ export default function NeetworkBlock({ allFeatures }) {
 
   const router = useRouter();
   const { isLogin } = useAuth();
-  const [selectedFeatureIds, setSelectedFeatureIds] = useState([]); // Store selected feature IDs
-  const [selectedOptions, setSelectedOptions] = useState({}); // Store selected options
-  useEffect(() => {
-    console.log("selectedOptions::", selectedOptions);
-  }, [selectedOptions]);
+  const [selectedFeatureIds, setSelectedFeatureIds] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState({});
+
   const handleCheckboxChange = (featureId) => {
     if (selectedFeatureIds.includes(featureId)) {
       setSelectedFeatureIds(
@@ -163,12 +161,6 @@ export default function NeetworkBlock({ allFeatures }) {
                                     src={item.imgUrl}
                                     alt="A globe icon with filter and text."
                                   />
-                                  {/* <Image
-                                    className={`${style.mdf__card_img}`}
-                                    layout="fill"
-                                    src={item.imgUrl}
-                                    alt="A globe icon with filter and text."
-                                  /> */}
                                 </div>
                                 <h5 className="text-dark mt-3 mb-3">
                                   {item.name}
@@ -176,30 +168,41 @@ export default function NeetworkBlock({ allFeatures }) {
                                 <p className="mt-3">{item.description}</p>
                                 <div className="d-flex flex-wrap mt-3 gap-3">
                                   {CommonUtility.isValidArray(item.options) &&
-                                    item.options.map((opt) => {
+                                    item.options.map((opt, i) => {
+                                      console.log(
+                                        "adasd",
+                                        selectedOptions[item.webFeatureKey] ==
+                                          opt.name
+                                      );
                                       return (
-                                        <div key={item.featureId + opt.name}>
+                                        <div
+                                          key={
+                                            item.featureId +
+                                            opt.name.replace(/\s/g, "")
+                                          }
+                                        >
                                           <input
                                             type="radio"
                                             className="btn-check"
-                                            name={opt.name}
-                                            checked={
-                                              selectedOptions[
-                                                item.webFeatureKey
-                                              ] === opt.name
-                                            }
+                                            name={item.featureId}
                                             onChange={() =>
                                               handleOptionChange(
                                                 item.webFeatureKey,
                                                 opt.name
                                               )
                                             }
-                                            id={item.featureId + opt.name}
+                                            id={
+                                              item.featureId +
+                                              opt.name.replace(/\s/g, "")
+                                            }
                                             autoComplete="off"
                                           />
                                           <label
                                             className="btn btn-outline-dark px-2 text-xs"
-                                            htmlFor={item.featureId + opt.name}
+                                            htmlFor={
+                                              item.featureId +
+                                              opt.name.replace(/\s/g, "")
+                                            }
                                           >
                                             {opt.name}
                                           </label>

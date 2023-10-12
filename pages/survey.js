@@ -9,19 +9,21 @@ import { asyncSurveySubmitAnswers } from "@/services/auth/auth.service";
 import { asyncGetQuestions } from "@/services/product/product.service";
 import { showToast } from "@/components/ToastContainer/toaster";
 import { checkAuthRoute, getFilteredData } from "@/utils/globalFunctions";
+import { ToastMessage } from "@/utils/toastMessage.utils";
 export default function Survey() {
   const [formData, setFormData] = useState([]);
   const [defaultValue, setDefaultValue] = useState({});
   const [formAnswerData, setFormAnswerData] = useState([]);
 
   const { user } = useAuth();
+  console.log("user: ", user);
 
   useEffect(() => {
-    const { isActive, route } = checkAuthRoute();
-    if (!isActive) {
-      Router.push(route);
-      return;
-    }
+    // const { isActive, route } = checkAuthRoute();
+    // if (!isActive) {
+    //   Router.push(route);
+    //   return;
+    // }
     getQuestions();
   }, []);
 
@@ -89,7 +91,7 @@ export default function Survey() {
           Router.push("/network-blog");
           return;
         } else {
-          showToast("error", response?.message || "Something went wrong");
+          ToastMessage.error(response?.message || "Something went wrong");
           Router.reload();
         }
       }

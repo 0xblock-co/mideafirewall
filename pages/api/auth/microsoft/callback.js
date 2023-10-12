@@ -26,7 +26,11 @@ export default async (req, res) => {
     const tokenData = await tokenResponse.json();
     const accessToken = tokenData.access_token;
     console.log("accessToken: ", accessToken);
-    res.redirect("/?success=true");
+    if (accessToken) {
+      res.redirect("/?success=true");
+    } else {
+      res.redirect("/?success=false");
+    }
   } catch (error) {
     console.error("Error authenticating with Microsoft:", error);
     res.redirect("/error"); // Handle the error accordingly

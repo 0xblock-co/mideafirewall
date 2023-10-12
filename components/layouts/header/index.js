@@ -96,9 +96,14 @@ export default function HeaderTop() {
                     Documentation
                   </Link> */}
                   {isLogin && (
-                    <Link href="/network-blog" className="nav-link">
-                      Demo
-                    </Link>
+                    <>
+                      <Link href="/network-blog" className="nav-link">
+                        Demo
+                      </Link>
+                      <Link href="/survey" className="nav-link">
+                        Survey
+                      </Link>
+                    </>
                   )}
 
                   {!isLogin && (
@@ -107,7 +112,7 @@ export default function HeaderTop() {
                     </Link>
                   )}
 
-                  <div>
+                  {/* <div>
                     {[...locales].sort().map((locale) => (
                       <Link
                         key={locale}
@@ -118,7 +123,7 @@ export default function HeaderTop() {
                         {locale}
                       </Link>
                     ))}
-                  </div>
+                  </div> */}
                 </Nav>
 
                 {!isLogin ? (

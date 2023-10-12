@@ -11,7 +11,7 @@ const InputRadioBoxComponent = ({ title, name, options, register, errors }) => {
   return (
     <section className={style.mdf__login__card_button}>
       <h5 className="text_blue fw-bold mt-3">
-        Hello there {user?.firstName + " " + user?.lastName}{" "}
+        Hello there {(user?.firstName || "") + " " + (user?.lastName || "")}{" "}
       </h5>
       <Form.Label className="fs-4 fw-bold">{title}</Form.Label>
       <Row>

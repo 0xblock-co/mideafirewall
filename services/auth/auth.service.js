@@ -21,7 +21,12 @@ export const asyncLoginAndSignupService = (payload, idToken) => {
 export const asyncSurveySubmitAnswers = (payload, user) => {
   try {
     const response = api
-      .post(`/Questionnaire/answers/users/${user?.userId}`, payload)
+      .post(
+        `https://mediafirewall.themillionvisions.com/mfw/web/Questionnaire/answers/users/${
+          user?.userId || user?.id
+        }`,
+        payload
+      )
       .then(async (res) => {
         return res;
       });

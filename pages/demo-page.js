@@ -36,17 +36,14 @@ const shouldStopFetching = (data) => {
 const fetchInterval = 5000; // Adjust the interval as needed
 
 function getMatchingValues(data) {
-  if (
-    data &&
-    data?.modelStatus &&
-    data.eventKey &&
-    Object.keys(data.modelStatus) &&
-    Object.keys(data.eventLog)
-  ) {
+  console.log("data: ", data);
+  if (data && Object.keys(data.modelStatus) && Object.keys(data.eventLog)) {
+    console.log("1");
     const { modelStatus, eventLog } = data;
     const matchingValues = {};
-
+    console.log("modelStatus: ", modelStatus);
     for (const key in modelStatus) {
+      console.log("jemish", eventLog[key], key);
       if (modelStatus[key] === true) {
         if (eventLog[key]) {
           matchingValues[key] = eventLog[key];
@@ -88,7 +85,7 @@ export default function DemoPage() {
         try {
           const response = await asyncGetContentEventLogs(
             "sams@trek.com",
-            router.query.videoId,
+            encodeURIComponent(router.query.videoId),
             "91owFp3rCq48IC7IIMFkBCnPshIsGPZC"
           );
           if (response.isSuccess) {
@@ -135,7 +132,7 @@ export default function DemoPage() {
         );
       } else {
         // Otherwise, send data based on the selected option
-        formData.append("recipients", data[selectedOption]);
+        formData.append("recipients", data[selectedOption].toString());
       }
 
       const res = await asyncGenerateProofsByEmail(user.token, formData);
@@ -191,7 +188,7 @@ export default function DemoPage() {
                   render={({ field }) => (
                     <Form.Control
                       type="email"
-                      placeholder="Email"
+                      placeholder="Enter your correct email"
                       className={`fs-6`}
                       {...field}
                     />
@@ -213,7 +210,7 @@ export default function DemoPage() {
                   render={({ field }) => (
                     <Form.Control
                       type="text"
-                      placeholder="WhatsApp"
+                      placeholder="Enter your whatsApp number"
                       {...field}
                     />
                   )}
@@ -234,7 +231,7 @@ export default function DemoPage() {
       </Modal>
     );
   };
-  console.log("eventLogData  :", eventLogData);
+
   const highlightCode = useCallback((code, language) => {
     return (
       <SyntaxHighlighter style={oneDark} language={language?.toLowerCase()}>
@@ -242,6 +239,7 @@ export default function DemoPage() {
       </SyntaxHighlighter>
     );
   }, []);
+
   return (
     <div className="py-5">
       <Container>
@@ -305,13 +303,13 @@ export default function DemoPage() {
                               {eventLogData && (
                                 <tr>
                                   <th scope="row">1</th>
-                                  <td>"" {/* TODO: Need to handle this */}</td>
+                                  <td>{router.query.filters}</td>
                                   <td>
                                     <Link
                                       href={eventLogData.video.inputVideoURL}
                                       target="_blank"
                                     >
-                                      {eventLogData?.videoId}
+                                      {eventLogData?.video?.videoName}
                                     </Link>
                                   </td>
                                   <td>{eventLogData?.requestType}</td>
@@ -360,14 +358,13 @@ export default function DemoPage() {
                             {Object.keys(getMatchingValues(eventLogData)).map(
                               (key) => {
                                 const item = eventLogData.eventLog[key];
-
                                 return (
                                   <tr key={key}>
                                     <th scope="row">1</th>
                                     <td>
                                       {
-                                        item.report.documentReport.report
-                                          .Model_Name
+                                        item.report?.documentReport?.report
+                                          ?.Model_Name
                                       }
                                     </td>
                                     <td>
@@ -375,7 +372,7 @@ export default function DemoPage() {
                                         href={eventLogData.video.inputVideoURL}
                                         target="_blank"
                                       >
-                                        {eventLogData.videoId}
+                                        Uploaded Link
                                       </Link>
                                     </td>
                                     <td>{eventLogData?.requestType}</td>
@@ -406,18 +403,18 @@ export default function DemoPage() {
             </Row>
           </Col>
 
-          <Col
-            lg={4}
-            style={{
-              maxHeight: "300px;",
-            }}
-          >
+          <Col lg={4}>
             <RenderIf
               isTrue={CommonUtility.isValidArray(
                 Object.keys(getMatchingValues(eventLogData))
               )}
             >
-              <Card className="box_show_msg h-100 shadow-lg border-primary rounded-4 d-flex justify-content-center align-items-center">
+              <Card
+                className="box_show_msg h-100 shadow-lg border-primary rounded-4 d-flex justify-content-center align-items-center"
+                style={{
+                  maxHeight: "300px; !important",
+                }}
+              >
                 <div className="p-5 m-3 text-center">
                   <h4 className="text_gredient text-shadow">
                     Curious to verify? Press the button to request proof.

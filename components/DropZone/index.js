@@ -25,14 +25,14 @@ const DropZoneComponent = ({
           }
           if (err.code === "file-too-large") {
             newInfoAlert("Error: ", `${err.message}`, "OK")
-              .then(() => { })
-              .catch(() => { });
+              .then(() => {})
+              .catch(() => {});
           }
 
           if (err.code === "file-invalid-type") {
             newInfoAlert("Error: ", `${err.message}`, "OK")
-              .then(() => { })
-              .catch(() => { });
+              .then(() => {})
+              .catch(() => {});
           }
         });
       });
@@ -87,7 +87,7 @@ const DropZoneComponent = ({
       </div>
       <div className="d-flex gap-3 overflow-auto">
         {filePreviews.map((file, index) => (
-          <div className="position-relative">
+          <div className="position-relative" key={index}>
             <img
               key={index}
               src={file.preview}
@@ -95,7 +95,7 @@ const DropZoneComponent = ({
               className="object-fit rounded-4 image_hover mt-3"
             />
             <div className="icon_sm_top position-absolute d-flex justify-content-center align-items-center">
-              <HiOutlineX style={{fontSize:'18px'}} />
+              <HiOutlineX style={{ fontSize: "18px" }} />
             </div>
           </div>
         ))}

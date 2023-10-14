@@ -8,28 +8,21 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-import { useAuth } from "@/contexts/AuthContext";
-import { localStorageKeys } from "@/constants/global.constants";
-import { eraseCookie } from "@/utils/cookieCreator";
-
 import styles from "./header.module.scss";
 import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
-import CommonUtility from "@/utils/common.utils";
+import { getUserDetails } from "@/store/auth.slice";
+import { useAuth } from "@/contexts/AuthContext";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function HeaderTop() {
   const router = useRouter();
-  const { isLogin, logout } = useAuth();
+  const userDetails = useAppSelector(getUserDetails);
   const headerData = useAppSelector(getAllHeaderDataOptions);
 
-  const handleLogout = () => {
-    eraseCookie(localStorageKeys.authKey);
-    localStorage.clear();
-    logout();
-    router.push("/");
-  };
+  const { logout } = useAuth();
 
-  const { locales } = useRouter();
+  // const { locales } = useRouter();
   return (
     <>
       {["lg"].map((expand, index) => (
@@ -71,12 +64,39 @@ export default function HeaderTop() {
                     {headerData &&
                       headerData?.map((data, index) => (
                         <NavDropdown
-                          title={data.name}
+                          style={{ width: "100%" }}
+                          title={
+                            <span style={{ width: "100%" }}>
+                              <OverlayTrigger
+                                key={index}
+                                placement="left"
+                                overlay={
+                                  <Tooltip id={`tooltip-${index}`}>
+                                    {data?.examples.join(", ")}
+                                  </Tooltip>
+                                }
+                              >
+                                <i
+                                  className="fa fa-info-circle mr-6"
+                                  aria-hidden="true"
+                                ></i>
+                              </OverlayTrigger>
+                              {data.name}
+                            </span>
+                          }
                           id={`nested-dropdown-${index}`}
                           key={`nested-dropdown-${index}`}
                           drop="end"
                         >
-                          {CommonUtility.isValidArray(data?.examples) &&
+                          <Link
+                            key={index}
+                            href={`/network-blog?key=${data.id}`}
+                            className="nav-link"
+                          >
+                            Content Moderation
+                          </Link>
+
+                          {/* {CommonUtility.isValidArray(data?.examples) &&
                             data?.examples?.map((example, index) => (
                               <Link
                                 key={example + index}
@@ -85,7 +105,7 @@ export default function HeaderTop() {
                               >
                                 {example}
                               </Link>
-                            ))}
+                            ))} */}
                         </NavDropdown>
                       ))}
                   </NavDropdown>
@@ -95,18 +115,13 @@ export default function HeaderTop() {
                   {/* <Link href="/" className="nav-link">
                     Documentation
                   </Link> */}
-                  {isLogin && (
-                    <>
-                      <Link href="/network-blog" className="nav-link">
-                        Demo
-                      </Link>
-                      <Link href="/survey" className="nav-link">
-                        Survey
-                      </Link>
-                    </>
-                  )}
+                  {/* {userDetails?.isLoggedIn && ( */}
+                  <Link href="/network-blog" className="nav-link">
+                    Demo
+                  </Link>
+                  {/* )} */}
 
-                  {!isLogin && (
+                  {!userDetails?.isLoggedIn && (
                     <Link href="/account-security/login" className="nav-link">
                       Log In
                     </Link>
@@ -126,7 +141,7 @@ export default function HeaderTop() {
                   </div> */}
                 </Nav>
 
-                {!isLogin ? (
+                {!userDetails?.isLoggedIn ? (
                   <Button
                     variant="outline-primary"
                     className="rounded-pill fw-bold border-2"
@@ -138,7 +153,7 @@ export default function HeaderTop() {
                   <Button
                     variant="outline-primary"
                     className="rounded-pill fw-bold border-2"
-                    onClick={handleLogout}
+                    onClick={logout}
                   >
                     Logout
                   </Button>

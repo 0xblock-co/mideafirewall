@@ -17,6 +17,7 @@ export default function Payment() {
   const stripe = useStripe();
   const [isLoading, setIsLoading] = useState(false);
   const [priceData, setPriceData] = useState(null);
+
   useEffect(() => {
     const token = readCookie(localStorageKeys.priceData);
     if (!token) {
@@ -24,7 +25,6 @@ export default function Payment() {
       return;
     }
     const priceData = decodeData(token, localStorageKeys.priceData);
-    console.log("priceData", priceData);
     setPriceData(priceData);
   }, []);
 

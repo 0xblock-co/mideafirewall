@@ -2,13 +2,9 @@ import Router from "next/router";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
 
-import { useAuth } from "@/contexts/AuthContext";
-
 import style from "./offer.module.scss";
 
 export default function OfferBlock() {
-  const { isLogin } = useAuth();
-
   return (
     <section className={style.mdf__offer__block}>
       <Container>
@@ -31,11 +27,7 @@ export default function OfferBlock() {
             <Button
               variant="primary"
               className="mt-4 rounded-pill w-100"
-              onClick={() =>
-                Router.push(
-                  isLogin ? "/network-blog" : "/account-security/login"
-                )
-              }
+              onClick={() => Router.push("/network-blog")}
             >
               <FormattedMessage id="button.See Demo" />
             </Button>

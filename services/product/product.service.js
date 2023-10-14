@@ -174,7 +174,7 @@ export const asyncCreateMeeting = async (payload, user) => {
   try {
     const response = api
       .post(
-        `https://mediafirewall.themillionvisions.com/mfw/web/meetings/${user?.userId}`,
+        `https://mediafirewall.themillionvisions.com/mfw/web/meetings/${user?.userDetails?.email}`,
         payload
       )
       .then(async (res) => {

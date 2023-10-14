@@ -138,9 +138,9 @@ export default function UploadTabs() {
       const finalFIles = cloneContentData.filter((data) => data.file !== null);
       const response = await asyncUploadFileContent(
         { file: finalFIles[0].file },
-        "sams@trek.com", // user.id,
+        user?.userDetails?.email || "sams@trek.com", // user.id,
         {
-          apikey: "91owFp3rCq48IC7IIMFkBCnPshIsGPZC", //user.token,
+          apikey: user?.api_secret || "91owFp3rCq48IC7IIMFkBCnPshIsGPZC", //user.token,
           filters: router.query.filters,
         }
       );
@@ -170,11 +170,11 @@ export default function UploadTabs() {
       }
     } else if (imageUrl && router.query?.filters !== "") {
       const response = await asyncUploadContentByUrl(
-        "sams@trek.com", //user.id,
+        user?.userDetails?.email || "sams@trek.com", //user.id,
         {
           filters: router.query.filters,
           mediaUrl: imageUrl,
-          apikey: "91owFp3rCq48IC7IIMFkBCnPshIsGPZC", //user.token,
+          apikey: user?.api_secret || "91owFp3rCq48IC7IIMFkBCnPshIsGPZC", //user.token,
         }
       );
       if (

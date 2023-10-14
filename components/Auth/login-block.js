@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { GoogleAuthProvider } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback } from "react";
@@ -132,10 +131,7 @@ const LoginBlock = ({ handleLoginSubmit }) => {
       </div>
       <p className="mt-3">Or, sign-in with your email</p>
       <Form onSubmit={handleSubmit(onSubmitLogin)}>
-        <Form.Group
-          className="mb-2 position-relative"
-          controlId="exampleForm.ControlInput1"
-        >
+        <Form.Group className="mb-2 position-relative" controlId="email">
           <HiMail
             size={22}
             color="#BDCBEC"
@@ -151,10 +147,7 @@ const LoginBlock = ({ handleLoginSubmit }) => {
         {errors.email && (
           <span className="error-message">{errors.email.message}</span>
         )}
-        <Form.Group
-          className="mb-1 position-relative"
-          controlId="exampleForm.ControlInput1"
-        >
+        <Form.Group className="mb-1 position-relative" controlId="password">
           <HiLockClosed
             size={22}
             color="#BDCBEC"

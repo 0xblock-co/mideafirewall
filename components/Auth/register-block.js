@@ -23,7 +23,7 @@ const schema = yup.object().shape({
     .required("Email is required"),
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
-  password: yup
+  passWord: yup
     .string()
     .matches(
       regex.passwordRegex,
@@ -32,8 +32,8 @@ const schema = yup.object().shape({
     .required("Password is required."),
   passwordConfirmation: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match.")
-    .required("Confirm password is required."),
+    .oneOf([yup.ref("passWord"), null], "Passwords must match.")
+    .required("Confirm passWord is required."),
 });
 
 const RegisterBlock = ({ handleSubmitSingUp }) => {
@@ -94,7 +94,7 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
         await handleSubmitSingUp({
           ...data,
           authType: "email",
-          gReCaptchaToken,
+          recaptchaResponse: gReCaptchaToken,
         });
       });
     },
@@ -204,14 +204,14 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
             className="position-absolute input__icon"
           />
           <Form.Control
-            {...register("password")}
-            type="password"
+            {...register("passWord")}
+            type="passWord"
             placeholder="Password"
             className={`mdf__form__input ${style.mdf__form__input}`}
           />
         </Form.Group>
-        {errors.password && (
-          <span className="error-message">{errors.password.message}</span>
+        {errors.passWord && (
+          <span className="error-message">{errors.passWord.message}</span>
         )}
         <Form.Group
           className="mb-1 position-relative"
@@ -224,7 +224,7 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
           />
           <Form.Control
             {...register("passwordConfirmation")}
-            type="password"
+            type="passWord"
             placeholder="Retype Password"
             className={`mdf__form__input ${style.mdf__form__input}`}
           />
@@ -240,7 +240,7 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
         )}
         <div className="text-end">
           <Link
-            href="/account-security/forgot-password"
+            href="/account-security/forgot-passWord"
             className="text-primary text-decoration-none fw-bold "
           >
             Forgot Password?

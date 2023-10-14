@@ -11,14 +11,10 @@ export default async (req, res) => {
 
   try {
     const { tokens } = await oauth2Client.getToken(code);
-    const { access_token, refresh_token } = tokens;
-    console.log("access_token, refresh_token: ", access_token, refresh_token);
-    oauth2Client.setCredentials(tokens);
-    // Get user information
-    const oauth2 = google.oauth2({ version: "v2", auth: oauth2Client });
-    const userInfo = await oauth2.userinfo.get();
-    console.log("userInfo: ", userInfo);
-    res.redirect("/?success=true");
+    const { id_token } = tokens;
+    res.redirect(
+      `/account-security/login?authType="google"&success=true&value=${id_token}`
+    );
   } catch (error) {
     console.error("Error authenticating with Google:", error);
     res.redirect("/error");

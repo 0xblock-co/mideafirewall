@@ -8,6 +8,8 @@ export const errorString = {
 
 export const localStorageKeys = {
   authKey: "token",
+  userRefreshToken: "u-rt",
+  userAccessToken: "u-at",
   userEmail: "user-email",
   priceData: "priceData",
 };

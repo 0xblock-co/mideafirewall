@@ -242,7 +242,7 @@ a {
   position: relative;
   transition: all 0.5s ease;
 }
-.icon_sm_top{
+.icon_sm_top {
   width: 30px;
   height: 30px;
   border-radius: 30px;
@@ -298,4 +298,10 @@ a {
 .checkbox__primary.show {
   background: $primary;
   color: #fff;
+}
+
+.navbar-nav .show > .nav-link,
+.navbar-nav .nav-link.active {
+  color: $primary !important;
+  font-weight: 600;
 }

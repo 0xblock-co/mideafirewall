@@ -9,6 +9,11 @@ export function createCookie(name: string, value: string, days: any) {
   }
   document.cookie = `${name}=${value}${expires}; path=/`;
 }
+export function setCookieWithJwtExp(name, value, jwtToken) {
+  const payload = JSON.parse(atob(jwtToken.split(".")[1]));
+  const expirationTime = new Date(payload.exp * 1000); // Convert "exp" to milliseconds
+  document.cookie = `${name}=${value};expires=${expirationTime.toUTCString()};path=/`;
+}
 
 export function readCookie(name: string) {
   const nameEQ = `${name}=`;

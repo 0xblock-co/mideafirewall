@@ -6,18 +6,22 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { FormattedMessage } from "react-intl";
 import style from "./feature.module.scss";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function FeatureBlog({ headerData }) {
   const [activeTab, setActiveTab] = useState("2");
   const handleTabChange = (key) => setActiveTab(key);
+  const router = useRouter();
 
-  const handleFeatureCardOnClick = (feature) => {
+  const handleFeatureCardOnClick = (feature, id) => {
     if (!feature.active) {
       newInfoAlert(
         "Personalized Feature Activation",
         "If you'd like to activate this feature for your account, please get in touch with us via email, and we'll take care of it for you.",
         "Okay"
       );
+    } else {
+      router.push(`/network-blog?key=${id}`);
     }
   };
 
@@ -72,12 +76,14 @@ export default function FeatureBlog({ headerData }) {
               <Tab.Content>
                 {headerData?.map((headerOption) => (
                   <Tab.Pane key={headerOption.id} eventKey={headerOption.id}>
-                    <Row className="justify-content-lg-center">
+                    <Row className="justify-left-lg-left row">
                       {headerOption.features.map((feature, index) => (
                         <div
                           key={index}
                           className={`${style.mdf__feature__card_block} col-md-6 `}
-                          onClick={() => handleFeatureCardOnClick(feature)}
+                          onClick={() =>
+                            handleFeatureCardOnClick(feature, headerOption.id)
+                          }
                         >
                           <Card
                             className={`${style.mdf__feature__card} ${
@@ -93,10 +99,7 @@ export default function FeatureBlog({ headerData }) {
                                   src={feature.imgUrl}
                                   alt={feature.name}
                                 /> */}
-                                <img
-                                  src={feature.imgUrl}
-                                  alt={feature.name}
-                                />
+                                <img src={feature.imgUrl} alt={feature.name} />
                               </Col>
                               <Col xs={8} xl={9}>
                                 <div className="p-0">

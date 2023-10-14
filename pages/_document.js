@@ -27,6 +27,13 @@ class MyDocument extends Document {
             sizes="16x16"
             href="/meta/favicon-16x16.png"
           />
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+            integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+            crossOrigin="anonymous"
+            referrerPolicy="no-referrer"
+          />
           <link rel="manifest" href="/meta/site.webmanifest" />
 
           {/* Include tawk.to chat script */}

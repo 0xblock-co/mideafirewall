@@ -22,7 +22,7 @@ export default function PricingBlock({ priceData = [] }) {
       });
       return;
     }
-    // Router.push("/payment");
+    newInfoAlert("Comming soon...", "", "OK", "warning");
   };
 
   return (
@@ -50,6 +50,7 @@ export default function PricingBlock({ priceData = [] }) {
         <Row className="justify-content-center mt-2 mt-xxl-5">
           {priceData &&
             priceData?.map((item, index) => {
+              console.log("item: ", item);
               let className = "yellow";
               if (index >= PRICING_CARD_BG.length) {
                 className = PRICING_CARD_BG[index % PRICING_CARD_BG.length];

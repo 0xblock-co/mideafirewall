@@ -25,7 +25,6 @@ export default async (req, res) => {
 
     const tokenData = await tokenResponse.json();
     const accessToken = tokenData.access_token;
-    console.log("accessToken: ", accessToken);
     if (accessToken) {
       res.redirect("/?success=true");
     } else {

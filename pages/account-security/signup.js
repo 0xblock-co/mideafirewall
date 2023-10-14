@@ -1,50 +1,49 @@
 import { NextSeo } from "next-seo";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 
 import RegisterBlock from "@/components/Auth//register-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
+import { asyncSignUpWithEmail } from "@/services/auth/auth.service";
+import { useAppDispatch } from "@/store/hooks";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { useAuth } from "@/contexts/AuthContext";
-import { asyncLoginAndSignupService } from "@/services/auth/auth.service";
-import { checkAuthRoute } from "@/utils/globalFunctions";
 
 const SignupScreen = () => {
+  const router = useRouter();
+  const { isLogin, checkAuthRouteV2 } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
-
   useEffect(() => {
-    const { isActive, route } = checkAuthRoute();
-    if (isActive) {
-      Router.push(route);
+    const { isActive, route } = checkAuthRouteV2();
+    if (isLogin && !isActive) {
+      router.push(route);
       return;
     }
   }, []);
 
-  const handleSubmitSingUp = async (formData) => {
+  const dispatch = useAppDispatch();
+  const handleSubmitSignUp = async (formData) => {
     setIsLoading(true);
-    const params = {
-      email: formData.email,
-      passWord: formData.password || "",
-      recaptchaResponse: formData.gReCaptchaToken,
-      authType: formData?.authType || "",
-    };
 
-    const response = await asyncLoginAndSignupService(
-      params,
-      formData?.idToken
-    );
-    setIsLoading(false);
-    if (response && response.isSuccess && response.data) {
-      const { user, userToken } = response.data;
-      // TODO:: Need to handle survey form api Currently it's not getting proper response
-      Router.push("/network-blog");
-      if (user.survey) {
-        // Router.push("/network-blog");
-      } else {
-        // Router.push("/survey");
+    try {
+      const response = await dispatch(
+        asyncSignUpWithEmail({
+          ...formData,
+        })
+      );
+      setIsLoading(false);
+      if (response?.payload?.isSuccess) {
+        await newInfoAlert(
+          "Sign-Up Complete",
+          "Your sign-up is complete! Please check your email for account verification before logging in.",
+          "Continue",
+          "success"
+        );
+        router.push("/account-security/login");
       }
-      login({ ...user, ...userToken });
+    } catch (error) {
+      setIsLoading(false);
     }
   };
 
@@ -52,7 +51,7 @@ const SignupScreen = () => {
     <Fragment>
       <NextSeo title="Create Account" />
       <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
-        <RegisterBlock handleSubmitSingUp={handleSubmitSingUp} />
+        <RegisterBlock handleSubmitSingUp={handleSubmitSignUp} />
       </BoxContainerWithFilterIconWrapper>
       <Loader isLoading={isLoading} />
     </Fragment>

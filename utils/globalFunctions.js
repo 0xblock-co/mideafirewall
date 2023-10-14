@@ -3,8 +3,9 @@ import * as yup from "yup";
 
 import { localStorageKeys } from "@/constants/global.constants";
 import { readCookie } from "./cookieCreator";
-const jwt = require("jwt-simple");
-
+const jwt_simple = require("jwt-simple");
+import jwt from "jwt-decode";
+import axios from "axios";
 export const getFilteredData = (dataObj) => {
   const formElements = [];
   let counter = 0;
@@ -146,17 +147,28 @@ export const checkAuthRoute = () => {
   return { isActive: false, route: "/" };
 };
 
+
+
 export const encodeData = (data, key) => {
-  return jwt.encode(data, key);
+  return jwt_simple.encode(data, key);
 };
 
 export const decodeData = (token, key) => {
   if (token) {
-    return jwt.decode(token, key);
+    return jwt_simple.decode(token, key);
   } else {
     return null;
   }
 };
+
+export const decodeJWTToekn = (token) => {
+  return jwt(token);
+};
+export function setCookieWithExpiration(name, value) {
+  const decodedData = decodeJWTToekn(value);
+  const expirationTime = new Date(decodedData.exp * 1000);
+  document.cookie = `${name}=${value};expires=${expirationTime.toUTCString()};path=/`;
+}
 
 export const getComponentType = (type) => {
   switch (type) {
@@ -171,5 +183,37 @@ export const getComponentType = (type) => {
       return "SCROLLER";
     default:
       return "";
+  }
+};
+
+export const asyncGetAccessToken = async () => {
+  try {
+    const refreshToken = readCookie(localStorageKeys.userRefreshToken);
+    const email = readCookie(localStorageKeys.userEmail);
+    const response = axios
+      .post(`http://mediafirewall-ai.themillionvisions.com/user/refreshToken`, {
+        token: refreshToken,
+        email,
+      })
+      .then(async (res) => {
+        if (res.data && res?.isSuccess) {
+          setCookieWithExpiration(
+            localStorageKeys.userRefreshToken,
+            res.data["refreshToken"]
+          );
+          setCookieWithExpiration(
+            localStorageKeys.userAccessToken,
+            res.data["accessToken"]
+          );
+          return {
+            data: res.data,
+            isSuccess: res.isSuccess,
+          };
+        }
+        return res;
+      });
+    return response;
+  } catch (error) {
+    return error.message;
   }
 };

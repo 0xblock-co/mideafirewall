@@ -1,6 +1,5 @@
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 
-
 import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";

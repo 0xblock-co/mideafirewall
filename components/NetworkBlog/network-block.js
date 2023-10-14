@@ -11,34 +11,47 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useAppSelector } from "@/store/hooks";
 import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
 
-export default function NeetworkBlock({ allFeatures }) {
+export default function NeetworkBlock() {
+  const router = useRouter();
+  const { user, isLogin } = useAuth();
+
   const headerData = useAppSelector(getAllHeaderDataOptions);
   const [activeTab, setActiveTab] = useState("2");
-  const handleTabChange = (key) => setActiveTab(key);
-
-  const router = useRouter();
-  const { isLogin } = useAuth();
   const [selectedFeatureIds, setSelectedFeatureIds] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
 
-  const handleCheckboxChange = (featureId) => {
-    if (selectedFeatureIds.includes(featureId)) {
-      setSelectedFeatureIds(
-        selectedFeatureIds.filter((id) => id !== featureId)
-      );
-    } else {
-      setSelectedFeatureIds([...selectedFeatureIds, featureId]);
+  const handleTabChange = (key) => setActiveTab(key);
+
+  useEffect(() => {
+    const { query } = router;
+    const { key } = query;
+
+    if ("key" in query && headerData.some((item) => item.id === key)) {
+      setActiveTab(key.toString());
     }
+  }, [router.query, headerData]);
+
+  const handleCheckboxChange = (featureId) => {
+    setSelectedFeatureIds((prevSelectedFeatureIds) => {
+      if (prevSelectedFeatureIds.includes(featureId)) {
+        return prevSelectedFeatureIds.filter((id) => id !== featureId);
+      } else {
+        return [...prevSelectedFeatureIds, featureId];
+      }
+    });
   };
 
   const handleOptionChange = (featureId, selectedOption) => {
-    console.log("featureId, selectedOption .", featureId, selectedOption);
-    setSelectedOptions({ ...selectedOptions, [featureId]: selectedOption });
+    setSelectedOptions((prevSelectedOptions) => ({
+      ...prevSelectedOptions,
+      [featureId]: selectedOption,
+    }));
   };
 
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
+
       if (!isLogin) {
         newInfoAlert(
           "Login Required for Demo Access",
@@ -50,42 +63,52 @@ export default function NeetworkBlock({ allFeatures }) {
         });
         return;
       }
+
+      if (!user.surveyAnswered) {
+        newInfoAlert(
+          "Survey answers are required",
+          "Please fill the survey questionnaires to continue with the content moderation process.",
+          "Continue",
+          "warning"
+        ).then(() => {
+          router.push("/survey");
+        });
+        return;
+      }
+
       const formData = {
         selectedFeatureIds,
         selectedOptions,
       };
-      if (formData) {
-        if (CommonUtility.isValidArray(formData.selectedFeatureIds)) {
-          let finalString = "";
-          formData.selectedFeatureIds.map((item) => {
-            if (formData.selectedOptions[item]) {
-              finalString =
-                finalString +
-                `,${item}(${CommonUtility.removeWhiteSpace(
-                  formData.selectedOptions[item]
-                )})`;
-            } else {
-              finalString = finalString + `,${item}`;
-            }
-          });
 
-          if (finalString && finalString !== "") {
-            router.push(
-              `upload?filters=${CommonUtility.removeStartingComma(
-                finalString.trim()
-              )}`
-            );
-          }
+      if (formData && CommonUtility.isValidArray(formData.selectedFeatureIds)) {
+        let finalString = formData.selectedFeatureIds
+          .map((item) => {
+            const option = formData.selectedOptions[item];
+            const optionString = option
+              ? `(${CommonUtility.removeWhiteSpace(option)})`
+              : "";
+            return `,${item}${optionString}`;
+          })
+          .join("");
+
+        if (finalString && finalString !== "") {
+          router.push(
+            `upload?filters=${CommonUtility.removeStartingComma(
+              finalString.trim()
+            )}`
+          );
         } else {
           newInfoAlert(
-            "",
-            "Please select any features along with associated sub feature.",
-            "OK"
+            "Select any modal",
+            "Please select any features along with associated sub-feature.",
+            "OK",
+            "warning"
           );
         }
       }
     },
-    [selectedFeatureIds, selectedOptions]
+    [selectedFeatureIds, selectedOptions, isLogin, router, user]
   );
 
   return (
@@ -103,30 +126,34 @@ export default function NeetworkBlock({ allFeatures }) {
                   variant="pills"
                   className="flex-row flex-wrap justify-content-lg-around"
                 >
-                  {CommonUtility.isValidArray(headerData) &&
-                    headerData.map(
-                      (headerOption) =>
-                        headerOption.active && (
-                          <Nav.Item
-                            key={headerOption.id}
-                            className="me-3 me-lg-0 mt-3 mt-lg-0"
+                  {headerData?.map((headerOption) => {
+                    if (headerOption.active) {
+                      return (
+                        <Nav.Item
+                          key={headerOption.id}
+                          className="me-3 me-lg-0 mt-3 mt-lg-0"
+                        >
+                          <Nav.Link
+                            className="mdf__btn_large"
+                            eventKey={headerOption.id}
                           >
-                            <Nav.Link
-                              className="mdf__btn_large"
-                              eventKey={headerOption.id}
-                            >
-                              {headerOption.name}
-                            </Nav.Link>
-                          </Nav.Item>
-                        )
-                    )}
+                            {headerOption.name}
+                          </Nav.Link>
+                        </Nav.Item>
+                      );
+                    }
+                    return null;
+                  })}
                 </Nav>
                 <Tab.Content>
-                  {headerData?.map((headerOption) => (
-                    <Tab.Pane key={headerOption.id} eventKey={headerOption.id}>
-                      <Row>
-                        {CommonUtility.isValidArray(allFeatures) &&
-                          allFeatures.map((item) => (
+                  {headerData?.map((headerOption) => {
+                    return (
+                      <Tab.Pane
+                        key={headerOption.id}
+                        eventKey={headerOption.id}
+                      >
+                        <Row>
+                          {headerOption.features?.map((item) => (
                             <Col md={6} xl={4} className="mt-4" key={item.name}>
                               <Form.Control
                                 type="checkbox"
@@ -167,55 +194,50 @@ export default function NeetworkBlock({ allFeatures }) {
                                 </h5>
                                 <p className="mt-3">{item.description}</p>
                                 <div className="d-flex flex-wrap mt-3 gap-3">
-                                  {CommonUtility.isValidArray(item.options) &&
-                                    item.options.map((opt, i) => {
-                                      console.log(
-                                        "adasd",
-                                        selectedOptions[item.webFeatureKey] ==
-                                          opt.name
-                                      );
-                                      return (
-                                        <div
-                                          key={
+                                  {item.options?.map((opt, i) => {
+                                    return (
+                                      <div
+                                        key={
+                                          item.featureId +
+                                          opt.name.replace(/\s/g, "")
+                                        }
+                                      >
+                                        <input
+                                          type="radio"
+                                          className="btn-check"
+                                          name={item.featureId}
+                                          onChange={() =>
+                                            handleOptionChange(
+                                              item.webFeatureKey,
+                                              opt.name
+                                            )
+                                          }
+                                          id={
+                                            item.featureId +
+                                            opt.name.replace(/\s/g, "")
+                                          }
+                                          autoComplete="off"
+                                        />
+                                        <label
+                                          className="btn btn-outline-dark px-2 text-xs"
+                                          htmlFor={
                                             item.featureId +
                                             opt.name.replace(/\s/g, "")
                                           }
                                         >
-                                          <input
-                                            type="radio"
-                                            className="btn-check"
-                                            name={item.featureId}
-                                            onChange={() =>
-                                              handleOptionChange(
-                                                item.webFeatureKey,
-                                                opt.name
-                                              )
-                                            }
-                                            id={
-                                              item.featureId +
-                                              opt.name.replace(/\s/g, "")
-                                            }
-                                            autoComplete="off"
-                                          />
-                                          <label
-                                            className="btn btn-outline-dark px-2 text-xs"
-                                            htmlFor={
-                                              item.featureId +
-                                              opt.name.replace(/\s/g, "")
-                                            }
-                                          >
-                                            {opt.name}
-                                          </label>
-                                        </div>
-                                      );
-                                    })}
+                                          {opt.name}
+                                        </label>
+                                      </div>
+                                    );
+                                  })}
                                 </div>
                               </label>
                             </Col>
                           ))}
-                      </Row>
-                    </Tab.Pane>
-                  ))}
+                        </Row>
+                      </Tab.Pane>
+                    );
+                  })}
                 </Tab.Content>
               </Tab.Container>
             </Col>

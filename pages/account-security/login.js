@@ -1,50 +1,79 @@
-import { NextSeo } from "next-seo";
-import Router from "next/router";
 import { Fragment, useEffect, useState } from "react";
-
-import LoginBlock from "@/components/Auth//login-block";
+import { NextSeo } from "next-seo";
+import { useAppDispatch } from "@/store/hooks";
+import LoginBlock from "@/components/Auth/login-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
+import {
+  asyncLoginWithEmail,
+  asyncSocialAuth,
+} from "@/services/auth/auth.service";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
+import { useRouter } from "next/router";
 import { useAuth } from "@/contexts/AuthContext";
-import { asyncLoginAndSignupService } from "@/services/auth/auth.service";
-import { checkAuthRoute } from "@/utils/globalFunctions";
 
 const LoginScreen = () => {
-  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { isLogin, checkAuthRouteV2 } = useAuth();
 
   useEffect(() => {
-    const { isActive, route } = checkAuthRoute();
-    if (isActive) {
-      Router.push(route);
+    const { isActive, route } = checkAuthRouteV2();
+    if (isLogin && !isActive) {
+      router.push(route);
       return;
     }
   }, []);
 
+  useEffect(() => {
+    if ("value" in router.query && router.query?.value !== "") {
+      dispatch(
+        asyncSocialAuth({
+          authType: "google",
+          idToken: router.query?.value,
+        })
+      )
+        .unwrap()
+        .then((response) => {
+          if (!response.surveyAnswered) {
+            router.push("/survey");
+          }
+          router.push("/network-blog");
+        });
+    }
+  }, [router.query]);
+
   const handleLoginSubmit = async (formData) => {
     setIsLoading(true);
-    const params = {
-      email: formData.email,
-      passWord: formData.password || "",
-      recaptchaResponse: formData.gReCaptchaToken,
-      authType: formData?.authType || "",
-    };
-    const response = await asyncLoginAndSignupService(
-      params,
-      formData?.idToken
-    );
-    setIsLoading(false);
-    if (response && response.isSuccess && response.data) {
-      const { user, userToken } = response.data;
-      // TODO:: Need to handle survey form api Currently it's not getting proper response
-      Router.push("/network-blog");
 
-      if (user.survey) {
-        // Router.push("/network-blog");
-      } else {
-        // Router.push("/survey");
+    try {
+      const response = await dispatch(
+        asyncLoginWithEmail({
+          email: formData.email,
+          passWord: formData.password || "",
+          recaptchaResponse: formData.gReCaptchaToken,
+          authType: formData?.authType,
+        })
+      );
+      setIsLoading(false);
+      if (response?.payload?.isSuccess) {
+        const { surveyAnswered, emailVerified } = response?.payload;
+        if (!emailVerified) {
+          await newInfoAlert(
+            "Email Verification Required",
+            "Please check your email and verify it before attempting to log in.",
+            "OK",
+            "error"
+          );
+        } else if (!surveyAnswered) {
+          router.push("/survey");
+        } else {
+          router.push("/network-blog");
+        }
       }
-      login({ ...user, ...userToken });
+    } catch (error) {
+      setIsLoading(false);
     }
   };
 

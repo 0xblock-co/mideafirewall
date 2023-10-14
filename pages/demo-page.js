@@ -4,7 +4,6 @@ import {
   asyncGetContentEventLogs,
 } from "@/services/product/product.service";
 
-import { checkAuthRoute } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
 import Router, { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -58,7 +57,7 @@ function getMatchingValues(data) {
 export default function DemoPage() {
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, checkAuthRouteV2 } = useAuth();
   const [isFetchingState, setIsFetchingState] = useState(true);
   // const [eventLogData, setEventLogData] = useState({
   //   videoId: "V490787171680137_sams@trek.com_URL_61743",
@@ -144,17 +143,16 @@ export default function DemoPage() {
   const handleShowModal = () => setShowModal(true);
 
   useEffect(() => {
-    const { isActive, route } = checkAuthRoute();
-    let isFetching = true;
-    setIsFetchingState(true);
+    const { isActive, route } = checkAuthRouteV2();
 
     if (!isActive) {
       Router.push(route);
       return;
     }
+    let isFetching = true;
+    setIsFetchingState(true);
 
     const fetchData = async () => {
-      console.log("router: ", router);
       while (
         isFetching &&
         router.query.videoId &&
@@ -215,7 +213,7 @@ export default function DemoPage() {
         formData.append("recipients", data[selectedOption].toString());
       }
 
-      const res = await asyncGenerateProofsByEmail(user.token, formData);
+      const res = await asyncGenerateProofsByEmail(user.api_secret, formData);
 
       if (res.isSuccess) {
         console.log("Proofs generated successfully:", res.data);

@@ -8,7 +8,7 @@ export default function NeetworkBanner() {
         <Row className="justify-content-center">
           <Col md={6}>
             <h2 className="text-blue fw-normal fw-bolder pt-5">
-              Get started with Image Moderation
+              Get started with Content Moderation
             </h2>
             {/* <Breadcrumb className="mt-3">
               <Breadcrumb.Item href="#" active>

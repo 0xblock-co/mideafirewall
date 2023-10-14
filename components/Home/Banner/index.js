@@ -1,14 +1,10 @@
 import Router from "next/router";
 import { Button } from "react-bootstrap";
 
-import { useAuth } from "@/contexts/AuthContext";
-
 import { FormattedMessage } from "react-intl";
 import style from "./banner.module.scss";
 
 export default function HomeBanner() {
-  const { isLogin } = useAuth();
-
   return (
     <section className={style.mdf__banner__back}>
       <div className={style.mdf__banner_text}>
@@ -31,9 +27,7 @@ export default function HomeBanner() {
         <Button
           variant="primary"
           className="rounded-pill button_primary py-2 px-4"
-          onClick={() =>
-            Router.push(isLogin ? "/network-blog" : "/account-security/login")
-          }
+          onClick={() => Router.push("/network-blog")}
         >
           <FormattedMessage id="button.See Demo" />
         </Button>

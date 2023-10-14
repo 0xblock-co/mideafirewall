@@ -58,15 +58,18 @@ const LoginScreen = () => {
       );
       setIsLoading(false);
       if (response?.payload?.isSuccess) {
-        const { surveyAnswered, emailVerified } = response?.payload;
-        if (!emailVerified) {
-          await newInfoAlert(
+        const payload = response.payload;
+
+        if (payload.emailVerified === false) {
+          newInfoAlert(
             "Email Verification Required",
             "Please check your email and verify it before attempting to log in.",
             "OK",
             "error"
-          );
-        } else if (!surveyAnswered) {
+          ).then(() => {
+            // Handle the case when email is not verified
+          });
+        } else if (payload.surveyAnswered === false) {
           router.push("/survey");
         } else {
           router.push("/network-blog");

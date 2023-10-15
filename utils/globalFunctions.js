@@ -147,8 +147,6 @@ export const checkAuthRoute = () => {
   return { isActive: false, route: "/" };
 };
 
-
-
 export const encodeData = (data, key) => {
   return jwt_simple.encode(data, key);
 };
@@ -191,10 +189,13 @@ export const asyncGetAccessToken = async () => {
     const refreshToken = readCookie(localStorageKeys.userRefreshToken);
     const email = readCookie(localStorageKeys.userEmail);
     const response = axios
-      .post(`http://mediafirewall-ai.themillionvisions.com/user/refreshToken`, {
-        token: refreshToken,
-        email,
-      })
+      .post(
+        `https://mediafirewall-ai.themillionvisions.com/user/refreshToken`,
+        {
+          token: refreshToken,
+          email,
+        }
+      )
       .then(async (res) => {
         if (res.data && res?.isSuccess) {
           setCookieWithExpiration(

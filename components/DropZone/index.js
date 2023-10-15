@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useCallback, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
-import { HiOutlineX } from "react-icons/hi";
 
 const DropZoneComponent = ({
   onContentDrop,
@@ -94,9 +93,9 @@ const DropZoneComponent = ({
               alt=""
               className="object-fit rounded-4 image_hover mt-3"
             />
-            <div className="icon_sm_top position-absolute d-flex justify-content-center align-items-center">
+            {/* <div className="icon_sm_top position-absolute d-flex justify-content-center align-items-center">
               <HiOutlineX style={{ fontSize: "18px" }} />
-            </div>
+            </div> */}
           </div>
         ))}
       </div>

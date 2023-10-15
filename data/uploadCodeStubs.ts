@@ -1,14 +1,14 @@
 export const UPLOAD_USING_CODE_STUBS = [
   {
     title: "Curl",
-    urlSnippets: `curl -X POST "http://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters?filters={selectedFilters}&mediaUrl=&apikey={api_secret}`,
-    fileSnippets: `curl -X POST "http://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters?filters={selectedFilters}&apikey={api_secret}" / -F "file=@path"`,
+    urlSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters?filters={selectedFilters}&mediaUrl=&apikey={api_secret}`,
+    fileSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters?filters={selectedFilters}&apikey={api_secret}" / -F "file=@path"`,
   },
   {
     title: "Python",
     urlSnippets: `import requests
 
-url = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters'
+url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters'
 
 params = {
   'filters': '{selectedFilters}',
@@ -20,7 +20,7 @@ response = requests.post(url, params=params)
 print(response.text)`,
     fileSnippets: `import requests
 
-url = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters'
+url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters'
 
 params = {
   'filters': '{selectedFilters}',
@@ -42,7 +42,7 @@ public class UrlRequest {
   public static void main(String[] args) {
     ResponseEntity<String> result = null;
     RestTemplate restTemplate = new RestTemplate();
-    String baseUrl = "http://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters";
+    String baseUrl = "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters";
 
     UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(baseUrl)
       .queryParam("filters", '{selectedFilters}')
@@ -70,7 +70,7 @@ public class UploadRequest {
         ResponseEntity<String> result = null;
         RestTemplate restTemplate = new RestTemplate();
 
-        String apiUrl = "http://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters";
+        String apiUrl = "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters";
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(apiUrl)
                 .queryParam("filters", '{selectedFilters}')
                 .queryParam("apikey", '{api_secret}');
@@ -99,7 +99,7 @@ public class UploadRequest {
     title: "Javascript",
     urlSnippets: `const axios = require('axios');
 
-const url = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters';
+const url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters';
 
 const params = {
   mediaUrl: '{MEDIA_URL}',
@@ -121,7 +121,7 @@ axios.post(url, null, { params })
 const FormData = require('form-data');
 const fs = require('fs');
 
-const url = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters';
+const url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters';
 
 data = new FormData();
 data.append('file', fs.createReadStream(''));

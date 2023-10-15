@@ -145,7 +145,7 @@ export default function UploadTabs() {
         }
       );
       if (
-        response.isSuccess &&
+        response?.isSuccess &&
         CommonUtility.isNotEmpty(response.data.videoId)
       ) {
         ToastMessage.success("Uploaded successfully.");
@@ -167,6 +167,8 @@ export default function UploadTabs() {
         //   user.token
         // );
         // console.log("contentEventLogs: ", contentEventLogs);
+      } else {
+        await setIsUploading(false);
       }
     } else if (imageUrl && router.query?.filters !== "") {
       const response = await asyncUploadContentByUrl(
@@ -211,6 +213,7 @@ export default function UploadTabs() {
         "error"
       );
     }
+    await setIsUploading(false);
   };
 
   return (

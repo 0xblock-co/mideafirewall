@@ -91,7 +91,7 @@ export const asyncSocialAuth = createAsyncThunk(
     try {
       const response = api
         .post(
-          `http://mediafirewall-ai.themillionvisions.com/user/social/signIn`,
+          `https://mediafirewall-ai.themillionvisions.com/user/social/signIn`,
           payload,
           {},
           true,

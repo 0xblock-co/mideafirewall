@@ -86,7 +86,7 @@ const instanceCreator = (baseUrl = null): AxiosInstance => {
    */
   const responseInterceptorError = async (error: AxiosError) => {
     const config = error?.config as CustomAxiosConfig;
-    if (error?.response?.status === 401 && !config._retry) {
+    if (error?.response?.status === 401) { // && !config._retry
       const refreshTokenResponse = await refreshAccessToken();
       if (!refreshTokenResponse.isSuccess) {
         eraseCookie(localStorageKeys.userAccessToken);
@@ -94,7 +94,7 @@ const instanceCreator = (baseUrl = null): AxiosInstance => {
         localStorage.clear();
         return Promise.reject(error);
       }
-      config._retry = true;
+      // config._retry = true;
       // config.withCredentials = true;
       return axios(config);
     }

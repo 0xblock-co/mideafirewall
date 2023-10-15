@@ -72,6 +72,7 @@ export default function HeaderTop() {
                                 placement="left"
                                 overlay={
                                   <Tooltip id={`tooltip-${index}`}>
+                                    Example: <br />
                                     {data?.examples.join(", ")}
                                   </Tooltip>
                                 }
@@ -81,7 +82,7 @@ export default function HeaderTop() {
                                   aria-hidden="true"
                                 ></i>
                               </OverlayTrigger>
-                              {data.name}
+                              <span className="ml-5">{data.name}</span>
                             </span>
                           }
                           id={`nested-dropdown-${index}`}

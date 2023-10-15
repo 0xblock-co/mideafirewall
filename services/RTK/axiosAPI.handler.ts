@@ -7,7 +7,7 @@ import {
 import instanceCreator from "./instanceCreator";
 
 import { errorString } from "@/constants/global.constants";
-import { ToastMessage } from "@/utils/toastMessage.utils";
+import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 import { CustomAxiosConfig, ErrorResult, SuccessData } from "./axios";
 
 class Api {
@@ -63,6 +63,7 @@ class Api {
                     message: response.statusText,
                     isStore: false,
                 };
+                console.log("error Data ::", errorData);
                 throw new Error(
                     JSON.stringify(Api.getErrorData(errorData, isErrorHandle))
                 );
@@ -101,7 +102,7 @@ class Api {
      * @returns A Promise that rejects with the error data.
      */
     private handleError<T>(
-        error: AxiosError,
+        error: AxiosError | any,
         url: string,
         data: object | null,
         isErrorHandle: boolean
@@ -110,6 +111,7 @@ class Api {
             const errorData = {
                 code: error.response.status,
                 message: error.response.statusText,
+                apiMessage: error.response.data.detail || ""
             };
             return Promise.reject<T>(Api.getErrorData(errorData, isErrorHandle));
         }
@@ -173,6 +175,7 @@ class Api {
                 ...conf,
             })
             .then((response: AxiosResponse<T>) => {
+                console.log('response: ', response);
                 return this.handleResponse<T, any>(
                     response,
                     url,
@@ -181,9 +184,10 @@ class Api {
                     isSuccessHandle
                 );
             })
-            .catch((error: AxiosError) =>
+            .catch((error: AxiosError) => {
+                console.log('error: jemish', error);
                 this.handleError(error, url, data, isErrorHandle)
-            );
+            });
     }
 
     /**
@@ -334,11 +338,34 @@ class Api {
         isErrorHandle: boolean
     ): ErrorResult | any {
         // Prepare error data
+        const code: string | number = errorData.code || "";
+        if (isErrorHandle && errorData?.code === 403 && errorData?.apiMessage) {
+            newInfoAlert("Authentication Error", errorData?.apiMessage || "", "OK", "error").then(() => {
+                return {
+                    isSuccess: false,
+                    isStore: false,
+                    code: code.toString(),
+                    message: errorData.message || errorString.catchError,
+                };
+            })
+            return;
+        }
+
+        if (isErrorHandle && errorData?.code === 404 && errorData?.apiMessage) {
+            newInfoAlert("Authentication Error", errorData?.apiMessage || "", "OK", "error").then(() => {
+                return {
+                    isSuccess: false,
+                    isStore: false,
+                    code: code.toString(),
+                    message: errorData.message || errorString.catchError,
+                };
+            })
+            return;
+        }
+
         if (isErrorHandle && errorData.code) {
             ToastMessage.error(errorData?.message?.toString() || errorData?.successCode?.toString() || errorString.catchError);
         }
-
-        const code: string | number = errorData.code || "";
 
         return {
             isSuccess: false,

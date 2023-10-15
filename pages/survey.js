@@ -9,12 +9,15 @@ import { asyncSurveySubmitAnswers } from "@/services/auth/auth.service";
 import { asyncGetQuestions } from "@/services/product/product.service";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
+import { authActions } from "@/store/auth.slice";
+import { useAppDispatch } from "@/store/hooks";
 
 export default function Survey() {
   const [formData, setFormData] = useState([]);
   const [defaultValue, setDefaultValue] = useState({});
   const [formAnswerData, setFormAnswerData] = useState([]);
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { isLogin, user, checkAuthRouteV2 } = useAuth();
 
   useEffect(() => {
@@ -87,6 +90,7 @@ export default function Survey() {
       );
       if (response) {
         if (response.isSuccess) {
+          dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
           Router.push("/network-blog");
           return;
         } else {

@@ -305,3 +305,12 @@ a {
   color: $primary !important;
   font-weight: 600;
 }
+
+.support-list {
+  li {
+    .check {
+      height: 20px !important;
+      width: 20px !important;
+    }
+  }
+}

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Router from "next/router";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { PRICING_CARD_BG } from "@/constants/global.constants";
@@ -79,11 +80,13 @@ export default function PricingBlock({ priceData = [] }) {
                         <span>/mo</span>
                       </div>
                       <h4 className="my-4"> {item?.maxOperations?.value} </h4>
-                      {/* <p className="px-2">
+                      <p className="px-2">
                         {item?.dailyLimit != "-1"
-                          ? `Operations per month  (max ${item?.dailyLimit} per day)`
-                          : `Operations per month + $${} per additional op`}
-                      </p> */}
+                          ? `Operations per month (max ${item?.dailyLimit} per day) + $${item.additionalCharge?.value} per additional op`
+                          : `Operations   per month + $${item.additionalCharge?.value} per additional op`}
+                        {/* Operations per month (max {item?.dailyLimit} per day)+ $
+                        {item.additionalCharge?.value} per additional op */}
+                      </p>
                       <h4>{item?.parallelismLimit}</h4>
                       {CommonUtility.isValidArray(item.supportOptions) &&
                         item.supportOptions?.map((item, index) => {
@@ -92,12 +95,51 @@ export default function PricingBlock({ priceData = [] }) {
                               <p className="px-2" key={index}>
                                 {item.name} at ${item.price?.value}
                               </p>
-                              <ul className="p-0 d-flex flex-wrap align-items-center text-start">
+                              {/* <div
+                                data-tippy-content="<video autoplay loop muted playsinline data-src='https://synthesia-results.s3.eu-west-1.amazonaws.com/website_demos/Features-short-demos/120_languages_and_accents.mp4' type='video/mp4' ></video> Number of stock voices you have access to in Synthesia STUDIO"
+                                className="flex flex-gap_05"
+                              >
+                                <img
+                                  loading="lazy"
+                                  src="https://assets-global.website-files.com/61dc0796f359b6145bc06ea6/64103504f4a10b57fdc9dbdd_CheckCircle.svg"
+                                  alt="Yes"
+                                />
+                                <p className="paragraph-default text-size-small pricing-link">
+                                  <strong className="text-weight-semibold">
+                                    120+
+                                  </strong>{" "}
+                                  Languages and Voices
+                                </p>
+                                <a
+                                  href="#"
+                                  className="pricing-tooltip-main w-inline-block"
+                                >
+                                  <img
+                                    loading="lazy"
+                                    src="https://assets-global.website-files.com/61dc0796f359b6145bc06ea6/64106055324f14b8d06d959f_Info.svg"
+                                    alt=""
+                                  />
+                                </a>
+                              </div> */}
+
+                              <ul className="px-3 support-list">
                                 {CommonUtility.isValidArray(
                                   item.supportFeatures
                                 ) &&
                                   item.supportFeatures.map((feature, index) => (
-                                    <li className="w-75 ms-auto" key={index}>
+                                    <li
+                                      className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-center"
+                                      // className="w-75 ms-auto d-flex justify-content-center align-items-center"
+                                      key={index}
+                                      style={{
+                                        listStyleType: "none",
+                                      }}
+                                    >
+                                      <img
+                                        className="check"
+                                        src="/images/CheckCircle.svg"
+                                        alt="supportFeatures"
+                                      />
                                       {feature}
                                     </li>
                                   ))}

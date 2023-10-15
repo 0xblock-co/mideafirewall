@@ -38,7 +38,7 @@ export default function FeatureBlog({ headerData }) {
     <section className={style.mdf__personalized_feature}>
       <Container fluid className="px-xl-5">
         <Row className="justify-content-center">
-          <Col xxl={5}>
+          <Col xxl={7}>
             <h1 className="fw-bold text-shadow text-center">
               <FormattedMessage id="page.home.featureBlog.mainTitle" />
             </h1>

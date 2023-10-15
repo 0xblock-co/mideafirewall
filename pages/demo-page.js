@@ -161,9 +161,9 @@ export default function DemoPage() {
       ) {
         try {
           const response = await asyncGetContentEventLogs(
-            "sams@trek.com",
+            user?.userDetails?.email, // "sams@trek.com",
             encodeURIComponent(router.query.videoId),
-            "91owFp3rCq48IC7IIMFkBCnPshIsGPZC"
+            user?.api_secret //  "91owFp3rCq48IC7IIMFkBCnPshIsGPZC"
           );
           if (response.isSuccess) {
             console.log("response", response);

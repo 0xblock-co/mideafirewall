@@ -9,7 +9,7 @@ export default function Moderation() {
     <section className={style.mdf__moderation__back}>
       <Container fluid="md">
         <Row className="justify-content-center">
-          <Col lg={10} xxl={5}>
+          <Col lg={10} xxl={7}>
             <h1 className="fw-bold text-shadow text-center">
               <FormattedMessage id="page.home.moderation.mainTitle" />
             </h1>
@@ -17,7 +17,7 @@ export default function Moderation() {
         </Row>
         <Row className="justify-content-center">
           <Col sm={6} className="mt-3 mt-lg-5">
-            <Card className="p-3 p-lg-5 h-100">
+            <Card className={`p-3 p-lg-5 h-100 ${style.card_custom}`}>
               <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
                 <FormattedMessage id="page.home.moderation.Traditional Manual moderation" />
               </Card.Title>
@@ -77,7 +77,7 @@ export default function Moderation() {
           </Col>
           <Col sm={6} className="mt-3 mt-lg-5">
             {/* TODO:: Need to update the features list based on the market competitors  */}
-            <Card className="py-3 py-lg-5 h-100">
+            <Card className={`p-3 p-lg-5 h-100 ${style.card_custom}`}>
               <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
                 <FormattedMessage id="page.home.moderation.Midea Firewall Content Moderation" />
               </Card.Title>

@@ -30,10 +30,7 @@ const ForgotPasswordBlock = () => {
   });
 
   //Form submit method
-  const onSubmitLogin = (data) => {
-    console.log(data);
-    Router.push("/account-security/login");
-  };
+  const onSubmitLogin = () => Router.push("/account-security/login");
 
   //render method
   return (

@@ -44,7 +44,6 @@ export const checkContentValidation = async (fileData, isContentUpload) => {
   const files = [];
   if (fileData) {
     // fileData.map((item) => {
-    //   console.log("item ::", item);
     //   if (item.file) {
     //     contentItem.push(item);
     //     files.push(item.file);

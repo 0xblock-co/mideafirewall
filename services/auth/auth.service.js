@@ -11,14 +11,12 @@ const api = Api.getInstance();
 export const asyncLoginWithEmail = createAsyncThunk(
   "LOGIN_WITH_EMAIL",
   async (payload, thunkAPI) => {
-    console.log("payload: ", payload);
     try {
       const response = api
         .post(`/user/signIn/form`, payload, {}, true, false)
         .then(async (res) => {
           if (res && res?.isSuccess) {
             if (res.data && res.data.tokens) {
-              console.log("jemmsdfsdfsd");
               setCookieWithExpiration(
                 localStorageKeys.userRefreshToken,
                 res.data.tokens.refreshToken

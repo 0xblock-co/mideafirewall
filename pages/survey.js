@@ -33,8 +33,6 @@ export default function Survey() {
     const response = await asyncGetQuestions();
     if (response && response.isSuccess && response.data) {
       const data = getFilteredData(response.data.questions);
-      // console.log("data :>> ", data);
-      // console.log("formElements 1 :>> ", formElements);
       if (data) {
         const defaultValue = {};
         data.forEach((element) => {
@@ -49,10 +47,8 @@ export default function Survey() {
       }
     }
   };
-  const onSubmitForm = async (data, id) => {
-    // console.log("id: ", id);
-    // console.log("data: ", data);
 
+  const onSubmitForm = async (data, id) => {
     const questionObj = formData.find((value) => value.id === id);
     const cloneFormAnswerData = cloneDeep(formAnswerData);
     const lastElement = formData[formData?.length - 1];
@@ -63,7 +59,6 @@ export default function Survey() {
         (item) => item.value == ans
       )?.label;
       ans = radioSelectedValue;
-      // console.log("radioObj: ", radioSelectedValue);
     }
 
     const answerObj = {
@@ -83,7 +78,6 @@ export default function Survey() {
     }));
 
     if (id === lastElement.id) {
-      // console.log("cloneFormAnswerData: Finall ", cloneFormAnswerData);
       const response = await asyncSurveySubmitAnswers(
         cloneFormAnswerData,
         user

@@ -48,8 +48,6 @@ function App({ Component, ...rest }) {
   // const getProducts = async () => {
   //   // const response = await asyncGetProducts();
   //   const response = await asyncGetProducts_v2();
-  //   console.log("response_v2: ", response);
-
   //   if (response && response.isSuccess && response.data) {
   //     setHeaderData(response.data);
   //   }

@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log("userDetails: ", userDetails);
     setUser(userDetails);
   }, [userDetails]);
 
@@ -81,7 +80,6 @@ export const AuthProvider = ({ children }) => {
     return { isActive: false, route: "/" };
   };
 
-  console.log("user 1:", user?.isLoggedIn || false);
   return (
     <AuthContext.Provider
       value={{

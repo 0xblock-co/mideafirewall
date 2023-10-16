@@ -18,7 +18,5 @@ export default (req, res) => {
     access_type: "offline",
     scope: SCOPES,
   });
-  console.log("authUrl: ", authUrl);
-
   res.redirect(authUrl);
 };

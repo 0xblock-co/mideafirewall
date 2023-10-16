@@ -10,7 +10,6 @@ import style from "./network-blog.module.scss";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppSelector } from "@/store/hooks";
 import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
-
 export default function NeetworkBlock() {
   const router = useRouter();
   const { user, isLogin } = useAuth();
@@ -22,10 +21,12 @@ export default function NeetworkBlock() {
 
   const handleTabChange = (key) => {
     setActiveTab(key);
-    setSelectedFeatureIds([]);
-    setSelectedOptions({});
   };
-
+  useEffect(() => {
+    setSelectedFeatureIds([]);
+    setSelectedRadioOption([]);
+    setSelectedOptions({});
+  }, [activeTab]);
   useEffect(() => {
     const { query } = router;
     const { key } = query;
@@ -35,22 +36,87 @@ export default function NeetworkBlock() {
     }
   }, [router.query, headerData]);
 
+  // const handleCheckboxChange = (featureId) => {
+  //   console.log("featureId: ", featureId);
+  //   setSelectedFeatureIds((prevSelectedFeatureIds) => {
+  //     if (prevSelectedFeatureIds.includes(featureId)) {
+  //       return prevSelectedFeatureIds.filter((id) => id !== featureId);
+  //     } else {
+  //       return [...prevSelectedFeatureIds, featureId];
+  //     }
+  //   });
+  // };
   const handleCheckboxChange = (featureId) => {
     setSelectedFeatureIds((prevSelectedFeatureIds) => {
-      if (prevSelectedFeatureIds.includes(featureId)) {
-        return prevSelectedFeatureIds.filter((id) => id !== featureId);
+      if (prevSelectedFeatureIds[activeTab]) {
+        // If the selectedFeatureIds for this tab already exist, update it
+        if (prevSelectedFeatureIds[activeTab].includes(featureId)) {
+          return {
+            ...prevSelectedFeatureIds,
+            [activeTab]: prevSelectedFeatureIds[activeTab].filter(
+              (id) => id !== featureId
+            ),
+          };
+        } else {
+          return {
+            ...prevSelectedFeatureIds,
+            [activeTab]: [...prevSelectedFeatureIds[activeTab], featureId],
+          };
+        }
       } else {
-        return [...prevSelectedFeatureIds, featureId];
+        // If the selectedFeatureIds for this tab don't exist, create a new array
+        return {
+          ...prevSelectedFeatureIds,
+          [activeTab]: [featureId],
+        };
       }
     });
   };
-
+  const [selectedRadioOption, setSelectedRadioOption] = useState([]);
+  useEffect(() => {
+    console.log("selectedRadioOption :11:", selectedRadioOption);
+  }, [selectedRadioOption]);
   const handleOptionChange = (featureId, selectedOption) => {
-    setSelectedOptions((prevSelectedOptions) => ({
-      ...prevSelectedOptions,
-      [featureId]: selectedOption,
-    }));
+    const cloneSelectedRadioOption =
+      selectedRadioOption && selectedRadioOption.length > 0
+        ? [...selectedRadioOption]
+        : [];
+
+    if (CommonUtility.isValidArray(cloneSelectedRadioOption)) {
+      const availableDataIndex = cloneSelectedRadioOption.findIndex(
+        (item) => item.featureId === featureId && item.activeTab === activeTab
+      );
+      console.log("availableDataIndex: ", availableDataIndex);
+      if (availableDataIndex !== -1) {
+        cloneSelectedRadioOption[availableDataIndex] = {
+          ...cloneSelectedRadioOption[availableDataIndex],
+          featureId,
+          selectedOption,
+          activeTab,
+        };
+      } else {
+        cloneSelectedRadioOption.push({
+          featureId,
+          selectedOption,
+          activeTab,
+        });
+      }
+    } else {
+      cloneSelectedRadioOption.push({
+        featureId,
+        selectedOption,
+        activeTab,
+      });
+    }
+    setSelectedRadioOption(cloneSelectedRadioOption);
   };
+
+  // const handleOptionChange = (featureId, selectedOption) => {
+  //   setSelectedOptions((prevSelectedOptions) => ({
+  //     ...prevSelectedOptions,
+  //     [featureId]: selectedOption,
+  //   }));
+  // };
 
   const onSubmit = useCallback(
     (e) => {
@@ -163,10 +229,13 @@ export default function NeetworkBlock() {
                                 type="checkbox"
                                 className="btn-check"
                                 value={item.webFeatureKey}
-                                name={`tab-${activeTab}-${item.featureId}`}
-                                id={`btn-check-outlined tab-${activeTab}-${item.featureId}`}
+                                id={`btn-check-outlined ${item.featureId}`}
                                 hidden
+                                checked={selectedFeatureIds[
+                                  activeTab
+                                ]?.includes(item.webFeatureKey)}
                                 onChange={() => {
+                                  console.log("Click ");
                                   if (!item.active) {
                                     newInfoAlert(
                                       "Personalized Feature Activation",
@@ -185,7 +254,7 @@ export default function NeetworkBlock() {
                                     ? style.mdf__feature__card_inactive
                                     : ""
                                 }`}
-                                htmlFor={`btn-check-outlined tab-${activeTab}-${item.featureId}`}
+                                htmlFor={`btn-check-outlined ${item.featureId}`}
                               >
                                 <div>
                                   <img
@@ -210,7 +279,18 @@ export default function NeetworkBlock() {
                                         <input
                                           type="radio"
                                           className="btn-check"
-                                          name={item.featureId}
+                                          checked={
+                                            selectedRadioOption &&
+                                            selectedRadioOption.length > 0 &&
+                                            selectedRadioOption.findIndex(
+                                              (a) =>
+                                                a.selectedOption === opt.name &&
+                                                a.activeTab === activeTab &&
+                                                a.featureId ===
+                                                  item.webFeatureKey
+                                            ) !== -1
+                                          }
+                                          name={`radio-${item.featureId}-${activeTab}`}
                                           onChange={() =>
                                             handleOptionChange(
                                               item.webFeatureKey,
@@ -218,6 +298,7 @@ export default function NeetworkBlock() {
                                             )
                                           }
                                           id={
+                                            activeTab +
                                             item.featureId +
                                             opt.name.replace(/\s/g, "")
                                           }
@@ -226,6 +307,7 @@ export default function NeetworkBlock() {
                                         <label
                                           className="btn btn-outline-dark px-2 text-xs"
                                           htmlFor={
+                                            activeTab +
                                             item.featureId +
                                             opt.name.replace(/\s/g, "")
                                           }

@@ -5,24 +5,43 @@ import { Fragment, useEffect, useState } from "react";
 import RegisterBlock from "@/components/Auth//register-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
-import { asyncSignUpWithEmail } from "@/services/auth/auth.service";
+import {
+  asyncSignUpWithEmail,
+  asyncSocialAuth,
+} from "@/services/auth/auth.service";
 import { useAppDispatch } from "@/store/hooks";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { useAuth } from "@/contexts/AuthContext";
 
 const SignupScreen = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { isLogin, checkAuthRouteV2 } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const { isActive, route } = checkAuthRouteV2();
     if (isLogin && !isActive) {
       router.push(route);
-      return;
     }
-  }, []);
+  }, [isLogin, router, checkAuthRouteV2]);
 
-  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const { value, authType } = router.query;
+    if (value && value !== "" && authType && authType !== "") {
+      const decodedAuthType = decodeURIComponent(authType);
+      dispatch(asyncSocialAuth({ authType: decodedAuthType, idToken: value }))
+        .unwrap()
+        .then((response) => {
+          if (!response.surveyAnswered) {
+            router.push("/survey");
+          } else {
+            router.push("/network-blog");
+          }
+        });
+    }
+  }, [router.query, dispatch]);
+
   const handleSubmitSignUp = async (formData) => {
     setIsLoading(true);
 

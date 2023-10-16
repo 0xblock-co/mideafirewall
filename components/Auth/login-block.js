@@ -50,17 +50,6 @@ const LoginBlock = ({ handleLoginSubmit }) => {
       }
       executeRecaptcha("login").then(async (gReCaptchaToken) => {
         window.location.href = "/api/auth/google";
-        // const result = await signInWithPopup(auth, googleAuth);
-        // console.log("result: ", result);
-        // if (result && result.user) {
-        //   const formData = {
-        //     email: result.user.email,
-        //     idToken: result._tokenResponse.idToken,
-        //     authType: "google",
-        //     gReCaptchaToken,
-        //   };
-        //   await handleLoginSubmit(formData);
-        // }
       });
     } catch (error) {
       showToast("error", error);

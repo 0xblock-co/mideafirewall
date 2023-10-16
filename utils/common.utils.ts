@@ -83,6 +83,20 @@ export default class CommonUtility {
         return sentence.replace(/\s/g, "");
     }
 
+    static addDecimalCommas(number: number): string {
+        const numberString = number.toString();
+
+        const [integerPart, decimalPart] = numberString.split(".");
+
+        const integerWithCommas = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        if (decimalPart) {
+            return `${integerWithCommas}.${decimalPart}`;
+        } else {
+            return integerWithCommas;
+        }
+    }
+
     static convertToOptions<T extends Record<string, any>>(
         originalArray: T[],
         preparedKey: { label: keyof T; value: keyof T; isDisabled?: keyof T } = { label: "label" as keyof T, value: "value" as keyof T, isDisabled: "isDisabled" as keyof T }

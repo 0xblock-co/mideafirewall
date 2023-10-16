@@ -1,0 +1,115 @@
+.mfw__pricing-card-wrapper {
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.mfw__pricing-col {
+  background-color: #fff;
+  box-sizing: border-box;
+  position: relative;
+  margin: 10px 0.5%;
+  min-width: 150px;
+  flex: 2;
+  -ms-flex: 2;
+  -webkit-flex: 2;
+  -moz-flex: 2;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.mfw__pricing-col.large {
+  flex: 3;
+  -ms-flex: 3;
+  -webkit-flex: 3;
+  -moz-flex: 3;
+}
+
+.mfw__pricing-col {
+  padding-bottom: 80px;
+  position: relative;
+}
+
+.mfw__pricing-main-heading {
+  padding: 30px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.mfw__pricing-main-heading .namdet {
+  color: #222;
+  opacity: 0.6;
+}
+
+.mfw__pricing-main-heading .name {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  opacity: 1;
+}
+
+.mfw__pricing-main-heading .price {
+  font-size: 22px;
+  color: #222;
+  opacity: 1;
+}
+
+.mfw__pricing-card-body {
+  ul {
+    padding: unset;
+    list-style: none;
+  }
+  padding: 20px 20px;
+}
+
+span.pb-left {
+  float: left;
+}
+
+span.pb-desc,
+span.pb-sub,
+span.pb-sub2 {
+  font-size: 13px;
+  line-height: 1.3em;
+  opacity: 0.6;
+}
+
+span.pb-sub2 {
+  display: block;
+}
+
+span.pb-title {
+  margin-top: 10px;
+  display: block;
+  line-height: 1.2em;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+ul.features {
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+.mfw__pricing-card-body .fist-list li {
+  text-align: center;
+}
+
+ul.features li {
+  margin-bottom: 15px;
+}
+
+ul.subplans {
+  padding: 20px 0;
+}
+
+@media screen and (max-width: 800px) {
+  .mfw__pricing-col {
+    margin: 10px 1%;
+  }
+}

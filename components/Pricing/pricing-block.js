@@ -1,15 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import Router from "next/router";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import { PRICING_CARD_BG } from "@/constants/global.constants";
+import Router, { useRouter } from "next/router";
+import { Button, Container } from "react-bootstrap";
 
 import style from "./pricing.module.scss";
-import CommonUtility from "@/utils/common.utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
+import { PRICING_CARD_BG } from "@/constants/global.constants";
+import CommonUtility from "@/utils/common.utils";
 
 export default function PricingBlock({ priceData = [] }) {
   const { isLogin } = useAuth();
+  const router = useRouter();
   const handleGetStartedClick = (e) => {
     e.preventDefault();
     if (!isLogin) {
@@ -29,26 +30,7 @@ export default function PricingBlock({ priceData = [] }) {
   return (
     <section className={style.mdf__pricing_block}>
       <Container fluid className="px-5">
-        {/* <Row className="justify-content-center">
-          <Col md={6}>
-            <Form>
-              <Form.Range />
-              <div className="d-flex justify-content-center mt-3">
-                <label>Monthly</label>
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  className="mx-3 mb-0"
-                />
-                <label>Yearly</label>
-                <Badge pill bg="primary" className="ms-3 py-2 px-3">
-                  20% OFF
-                </Badge>
-              </div>
-            </Form>
-          </Col>
-        </Row> */}
-        <Row className="justify-content-center mt-2 mt-xxl-5">
+        <div className="mfw__pricing-card-wrapper">
           {priceData &&
             priceData?.map((item, index) => {
               let className = "yellow";
@@ -58,108 +40,201 @@ export default function PricingBlock({ priceData = [] }) {
                 className = PRICING_CARD_BG[index];
               }
               return (
-                <Col
-                  sm={4}
-                  lg={3}
-                  xxl={2}
-                  className="mt-3 mt-xxl-0"
+                <div
+                  className={`mfw__pricing-col ${className} ${
+                    style.mdf__pricingcard
+                  }  ${style[`card__price__${className}`]} `}
                   key={index}
                 >
-                  <Card
-                    className={`${style.mdf__pricingcard} ${
-                      style[`card__price__${className}`]
-                    } text-center h-100`}
+                  <div
+                    className={`mfw__pricing-main-heading ${style.b_bottom}`}
                   >
-                    <div className="text mb-5 h-100">
-                      <h3 className="title my-4">{item?.tierName}</h3>
-                      <div className={style.b_bottom}>
-                        <label className="display-5 mb-4">
-                          ${item?.basePrice.value}
-                        </label>
-                        <span>/mo</span>
-                      </div>
-                      <h4 className="my-4"> {item?.maxOperations?.value} </h4>
-                      <p className="px-2">
-                        {item?.dailyLimit != "-1"
-                          ? `Operations per month (max ${item?.dailyLimit} per day) + $${item.additionalCharge?.value} per additional op`
-                          : `Operations   per month + $${item.additionalCharge?.value} per additional op`}
-                        {/* Operations per month (max {item?.dailyLimit} per day)+ $
-                        {item.additionalCharge?.value} per additional op */}
-                      </p>
-                      <h4>{item?.parallelismLimit}</h4>
-                      {CommonUtility.isValidArray(item.supportOptions) &&
-                        item.supportOptions?.map((item, index) => {
-                          return (
-                            <>
-                              <p className="px-2" key={index}>
-                                {item.name} at ${item.price?.value}
-                              </p>
-                              {/* <div
-                                data-tippy-content="<video autoplay loop muted playsinline data-src='https://synthesia-results.s3.eu-west-1.amazonaws.com/website_demos/Features-short-demos/120_languages_and_accents.mp4' type='video/mp4' ></video> Number of stock voices you have access to in Synthesia STUDIO"
-                                className="flex flex-gap_05"
-                              >
-                                <img
-                                  loading="lazy"
-                                  src="https://assets-global.website-files.com/61dc0796f359b6145bc06ea6/64103504f4a10b57fdc9dbdd_CheckCircle.svg"
-                                  alt="Yes"
-                                />
-                                <p className="paragraph-default text-size-small pricing-link">
-                                  <strong className="text-weight-semibold">
-                                    120+
-                                  </strong>{" "}
-                                  Languages and Voices
-                                </p>
-                                <a
-                                  href="#"
-                                  className="pricing-tooltip-main w-inline-block"
-                                >
-                                  <img
-                                    loading="lazy"
-                                    src="https://assets-global.website-files.com/61dc0796f359b6145bc06ea6/64106055324f14b8d06d959f_Info.svg"
-                                    alt=""
-                                  />
-                                </a>
-                              </div> */}
+                    <span className={`name ${style.title}`}>
+                      {item?.tierName.toUpperCase()}
+                    </span>
+                    <span className="price">${item?.basePrice.value}/mo</span>
+                  </div>
+                  <div className="mfw__pricing-card-body">
+                    <ul className="fist-list">
+                      <li>
+                        <span className="pb-left"></span>
+                        <span className="pb-title">
+                          {CommonUtility.addDecimalCommas(
+                            item?.maxOperations?.value || 0
+                          )}
+                        </span>
+                        <span className="pb-sub">
+                          {item?.dailyLimit != "-1"
+                            ? `Operations per month (max ${item?.dailyLimit} per day) + $${item.additionalCharge?.value} per additional op`
+                            : `Operations   per month + $${item.additionalCharge?.value} per additional op`}
+                        </span>
+                        {/* <span className="pb-sub2">(max 500 per day)</span> */}
+                      </li>
+                      <li>
+                        <span className="pb-left"></span>
+                        <span className="pb-title">Parallelism Limit</span>
+                        <span className="pb-sub">{item?.parallelismLimit}</span>
+                        <span className="pb-desc"></span>
+                      </li>
+                    </ul>
+                    {CommonUtility.isValidArray(item.supportOptions) &&
+                      item.supportOptions?.map((item, index) => {
+                        return (
+                          <>
+                            <p className="text-center" key={index}>
+                              {item.name} at ${item.price?.value}
+                            </p>
+                            <ul className="features support-list">
+                              {CommonUtility.isValidArray(
+                                item.supportFeatures
+                              ) &&
+                                item.supportFeatures.map((feature, index) => (
+                                  <li
+                                    className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-center"
+                                    // className="w-75 ms-auto d-flex justify-content-center align-items-center"
+                                    key={index}
+                                    style={{
+                                      listStyleType: "none",
+                                    }}
+                                  >
+                                    <img
+                                      className="check"
+                                      src="/images/CheckCircle.svg"
+                                      alt="supportFeatures"
+                                    />
+                                    {feature}
+                                  </li>
+                                ))}
+                            </ul>
+                          </>
+                        );
+                      })}
 
-                              <ul className="px-3 support-list">
-                                {CommonUtility.isValidArray(
-                                  item.supportFeatures
-                                ) &&
-                                  item.supportFeatures.map((feature, index) => (
-                                    <li
-                                      className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-center"
-                                      // className="w-75 ms-auto d-flex justify-content-center align-items-center"
-                                      key={index}
-                                      style={{
-                                        listStyleType: "none",
-                                      }}
-                                    >
-                                      <img
-                                        className="check"
-                                        src="/images/CheckCircle.svg"
-                                        alt="supportFeatures"
-                                      />
-                                      {feature}
-                                    </li>
-                                  ))}
-                              </ul>
-                            </>
-                          );
-                        })}
-                    </div>
                     <Button
                       variant="primary"
                       className="mx-3 mb-3 text-uppercase"
                       size="lg"
                       onClick={(e) => handleGetStartedClick(e)}
+                      style={{
+                        position: "absolute",
+                        bottom: "20px",
+                        left: 0,
+                        right: 0,
+                      }}
                     >
                       Get Started
                     </Button>
-                  </Card>
-                </Col>
+                  </div>
+                </div>
               );
             })}
-        </Row>
+          <div
+            className={`mfw__pricing-col ${style.mdf__pricingcard} ${style.card__price__primary}`}
+          >
+            <div className={`mfw__pricing-main-heading ${style.b_bottom}`}>
+              <span className={`name ${style.title}`}>ENTERPRISE</span>
+              <span className="price">Custom pricing</span>
+            </div>
+            <div className="mfw__pricing-card-body">
+              <ul className="fist-list">
+                <li>
+                  <span className="pb-left"></span>
+                  <span className="pb-title">Contact us</span>
+                  <span className="pb-sub">custom number of operations</span>
+                  {/* <span className="pb-sub2">(max 500 per day)</span> */}
+                </li>
+                <li>
+                  <span className="pb-left"></span>
+                  <span className="pb-title">Contact us</span>
+                  <span className="pb-sub">
+                    custom number of simultaneous streams
+                  </span>
+                  <span className="pb-desc"></span>
+                </li>
+              </ul>
+              <>
+                <ul className="features support-list">
+                  <li
+                    className="w-100 ms-auto gap-2 d-flex justify-content-start   align-items-start"
+                    style={{
+                      listStyleType: "none",
+                    }}
+                  >
+                    <img
+                      className="check"
+                      src="/images/CheckCircle.svg"
+                      alt="supportFeatures"
+                    />
+                    Content Moderation
+                  </li>
+                  <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
+                    <img
+                      className="check"
+                      src="/images/CheckCircle.svg"
+                      alt="supportFeatures"
+                    />
+                    Content Moderation
+                  </li>
+                  <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
+                    <img
+                      className="check"
+                      src="/images/CheckCircle.svg"
+                      alt="supportFeatures"
+                    />
+                    Image, Video Anonymization
+                  </li>
+                  <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
+                    <img
+                      className="check"
+                      src="/images/CheckCircle.svg"
+                      alt="supportFeatures"
+                    />
+                    Dedicated infrastructure for Unparalleled performance
+                  </li>
+                  <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
+                    <img
+                      className="check"
+                      src="/images/CheckCircle.svg"
+                      alt="supportFeatures"
+                    />
+                    Dedicated Customer Support Engineer
+                  </li>
+                  <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
+                    <img
+                      className="check"
+                      src="/images/CheckCircle.svg"
+                      alt="supportFeatures"
+                    />
+                    Enterprise-class SLA
+                  </li>
+                  <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
+                    <img
+                      className="check"
+                      src="/images/CheckCircle.svg"
+                      alt="supportFeatures"
+                    />
+                    Exclusive enterprise premium options
+                  </li>
+                </ul>
+              </>
+
+              <Button
+                variant="primary"
+                className="mx-3 mb-3 text-uppercase"
+                size="lg"
+                onClick={() => router.push("/contact-us")}
+                style={{
+                  position: "absolute",
+                  bottom: "20px",
+                  left: 0,
+                  right: 0,
+                }}
+              >
+                Contact Us
+              </Button>
+            </div>
+          </div>
+        </div>
       </Container>
     </section>
   );

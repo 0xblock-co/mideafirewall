@@ -1,6 +1,7 @@
 import en from "@/lang/en.json";
 import fr from "@/lang/fr.json";
 import nl_NL from "@/lang/nl-NL.json";
+import "@/styles/pricing.scss";
 import "@/styles/module-style.scss";
 import { Elements } from "@stripe/react-stripe-js";
 import { IntlProvider } from "react-intl";

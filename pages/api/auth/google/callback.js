@@ -12,9 +12,15 @@ export default async (req, res) => {
   try {
     const { tokens } = await oauth2Client.getToken(code);
     const { id_token } = tokens;
-    res.redirect(
-      `/account-security/login?authType="google"&success=true&value=${id_token}`
-    );
+    if(tokens && "id_token" in tokens){
+      res.redirect(
+        `/account-security/login?authType="google"&success=true&value=${id_token}`
+      );
+    }else{
+      res.redirect(
+        `/account-security/login?authType="google"&success=true&value=`
+      );
+    }
   } catch (error) {
     console.error("Error authenticating with Google:", error);
     res.redirect("/error");

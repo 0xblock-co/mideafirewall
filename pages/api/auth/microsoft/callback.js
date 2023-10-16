@@ -8,6 +8,7 @@ export default async (req, res) => {
   const tokenRequestData = {
     client_id: process.env.MICROSOFT_CLIENT_ID,
     scope: "openid profile User.Read", // Same scopes as in the authorization request
+    tenantId: process.env.MICROSOFT_TENANT_ID,
     code,
     redirect_uri: process.env.MICROSOFT_REDIRECT_URI,
     grant_type: "authorization_code",
@@ -24,11 +25,14 @@ export default async (req, res) => {
     });
 
     const tokenData = await tokenResponse.json();
-    const accessToken = tokenData.access_token;
-    if (accessToken) {
-      res.redirect("/?success=true");
-    } else {
-      res.redirect("/?success=false");
+    if(tokenData && "id_token" in tokenData){
+      res.redirect(
+        `/account-security/login?authType="microsoft"&success=true&value=${tokenData.id_token}`
+      );
+    }else{
+      res.redirect(
+        `/account-security/login?authType="microsoft"&success=false&value=`
+      );
     }
   } catch (error) {
     console.error("Error authenticating with Microsoft:", error);

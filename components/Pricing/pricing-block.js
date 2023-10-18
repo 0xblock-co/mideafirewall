@@ -111,48 +111,21 @@ export default function PricingBlock({ priceData = [] }) {
                           </>
                         );
                       })}
-                    <RenderIf
-                      isTrue={
-                        user?.tierName.toLowerCase() ==
-                        item?.tierName.toLowerCase()
-                      }
+
+                    <Button
+                      variant="primary"
+                      className="mx-3 mb-3 text-uppercase"
+                      size="lg"
+                      onClick={(e) => handleGetStartedClick(e)}
+                      style={{
+                        position: "absolute",
+                        bottom: "20px",
+                        left: 0,
+                        right: 0,
+                      }}
                     >
-                      <Button
-                        variant="success"
-                        className="mx-3 mb-3 text-uppercase"
-                        size="lg"
-                        style={{
-                          position: "absolute",
-                          bottom: "20px",
-                          left: 0,
-                          right: 0,
-                        }}
-                        disabled
-                      >
-                        Current Plan
-                      </Button>
-                    </RenderIf>
-                    <RenderIf
-                      isTrue={
-                        user?.tierName.toLowerCase() !==
-                        item?.tierName.toLowerCase()
-                      }
-                    >
-                      <Button
-                        variant="primary"
-                        className="mx-3 mb-3 text-uppercase"
-                        size="lg"
-                        onClick={(e) => handleGetStartedClick(e)}
-                        style={{
-                          position: "absolute",
-                          bottom: "20px",
-                          left: 0,
-                          right: 0,
-                        }}
-                      >
-                        Get Started
-                      </Button>
-                    </RenderIf>
+                      Get Started
+                    </Button>
                   </div>
                 </div>
               );

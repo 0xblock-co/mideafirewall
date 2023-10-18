@@ -16,12 +16,13 @@
   }
 }
 .mdf__pricingcard {
-  box-shadow: -2px -2px 11px rgba(0, 0, 0, 0.4);
-  border-radius: 26px;
-  p,
-  span {
+  border-radius: 16px;
+  p {
     color: #707070;
     font-size: 0.875rem;
+  }
+  &:hover {
+    box-shadow: -2px -2px 11px rgba(0, 0, 0, 0.4);
   }
 }
 .card__price__yellow {
@@ -70,6 +71,10 @@
   }
 }
 .card__price__primary {
+  border: 2px solid $primary;
+  .title {
+    color: $primary;
+  }
   .b_bottom {
     border-bottom: 2px solid $primary;
   }

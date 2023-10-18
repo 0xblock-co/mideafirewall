@@ -19,7 +19,6 @@ const NetworkBlog = () => {
 //   (store) => async () => {
 //     store.dispatch(getAllFeatures.initiate({}));
 //     const res = await Promise.all(store.dispatch(getRunningQueriesThunk()));
-//     console.log("res: ", res);
 //     return {
 //       props: { result: res[0] },
 //     };

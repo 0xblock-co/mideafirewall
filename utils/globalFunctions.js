@@ -188,33 +188,38 @@ export const asyncGetAccessToken = async () => {
   try {
     const refreshToken = readCookie(localStorageKeys.userRefreshToken);
     const email = readCookie(localStorageKeys.userEmail);
-    const response = axios
-      .post(
-        `https://mediafirewall-ai.themillionvisions.com/user/refreshToken`,
-        {
-          token: refreshToken,
-          email,
-        }
-      )
-      .then(async (res) => {
-        if (res.data && res?.isSuccess) {
-          setCookieWithExpiration(
-            localStorageKeys.userRefreshToken,
-            res.data["refreshToken"]
-          );
-          setCookieWithExpiration(
-            localStorageKeys.userAccessToken,
-            res.data["accessToken"]
-          );
-          return {
-            data: res.data,
-            isSuccess: res.isSuccess,
-          };
-        }
-        return res;
-      });
+    if (!refreshToken || !email) {
+      return {
+        isSuccess: false,
+        error: "Email or refreshToken not found in cookies",
+      };
+    }
+
+    const response = await axios.post(
+      `https://mediafirewall-ai.themillionvisions.com/user/refreshToken`,
+      {
+        token: refreshToken,
+        email,
+      }
+    );
+
+    if (response.data && response.isSuccess) {
+      setCookieWithExpiration(
+        localStorageKeys.userRefreshToken,
+        response.data["refreshToken"]
+      );
+      setCookieWithExpiration(
+        localStorageKeys.userAccessToken,
+        response.data["accessToken"]
+      );
+      return {
+        data: response.data,
+        isSuccess: response.isSuccess,
+      };
+    }
+
     return response;
   } catch (error) {
-    return error.message;
+    return { isSuccess: false, error: error.message };
   }
 };

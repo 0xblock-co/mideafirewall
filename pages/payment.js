@@ -58,10 +58,8 @@ export default function Payment() {
               setIsLoading(false);
               showToast("success", "Your transaction has been successful");
               Router.push("/network-blog");
-              console.log("result :>> ", result);
             } catch (error) {
               setIsLoading(false);
-              console.log("error :>> ", error);
               showToast("error", error?.message || "Something went wrong");
             }
           } else if (result?.error) {

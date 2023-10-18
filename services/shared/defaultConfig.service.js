@@ -21,7 +21,6 @@ export const asyncGetAllHeaderData = createAsyncThunk(
           false
         )
         .then(async (res) => {
-          console.log("res: asyncGetAllHeaderData", res);
           if (res && res?.isSuccess) {
             return thunkAPI.fulfillWithValue(res.data);
           }
@@ -29,7 +28,6 @@ export const asyncGetAllHeaderData = createAsyncThunk(
         });
       return response;
     } catch (error) {
-      console.log("error: ", error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

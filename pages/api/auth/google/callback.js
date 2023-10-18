@@ -12,13 +12,13 @@ export default async (req, res) => {
   try {
     const { tokens } = await oauth2Client.getToken(code);
     const { id_token } = tokens;
-    if(tokens && "id_token" in tokens){
+    if (tokens && "id_token" in tokens) {
       res.redirect(
-        `/account-security/login?authType="google"&success=true&value=${id_token}`
+        `/account-security/login?authType=google&success=true&value=${id_token}`
       );
-    }else{
+    } else {
       res.redirect(
-        `/account-security/login?authType="google"&success=true&value=`
+        `/account-security/login?authType=google&success=true&value=`
       );
     }
   } catch (error) {

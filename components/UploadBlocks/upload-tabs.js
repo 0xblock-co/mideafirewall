@@ -31,7 +31,6 @@ export default function UploadTabs() {
   const [filePreviews, setFilePreviews] = useState([]);
 
   const onChangeContentData = async (fileData) => {
-    console.log("fileData: ", fileData);
     if (fileData?.length > 0) {
       const cloneContentData = cloneDeep(contentData);
       if (
@@ -99,7 +98,6 @@ export default function UploadTabs() {
         // // finalFIles.map((item)=>{
         // //   formData.append("file[]", item.file);
         // // })
-        // console.log("finalFIles: ", finalFIles[0].file);
 
         // const response = await asyncUploadFileContent(
         //   { file: finalFIles[0].file },
@@ -121,8 +119,6 @@ export default function UploadTabs() {
         //     user.token
         //   );
         //   ToastMessage.success("test");
-
-        //   console.log("contentEventLogs: ", contentEventLogs);
         // }
       } else {
         setFilePreviews([]);
@@ -166,7 +162,6 @@ export default function UploadTabs() {
         //   response.data.videoId,
         //   user.token
         // );
-        // console.log("contentEventLogs: ", contentEventLogs);
       } else {
         await setIsUploading(false);
       }
@@ -200,7 +195,6 @@ export default function UploadTabs() {
         //   response.data.videoId,
         //   user.token
         // );
-        // console.log("contentEventLogs: ", contentEventLogs);
       } else {
         await setIsUploading(false);
       }

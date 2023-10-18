@@ -14,35 +14,32 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const { isLogin, checkAuthRouteV2 } = useAuth();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const { isActive, route } = checkAuthRouteV2();
     if (isLogin && !isActive) {
       router.push(route);
-      return;
     }
-  }, []);
+  }, [isLogin, router, checkAuthRouteV2]);
 
   useEffect(() => {
-    if ("value" in router.query && router.query?.value !== "") {
-      dispatch(
-        asyncSocialAuth({
-          authType: "google",
-          idToken: router.query?.value,
-        })
-      )
+    const { value, authType } = router.query;
+    if (value && value !== "" && authType && authType !== "") {
+      const decodedAuthType = decodeURIComponent(authType);
+      dispatch(asyncSocialAuth({ authType: decodedAuthType, idToken: value }))
         .unwrap()
         .then((response) => {
           if (!response.surveyAnswered) {
             router.push("/survey");
+          } else {
+            router.push("/network-blog");
           }
-          router.push("/network-blog");
         });
     }
-  }, [router.query]);
+  }, [router.query, dispatch]);
 
   const handleLoginSubmit = async (formData) => {
     setIsLoading(true);

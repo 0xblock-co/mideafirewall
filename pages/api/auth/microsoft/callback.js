@@ -25,13 +25,13 @@ export default async (req, res) => {
     });
 
     const tokenData = await tokenResponse.json();
-    if(tokenData && "id_token" in tokenData){
+    if (tokenData && "id_token" in tokenData) {
       res.redirect(
-        `/account-security/login?authType="microsoft"&success=true&value=${tokenData.id_token}`
+        `/account-security/login?authType=microsoft&success=true&value=${tokenData.id_token}`
       );
-    }else{
+    } else {
       res.redirect(
-        `/account-security/login?authType="microsoft"&success=false&value=`
+        `/account-security/login?authType=microsoft&success=false&value=`
       );
     }
   } catch (error) {

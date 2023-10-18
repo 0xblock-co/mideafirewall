@@ -111,7 +111,6 @@ const params = {
 axios.post(url, null, { params })
   .then(response => {
     // Handle the response data here
-    console.log(response.data);
   })
   .catch(error => {
     // Handle any errors here
@@ -134,10 +133,8 @@ const params = {
 axios.post(url, data, { params }, {
   headers: data.getHeaders(),
 }).then(function (response) {
-  console.log(response.data);
 }).catch(function (error) {
-  if (error.response) console.log(error.response.data);
-  else console.log(error.message);
+  // handle error
 });`,
   },
 ];

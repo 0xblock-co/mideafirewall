@@ -53,7 +53,6 @@ export const asyncUploadFileContent = async (
         },
       })
       .then(async (res) => {
-        console.log("res: ", res);
         return res;
       });
     return response;

@@ -35,14 +35,10 @@ const shouldStopFetching = (data) => {
 const fetchInterval = 5000;
 
 function getMatchingValues(data) {
-  console.log("data: ", data);
   if (data && data.modelStatus && data.eventLog) {
-    console.log("1");
     const { modelStatus, eventLog } = data;
     const matchingValues = {};
-    console.log("modelStatus: ", modelStatus);
     for (const key in modelStatus) {
-      console.log("jemish", eventLog[key], key);
       if (modelStatus[key] === true) {
         if (eventLog[key]) {
           matchingValues[key] = eventLog[key];
@@ -166,7 +162,6 @@ export default function DemoPage() {
             user?.api_secret //  "91owFp3rCq48IC7IIMFkBCnPshIsGPZC"
           );
           if (response.isSuccess) {
-            console.log("response", response);
             // ToastMessage.success("Uploaded successfully.");
             setEventLogData(response.data);
           } else {
@@ -216,15 +211,12 @@ export default function DemoPage() {
       const res = await asyncGenerateProofsByEmail(user.api_secret, formData);
 
       if (res.isSuccess) {
-        console.log("Proofs generated successfully:", res.data);
         ToastMessage.success("Proofs generated successfully.");
         reset();
       } else {
-        console.error("Failed to generate proofs:", res.errorMessage);
         ToastMessage.error("Failed to generate proofs.");
       }
     } catch (error) {
-      console.error("An error occurred while generating proofs:", error);
       ToastMessage.error("An error occurred while generating proofs.");
     }
 

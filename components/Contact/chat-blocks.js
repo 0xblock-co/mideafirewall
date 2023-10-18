@@ -8,8 +8,7 @@ import { useRouter } from "next/router";
 
 export default function ContactChatBlock({ handleBookMeeting }) {
   const { publicRuntimeConfig } = getConfig();
-  const router = useRouter()
-  console.log("publicRuntimeConfig.whatsAppContactNumber", publicRuntimeConfig);
+  const router = useRouter();
   return (
     <section className={style.mdf__contactus_chatcard}>
       <Container>

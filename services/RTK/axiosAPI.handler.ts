@@ -63,7 +63,6 @@ class Api {
                     message: response.statusText,
                     isStore: false,
                 };
-                console.log("error Data ::", errorData);
                 throw new Error(
                     JSON.stringify(Api.getErrorData(errorData, isErrorHandle))
                 );
@@ -111,7 +110,7 @@ class Api {
             const errorData = {
                 code: error.response.status,
                 message: error.response.statusText,
-                apiMessage: error.response.data.detail || ""
+                apiMessageRes: error.response.data || ""
             };
             return Promise.reject<T>(Api.getErrorData(errorData, isErrorHandle));
         }
@@ -175,7 +174,6 @@ class Api {
                 ...conf,
             })
             .then((response: AxiosResponse<T>) => {
-                console.log('response: ', response);
                 return this.handleResponse<T, any>(
                     response,
                     url,
@@ -185,8 +183,7 @@ class Api {
                 );
             })
             .catch((error: AxiosError) => {
-                console.log('error: jemish', error);
-                this.handleError(error, url, data, isErrorHandle)
+                return this.handleError(error, url, data, isErrorHandle)
             });
     }
 
@@ -319,7 +316,6 @@ class Api {
             ToastMessage.success(data?.message?.toString() || data?.successCode?.toString() || "Request has been successfully processed");
         }
         // TODO:: Need to check data.data is available or not from the all apis
-        // console.log('data: ', data.data);
         return {
             isSuccess: true,
             data: data.data || data || null,
@@ -339,8 +335,8 @@ class Api {
     ): ErrorResult | any {
         // Prepare error data
         const code: string | number = errorData.code || "";
-        if (isErrorHandle && errorData?.code === 403 && errorData?.apiMessage) {
-            newInfoAlert("Authentication Error", errorData?.apiMessage || "", "OK", "error").then(() => {
+        if (isErrorHandle && errorData?.code === 403 && errorData?.apiMessageRes?.detail) {
+            newInfoAlert("Authentication Error", errorData?.apiMessageRes.detail || "", "OK", "error").then(() => {
                 return {
                     isSuccess: false,
                     isStore: false,
@@ -351,8 +347,20 @@ class Api {
             return;
         }
 
-        if (isErrorHandle && errorData?.code === 404 && errorData?.apiMessage) {
-            newInfoAlert("Authentication Error", errorData?.apiMessage || "", "OK", "error").then(() => {
+        if (isErrorHandle && errorData?.code === 404 && errorData?.apiMessageRes?.detail) {
+            newInfoAlert("Authentication Error", errorData?.apiMessageRes.detail || "", "OK", "error").then(() => {
+                return {
+                    isSuccess: false,
+                    isStore: false,
+                    code: code.toString(),
+                    message: errorData.message || errorString.catchError,
+                };
+            })
+            return;
+        }
+
+        if (isErrorHandle && errorData?.code === 401 && errorData?.apiMessageRes) {
+            newInfoAlert("Invalid User Credentials", "We couldn't authenticate your account. Please double-check your username and password and try again.", "OK", "error").then(() => {
                 return {
                     isSuccess: false,
                     isStore: false,

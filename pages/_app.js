@@ -1,12 +1,12 @@
 import en from "@/lang/en.json";
 import fr from "@/lang/fr.json";
 import nl_NL from "@/lang/nl-NL.json";
+import "@/styles/pricing.scss";
 import "@/styles/module-style.scss";
 import { Elements } from "@stripe/react-stripe-js";
 import { IntlProvider } from "react-intl";
 import MainLayout from "@/components/layouts/main";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { wrapper } from "@/store";
 import { loadStripe } from "@stripe/stripe-js";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import ToastContainerConfig from "@/components/ToastContainer";
 import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
 import getConfig from "next/config";
+import { wrapper } from "@/store";
 const messages = {
   en,
   fr,

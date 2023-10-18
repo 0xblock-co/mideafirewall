@@ -54,24 +54,24 @@ export const asyncSignUpWithEmail = createAsyncThunk(
         .post(`/user/signUp/form`, payload, {}, true, false)
         .then(async (res) => {
           if (res && res?.isSuccess) {
-            if (res.data && res.data.tokens) {
-              setCookieWithExpiration(
-                localStorageKeys.userRefreshToken,
-                res.data.tokens.refreshToken
-              );
-              setCookieWithExpiration(
-                localStorageKeys.userAccessToken,
-                res.data.tokens.accessToken
-              );
-              setCookieWithJwtExp(
-                localStorageKeys.userEmail,
-                res.data.userDetails.email,
-                res.data.tokens.accessToken
-              );
-            }
+            // if (res.data && res.data.tokens) {
+            //   setCookieWithExpiration(
+            //     localStorageKeys.userRefreshToken,
+            //     res.data.tokens.refreshToken
+            //   );
+            //   setCookieWithExpiration(
+            //     localStorageKeys.userAccessToken,
+            //     res.data.tokens.accessToken
+            //   );
+            //   setCookieWithJwtExp(
+            //     localStorageKeys.userEmail,
+            //     res.data.userDetails.email,
+            //     res.data.tokens.accessToken
+            //   );
+            // }
             ToastMessage.success("Sign up successfully.");
             return thunkAPI.fulfillWithValue({
-              ...res.data,
+              data: {},
               isSuccess: res.isSuccess,
             });
           }
@@ -83,6 +83,7 @@ export const asyncSignUpWithEmail = createAsyncThunk(
     }
   }
 );
+
 export const asyncSocialAuth = createAsyncThunk(
   "SOCIAL_AUTH",
   async (payload, thunkAPI) => {

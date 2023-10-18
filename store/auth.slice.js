@@ -55,7 +55,7 @@ const authSlice = createSlice({
       const { requestId } = _action.meta;
       if (state.isLoading && state.currentRequestId === requestId) {
         state.isLoading = false;
-        state.data = { ..._action.payload, isLoggedIn: true };
+        // state.data = { ..._action.payload, isLoggedIn: false };
         state.currentRequestId = undefined;
         state.error = null;
       }

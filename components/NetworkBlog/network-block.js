@@ -39,6 +39,15 @@ export default function NeetworkBlock() {
         return [...prevSelectedFeatureIds, featureId];
       }
     });
+    const selectedTabData = headerData.find((item) => item.id === activeTab);
+    const selectedObj = selectedTabData.features.find(
+      (item) => item.webFeatureKey === featureId
+    );
+
+    setSelectedOptions((prevSelectedOptions) => ({
+      ...prevSelectedOptions,
+      [featureId]: selectedObj.options[0].name,
+    }));
   };
 
   const handleOptionChange = (featureId, selectedOption) => {
@@ -46,6 +55,7 @@ export default function NeetworkBlock() {
       ...prevSelectedOptions,
       [featureId]: selectedOption,
     }));
+    // setSelectedFeatureIds();
   };
 
   const onSubmit = useCallback(
@@ -53,14 +63,15 @@ export default function NeetworkBlock() {
       e.preventDefault();
 
       if (!isLogin) {
-        newInfoAlert(
-          "Login Required for Demo Access",
-          "To access the demo, you need to either log in or sign up for an account. Please proceed with login or sign-up to get a demo.",
-          "Continue",
-          "warning"
-        ).then(() => {
-          router.push("/account-security/login");
-        });
+        // newInfoAlert(
+        //   "Login Required for Demo Access",
+        //   "To access the demo, you need to either log in or sign up for an account. Please proceed with login or sign-up to get a demo.",
+        //   "Continue",
+        //   "warning"
+        // ).then(() => {
+        //   router.push("/account-security/login");
+        // });
+        router.push("/account-security/login");
         return;
       }
 
@@ -157,6 +168,9 @@ export default function NeetworkBlock() {
                             <Col md={6} xl={4} className="mt-4" key={item.name}>
                               <Form.Control
                                 type="checkbox"
+                                checked={selectedFeatureIds.includes(
+                                  item.webFeatureKey
+                                )}
                                 className="btn-check"
                                 value={item.webFeatureKey}
                                 id={`btn-check-outlined ${item.featureId}`}
@@ -202,21 +216,26 @@ export default function NeetworkBlock() {
                                           opt.name.replace(/\s/g, "")
                                         }
                                       >
-                                        <input
-                                          type="radio"
+                                        <Form.Control
+                                          type="checkbox"
+                                          checked={
+                                            selectedOptions[
+                                              item.webFeatureKey
+                                            ] === opt.name
+                                          }
                                           className="btn-check"
-                                          name={item.featureId}
+                                          value={opt.name}
+                                          id={
+                                            item.featureId +
+                                            opt.name.replace(/\s/g, "")
+                                          }
+                                          hidden
                                           onChange={() =>
                                             handleOptionChange(
                                               item.webFeatureKey,
                                               opt.name
                                             )
                                           }
-                                          id={
-                                            item.featureId +
-                                            opt.name.replace(/\s/g, "")
-                                          }
-                                          autoComplete="off"
                                         />
                                         <label
                                           className="btn btn-outline-dark px-2 text-xs"

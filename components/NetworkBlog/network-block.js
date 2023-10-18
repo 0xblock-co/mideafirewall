@@ -20,11 +20,7 @@ export default function NeetworkBlock() {
   const [selectedFeatureIds, setSelectedFeatureIds] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
 
-  const handleTabChange = (key) => {
-    setActiveTab(key);
-    setSelectedFeatureIds([]);
-    setSelectedOptions({});
-  };
+  const handleTabChange = (key) => setActiveTab(key);
 
   useEffect(() => {
     const { query } = router;
@@ -48,10 +44,12 @@ export default function NeetworkBlock() {
       (item) => item.webFeatureKey === featureId
     );
 
-    setSelectedOptions((prevSelectedOptions) => ({
-      ...prevSelectedOptions,
-      [featureId]: selectedObj.options[0].name,
-    }));
+    if (CommonUtility.isValidArray(selectedObj.options)) {
+      setSelectedOptions((prevSelectedOptions) => ({
+        ...prevSelectedOptions,
+        [featureId]: selectedObj.options[0].name,
+      }));
+    }
   };
 
   const handleOptionChange = (featureId, selectedOption) => {
@@ -59,7 +57,6 @@ export default function NeetworkBlock() {
       ...prevSelectedOptions,
       [featureId]: selectedOption,
     }));
-    // setSelectedFeatureIds();
   };
 
   const onSubmit = useCallback(

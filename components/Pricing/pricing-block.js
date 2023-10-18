@@ -7,9 +7,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { PRICING_CARD_BG } from "@/constants/global.constants";
 import CommonUtility from "@/utils/common.utils";
+import RenderIf from "../ConditionalRender/RenderIf";
 
 export default function PricingBlock({ priceData = [] }) {
-  const { isLogin } = useAuth();
+  const { isLogin, user } = useAuth();
+  console.log("user: ", user);
   const router = useRouter();
   const handleGetStartedClick = (e) => {
     e.preventDefault();
@@ -26,13 +28,13 @@ export default function PricingBlock({ priceData = [] }) {
     }
     newInfoAlert("Comming soon...", "", "OK", "warning");
   };
-
   return (
     <section className={style.mdf__pricing_block}>
       <Container fluid className="px-5">
         <div className="mfw__pricing-card-wrapper">
           {priceData &&
             priceData?.map((item, index) => {
+              console.log("item: ", item);
               let className = "yellow";
               if (index >= PRICING_CARD_BG.length) {
                 className = PRICING_CARD_BG[index % PRICING_CARD_BG.length];
@@ -109,21 +111,48 @@ export default function PricingBlock({ priceData = [] }) {
                           </>
                         );
                       })}
-
-                    <Button
-                      variant="primary"
-                      className="mx-3 mb-3 text-uppercase"
-                      size="lg"
-                      onClick={(e) => handleGetStartedClick(e)}
-                      style={{
-                        position: "absolute",
-                        bottom: "20px",
-                        left: 0,
-                        right: 0,
-                      }}
+                    <RenderIf
+                      isTrue={
+                        user?.tierName.toLowerCase() ==
+                        item?.tierName.toLowerCase()
+                      }
                     >
-                      Get Started
-                    </Button>
+                      <Button
+                        variant="success"
+                        className="mx-3 mb-3 text-uppercase"
+                        size="lg"
+                        style={{
+                          position: "absolute",
+                          bottom: "20px",
+                          left: 0,
+                          right: 0,
+                        }}
+                        disabled
+                      >
+                        Current Plan
+                      </Button>
+                    </RenderIf>
+                    <RenderIf
+                      isTrue={
+                        user?.tierName.toLowerCase() !==
+                        item?.tierName.toLowerCase()
+                      }
+                    >
+                      <Button
+                        variant="primary"
+                        className="mx-3 mb-3 text-uppercase"
+                        size="lg"
+                        onClick={(e) => handleGetStartedClick(e)}
+                        style={{
+                          position: "absolute",
+                          bottom: "20px",
+                          left: 0,
+                          right: 0,
+                        }}
+                      >
+                        Get Started
+                      </Button>
+                    </RenderIf>
                   </div>
                 </div>
               );

@@ -184,6 +184,7 @@ export default function NeetworkBlock() {
                                       "If you'd like to activate this feature for your account, please get in touch with us via email, and we'll take care of it for you.",
                                       "Okay"
                                     );
+                                    return;
                                   }
                                   handleCheckboxChange(item.webFeatureKey);
                                 }}

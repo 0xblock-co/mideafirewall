@@ -37,11 +37,11 @@
     }
   }
   .mdf__banner__video {
-    width: 45%;
+    // width: 45%;
     height: 460px;
-    border-radius: 90px 0 0 90px;
+    border-radius: 40px 0 0 40px;
     filter: drop-shadow(-18px -11px 66px rgba(0, 0, 0, 0.25));
-    background: #fff;
+    background: #e2e1eb;
     @include media-breakpoints-down-lg {
       width: 50%;
       height: 330px;
@@ -55,7 +55,7 @@
       padding: 0 1rem;
     }
     .mdf__video {
-      border-radius: 90px 0 0 90px;
+      border-radius: 40px 0 0 40px;
       overflow: hidden;
       width: 100%;
       display: flex;

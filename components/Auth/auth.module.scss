@@ -93,8 +93,8 @@
       height: auto !important;
     }
     &:hover {
-      background: linear-gradient(180deg, #5e0496 -56.36%, #ffffff 100%);
-      border: 2px solid #5e0496;
+      background: linear-gradient(180deg, #7b5b9e -56.36%, #ffffff 100%);
+      border: 2px solid #7b5b9e;
     }
   }
 }
@@ -105,8 +105,8 @@
   .raio__button__card:first-child:active,
   .raio__button__card.active,
   .raio__button__card.show {
-    background: linear-gradient(180deg, #5e0496 -56.36%, #ffffff 100%);
-    border: 2px solid #5e0496;
+    background: linear-gradient(180deg, #7b5b9e -56.36%, #ffffff 100%);
+    border: 2px solid #7b5b9e;
     color: $primary;
   }
 }

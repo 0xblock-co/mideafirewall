@@ -1,32 +1,36 @@
 /* eslint-disable @next/next/no-img-element */
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { Button, Container } from "react-bootstrap";
 
 import style from "./pricing.module.scss";
 import { useAuth } from "@/contexts/AuthContext";
-import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { PRICING_CARD_BG } from "@/constants/global.constants";
 import CommonUtility from "@/utils/common.utils";
-import RenderIf from "../ConditionalRender/RenderIf";
+import { useDispatch } from "react-redux";
+import { setSelectedPricingPlan } from "@/store/defaultConfig.slice";
 
 export default function PricingBlock({ priceData = [] }) {
   const { isLogin, user } = useAuth();
   console.log("user: ", user);
   const router = useRouter();
-  const handleGetStartedClick = (e) => {
+  const dispatch = useDispatch();
+  const handleGetStartedClick = async (e, selectedPricing) => {
+    console.log("selectedPricing: ", selectedPricing);
     e.preventDefault();
-    if (!isLogin) {
-      newInfoAlert(
-        "Signup Required for Subscription",
-        "To access the demo, you need to either log in or sign up for an account. Please proceed with login or sign-up.",
-        "Continue",
-        "warning"
-      ).then(() => {
-        Router.push("/account-security/signup");
-      });
-      return;
-    }
-    newInfoAlert("Comming soon...", "", "OK", "warning");
+    // if (!isLogin) {
+    //   newInfoAlert(
+    //     "Signup Required for Subscription",
+    //     "To access the demo, you need to either log in or sign up for an account. Please proceed with login or sign-up.",
+    //     "Continue",
+    //     "warning"
+    //   ).then(() => {
+    //     Router.push("/account-security/signup");
+    //   });
+    //   return;
+    // }
+    dispatch(setSelectedPricingPlan(selectedPricing));
+    router.push(`/payment?tierName=${selectedPricing.tierName.toLowerCase()}`);
+    // newInfoAlert("Comming soon...", "", "OK", "warning");
   };
   return (
     <section className={style.mdf__pricing_block}>
@@ -51,8 +55,11 @@ export default function PricingBlock({ priceData = [] }) {
                   <div
                     className={`mfw__pricing-main-heading ${style.b_bottom}`}
                   >
-                    <span className={`name ${style.title}`}>
-                      {item?.tierName.toUpperCase()}
+                    <span
+                      className={`name ${style.title}`}
+                      style={{ textTransform: "uppercase" }}
+                    >
+                      {item?.tierName}
                     </span>
                     <span className="price">${item?.basePrice.value}/mo</span>
                   </div>
@@ -92,18 +99,18 @@ export default function PricingBlock({ priceData = [] }) {
                               ) &&
                                 item.supportFeatures.map((feature, index) => (
                                   <li
-                                    className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-center"
+                                    className="w-100 ms-auto gap-2 d-flex justify-content-center align-items-center"
                                     // className="w-75 ms-auto d-flex justify-content-center align-items-center"
                                     key={index}
                                     style={{
                                       listStyleType: "none",
                                     }}
                                   >
-                                    <img
+                                    {/* <img
                                       className="check"
                                       src="/images/CheckCircle.svg"
                                       alt="supportFeatures"
-                                    />
+                                    /> */}
                                     {feature}
                                   </li>
                                 ))}
@@ -116,7 +123,7 @@ export default function PricingBlock({ priceData = [] }) {
                       variant="primary"
                       className="mx-3 mb-3 text-uppercase"
                       size="lg"
-                      onClick={(e) => handleGetStartedClick(e)}
+                      onClick={(e) => handleGetStartedClick(e, item)}
                       style={{
                         position: "absolute",
                         bottom: "20px",

@@ -1,4 +1,5 @@
-import { Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
+/* eslint-disable @next/next/no-html-link-for-pages */
+import { Button, Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
 
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -9,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 export default function FeatureBlog({ headerData }) {
-  const [activeTab, setActiveTab] = useState("2");
+  const [activeTab, setActiveTab] = useState("0");
   const handleTabChange = (key) => setActiveTab(key);
   const router = useRouter();
 
@@ -21,6 +22,22 @@ export default function FeatureBlog({ headerData }) {
         "Okay"
       );
     } else {
+      let selectedFeature = {
+        selectedFeatureIds: [feature.webFeatureKey],
+        selectedOptions: {},
+      };
+      if (feature.options && feature.options.length > 0) {
+        selectedFeature = {
+          ...selectedFeature,
+          selectedOptions: {
+            [feature.webFeatureKey]: feature.options[0].name,
+          },
+        };
+      }
+      localStorage.setItem(
+        "selectedDataForDemo",
+        JSON.stringify(selectedFeature)
+      );
       router.push(`/network-blog?key=${id}`);
     }
   };
@@ -81,9 +98,9 @@ export default function FeatureBlog({ headerData }) {
                         <div
                           key={index}
                           className={`${style.mdf__feature__card_block} col-md-6 `}
-                          onClick={() =>
-                            handleFeatureCardOnClick(feature, headerOption.id)
-                          }
+                          // onClick={() =>
+                          //   handleFeatureCardOnClick(feature, headerOption.id)
+                          // }
                         >
                           <Card
                             className={`${style.mdf__feature__card} ${
@@ -103,11 +120,25 @@ export default function FeatureBlog({ headerData }) {
                               </Col>
                               <Col xs={8} xl={9}>
                                 <div className="p-0">
-                                  <h6
-                                    className={`text-primary mt-0 ${style.later__spacing}`}
-                                  >
-                                    {feature.name}
-                                  </h6>
+                                  <span className="d-flex justify-content-between align-items-center mb-2">
+                                    <h6
+                                      className={`text-primary m-0 ${style.later__spacing}`}
+                                    >
+                                      {feature.name}
+                                    </h6>
+                                    <Button
+                                      className="bn53"
+                                      size="sm"
+                                      onClick={() =>
+                                        handleFeatureCardOnClick(
+                                          feature,
+                                          headerOption.id
+                                        )
+                                      }
+                                    >
+                                      Demo
+                                    </Button>
+                                  </span>
                                   <p className={`${style.text_wrap}`}>
                                     {feature.description}
                                     {/* <Link title={feature.description} id={feature.index}>

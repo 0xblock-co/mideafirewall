@@ -34,15 +34,25 @@ export default function HomeBanner() {
       </div>
       <div className={style.mdf__banner__video}>
         <div className={style.mdf__video}>
-          <iframe
+          {/* <iframe
             width="100%"
             height="100%"
-            src="https://www.youtube.com/embed/QFcsP2-tIgA"
+            src="https://mediafirewall.s3.ap-south-1.amazonaws.com/Display_videos/MFW_Demo.mp4"
             title="HTML &amp; Amp Email Creation | No-Code Approach | Ampier Plugin for Figma  Workflow"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
+          ></iframe> */}
+          <video
+            className={style.video}
+            src="https://mediafirewall.s3.ap-south-1.amazonaws.com/Display_videos/MFW_Demo.mp4"
+            controls
+            autoPlay
+            loop
+            playsInline
+            muted
+          >
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     </section>

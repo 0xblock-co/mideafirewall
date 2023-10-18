@@ -9,6 +9,12 @@ body {
   font-weight: 500;
   letter-spacing: 0.03rem;
   color: $text-dark;
+  height: 100%;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 img {
   width: 100%;
@@ -36,6 +42,7 @@ a {
 }
 .button_primary {
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.37);
+  background-color: $primary;
 }
 .text-shadow {
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -261,8 +268,8 @@ a {
   }
 }
 .mdf__btn_large {
-  background: #f6ecec !important;
-  border: 1px solid #5e0496 !important;
+  background: #fff !important;
+  border: 1px solid #7b5b9e !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px !important;
   color: $text-dark;
@@ -270,7 +277,7 @@ a {
   padding: 1rem 2rem;
   &:hover {
     color: #fff;
-    background: #5e0496 !important;
+    background: $primary !important;
   }
   @include media-breakpoints-down-lg {
     padding: 0.5rem 1rem;
@@ -296,14 +303,23 @@ a {
 .checkbox__primary:first-child:active,
 .checkbox__primary.active,
 .checkbox__primary.show {
-  background: $primary;
+  background: $primary_v2_selected;
   color: #fff;
 }
 
-.navbar-nav .show > .nav-link,
-.navbar-nav .nav-link.active {
+.navbar-nav .show > .nav-link {
   color: $primary !important;
   font-weight: 600;
+}
+
+.navbar-nav .nav-link.nav-active {
+  color: $primary !important;
+  font-weight: 600;
+  border-bottom: 3px solid $primary;
+}
+.rounded-pill.fw-bold.border-2.nav-active.btn.btn-outline-primary {
+  background-color: $primary !important;
+  color: #fff;
 }
 
 .support-list {
@@ -315,4 +331,62 @@ a {
       width: 20px !important;
     }
   }
+}
+.bn53 {
+  background-color: transparent;
+  border: 1px solid $primary;
+  border-radius: 10px;
+  color: $primary;
+  padding: 7px;
+  width: 100px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  animation: bn53bounce 4s infinite;
+  cursor: pointer;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  &:hover {
+    background-color: $primary !important;
+  }
+}
+
+@keyframes bn53bounce {
+  5%,
+  50% {
+    transform: scale(1);
+  }
+
+  10% {
+    transform: scale(1);
+  }
+
+  15% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1) rotate(-5deg);
+  }
+
+  25% {
+    transform: scale(1) rotate(5deg);
+  }
+
+  30% {
+    transform: scale(1) rotate(-3deg);
+  }
+
+  35% {
+    transform: scale(1) rotate(2deg);
+  }
+
+  40% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+.Footer-PoweredBy-Icon {
+    fill: var(--checkout-gray300);
+    vertical-align: middle
+}
+.Icon--md {
+    height: var(--checkout-icon-md)
 }

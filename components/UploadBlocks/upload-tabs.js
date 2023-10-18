@@ -238,7 +238,7 @@ export default function UploadTabs() {
                       aria-controls="pills-url"
                       aria-selected="true"
                     >
-                      Upload Url
+                      Paste a url
                     </button>
                   </li>
                   <li className="nav-item" role="presentation">

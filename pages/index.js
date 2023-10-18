@@ -1,6 +1,6 @@
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 
-import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
+import { getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import dynamic from "next/dynamic";
@@ -21,7 +21,7 @@ const OfferBlock = dynamic(() => import("@/components/Home/Offer"), {
 
 export default function LandingScreen(props) {
   // const { setAllFeatureList } = useAuth();
-  const headerData = useAppSelector(getAllHeaderDataOptions);
+  const headerData = useAppSelector(getAllHeaderDataOptionsUpdated);
   // useEffect(() => {
   //   if (
   //     props.result.isSuccess &&

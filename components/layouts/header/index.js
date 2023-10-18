@@ -19,7 +19,10 @@ export default function HeaderTop() {
   const router = useRouter();
   const userDetails = useAppSelector(getUserDetails);
   const headerData = useAppSelector(getAllHeaderDataOptions);
-
+  const isActiveLink = (href) => {
+    const { pathname } = router;
+    return pathname === href;
+  };
   const { logout } = useAuth();
 
   // const { locales } = useRouter();
@@ -92,7 +95,11 @@ export default function HeaderTop() {
                           <Link
                             key={index}
                             href={`/network-blog?key=${data.id}`}
-                            className="nav-link"
+                            className={`nav-link ${
+                              isActiveLink(`/network-blog?key=${data.id}`)
+                                ? "nav-active"
+                                : ""
+                            }`}
                           >
                             Content Moderation
                           </Link>
@@ -110,20 +117,37 @@ export default function HeaderTop() {
                         </NavDropdown>
                       ))}
                   </NavDropdown>
-                  <Link href="/pricing" className="nav-link">
+                  <Link
+                    href="/pricing"
+                    className={`nav-link ${
+                      isActiveLink("/pricing") ? "nav-active" : ""
+                    }`}
+                  >
                     Pricing
                   </Link>
                   {/* <Link href="/" className="nav-link">
                     Documentation
                   </Link> */}
                   {/* {userDetails?.isLoggedIn && ( */}
-                  <Link href="/network-blog" className="nav-link">
+                  <Link
+                    href="/network-blog"
+                    className={`nav-link ${
+                      isActiveLink("/network-blog") ? "nav-active" : ""
+                    }`}
+                  >
                     Demo
                   </Link>
                   {/* )} */}
 
                   {!userDetails?.isLoggedIn && (
-                    <Link href="/account-security/login" className="nav-link">
+                    <Link
+                      href="/account-security/login"
+                      className={`nav-link ${
+                        isActiveLink("/account-security/login")
+                          ? "nav-active"
+                          : ""
+                      }`}
+                    >
                       Log In
                     </Link>
                   )}
@@ -145,7 +169,11 @@ export default function HeaderTop() {
                 {!userDetails?.isLoggedIn ? (
                   <Button
                     variant="outline-primary"
-                    className="rounded-pill fw-bold border-2"
+                    className={`rounded-pill fw-bold border-2 ${
+                      isActiveLink("/account-security/signup")
+                        ? "nav-active"
+                        : ""
+                    }`}
                     onClick={() => router.push("/account-security/signup")}
                   >
                     Create Account

@@ -9,23 +9,36 @@ import PaymentLeftBlock from "@/components/Payment/payment-left-block";
 import PaymentRightBlock from "@/components/Payment/payment-right-block";
 import style from "@/components/Payment/payment.module.scss";
 import { showToast } from "@/components/ToastContainer/toaster";
-import { localStorageKeys } from "@/constants/global.constants";
-import { readCookie } from "@/utils/cookieCreator";
-import { decodeData } from "@/utils/globalFunctions";
+import { getSelectedPlan } from "@/store/defaultConfig.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 export default function Payment() {
   const stripe = useStripe();
   const [isLoading, setIsLoading] = useState(false);
   const [priceData, setPriceData] = useState(null);
-
+  const selectedPlan = useAppSelector(getSelectedPlan);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    const token = readCookie(localStorageKeys.priceData);
-    if (!token) {
-      Router.push("/pricing");
-      return;
-    }
-    const priceData = decodeData(token, localStorageKeys.priceData);
-    setPriceData(priceData);
+    setPriceData(selectedPlan);
+    console.log("selectedPlan: ", selectedPlan);
+  }, [selectedPlan]);
+  useEffect(() => {
+    // function getSelectedPlan() {
+    //   const plan = localStorage.getItem("pricingSelectedPlan");
+    //   setPriceData(JSON.parse(plan));
+    // }
+    // getSelectedPlan();
+    // const token = readCookie(localStorageKeys.priceData);
+    // if (!token) {
+    //   Router.push("/pricing");
+    //   return;
+    // }
+    // const priceData = decodeData(token, localStorageKeys.priceData);
+    // setPriceData(priceData);
+    // return () => {
+    //   dispatch(setSelectedPricingPlan(null));
+    //   // localStorage.removeItem("pricingSelectedPlan");
+    // };
   }, []);
 
   const handlePaymentSubmit = async (params) => {

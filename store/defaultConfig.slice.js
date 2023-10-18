@@ -1,4 +1,7 @@
-import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
+import {
+  asyncGetAllHeaderData,
+  asyncGetAllPricingDataPlans,
+} from "@/services/shared/defaultConfig.service";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -12,7 +15,14 @@ const initialState = {
     { code: "es", name: "Spanish" },
   ],
   headerData: [],
+  selectedPricingPlan: null,
   allHeaderDataList: {
+    currentRequestId: "",
+    isLoading: false,
+    error: null,
+    data: null,
+  },
+  allPricingPlanList: {
     currentRequestId: "",
     isLoading: false,
     error: null,
@@ -29,6 +39,9 @@ const defaultConfigSlice = createSlice({
     },
     setHeaderDataOptions(state, { payload }) {
       state.headerData = payload;
+    },
+    setSelectedPricingPlan(state, { payload }) {
+      state.selectedPricingPlan = payload;
     },
   },
   extraReducers: {
@@ -60,15 +73,52 @@ const defaultConfigSlice = createSlice({
         state.allHeaderDataList.currentRequestId = undefined;
       }
     },
+    [asyncGetAllPricingDataPlans.pending.type]: (state, _action) => {
+      console.log("state: ", state);
+      const { requestId } = _action.meta;
+      state.allPricingPlanList.isLoading = true;
+      state.allPricingPlanList.currentRequestId = requestId;
+    },
+    [asyncGetAllPricingDataPlans.fulfilled.type]: (state, _action) => {
+      const { requestId } = _action.meta;
+      if (
+        state.allPricingPlanList.isLoading &&
+        state.allPricingPlanList.currentRequestId === requestId
+      ) {
+        state.allPricingPlanList.isLoading = false;
+        state.allPricingPlanList.data = _action.payload;
+        state.allPricingPlanList.currentRequestId = undefined;
+        state.allPricingPlanList.error = null;
+      }
+    },
+    [asyncGetAllPricingDataPlans.rejected.type]: (state, _action) => {
+      const { requestId } = _action.meta;
+      if (
+        state.allPricingPlanList.isLoading &&
+        state.allPricingPlanList.currentRequestId === requestId
+      ) {
+        state.allPricingPlanList.isLoading = false;
+        state.allPricingPlanList.error = _action.error;
+        state.allPricingPlanList.currentRequestId = undefined;
+      }
+    },
   },
 });
 // Actions
-export const { setPageTitle, setHeaderDataOptions } =
+export const { setPageTitle, setHeaderDataOptions, setSelectedPricingPlan } =
   defaultConfigSlice.actions;
 
 // Selectors
 export const getAllHeaderDataOptions = (state) =>
   state.defaultConfig.allHeaderDataList?.data?.items || [];
+
+export const getAllHeaderDataOptionsUpdated = (state) =>
+  state.defaultConfig.allHeaderDataList?.data?.updatedData || [];
+
+export const getAllPricingPlanSelector = (state) =>
+  state.defaultConfig?.allPricingPlanList?.data?.items || [];
+export const getSelectedPlan = (state) =>
+  state.defaultConfig?.selectedPricingPlan || null;
 
 // Reducer
 export default defaultConfigSlice.reducer;

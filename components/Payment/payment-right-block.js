@@ -268,9 +268,8 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
         Subscribe
       </Button>
       <p className="text-center text-sm mt-3">
-        By confirming your subscription, you allow Sightengine to charge your
-        card for this payment and future payments in accordance with their
-        terms. You can always cancel your subscription.
+        After your trial ends, you will be charged US$99.00 per month starting
+        November 18, 2023. You can always cancel before then.
       </p>
     </div>
   );

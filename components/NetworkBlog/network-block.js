@@ -9,19 +9,31 @@ import Tab from "react-bootstrap/Tab";
 import style from "./network-blog.module.scss";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppSelector } from "@/store/hooks";
-import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
+import { getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
 
 export default function NeetworkBlock() {
   const router = useRouter();
   const { user, isLogin } = useAuth();
 
-  const headerData = useAppSelector(getAllHeaderDataOptions);
-  const [activeTab, setActiveTab] = useState("2");
+  const headerData = useAppSelector(getAllHeaderDataOptionsUpdated);
+  console.log("headerData: ", headerData);
+  const [activeTab, setActiveTab] = useState("0");
   const [selectedFeatureIds, setSelectedFeatureIds] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
 
   const handleTabChange = (key) => setActiveTab(key);
-
+  useEffect(() => {
+    function getPreSelectedDataFromLocalStorage() {
+      const data = localStorage.getItem("selectedDataForDemo");
+      const parsedData = JSON.parse(data);
+      if (parsedData) {
+        setSelectedFeatureIds(parsedData.selectedFeatureIds);
+        setSelectedOptions(parsedData.selectedOptions);
+        localStorage.removeItem("selectedDataForDemo");
+      }
+    }
+    getPreSelectedDataFromLocalStorage();
+  }, []);
   useEffect(() => {
     const { query } = router;
     const { key } = query;
@@ -72,6 +84,10 @@ export default function NeetworkBlock() {
         // ).then(() => {
         //   router.push("/account-security/login");
         // });
+        localStorage.setItem(
+          "selectedDataForDemo",
+          JSON.stringify({ selectedFeatureIds, selectedOptions })
+        );
         router.push("/account-security/login");
         return;
       }

@@ -211,7 +211,13 @@ export default function DemoPage() {
       const res = await asyncGenerateProofsByEmail(user.api_secret, formData);
 
       if (res.isSuccess) {
-        ToastMessage.success("Proofs generated successfully.");
+        if (selectedOption === "both") {
+          ToastMessage.success("Proofs are sent to email.");
+        } else {
+          ToastMessage.success(
+            `Proofs are sent to ${data[selectedOption].toString()}.`
+          );
+        }
         reset();
       } else {
         ToastMessage.error("Failed to generate proofs.");
@@ -293,7 +299,7 @@ export default function DemoPage() {
                 className="rounded-pill px-5 py-3"
                 type="submit"
               >
-                Save Changes
+                Submit
               </Button>
             </div>
           </Form>
@@ -359,7 +365,7 @@ export default function DemoPage() {
                           <Table bordered>
                             <thead>
                               <tr
-                                style={{ background: "#560f90", color: "#fff" }}
+                                style={{ background: "#7b5b9e", color: "#fff" }}
                               >
                                 <th>#</th>
                                 <th>Filter</th>
@@ -386,7 +392,7 @@ export default function DemoPage() {
                                   <td>{eventLogData?.operations}</td>
                                   <td className="d-flex justify-content-center align-items-center">
                                     <img
-                                      src="/images/svgs/wrong.svg"
+                                      src="/images/svgs/correct.svg"
                                       style={{ width: "30px", height: "30px" }}
                                     />
                                   </td>
@@ -414,7 +420,7 @@ export default function DemoPage() {
                         <Table bordered>
                           <thead>
                             <tr
-                              style={{ background: "#560f90", color: "#fff" }}
+                              style={{ background: "#7b5b9e", color: "#fff" }}
                             >
                               <th>#</th>
                               <th>Filter</th>
@@ -485,7 +491,8 @@ export default function DemoPage() {
               >
                 <div className="p-5 m-3 text-center">
                   <h4 className="text_gredient text-shadow">
-                    Curious to verify? Press the button to request proof.
+                    Your proofs are ready. Curious to verify? Press on the below
+                    button.
                   </h4>
                   <Button
                     variant="primary"

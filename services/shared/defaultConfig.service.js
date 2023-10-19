@@ -21,6 +21,7 @@ export const asyncGetAllHeaderData = createAsyncThunk(
           false
         )
         .then(async (res) => {
+          console.log("res: ", res);
           if (res && res?.isSuccess) {
             console.log("res.data: 1", res.data);
             let updatedData = [];
@@ -56,59 +57,9 @@ export const asyncGetAllHeaderData = createAsyncThunk(
                 examples: [], // You can set this to an empty array or copy it from an existing object
               };
               updatedData = [newObject, ...existingData];
-              console.log(updatedData);
             }
+            console.log("11 ---", { ...res.data, updatedData });
             return thunkAPI.fulfillWithValue({ ...res.data, updatedData });
-          }
-          return thunkAPI.rejectWithValue(res);
-        });
-      return response;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
-export const asyncGetAllPricingData = async () => {
-  try {
-    const response = api
-      .get(
-        "https://mediafirewall.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
-        {},
-        true,
-        false
-      )
-      .then(async (res) => {
-        if (res && res?.isSuccess) {
-          return res;
-        }
-      });
-    return response;
-  } catch (e) {
-    return e;
-  }
-};
-export const asyncGetAllPricingDataPlans = createAsyncThunk(
-  "GET_ALL_HEADER_DATA_OPTIONS",
-  async (payload, thunkAPI) => {
-    try {
-      const queryStringData = CommonUtility.objectToParams({
-        activate: true,
-        pageNumber: 0,
-        pageSize: 100,
-      });
-      const response = api
-        .get(
-          "https://mediafirewall.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
-          // `https://mediafirewall.themillionvisions.com/mfw/web/tiers/?${queryStringData}`,
-          {},
-          true,
-          false
-        )
-        .then(async (res) => {
-          if (res && res?.isSuccess) {
-            console.log("res.data: 1", res.data);
-            return thunkAPI.fulfillWithValue(res.data);
           }
           return thunkAPI.rejectWithValue(res);
         });

@@ -22,6 +22,7 @@ const OfferBlock = dynamic(() => import("@/components/Home/Offer"), {
 export default function LandingScreen(props) {
   // const { setAllFeatureList } = useAuth();
   const headerData = useAppSelector(getAllHeaderDataOptionsUpdated);
+  console.log("headerData: ", headerData);
   // useEffect(() => {
   //   if (
   //     props.result.isSuccess &&
@@ -35,7 +36,7 @@ export default function LandingScreen(props) {
     <Fragment>
       <Banner />
       <RenderIf isTrue={headerData && CommonUtility.isValidArray(headerData)}>
-        <Feature headerData={headerData} featureLists={[]} />
+        <Feature headerData={headerData} featureLists={headerData} />
       </RenderIf>
       <Moderation />
       <OfferBlock />

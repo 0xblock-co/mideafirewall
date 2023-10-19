@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 export default function FeatureBlog({ headerData }) {
+  console.log("headerData: ", headerData);
   const [activeTab, setActiveTab] = useState("0");
   const handleTabChange = (key) => setActiveTab(key);
   const router = useRouter();

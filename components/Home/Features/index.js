@@ -54,7 +54,7 @@ export default function FeatureBlog({ headerData }) {
 
   return (
     <section className={style.mdf__personalized_feature}>
-      <Container fluid className="px-xl-5">
+      <Container>
         <Row className="justify-content-center">
           <Col xxl={7}>
             <h1 className="fw-bold text-shadow text-center">
@@ -64,7 +64,7 @@ export default function FeatureBlog({ headerData }) {
         </Row>
         <Row className="justify-content-center">
           <Col
-            xl={10}
+            xl={12}
             // xxl={9}
             className="mt-4"
           >

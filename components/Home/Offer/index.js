@@ -9,7 +9,7 @@ export default function OfferBlock() {
     <section className={style.mdf__offer__block}>
       <Container>
         <Row className="justify-content-center">
-          <Col sm={10} lg={6}>
+          <Col lg={10} xxl={7}>
             <h1 className="fw-bold text-shadow text-center">
               <FormattedMessage
                 id="page.home.offerBlock.mainTitle"

@@ -137,6 +137,14 @@ export default function HeaderTop() {
                   >
                     Demo
                   </Link>
+                  <Link
+                    href="/contact-us"
+                    className={`nav-link ${
+                      isActiveLink("/contact-us") ? "nav-active" : ""
+                    }`}
+                  >
+                    Contact
+                  </Link>
                   {/* )} */}
 
                   {!userDetails?.isLoggedIn && (

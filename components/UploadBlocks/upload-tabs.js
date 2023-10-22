@@ -88,42 +88,12 @@ export default function UploadTabs() {
 
       if (validationResult) {
         setContentData(cloneContentData);
-        // const formData = new FormData();
-        // formData.append("image", file);
-
-        // const finalFIles = cloneContentData.filter(
-        //   (data) => data.file !== null
-        // );
-
-        // // finalFIles.map((item)=>{
-        // //   formData.append("file[]", item.file);
-        // // })
-
-        // const response = await asyncUploadFileContent(
-        //   { file: finalFIles[0].file },
-        //   user.id,
-        //   {
-        //     apikey: user.token,
-        //     filters: router.query.filters,
-        //   }
-        // );
-        // if (
-        //   response.isSuccess &&
-        //   CommonUtility.isNotEmpty(response.data.videoId)
-        // ) {
-        // setContentData(getStaticData());
-
-        //   const contentEventLogs = await asyncGetContentEventLogs(
-        //     user.id,
-        //     response.data.videoId,
-        //     user.token
-        //   );
-        //   ToastMessage.success("test");
-        // }
       } else {
         setFilePreviews([]);
         setContentData([]);
       }
+    } else {
+      setContentData([]);
     }
   };
 
@@ -134,9 +104,9 @@ export default function UploadTabs() {
       const finalFIles = cloneContentData.filter((data) => data.file !== null);
       const response = await asyncUploadFileContent(
         { file: finalFIles[0].file },
-        user?.userDetails?.email || "sams@trek.com", // user.id,
+        user?.userDetails?.email,
         {
-          apikey: user?.api_secret || "91owFp3rCq48IC7IIMFkBCnPshIsGPZC", //user.token,
+          apikey: user?.api_secret,
           filters: router.query.filters,
         }
       );
@@ -166,14 +136,11 @@ export default function UploadTabs() {
         await setIsUploading(false);
       }
     } else if (imageUrl && router.query?.filters !== "") {
-      const response = await asyncUploadContentByUrl(
-        user?.userDetails?.email || "sams@trek.com", //user.id,
-        {
-          filters: router.query.filters,
-          mediaUrl: imageUrl,
-          apikey: user?.api_secret || "91owFp3rCq48IC7IIMFkBCnPshIsGPZC", //user.token,
-        }
-      );
+      const response = await asyncUploadContentByUrl(user?.userDetails?.email, {
+        filters: router.query.filters,
+        mediaUrl: imageUrl,
+        apikey: user?.api_secret,
+      });
       if (
         response.isSuccess &&
         CommonUtility.isNotEmpty(response.data.videoId)
@@ -271,6 +238,15 @@ export default function UploadTabs() {
                         onChange={(e) => setImageUrl(e.target.value)}
                       />
                     </Form.Group>
+
+                    <Button
+                      onClick={handleOnClickUploadFiles}
+                      type="button"
+                      variant="primary"
+                      className="mt-3 py-2 px-5"
+                    >
+                      Moderate
+                    </Button>
                   </div>
                   <div
                     className="tab-pane fade"
@@ -283,17 +259,17 @@ export default function UploadTabs() {
                       setFilePreviews={setFilePreviews}
                       onContentDrop={(e) => onChangeContentData(e)}
                     />
+
+                    <Button
+                      onClick={handleOnClickUploadFiles}
+                      type="button"
+                      variant="primary"
+                      className="mt-3 py-2 px-5"
+                    >
+                      Upload
+                    </Button>
                   </div>
                 </div>
-
-                <Button
-                  onClick={handleOnClickUploadFiles}
-                  type="button"
-                  variant="primary"
-                  className="mt-3 py-2 px-5"
-                >
-                  Upload
-                </Button>
               </div>
             </div>
           </Tab>
@@ -302,7 +278,11 @@ export default function UploadTabs() {
             <CodeBlock codeData={UPLOAD_USING_CODE_STUBS} />
           </Tab>
 
-          <Tab eventKey="amazon" className="p-3" title="LargeScale Async">
+          <Tab
+            eventKey="amazon"
+            className="p-3"
+            title="Large Scale(Async channels)"
+          >
             <div className="text-center"></div>
             When it comes to moderating a large amount of media content, we
             recommend the use of asynchronous integration. Feel free to reach

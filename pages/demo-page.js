@@ -159,7 +159,7 @@ export default function DemoPage() {
           const response = await asyncGetContentEventLogs(
             user?.userDetails?.email, // "sams@trek.com",
             encodeURIComponent(router.query.videoId),
-            user?.api_secret //  "91owFp3rCq48IC7IIMFkBCnPshIsGPZC"
+            user?.api_secret
           );
           if (response.isSuccess) {
             // ToastMessage.success("Uploaded successfully.");

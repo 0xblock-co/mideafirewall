@@ -255,8 +255,8 @@ a {
   border-radius: 30px;
   background-color: rgba(0, 0, 0, 0.75);
   color: #fff;
-  top: 20px;
-  right: 20px;
+  top: 5px;
+  right: -10px;
   z-index: 1040;
 }
 .my_tabs {
@@ -384,9 +384,9 @@ a {
 }
 
 .Footer-PoweredBy-Icon {
-    fill: var(--checkout-gray300);
-    vertical-align: middle
+  fill: var(--checkout-gray300);
+  vertical-align: middle;
 }
 .Icon--md {
-    height: var(--checkout-icon-md)
+  height: var(--checkout-icon-md);
 }

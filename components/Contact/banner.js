@@ -6,7 +6,7 @@ export default function ContactBanner() {
   return (
     <section className={style.mdf__contactus_banner}>
       <Container>
-        <Row className="w-100 justify-content-center justify-content-xxl-between align-items-center">
+        <Row className="w-100 justify-content-center justify-content-between align-items-center">
           <Col md={6} xxl={{ span: 4, offset: 2 }}>
             <h2 className="text-blue fw-normal">
               {" "}

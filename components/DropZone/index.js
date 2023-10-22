@@ -3,13 +3,13 @@ import Image from "next/image";
 import { useCallback, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
+import { HiOutlineX } from "react-icons/hi";
 
 const DropZoneComponent = ({
   onContentDrop,
   filePreviews,
   setFilePreviews,
 }) => {
-  // OnDrop content
   const onDrop = useCallback(
     (acceptedFiles, fileRejections) => {
       fileRejections.forEach((file) => {
@@ -48,17 +48,24 @@ const DropZoneComponent = ({
   );
 
   useEffect(() => {
-    // Clean up previews when component unmounts
+    // Clean up previews when the component unmounts
     return () => {
       filePreviews.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, [filePreviews]);
 
+  const removeFile = (index) => {
+    const updatedPreviews = [...filePreviews];
+    const removedFile = updatedPreviews.splice(index, 1);
+    setFilePreviews(updatedPreviews);
+    onContentDrop(updatedPreviews);
+    URL.revokeObjectURL(removedFile[0].preview);
+  };
+
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     name: "content",
     accept: "image/*, video/*",
-    maxFiles: 1,
     autoFocus: true,
     multiple: false,
   });
@@ -85,19 +92,47 @@ const DropZoneComponent = ({
         </Form.Group>
       </div>
       <div className="d-flex gap-3 overflow-auto">
-        {filePreviews.map((file, index) => (
-          <div className="position-relative" key={index}>
-            <img
-              key={index}
-              src={file.preview}
-              alt=""
-              className="object-fit rounded-4 image_hover mt-3"
-            />
-            {/* <div className="icon_sm_top position-absolute d-flex justify-content-center align-items-center">
-              <HiOutlineX style={{ fontSize: "18px" }} />
-            </div> */}
-          </div>
-        ))}
+        <div className="position-relative">
+          {filePreviews.map((file, index) => (
+            <div key={index}>
+              {file.type.startsWith("image/") ? ( // Check if the file is an image
+                <>
+                  <img
+                    key={index}
+                    src={file.preview}
+                    alt=""
+                    className="object-fit rounded-4 image_hover mt-3"
+                  />
+                  <div
+                    className="icon_sm_top position-absolute d-flex justify-content-center align-items-center"
+                    onClick={() => removeFile(index)}
+                  >
+                    <HiOutlineX style={{ fontSize: "18px" }} />
+                  </div>
+                </>
+              ) : file.type.startsWith("video/") ? ( // Check if the file is a video
+                <>
+                  <video
+                    key={index}
+                    src={file.preview}
+                    alt=""
+                    className="object-fit rounded-4 image_hover mt-3"
+                    controls
+                  />
+                  <div
+                    className="icon_sm_top position-absolute d-flex justify-content-center align-items-center"
+                    onClick={() => removeFile(index)}
+                  >
+                    <HiOutlineX style={{ fontSize: "18px" }} />
+                  </div>
+                </>
+              ) : (
+                // Handle other file types here
+                <p>Unsupported File Type</p>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

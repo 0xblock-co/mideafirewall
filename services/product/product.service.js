@@ -158,11 +158,13 @@ export const asyncGetAllPricingData = async () => {
 
 export const asyncGetDefaultMeeting = async () => {
   try {
-    const response = api.get("/meetings/default").then(async (res) => {
-      if (res && res?.isSuccess) {
-        return res;
-      }
-    });
+    const response = api
+      .get("https://mediafirewall.themillionvisions.com/meetings/default")
+      .then(async (res) => {
+        if (res && res?.isSuccess) {
+          return res;
+        }
+      });
     return response;
   } catch (e) {
     return e.message;
@@ -173,7 +175,7 @@ export const asyncCreateMeeting = async (payload, user) => {
   try {
     const response = api
       .post(
-        `https://mediafirewall.themillionvisions.com/mfw/web/meetings/${user?.userDetails?.email}`,
+        `https://mediafirewall-ai.themillionvisions.com/mfw/web/meetings/${user?.userDetails?.email}`,
         payload
       )
       .then(async (res) => {

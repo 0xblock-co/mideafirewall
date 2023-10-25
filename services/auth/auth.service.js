@@ -151,7 +151,7 @@ export const asyncSurveySubmitAnswers = (payload, user) => {
   try {
     const response = api
       .post(
-        `https://mediafirewall.themillionvisions.com/mfw/web/Questionnaire/answers/users/${user?.userDetails?.email}`,
+        `https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/answers/users/${user?.userDetails?.email}`,
         payload
       )
       .then(async (res) => {

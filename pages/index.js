@@ -6,7 +6,10 @@ import CommonUtility from "@/utils/common.utils";
 import dynamic from "next/dynamic";
 import { Fragment } from "react";
 
-const Banner = dynamic(() => import("@/components/Home/Banner"), {
+// const Banner = dynamic(() => import("@/components/Home/Banner"), {
+//   ssr: false,
+// });
+const Banner1 = dynamic(() => import("@/components/Home/Banner1"), {
   ssr: false,
 });
 const Feature = dynamic(() => import("@/components/Home/Features"), {
@@ -34,7 +37,9 @@ export default function LandingScreen(props) {
 
   return (
     <Fragment>
-      <Banner />
+      <Banner1 />
+
+      {/* <Banner /> */}
       <RenderIf isTrue={headerData && CommonUtility.isValidArray(headerData)}>
         <Feature headerData={headerData} featureLists={headerData} />
       </RenderIf>

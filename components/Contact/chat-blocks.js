@@ -10,6 +10,82 @@ export default function ContactChatBlock({ handleBookMeeting }) {
   const { publicRuntimeConfig } = getConfig();
   const router = useRouter();
   return (
+    <section
+      className="three-block-section"
+      data-aos="fade-up"
+      data-aos-delay="100"
+    >
+      <Container>
+        <Row>
+          <Col lg={12}>
+            <div className="three-block-title ">
+              <h2>Contact us using the following methods</h2>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={4} xl={3}>
+            <WhatsAppChat
+              phone={publicRuntimeConfig.whatsAppContactNumber}
+              message="Hello there!"
+            />
+          </Col>
+          <Col lg={4} xl={3}>
+            <ContactWithSalesChat />
+          </Col>
+          <Col lg={4} xl={3}>
+            <div className="box-block-main">
+              <div className="img-wrapper">
+                <img
+                  src="/images/product-demo.jpg"
+                  alt="Get a Product demo"
+                  title="Get a Product demo"
+                />
+              </div>
+              <div className="box-content-block">
+                <h2>Product Demo</h2>
+                <p>Get a product demo</p>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="w-100 mt-3 py-3 common-btn"
+                  onClick={() => router.push("/network-blog")}
+                  // onClick={() => setIsShowProductDemoFormModal(true)}
+                >
+                  Get a demo
+                </Button>
+              </div>
+            </div>
+          </Col>
+          <Col lg={4} xl={3}>
+            <div className="box-block-main">
+              <div className="img-wrapper">
+                <img
+                  src="/images/online-calendar.jpg"
+                  alt="GiveUsACall"
+                  title="give-call-icon"
+                />
+              </div>
+              <div className="box-content-block">
+                <h2>Schedule a meeting</h2>
+                <p>We're here to help you with your experience.</p>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="w-100 mt-3 py-3 common-btn"
+                  onClick={() => handleBookMeeting(true)}
+                >
+                  Schedule now
+                </Button>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </section>
+  );
+
+  return (
     <section className={style.mdf__contactus_chatcard}>
       <Container>
         <Row className="justify-content-center">

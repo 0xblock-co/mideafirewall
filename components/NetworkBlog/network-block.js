@@ -144,7 +144,7 @@ export default function NeetworkBlock() {
       <Form onSubmit={onSubmit}>
         <Container>
           <Row className="justify-content-center">
-            <Col xl={11}>
+            <Col xl={12} className="mt-4">
               <Tab.Container
                 id="left-tabs-example"
                 activeKey={activeTab}
@@ -162,7 +162,7 @@ export default function NeetworkBlock() {
                           className="me-3 me-lg-0 mt-3 mt-lg-0"
                         >
                           <Nav.Link
-                            className="mdf__btn_large"
+                            className={style.mdf__btn_large}
                             eventKey={headerOption.id}
                           >
                             {headerOption.name}
@@ -279,7 +279,7 @@ export default function NeetworkBlock() {
                 </Tab.Content>
               </Tab.Container>
             </Col>
-            <Col md={12} className="text-center">
+            <Col xl={12} className="text-center">
               <Button
                 type="submit"
                 variant="primary"

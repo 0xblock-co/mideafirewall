@@ -57,7 +57,7 @@ export default function FeatureBlog({ headerData }) {
       <Container>
         <Row className="justify-content-center">
           <Col xxl={7}>
-            <h1 className="fw-bold text-shadow text-center">
+            <h1 className="fw-bold text-shadow text-lg-center">
               <FormattedMessage id="page.home.featureBlog.mainTitle" />
             </h1>
           </Col>
@@ -82,7 +82,7 @@ export default function FeatureBlog({ headerData }) {
                     headerOption.active && (
                       <Nav.Item key={headerOption.id}>
                         <Nav.Link
-                          className="mdf__btn_large"
+                          className={style.mdf__btn_large}
                           eventKey={headerOption.id}
                         >
                           {headerOption.name}

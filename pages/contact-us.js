@@ -1,7 +1,6 @@
 import { Fragment, useState } from "react";
 
 import ContactBanner from "@/components/Contact/banner";
-import BookMeeting from "@/components/Contact/book-meeting";
 import ContactChatBlock from "@/components/Contact/chat-blocks";
 import Loader from "@/components/Loader";
 import { useAuth } from "@/contexts/AuthContext";
@@ -39,12 +38,12 @@ export default function LandingScreen() {
     <Fragment>
       <ContactBanner />
       <ContactChatBlock handleBookMeeting={handleBookMeeting} />
-      {isBookMeeting && (
-        <BookMeeting
-          handleSubmitMeeting={handleSubmitMeeting}
-          defaultMeetingData={defaultMeetingData}
-        />
-      )}
+      {/* {isBookMeeting && (
+          <BookMeeting
+            handleSubmitMeeting={handleSubmitMeeting}
+            defaultMeetingData={defaultMeetingData}
+          />
+        )} */}
       <Loader isLoading={isLoading} />
     </Fragment>
   );

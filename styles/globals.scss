@@ -390,3 +390,140 @@ a {
 .Icon--md {
   height: var(--checkout-icon-md);
 }
+
+.contact-img {
+  height: 345px;
+  overflow: hidden;
+  img {
+    border-radius: 40px;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+.three-block-section {
+  background: $section-bg-grey;
+  padding: 70px 0px;
+  @include media-breakpoints-down-md {
+    padding: 50px 0px;
+  }
+  .three-block-title {
+    h2 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 32px;
+      line-height: 50px;
+      color: $section-title-color;
+      text-align: center;
+      margin-bottom: 30px;
+      @include media-breakpoints-down-md {
+        font-size: 36px;
+      }
+      @include media-breakpoints-down-xs {
+        font-size: 26px;
+        line-height: 38px;
+      }
+    }
+  }
+
+  .box-block-main {
+    background: $white;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 54px;
+    border-radius: 19px;
+    margin: 70px 0px 10px;
+    // padding: 60px 20px 40px;
+    overflow: hidden;
+    position: relative;
+    // @include media-breakpoints-down-lg {
+    //   padding: 70px 20px 40px;
+    // }
+    @include media-breakpoints-down-md {
+      margin: 40px 90px 30px;
+      // padding: 60px 60px 40px;
+    }
+    @include media-breakpoints-down-xs {
+      margin: 40px 0px 30px;
+      // padding: 70px 40px 40px;
+    }
+    .img-wrapper {
+      height: 250px;
+    }
+    .three-block-img-block {
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s ease-in-out 0s;
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      top: -40px;
+      text-align: center;
+      margin: 0px auto;
+      .contact-icon-block {
+        width: 84px;
+        height: 84px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $image-border-color;
+        border-radius: 100px;
+        .contact-img-main {
+          width: 42px;
+          height: 42px;
+          overflow: hidden;
+          transition: all 0.5s ease-in-out 0s;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+    .box-content-block {
+      padding: 40px 20px 40px;
+      @include media-breakpoints-down-md {
+        padding: 40px 60px 40px;
+      }
+      h2 {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 38px;
+        text-align: center;
+        letter-spacing: 0.36px;
+        color: $section-title-color;
+        margin-bottom: 12px;
+      }
+      p {
+        font-style: normal;
+        font-weight: 400;
+        margin: 0px auto;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        letter-spacing: 0.25px;
+        min-height: 56px;
+        color: $text-dark;
+      }
+      .common-btn {
+        border-radius: 100px;
+        color: $white;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 14px 15px !important;
+        a {
+          border-radius: 100px;
+          color: $white;
+          font-weight: 500;
+          font-size: 16px;
+          padding: 14px 15px !important;
+        }
+      }
+    }
+  }
+}

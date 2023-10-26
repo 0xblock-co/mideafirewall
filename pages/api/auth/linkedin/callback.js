@@ -28,7 +28,7 @@ export async function callbackHandler(req, res) {
     },
   });
   const profileData = profileResponse.data;
-  console.log("profileData: ", profileData);
+  // console.log("profileData: ", profileData);
   // TODO:: Need to call backend url
   // Forward the LinkedIn response to the main API
   // try {

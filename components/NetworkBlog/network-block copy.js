@@ -73,9 +73,7 @@ export default function NeetworkBlock() {
     });
   };
   const [selectedRadioOption, setSelectedRadioOption] = useState([]);
-  useEffect(() => {
-    console.log("selectedRadioOption :11:", selectedRadioOption);
-  }, [selectedRadioOption]);
+  useEffect(() => {}, [selectedRadioOption]);
   const handleOptionChange = (featureId, selectedOption) => {
     const cloneSelectedRadioOption =
       selectedRadioOption && selectedRadioOption.length > 0
@@ -86,7 +84,6 @@ export default function NeetworkBlock() {
       const availableDataIndex = cloneSelectedRadioOption.findIndex(
         (item) => item.featureId === featureId && item.activeTab === activeTab
       );
-      console.log("availableDataIndex: ", availableDataIndex);
       if (availableDataIndex !== -1) {
         cloneSelectedRadioOption[availableDataIndex] = {
           ...cloneSelectedRadioOption[availableDataIndex],
@@ -235,7 +232,6 @@ export default function NeetworkBlock() {
                                   activeTab
                                 ]?.includes(item.webFeatureKey)}
                                 onChange={() => {
-                                  console.log("Click ");
                                   if (!item.active) {
                                     newInfoAlert(
                                       "Personalized Feature Activation",

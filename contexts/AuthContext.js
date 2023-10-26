@@ -5,6 +5,7 @@ import { authActions, getUserDetails } from "@/store/auth.slice";
 import { eraseCookie, readCookie } from "@/utils/cookieCreator";
 import { localStorageKeys } from "@/constants/global.constants";
 import Router from "next/router";
+import CommonUtility from "@/utils/common.utils";
 
 //api here is an axios instance which has the baseURL set according to the env.
 
@@ -66,11 +67,11 @@ export const AuthProvider = ({ children }) => {
         return { isActive: false, route: "/" };
       }
 
-      if (!user.emailVerified) {
+      if (CommonUtility.isNotEmptyObject(user) && !user.emailVerified) {
         return { isActive: false, route: "/account-security/login" };
       }
 
-      if (!user.surveyAnswered) {
+      if (CommonUtility.isNotEmptyObject(user) && !user.surveyAnswered) {
         return { isActive: false, route: "/survey" };
       }
 

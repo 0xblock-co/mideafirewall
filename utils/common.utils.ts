@@ -9,6 +9,9 @@ export default class CommonUtility {
     static isNotEmpty(item: any): boolean {
         return item !== undefined && item !== null && item !== "" && item.length !== 0;
     }
+    static isNotEmptyObject(item: any): boolean {
+        return Object.keys(item).length !== 0 && item.constructor === Object;
+    }
 
     static truncateString(text: string, ellipsisString: number): string {
         return (text || "").length > ellipsisString ? text.substring(0, ellipsisString) + "..." : text;

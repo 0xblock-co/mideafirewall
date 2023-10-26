@@ -1,8 +1,11 @@
 import { Button } from "react-bootstrap";
 
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const ContactWithSalesChat = () => {
+  const router = useRouter(); // Get the router instance
+
   useEffect(() => {
     const openChatWidget = () => {
       if (typeof window !== "undefined" && window.Tawk_API) {
@@ -10,15 +13,47 @@ const ContactWithSalesChat = () => {
       }
     };
 
+    const minimizeChatWidget = () => {
+      if (typeof window !== "undefined" && window.Tawk_API) {
+        window.Tawk_API.minimize();
+      }
+    };
+
     // Attach the click event to the button
     const chatButton = document.getElementById("chatButton");
     chatButton.addEventListener("click", openChatWidget);
 
-    return () => {
-      // Clean up the event listener when the component unmounts
-      chatButton.removeEventListener("click", openChatWidget);
+    // Listen for route changes and minimize the chat widget when navigating
+    const handleRouteChange = () => {
+      minimizeChatWidget();
     };
-  }, []);
+
+    // Add a route change listener
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      // Clean up the event listener and route change listener when the component unmounts
+      chatButton.removeEventListener("click", openChatWidget);
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [router]);
+
+  // useEffect(() => {
+  //   const openChatWidget = () => {
+  //     if (typeof window !== "undefined" && window.Tawk_API) {
+  //       window.Tawk_API.maximize();
+  //     }
+  //   };
+
+  //   // Attach the click event to the button
+  //   const chatButton = document.getElementById("chatButton");
+  //   chatButton.addEventListener("click", openChatWidget);
+
+  //   return () => {
+  //     // Clean up the event listener when the component unmounts
+  //     chatButton.removeEventListener("click", openChatWidget);
+  //   };
+  // }, []);
 
   return (
     <div className="box-block-main">

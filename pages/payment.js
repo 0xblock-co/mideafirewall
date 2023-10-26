@@ -10,17 +10,15 @@ import PaymentRightBlock from "@/components/Payment/payment-right-block";
 import style from "@/components/Payment/payment.module.scss";
 import { showToast } from "@/components/ToastContainer/toaster";
 import { getSelectedPlan } from "@/store/defaultConfig.slice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/hooks";
 
 export default function Payment() {
   const stripe = useStripe();
   const [isLoading, setIsLoading] = useState(false);
   const [priceData, setPriceData] = useState(null);
   const selectedPlan = useAppSelector(getSelectedPlan);
-  const dispatch = useAppDispatch();
   useEffect(() => {
     setPriceData(selectedPlan);
-    console.log("selectedPlan: ", selectedPlan);
   }, [selectedPlan]);
   useEffect(() => {
     // function getSelectedPlan() {

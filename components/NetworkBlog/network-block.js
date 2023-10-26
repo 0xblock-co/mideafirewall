@@ -10,13 +10,14 @@ import style from "./network-blog.module.scss";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppSelector } from "@/store/hooks";
 import { getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
+import RenderIf from "../ConditionalRender/RenderIf";
+import ReadMore from "../ReadMore";
 
 export default function NeetworkBlock() {
   const router = useRouter();
   const { user, isLogin } = useAuth();
 
   const headerData = useAppSelector(getAllHeaderDataOptionsUpdated);
-  console.log("headerData: ", headerData);
   const [activeTab, setActiveTab] = useState("0");
   const [selectedFeatureIds, setSelectedFeatureIds] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -38,7 +39,11 @@ export default function NeetworkBlock() {
     const { query } = router;
     const { key } = query;
 
-    if ("key" in query && headerData.some((item) => item.id === key)) {
+    if (
+      CommonUtility.isNotEmptyObject(query) &&
+      "key" in query &&
+      headerData.some((item) => item.id === key)
+    ) {
       setActiveTab(key.toString());
     }
   }, [router.query, headerData]);
@@ -225,7 +230,32 @@ export default function NeetworkBlock() {
                                 <h5 className="text-dark mt-3 mb-3">
                                   {item.name}
                                 </h5>
-                                <p className="mt-3">{item.description}</p>
+                                <ReadMore
+                                  text={item.description}
+                                  maxLength={200}
+                                />
+                                {/* <p className="mt-3">{item.description}</p> */}
+                                <RenderIf
+                                  isTrue={CommonUtility.isValidArray(
+                                    item.mediaSupports
+                                  )}
+                                >
+                                  <div className="d-flex align-items-center">
+                                    <h6 className="text-dark mt-3">
+                                      Supports:
+                                    </h6>
+                                    <span
+                                      className="text-dark mt-3"
+                                      style={{
+                                        marginLeft: "10px",
+                                        marginBottom: "8px",
+                                      }}
+                                    >
+                                      {item.mediaSupports.join(" & ")}
+                                    </span>
+                                  </div>
+                                </RenderIf>
+
                                 <div className="d-flex flex-wrap mt-3 gap-3">
                                   {item.options?.map((opt, i) => {
                                     return (

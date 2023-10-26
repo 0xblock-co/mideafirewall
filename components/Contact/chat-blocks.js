@@ -1,4 +1,4 @@
-import { Button,  Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import WhatsAppChat from "./UI/whatsapp";
 import getConfig from "next/config";
 import ContactWithSalesChat from "./UI/ChatWithSalesTeam";
@@ -41,8 +41,8 @@ export default function ContactChatBlock({ handleBookMeeting }) {
                 />
               </div>
               <div className="box-content-block">
-                <h2>Product Demo</h2>
-                <p>Get a product demo</p>
+                <h2>Schedule a Demo</h2>
+                <p>Experience in action! Join us for a live demo.</p>
                 <Button
                   type="submit"
                   variant="primary"
@@ -50,7 +50,7 @@ export default function ContactChatBlock({ handleBookMeeting }) {
                   onClick={() => router.push("/network-blog")}
                   // onClick={() => setIsShowProductDemoFormModal(true)}
                 >
-                  Get a demo
+                  Schedule now
                 </Button>
               </div>
             </div>
@@ -65,15 +65,15 @@ export default function ContactChatBlock({ handleBookMeeting }) {
                 />
               </div>
               <div className="box-content-block">
-                <h2>Schedule a meeting</h2>
-                <p>We're here to help you with your experience.</p>
+                <h2>Get a Price Quote</h2>
+                <p>We're here to help you with your personalized usage.</p>
                 <Button
                   type="submit"
                   variant="primary"
                   className="w-100 mt-3 py-3 common-btn"
                   onClick={() => handleBookMeeting(true)}
                 >
-                  Schedule now
+                  Quote now
                 </Button>
               </div>
             </div>

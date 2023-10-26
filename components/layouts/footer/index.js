@@ -72,12 +72,12 @@ export default function FooterBottom() {
             <h5 className="mt-3">Products</h5>
             <ul className="list-unstyled">
               {CommonUtility.isValidArray(headerData) &&
-                headerData.map((item) => {
+                headerData.map((item, index) => {
                   return (
                     <li
                       style={{ color: "#fff" }}
                       className="py-2"
-                      key={item.id}
+                      key={item.id + "_" + index}
                     >
                       <Link href={`/network-blog?key=${item.id}`}>
                         {item.name}
@@ -99,7 +99,7 @@ export default function FooterBottom() {
                         <li
                           style={{ color: "#fff" }}
                           className="py-2"
-                          key={index}
+                          key={`n_${index}`}
                         >
                           <Link href={`/network-blog?key=0`}>more...</Link>
                         </li>
@@ -111,7 +111,7 @@ export default function FooterBottom() {
                       <li
                         style={{ color: "#fff" }}
                         className="py-2"
-                        key={feature.id}
+                        key={`n_${feature.name}`}
                         onClick={() => handleFeatureCardOnClick(feature, 0)}
                       >
                         {feature.name}

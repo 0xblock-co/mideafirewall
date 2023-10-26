@@ -3,19 +3,16 @@ import { useRouter } from "next/router";
 import { Button, Container } from "react-bootstrap";
 
 import style from "./pricing.module.scss";
-import { useAuth } from "@/contexts/AuthContext";
 import { PRICING_CARD_BG } from "@/constants/global.constants";
 import CommonUtility from "@/utils/common.utils";
 import { useDispatch } from "react-redux";
 import { setSelectedPricingPlan } from "@/store/defaultConfig.slice";
 
 export default function PricingBlock({ priceData = [] }) {
-  const { isLogin, user } = useAuth();
-  console.log("user: ", user);
   const router = useRouter();
   const dispatch = useDispatch();
+
   const handleGetStartedClick = async (e, selectedPricing) => {
-    console.log("selectedPricing: ", selectedPricing);
     e.preventDefault();
     // if (!isLogin) {
     //   newInfoAlert(
@@ -38,7 +35,6 @@ export default function PricingBlock({ priceData = [] }) {
         <div className="mfw__pricing-card-wrapper">
           {priceData &&
             priceData?.map((item, index) => {
-              console.log("item: ", item);
               let className = "yellow";
               if (index >= PRICING_CARD_BG.length) {
                 className = PRICING_CARD_BG[index % PRICING_CARD_BG.length];

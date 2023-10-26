@@ -21,9 +21,7 @@ export const asyncGetAllHeaderData = createAsyncThunk(
           false
         )
         .then(async (res) => {
-          console.log("res: ", res);
           if (res && res?.isSuccess) {
-            console.log("res.data: 1", res.data);
             let updatedData = [];
             if (res.data && CommonUtility.isValidArray(res.data.items)) {
               const existingData = res.data.items;
@@ -58,7 +56,6 @@ export const asyncGetAllHeaderData = createAsyncThunk(
               };
               updatedData = [newObject, ...existingData];
             }
-            console.log("11 ---", { ...res.data, updatedData });
             return thunkAPI.fulfillWithValue({ ...res.data, updatedData });
           }
           return thunkAPI.rejectWithValue(res);

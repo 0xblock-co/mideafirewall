@@ -117,6 +117,44 @@ export const asyncGetQuestions = async () => {
     return e.message;
   }
 };
+export const asyncGetMeetingQuestions = async () => {
+  try {
+    const response = api
+      .get(
+        "https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_meeting",
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        if (res && res?.isSuccess) {
+          return res;
+        }
+      });
+    return response;
+  } catch (e) {
+    return e.message;
+  }
+};
+export const asyncGetPricingQuoteQuestions = async () => {
+  try {
+    const response = api
+      .get(
+        "https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_pricing_quote",
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        if (res && res?.isSuccess) {
+          return res;
+        }
+      });
+    return response;
+  } catch (e) {
+    return e.message;
+  }
+};
 
 export const asyncGetPricingQuestions = async () => {
   try {
@@ -142,7 +180,7 @@ export const asyncGetAllPricingData = async () => {
   try {
     const response = api
       .get(
-        "https://mediafirewall-ai.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
+        "http://mediafirewall.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
         {},
         true,
         false

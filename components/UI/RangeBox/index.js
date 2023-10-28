@@ -12,7 +12,7 @@ const RangeBox = ({ title, register, watch, name, errors, min, max }) => {
           className="btn btn-outline-primary checkbox__primary"
           htmlFor="btn-check-outlined012"
         >
-          Rs. {rangeValue}
+          {rangeValue}
         </label>
         <Form.Range className="mt-3" {...register(name)} min={min} max={max} />
         {errors[name] && (

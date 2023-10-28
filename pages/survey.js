@@ -86,6 +86,7 @@ export default function Survey() {
       );
       if (response) {
         if (response.isSuccess) {
+          ToastMessage.success("Thank you for submitting answer.");
           dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
           Router.push("/network-blog");
           return;

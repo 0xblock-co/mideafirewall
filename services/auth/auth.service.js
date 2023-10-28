@@ -172,7 +172,10 @@ export const asyncPostSignedUpSurveySubmitAnswers = (payload, user) => {
     const response = api
       .post(
         `https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/answers/users/${user?.userDetails?.email}`,
-        payload
+        payload,
+        {},
+        true,
+        false
       )
       .then(async (res) => {
         return res;

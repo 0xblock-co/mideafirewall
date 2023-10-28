@@ -5,14 +5,11 @@ import { useEffect, useState } from "react";
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import { useAuth } from "@/contexts/AuthContext";
-import {
-  asyncGetSignedUpSurveyQuestions,
-  asyncPostSignedUpSurveySubmitAnswers,
-} from "@/services/auth/auth.service";
+import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
-import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
+import { asyncGetMeetingQuestions } from "@/services/product/product.service";
 
 export default function Survey() {
   const [formData, setFormData] = useState([]);
@@ -32,9 +29,10 @@ export default function Survey() {
   }, []);
 
   const getQuestions = async () => {
-    const response = await asyncGetSignedUpSurveyQuestions();
+    const response = await asyncGetMeetingQuestions();
     if (response && response.isSuccess && response.data) {
       const data = getFilteredData(response.data.questions);
+      console.log("data: ", data);
       if (data) {
         const defaultValue = {};
         data.forEach((element) => {
@@ -86,8 +84,8 @@ export default function Survey() {
       );
       if (response) {
         if (response.isSuccess) {
-          dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
-          // Router.push("/network-blog");
+          ToastMessage.success("Thank you for submitting answer.");
+          Router.push("/book-meeting");
           return;
         } else {
           ToastMessage.error(response?.message || "Something went wrong");

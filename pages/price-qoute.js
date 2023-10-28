@@ -4,15 +4,12 @@ import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
-import { useAuth } from "@/contexts/AuthContext";
-import {
-  asyncGetSignedUpSurveyQuestions,
-  asyncPostSignedUpSurveySubmitAnswers,
-} from "@/services/auth/auth.service";
+import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
-import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
+import { asyncGetPricingQuoteQuestions } from "@/services/product/product.service";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Survey() {
   const [formData, setFormData] = useState([]);
@@ -20,8 +17,7 @@ export default function Survey() {
   const [formAnswerData, setFormAnswerData] = useState([]);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isLogin, user, checkAuthRouteV2 } = useAuth();
-
+  const { user } = useAuth();
   useEffect(() => {
     // const { isActive, route } = checkAuthRouteV2();
     // if (!isLogin && !isActive) {
@@ -32,7 +28,7 @@ export default function Survey() {
   }, []);
 
   const getQuestions = async () => {
-    const response = await asyncGetSignedUpSurveyQuestions();
+    const response = await asyncGetPricingQuoteQuestions();
     if (response && response.isSuccess && response.data) {
       const data = getFilteredData(response.data.questions);
       if (data) {
@@ -86,8 +82,8 @@ export default function Survey() {
       );
       if (response) {
         if (response.isSuccess) {
-          dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
-          // Router.push("/network-blog");
+          ToastMessage.success("Thank you for submitting answer.");
+          router.push("/book-meeting");
           return;
         } else {
           ToastMessage.error(response?.message || "Something went wrong");

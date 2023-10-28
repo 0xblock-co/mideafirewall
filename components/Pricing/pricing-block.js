@@ -27,7 +27,6 @@ export default function PricingBlock({ priceData = [] }) {
     // }
     dispatch(setSelectedPricingPlan(selectedPricing));
     router.push(`/payment?tierName=${selectedPricing.tierName.toLowerCase()}`);
-    // newInfoAlert("Comming soon...", "", "OK", "warning");
   };
   return (
     <section className={style.mdf__pricing_block}>

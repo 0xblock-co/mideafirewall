@@ -87,7 +87,7 @@ export default function Survey() {
       if (response) {
         if (response.isSuccess) {
           dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
-          Router.push("/network-blog");
+          // Router.push("/network-blog");
           return;
         } else {
           ToastMessage.error(response?.message || "Something went wrong");

@@ -47,7 +47,8 @@ export default function ContactChatBlock({ handleBookMeeting }) {
                   type="submit"
                   variant="primary"
                   className="w-100 mt-3 py-3 common-btn"
-                  onClick={() => router.push("/network-blog")}
+                  // onClick={() => router.push("/network-blog")}
+                  onClick={() => router.push("/schedule-demo")}
                   // onClick={() => setIsShowProductDemoFormModal(true)}
                 >
                   Schedule now
@@ -71,7 +72,8 @@ export default function ContactChatBlock({ handleBookMeeting }) {
                   type="submit"
                   variant="primary"
                   className="w-100 mt-3 py-3 common-btn"
-                  onClick={() => handleBookMeeting(true)}
+                  onClick={() => router.push("/price-qoute")}
+                  // onClick={() => handleBookMeeting(true)}
                 >
                   Quote now
                 </Button>

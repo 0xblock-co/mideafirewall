@@ -69,7 +69,7 @@ export default function BookMeetingScreen() {
       <Container>
         <Row className="justify-content-center">
           <Col md={8}>
-            <Card className="p-5 text-center">
+            <Card className="p-5 text-center book-meeting-card">
               <h2>Book a Meeting</h2>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Row className="g-3" style={{ marginBottom: "15px" }}>

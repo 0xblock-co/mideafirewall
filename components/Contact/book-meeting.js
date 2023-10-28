@@ -1,31 +1,46 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
+import Select2 from "react-select2-wrapper";
 
 import style from "./contact.module.scss";
-import { TIME_ZONE } from "@/data";
+import { SUPPORTED_LANGUAGES, TIME_ZONE } from "@/data";
 
-//Validation Schema
 const schema = yup.object().shape({
-  attendees: yup.array().of(
-    yup.object().shape({
-      email: yup
-        .string()
-        .email("Invalid email address")
-        .required("Email is required"),
-    })
-  ),
-  firstName: yup.string().required("First name is required"),
-  lastName: yup.string().required("Last name is required"),
-  companyName: yup.string().required("Company Name is required"),
-  websiteUrl: yup.string().required("Website Url is required"),
-  timeZone: yup.string().required("TimeZone is required"),
-  date: yup.string().required("Date is required"),
-  time: yup.string().required("Time is required"),
+  // attendees: yup
+  //   .array()
+  //   .of(
+  //     yup.object().shape({
+  //       email: yup
+  //         .string()
+  //         .email("Please enter a valid email address")
+  //         .required("Email address is required"),
+  //     })
+  //   )
+  //   .required("Please add at least one attendee"),
+  // firstName: yup.string().required("Please enter your first name"),
+  // lastName: yup.string().required("Please enter your last name"),
+  // companyName: yup.string().required("Please enter your company name"),
+  // websiteUrl: yup.string().required("Please enter your website URL"),
+  // organizer: yup.string().required("Please enter the organizer's name"),
+  // timeZone: yup.string().required("Please select a time zone"),
+  // date: yup.string().required("Please select a date"),
+  // time: yup.string().required("Please select a time"),
+  // duration: yup
+  //   .number()
+  //   .required("Please enter a duration")
+  //   .positive("Duration must be a positive number")
+  //   .integer("Duration must be a whole number"),
+  // subject: yup.string().required("Please enter a meeting subject"),
+  // virtualLocation: yup.string().required("Please enter a virtual location"),
+  // preferredLanguage: yup
+  //   .string()
+  //   .required("Please select a preferred language"),
+  // notes: yup.string(),
+  // wantToCC: yup.boolean(),
 });
-
 export default function BookMeeting({
   defaultMeetingData,
   handleSubmitMeeting,
@@ -37,20 +52,8 @@ export default function BookMeeting({
     control,
     reset,
   } = useForm({
-    defaultValues: {
-      attendees: [{ email: "" }],
-    },
-    resolver: yupResolver(schema), // set the validation schema resolver
-  }); // Initializing useForm
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "attendees",
+    resolver: yupResolver(schema),
   });
-
-  const handleAddEmail = () => {
-    append({ email: "" });
-  };
 
   const onSubmit = async (data) => {
     const {
@@ -58,16 +61,20 @@ export default function BookMeeting({
       firstName,
       lastName,
       websiteUrl,
-      wantToCC,
       date,
       time,
       timeZone,
+      virtualLocation,
+      duration,
+      organizer,
+      notes,
+      preferredLanguage,
+      subject,
     } = data;
+
+    console.log("data: ", data);
     const attendees = data.attendees.map((attendee) => attendee.email);
-    let ccEmails = [];
-    if (wantToCC) {
-      ccEmails = attendees;
-    }
+    const ccEmails = data.ccEmails.map((cc) => cc.email);
     const params = {
       ...defaultMeetingData,
       companyName,
@@ -79,7 +86,25 @@ export default function BookMeeting({
       ccEmails,
       timeZone,
     };
-    await handleSubmitMeeting(params);
+    const payload = {
+      ...defaultMeetingData,
+      meetingId: "",
+      firstname: firstName,
+      lastName,
+      websiteUrl,
+      companyName,
+      dateAndTime: `${date} ${time}:00`,
+      duration,
+      virtualLocation,
+      organizer,
+      attendees,
+      notes,
+      preferredLanguage,
+      timeZone,
+      ccEmails,
+      subject,
+    };
+    await handleSubmitMeeting(payload);
     reset();
   };
 
@@ -91,130 +116,88 @@ export default function BookMeeting({
             <Card className="p-5 text-center">
               <h2>Book a Meeting</h2>
               <Form onSubmit={handleSubmit(onSubmit)}>
-                <Row className="justify-content-around">
-                  <Col md={6} lg={5}>
-                    <Form.Group
-                      className="mt-5"
-                      controlId="exampleForm.ControlInput1"
-                    >
+                <Row>
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
                       <Form.Control
                         type="text"
-                        placeholder="First Name*"
+                        placeholder="First Name"
                         className="mdf__form__input"
                         {...register("firstName")}
                       />
+                      {errors.firstName && (
+                        <span className="d-flex text-left error-message">
+                          {errors.firstName.message}
+                        </span>
+                      )}
                     </Form.Group>
-                    {errors.firstName && (
-                      <span className="error-message">
-                        {errors.firstName.message}
-                      </span>
-                    )}
                   </Col>
-                  <Col md={6} lg={5}>
-                    <Form.Group
-                      className="mt-5"
-                      controlId="exampleForm.ControlInput2"
-                    >
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
                       <Form.Control
                         type="text"
-                        placeholder="Last Name*"
+                        placeholder="Last Name"
                         className="mdf__form__input"
                         {...register("lastName")}
                       />
+                      {errors.lastName && (
+                        <span className="d-flex text-left error-message">
+                          {errors.lastName.message}
+                        </span>
+                      )}
                     </Form.Group>
-                    {errors.lastName && (
-                      <span className="error-message">
-                        {errors.lastName.message}
-                      </span>
-                    )}
-                  </Col>
-                  <Col md={6} lg={5} className="d-flex">
-                    {fields.map((email, index) => {
-                      return (
-                        <>
-                          <Form.Group
-                            className="mt-5"
-                            controlId="exampleForm.ControlInput3"
-                            key={email.id}
-                          >
-                            <Form.Control
-                              key={email.id}
-                              type="email"
-                              name={`attendees[${index}].email`}
-                              // defaultValue={email.value}
-                              placeholder="Email*"
-                              className="mdf__form__input"
-                              {...register(`attendees[${index}].email`)}
-                            />
-                          </Form.Group>
-                          {index !== 0 && (
-                            <Button
-                              type="button"
-                              className="ms-2 px-3 py-2 mt-5"
-                              onClick={() => remove(index)}
-                            >
-                              -
-                            </Button>
-                          )}
-                          {errors.attendees && (
-                            <span className="error-message">
-                              {errors.attendees?.[index]?.email?.message}
-                            </span>
-                          )}
-                        </>
-                      );
-                    })}
-
-                    <Button
-                      type="button"
-                      onClick={handleAddEmail}
-                      className="ms-2 px-3 py-2 mt-5"
-                    >
-                      +
-                    </Button>
                   </Col>
 
-                  <Col md={6} lg={5}>
-                    <Form.Group
-                      className="mt-5"
-                      controlId="exampleForm.ControlInput3"
-                    >
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
                       <Form.Control
                         type="text"
-                        placeholder="Company Name*"
+                        placeholder="Company Name"
                         className="mdf__form__input"
                         {...register("companyName")}
                       />
+                      {errors.companyName && (
+                        <span className="d-flex text-left error-message">
+                          {errors.companyName.message}
+                        </span>
+                      )}
                     </Form.Group>
-                    {errors.companyName && (
-                      <span className="error-message">
-                        {errors.companyName.message}
-                      </span>
-                    )}
                   </Col>
-                  <Col md={6} lg={5}>
-                    <Form.Group
-                      className="mt-5"
-                      controlId="exampleForm.ControlInput3"
-                    >
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
+                      <Form.Control
+                        type="text"
+                        placeholder="Organizer Name"
+                        className="mdf__form__input"
+                        {...register("organizer")}
+                      />
+                      {errors.organizer && (
+                        <span className="d-flex text-left error-message">
+                          {errors.organizer.message}
+                        </span>
+                      )}
+                    </Form.Group>
+                  </Col>
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
                       <Form.Control
                         type="url"
-                        placeholder="Website Url*"
+                        placeholder="Website Url"
                         className="mdf__form__input"
                         {...register("websiteUrl")}
                       />
+                      {errors.websiteUrl && (
+                        <span className="d-flex text-left error-message">
+                          {errors.websiteUrl.message}
+                        </span>
+                      )}
                     </Form.Group>
-                    {errors.websiteUrl && (
-                      <span className="error-message">
-                        {errors.websiteUrl.message}
-                      </span>
-                    )}
                   </Col>
-                  <Col md={6} lg={5}>
-                    <Form.Group
-                      className="mt-5"
-                      controlId="exampleForm.ControlInput3"
-                    >
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
                       <Form.Select
                         aria-label="Default select example"
                         {...register("timeZone")}
@@ -223,86 +206,182 @@ export default function BookMeeting({
                         <option defaultValue="Asia/Kolkata">
                           Asia/Kolkata
                         </option>
-                        {TIME_ZONE.map((zone, index) => {
-                          return (
-                            <option value={zone} key={index}>
-                              {zone}
-                            </option>
-                          );
-                        })}
+                        {TIME_ZONE.map((zone, index) => (
+                          <option value={zone} key={index}>
+                            {zone}
+                          </option>
+                        ))}
                       </Form.Select>
+                      {errors.timeZone && (
+                        <span className="d-flex text-left error-message">
+                          {errors.timeZone.message}
+                        </span>
+                      )}
                     </Form.Group>
-                    {errors.timeZone && (
-                      <span className="error-message">
-                        {errors.timeZone.message}
-                      </span>
-                    )}
                   </Col>
-                  <Col md={6} lg={5}>
-                    <Form.Group
-                      className="mt-5"
-                      controlId="exampleForm.ControlInput3"
-                    >
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
                       <Form.Control
                         type="time"
-                        placeholder="Select time*"
+                        placeholder="Select time"
                         className="mdf__form__input"
                         {...register("time")}
                       />
+                      {errors.time && (
+                        <span className="d-flex text-left error-message">
+                          {errors.time.message}
+                        </span>
+                      )}
                     </Form.Group>
-                    {errors.time && (
-                      <span className="error-message">
-                        {errors.time.message}
-                      </span>
-                    )}
                   </Col>
-                  <Col md={6} lg={5}>
-                    <Form.Group
-                      className="mt-5"
-                      controlId="exampleForm.ControlInput3"
-                    >
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
                       <Form.Control
                         type="date"
-                        placeholder="Select Date*"
+                        placeholder="Select Date"
                         className="mdf__form__input"
                         {...register("date")}
                       />
+                      {errors.date && (
+                        <span className="d-flex text-left error-message">
+                          {errors.date.message}
+                        </span>
+                      )}
                     </Form.Group>
-                    {errors.date && (
-                      <span className="error-message">
-                        {errors.date.message}
-                      </span>
-                    )}
                   </Col>
-                  <Col md={6} lg={5}>
-                    <Form.Group
-                      className="mt-5"
-                      controlId="exampleForm.ControlInput3"
-                    >
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
                       <Form.Control
-                        type="checkbox"
-                        id="ccEmail"
-                        className="btn-check"
-                        hidden
-                        {...register("wantToCC")}
+                        type="number"
+                        placeholder="Duration"
+                        className="mdf__form__input"
+                        {...register("duration")}
                       />
-                      <label
-                        className={`btn btn-outline-primary ${style.checkbox__primary}`}
-                        htmlFor="ccEmail"
-                      >
-                        Want to CC?
-                      </label>
+                      {errors.duration && (
+                        <span className="d-flex text-left error-message">
+                          {errors.duration.message}
+                        </span>
+                      )}
                     </Form.Group>
-                    {errors.wantToCC && (
-                      <span className="error-message">
-                        {errors.wantToCC.message}
-                      </span>
-                    )}
+                  </Col>
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
+                      <Form.Control
+                        type="text"
+                        placeholder="Meeting Subject"
+                        className="mdf__form__input"
+                        {...register("subject")}
+                      />
+                      {errors.subject && (
+                        <span className="d-flex text-left error-message">
+                          {errors.subject.message}
+                        </span>
+                      )}
+                    </Form.Group>
+                  </Col>
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
+                      <Form.Select
+                        aria-label="Default select example"
+                        {...register("virtualLocation")}
+                        className="mdf__form__input"
+                      >
+                        <option defaultValue="Google Meet">Google Meet</option>
+                        <option defaultValue="Zoom Meet">Zoom Meet</option>
+                      </Form.Select>
+                      {errors.virtualLocation && (
+                        <span className="d-flex text-left error-message">
+                          {errors.virtualLocation.message}
+                        </span>
+                      )}
+                    </Form.Group>
+                  </Col>
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4">
+                      <Form.Select
+                        aria-label="Default select example"
+                        {...register("preferredLanguage")}
+                        className="mdf__form__input"
+                      >
+                        <option defaultValue="English">English</option>{" "}
+                        {SUPPORTED_LANGUAGES.text.map((language) => (
+                          <option
+                            value={language.language}
+                            key={language.language}
+                          >
+                            {language.language}
+                          </option>
+                        ))}
+                      </Form.Select>
+                      {errors.preferredLanguage && (
+                        <span className="d-flex text-left error-message">
+                          {errors.preferredLanguage.message}
+                        </span>
+                      )}
+                    </Form.Group>
+                  </Col>
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4 mfw_select2_wrapper">
+                      <Controller
+                        name="attendees"
+                        control={control}
+                        render={({ field }) => (
+                          <Select2
+                            className="mdf__form__input form-control mdf__select2"
+                            defaultValue="1"
+                            multiple
+                            options={{
+                              tags: true,
+                              placeholder: "Attendees email address",
+                            }}
+                            {...field}
+                          />
+                        )}
+                      />
+                      {errors.attendees && (
+                        <span className="d-flex text-left error-message">
+                          {errors.attendees.message}
+                        </span>
+                      )}
+                    </Form.Group>
+                  </Col>
+
+                  <Col md={6} lg={6}>
+                    <Form.Group className="mt-4 mfw_select2_wrapper">
+                      <Controller
+                        name="ccEmails"
+                        control={control}
+                        render={({ field }) => (
+                          <Select2
+                            className="mdf__form__input form-control mdf__select2"
+                            defaultValue="1"
+                            multiple
+                            options={{
+                              tags: true,
+                              placeholder: "Want to add CC?",
+                            }}
+                            {...field}
+                          />
+                        )}
+                      />
+                      {errors.ccEmails && (
+                        <span className="d-flex text-left error-message">
+                          {errors.ccEmails.message}
+                        </span>
+                      )}
+                    </Form.Group>
                   </Col>
                 </Row>
                 <Button
                   type="submit"
-                  className="btn btn-primary mt-5 py-2 px-5"
+                  className="btn btn-primary mt-4 py-2 px-5"
                 >
                   Book
                 </Button>

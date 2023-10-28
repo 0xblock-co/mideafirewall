@@ -17,7 +17,7 @@ export default function Uploads() {
       (!("filters" in router.query) ||
         !CommonUtility.isNotEmpty(router.query.filters))
     ) {
-      router.push("/network-blog1");
+      router.push("/network-blog");
     }
   }, [checkAuthRouteV2, router.query]);
 

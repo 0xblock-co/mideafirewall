@@ -1,16 +1,14 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 
-import ContactBanner from "@/components/Contact/banner";
-import ContactChatBlock from "@/components/Contact/chat-blocks";
-import Loader from "@/components/Loader";
-import { useAuth } from "@/contexts/AuthContext";
 import {
   asyncCreateMeeting,
   asyncGetDefaultMeeting,
 } from "@/services/product/product.service";
 import { showToast } from "@/components/ToastContainer/toaster";
 import BookMeeting from "@/components/Contact/book-meeting";
-export default function LandingScreen() {
+import { useAuth } from "@/contexts/AuthContext";
+
+export default function BookMeetingScreen() {
   const { user } = useAuth();
 
   const [isBookMeeting, setIsBookMeeting] = useState(false);
@@ -27,6 +25,7 @@ export default function LandingScreen() {
 
   const handleSubmitMeeting = async (values) => {
     setIsLoading(true);
+    console.log("values: ", values);
     const response = await asyncCreateMeeting(values, user);
     setIsLoading(false);
     if (response && response.isSuccess && response.data) {
@@ -36,20 +35,9 @@ export default function LandingScreen() {
   };
 
   return (
-    <Fragment>
-      <ContactBanner />
-      <ContactChatBlock handleBookMeeting={handleBookMeeting} />
-      {/* {isBookMeeting && (
-          <BookMeeting
-            handleSubmitMeeting={handleSubmitMeeting}
-            defaultMeetingData={defaultMeetingData}
-          />
-        )} */}
-      <BookMeeting
-        handleSubmitMeeting={handleSubmitMeeting}
-        defaultMeetingData={defaultMeetingData}
-      />
-      <Loader isLoading={isLoading} />
-    </Fragment>
+    <BookMeeting
+      handleSubmitMeeting={handleSubmitMeeting}
+      defaultMeetingData={defaultMeetingData}
+    />
   );
 }

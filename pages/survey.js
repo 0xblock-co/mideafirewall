@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import { useAuth } from "@/contexts/AuthContext";
-import { asyncSurveySubmitAnswers } from "@/services/auth/auth.service";
-import { asyncGetQuestions } from "@/services/product/product.service";
+import {
+  asyncGetSignedUpSurveyQuestions,
+  asyncPostSignedUpSurveySubmitAnswers,
+} from "@/services/auth/auth.service";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
 import { authActions } from "@/store/auth.slice";
@@ -21,16 +23,16 @@ export default function Survey() {
   const { isLogin, user, checkAuthRouteV2 } = useAuth();
 
   useEffect(() => {
-    const { isActive, route } = checkAuthRouteV2();
-    if (!isLogin && !isActive) {
-      router.push(route);
-      return;
-    }
+    // const { isActive, route } = checkAuthRouteV2();
+    // if (!isLogin && !isActive) {
+    //   router.push(route);
+    //   return;
+    // }
     getQuestions();
   }, []);
 
   const getQuestions = async () => {
-    const response = await asyncGetQuestions();
+    const response = await asyncGetSignedUpSurveyQuestions();
     if (response && response.isSuccess && response.data) {
       const data = getFilteredData(response.data.questions);
       if (data) {
@@ -78,12 +80,13 @@ export default function Survey() {
     }));
 
     if (id === lastElement.id) {
-      const response = await asyncSurveySubmitAnswers(
+      const response = await asyncPostSignedUpSurveySubmitAnswers(
         cloneFormAnswerData,
         user
       );
       if (response) {
         if (response.isSuccess) {
+          ToastMessage.success("Thank you for submitting answer.");
           dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
           Router.push("/network-blog");
           return;

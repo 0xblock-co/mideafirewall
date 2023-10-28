@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 class MyDocument extends Document {
   render() {
@@ -35,7 +36,11 @@ class MyDocument extends Document {
             referrerPolicy="no-referrer"
           />
           <link rel="manifest" href="/meta/site.webmanifest" />
-
+          <link
+            href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+            rel="stylesheet"
+          />
+          <Script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" />
           {/* Include tawk.to chat script */}
           <script
             dangerouslySetInnerHTML={{

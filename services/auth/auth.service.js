@@ -147,6 +147,45 @@ export const asyncLoginAndSignupService = (payload, idToken) => {
   }
 };
 
+export const asyncGetSignedUpSurveyQuestions = async () => {
+  try {
+    const response = api
+      .get(
+        "https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_customer",
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        if (res && res?.isSuccess) {
+          return res;
+        }
+      });
+    return response;
+  } catch (e) {
+    return e.message;
+  }
+};
+
+export const asyncPostSignedUpSurveySubmitAnswers = (payload, user) => {
+  try {
+    const response = api
+      .post(
+        `https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/answers/users/${user?.userDetails?.email}`,
+        payload,
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        return res;
+      });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const asyncSurveySubmitAnswers = (payload, user) => {
   try {
     const response = api

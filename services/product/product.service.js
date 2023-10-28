@@ -38,6 +38,7 @@ export const asyncGetContentEventLogs = async (
     return e.message;
   }
 };
+
 export const asyncUploadFileContent = async (
   bodyPayload,
   userEmail,
@@ -60,6 +61,7 @@ export const asyncUploadFileContent = async (
     return e.message;
   }
 };
+
 export const asyncGenerateProofsByEmail = async (apiKey, payload) => {
   try {
     const response = api
@@ -100,7 +102,45 @@ export const asyncGetQuestions = async () => {
   try {
     const response = api
       .get(
-        "https://mediafirewall.themillionvisions.com/mfw/web/Questionnaire/mfw_customer",
+        "https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_customer",
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        if (res && res?.isSuccess) {
+          return res;
+        }
+      });
+    return response;
+  } catch (e) {
+    return e.message;
+  }
+};
+export const asyncGetMeetingQuestions = async () => {
+  try {
+    const response = api
+      .get(
+        "https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_meeting",
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        if (res && res?.isSuccess) {
+          return res;
+        }
+      });
+    return response;
+  } catch (e) {
+    return e.message;
+  }
+};
+export const asyncGetPricingQuoteQuestions = async () => {
+  try {
+    const response = api
+      .get(
+        "https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_pricing_quote",
         {},
         true,
         false
@@ -120,7 +160,7 @@ export const asyncGetPricingQuestions = async () => {
   try {
     const response = api
       .get(
-        "https://mediafirewall.themillionvisions.com/mfw/web/Questionnaire/mfw_pricing",
+        "https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_pricing",
         {},
         true,
         false
@@ -140,7 +180,7 @@ export const asyncGetAllPricingData = async () => {
   try {
     const response = api
       .get(
-        "https://mediafirewall.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
+        "http://mediafirewall.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
         {},
         true,
         false
@@ -159,7 +199,7 @@ export const asyncGetAllPricingData = async () => {
 export const asyncGetDefaultMeeting = async () => {
   try {
     const response = api
-      .get("https://mediafirewall.themillionvisions.com/meetings/default")
+      .get("https://mediafirewall-ai.themillionvisions.com/meetings/default")
       .then(async (res) => {
         if (res && res?.isSuccess) {
           return res;

@@ -5,31 +5,34 @@ import { useEffect, useState } from "react";
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import { useAuth } from "@/contexts/AuthContext";
-import { asyncGetPricingQuestions } from "@/services/product/product.service";
-import { getComponentType, getFilteredData } from "@/utils/globalFunctions";
+import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
+import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
-import CommonUtility from "@/utils/common.utils";
+import { useAppDispatch } from "@/store/hooks";
+import { asyncGetMeetingQuestions } from "@/services/product/product.service";
 
 export default function Survey() {
   const [formData, setFormData] = useState([]);
   const [defaultValue, setDefaultValue] = useState({});
   const [formAnswerData, setFormAnswerData] = useState([]);
   const router = useRouter();
-  const { user, checkAuthRouteV2 } = useAuth();
+  const dispatch = useAppDispatch();
+  const { isLogin, user, checkAuthRouteV2 } = useAuth();
 
   useEffect(() => {
-    const { isActive, route } = checkAuthRouteV2();
-    if (!isActive) {
-      Router.push(route);
-      return;
-    }
+    // const { isActive, route } = checkAuthRouteV2();
+    // if (!isLogin && !isActive) {
+    //   router.push(route);
+    //   return;
+    // }
     getQuestions();
   }, []);
 
   const getQuestions = async () => {
-    const response = await asyncGetPricingQuestions();
+    const response = await asyncGetMeetingQuestions();
     if (response && response.isSuccess && response.data) {
       const data = getFilteredData(response.data.questions);
+      console.log("data: ", data);
       if (data) {
         const defaultValue = {};
         data.forEach((element) => {
@@ -44,6 +47,7 @@ export default function Survey() {
       }
     }
   };
+
   const onSubmitForm = async (data, id) => {
     const questionObj = formData.find((value) => value.id === id);
     const cloneFormAnswerData = cloneDeep(formAnswerData);
@@ -53,8 +57,8 @@ export default function Survey() {
     if (questionObj.type == "radio") {
       const radioSelectedValue = questionObj.options.find(
         (item) => item.value == ans
-      );
-      ans = [radioSelectedValue?.startValue, radioSelectedValue?.endValue];
+      )?.label;
+      ans = radioSelectedValue;
     }
 
     const answerObj = {
@@ -62,7 +66,6 @@ export default function Survey() {
       title: questionObj.label,
       question: questionObj.title,
       answers: Array.isArray(ans) ? ans : [ans],
-      type: getComponentType(questionObj.type),
     };
 
     cloneFormAnswerData.push(answerObj);
@@ -75,27 +78,20 @@ export default function Survey() {
     }));
 
     if (id === lastElement.id) {
-      ToastMessage.success("Thank you for submitting answer.");
-      router.push(`/payment?${CommonUtility.objectToParams(router?.query)}`);
-      return;
-      // const response = await asyncSurveySubmitAnswers(
-      //   cloneFormAnswerData,
-      //   user
-      // );
-      // if (response) {
-      //   if (response.isSuccess) {
-      //     ToastMessage.success("Thank you for submitting answer.");
-      //     router.push(
-      //       `/payment?${CommonUtility.objectToParams(router?.query)}`
-      //     );
-      //     return;
-      //   } else {
-      //     ToastMessage.error(response?.message || "Something went wrong");
-      //     router.reload();
-      //   }
-      // }
-      // Router.push("/network-blog");
-      // return;
+      const response = await asyncPostSignedUpSurveySubmitAnswers(
+        cloneFormAnswerData,
+        user
+      );
+      if (response) {
+        if (response.isSuccess) {
+          ToastMessage.success("Thank you for submitting answer.");
+          Router.push("/book-meeting");
+          return;
+        } else {
+          ToastMessage.error(response?.message || "Something went wrong");
+          Router.reload();
+        }
+      }
     }
     setFormData(newFormData);
   };

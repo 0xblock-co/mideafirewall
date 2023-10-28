@@ -26,8 +26,10 @@ export default function PricingBlock({ priceData = [] }) {
     //   return;
     // }
     dispatch(setSelectedPricingPlan(selectedPricing));
-    router.push(`/payment?tierName=${selectedPricing.tierName.toLowerCase()}`);
-    // newInfoAlert("Comming soon...", "", "OK", "warning");
+    router.push(
+      `/pricing-survey?tierName=${selectedPricing.tierName.toLowerCase()}`
+    );
+    // router.push(`/payment?tierName=${selectedPricing.tierName.toLowerCase()}`);
   };
   return (
     <section className={style.mdf__pricing_block}>

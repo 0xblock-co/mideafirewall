@@ -1,6 +1,8 @@
 import en from "@/lang/en.json";
 import fr from "@/lang/fr.json";
 import nl_NL from "@/lang/nl-NL.json";
+import "select2/dist/css/select2.min.css";
+
 import "@/styles/pricing.scss";
 import "@/styles/module-style.scss";
 import { Elements } from "@stripe/react-stripe-js";

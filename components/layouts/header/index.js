@@ -115,12 +115,7 @@ export default function HeaderTop() {
                     Pricing
                   </Link>
 
-                  <Link
-                    href="/"
-                    className={`nav-link ${
-                      isActiveLink("/") ? "nav-active" : ""
-                    }`}
-                  >
+                  <Link href="/" className={`nav-link`}>
                     Documentation & Media
                   </Link>
 

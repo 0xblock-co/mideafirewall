@@ -4,7 +4,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import React, { useState } from "react";
 import { TIME_ZONE } from "@/data";
 import { useAuth } from "@/contexts/AuthContext";
-import crypto from "crypto";
 import CommonUtility from "@/utils/common.utils";
 import moment from "moment";
 import { asyncCreateMeeting } from "@/services/product/product.service";
@@ -45,7 +44,7 @@ export default function BookMeetingScreen() {
       participants: data.participants,
       virtualLocation: data.virtualLocation,
       timeZone: data.timeZone,
-      meetingId: crypto.randomBytes(16).toString("hex"),
+      // meetingId: crypto.randomBytes(16).toString("hex"),
       dateAndTime: moment(
         data.date + " " + data.time,
         "YYYY-MM-DD HH:mm"
@@ -80,11 +79,11 @@ export default function BookMeetingScreen() {
                         {...register("virtualLocation")}
                         className="mdf__form__input"
                       >
-                        <option defaultValue="GoogleMeet">Google Meet</option>
-                        <option defaultValue="ZoomMeeting">Zoom Meet</option>
+                        <option defaultValue="GoogleMeet">GoogleMeet</option>
+                        <option defaultValue="ZoomMeeting">ZoomMeeting</option>
                         <option defaultValue="ZOHO">ZOHO </option>
                         <option defaultValue="MicrosoftTeams">
-                          Microsoft Teams
+                          MicrosoftTeams
                         </option>
                       </Form.Select>
                       {errors.virtualLocation && (

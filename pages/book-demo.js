@@ -73,7 +73,7 @@ export default function BookMeetingScreen() {
       <Container>
         <Row className="justify-content-center">
           <Col md={8}>
-            <Card className="p-5 text-center book-meeting-card">
+            <Card className="p-5 text-center book-demo-card">
               <div className="d-flex justify-content-start w-100 mb-4">
                 <div
                   onClick={() => router.push("/contact-us")}
@@ -103,7 +103,7 @@ export default function BookMeetingScreen() {
                     margin: "0 auto",
                   }}
                 >
-                  Book a Meeting
+                  Book a Demo
                 </h2>
               </div>
               <Form onSubmit={handleSubmit(onSubmit)}>

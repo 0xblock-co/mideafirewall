@@ -85,7 +85,7 @@ export default function Survey() {
       if (response) {
         if (response.isSuccess) {
           ToastMessage.success("Thank you for submitting answer.");
-          Router.push("/book-meeting");
+          Router.push("/book-demo");
           return;
         } else {
           ToastMessage.error(response?.message || "Something went wrong");

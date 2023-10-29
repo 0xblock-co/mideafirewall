@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "react-bootstrap";
 
 import style from "./network-blog.module.scss";
-export default function NeetworkBanner() {
+export default function NetworkBanner() {
   return (
     <section className={`${style.mdf__network_banner} p-3 p-lg-5`}>
       <Container>

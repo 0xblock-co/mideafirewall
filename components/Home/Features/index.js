@@ -53,7 +53,7 @@ export default function FeatureBlog({ headerData }) {
 
   return (
     <section className={style.mdf__personalized_feature}>
-      <Container>
+      <Container fluid="md">
         <Row className="justify-content-center">
           <Col xxl={7}>
             <h1 className="fw-bold text-shadow text-lg-center">

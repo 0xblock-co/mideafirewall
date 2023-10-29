@@ -7,24 +7,26 @@ import { PRICING_CARD_BG } from "@/constants/global.constants";
 import CommonUtility from "@/utils/common.utils";
 import { useDispatch } from "react-redux";
 import { setSelectedPricingPlan } from "@/store/defaultConfig.slice";
+import { useAuth } from "@/contexts/AuthContext";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
 
 export default function PricingBlock({ priceData = [] }) {
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const { isLogin } = useAuth();
   const handleGetStartedClick = async (e, selectedPricing) => {
     e.preventDefault();
-    // if (!isLogin) {
-    //   newInfoAlert(
-    //     "Signup Required for Subscription",
-    //     "To access the demo, you need to either log in or sign up for an account. Please proceed with login or sign-up.",
-    //     "Continue",
-    //     "warning"
-    //   ).then(() => {
-    //     Router.push("/account-security/signup");
-    //   });
-    //   return;
-    // }
+    if (!isLogin) {
+      newInfoAlert(
+        "Signup Required for Subscription",
+        "To access the demo, you need to either log in or sign up for an account. Please proceed with login or sign-up.",
+        "Continue",
+        "warning"
+      ).then(() => {
+        router.push("/account-security/signup");
+      });
+      return;
+    }
     dispatch(setSelectedPricingPlan(selectedPricing));
     router.push(
       `/pricing-survey?tierName=${selectedPricing.tierName.toLowerCase()}`

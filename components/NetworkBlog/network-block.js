@@ -13,7 +13,7 @@ import { getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
 import RenderIf from "../ConditionalRender/RenderIf";
 import ReadMore from "../ReadMore";
 
-export default function NeetworkBlock() {
+export default function NetworkBlock() {
   const router = useRouter();
   const { user, isLogin } = useAuth();
 
@@ -21,8 +21,8 @@ export default function NeetworkBlock() {
   const [activeTab, setActiveTab] = useState("0");
   const [selectedFeatureIds, setSelectedFeatureIds] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
-
   const handleTabChange = (key) => setActiveTab(key);
+
   useEffect(() => {
     function getPreSelectedDataFromLocalStorage() {
       const data = localStorage.getItem("selectedDataForDemo");
@@ -35,6 +35,7 @@ export default function NeetworkBlock() {
     }
     getPreSelectedDataFromLocalStorage();
   }, []);
+
   useEffect(() => {
     const { query } = router;
     const { key } = query;
@@ -232,29 +233,9 @@ export default function NeetworkBlock() {
                                 </h5>
                                 <ReadMore
                                   text={item.description}
-                                  maxLength={200}
+                                  maxLength={150}
                                 />
                                 {/* <p className="mt-3">{item.description}</p> */}
-                                <RenderIf
-                                  isTrue={CommonUtility.isValidArray(
-                                    item.mediaSupports
-                                  )}
-                                >
-                                  <div className="d-flex align-items-center">
-                                    <h6 className="text-dark mt-3">
-                                      Supports:
-                                    </h6>
-                                    <span
-                                      className="text-dark mt-3"
-                                      style={{
-                                        marginLeft: "10px",
-                                        marginBottom: "8px",
-                                      }}
-                                    >
-                                      {item.mediaSupports.join(" & ")}
-                                    </span>
-                                  </div>
-                                </RenderIf>
 
                                 <div className="d-flex flex-wrap mt-3 gap-3">
                                   {item.options?.map((opt, i) => {
@@ -299,6 +280,30 @@ export default function NeetworkBlock() {
                                     );
                                   })}
                                 </div>
+                                <RenderIf
+                                  isTrue={CommonUtility.isValidArray(
+                                    item.mediaSupports
+                                  )}
+                                >
+                                  <div className="d-flex align-items-center">
+                                    <h6
+                                      className="text-dark mt-3"
+                                      style={{ fontSize: "12px" }}
+                                    >
+                                      Supports:
+                                    </h6>
+                                    <span
+                                      className="text-dark mt-3"
+                                      style={{
+                                        marginLeft: "10px",
+                                        marginBottom: "8px",
+                                        fontSize: "12px",
+                                      }}
+                                    >
+                                      {item.mediaSupports.join(" & ")}
+                                    </span>
+                                  </div>
+                                </RenderIf>
                               </label>
                             </Col>
                           ))}

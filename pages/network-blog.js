@@ -1,28 +1,18 @@
 import { Fragment } from "react";
 
-import NeetworkBanner from "@/components/NetworkBlog/banner-top";
-import NeetworkBlock from "@/components/NetworkBlog/network-block";
+import NetworkBanner from "@/components/NetworkBlog/banner-top";
+import NetworkBlock from "@/components/NetworkBlog/network-block";
 import style from "@/components/NetworkBlog/network-blog.module.scss";
 
 const NetworkBlog = () => {
   return (
     <Fragment>
       <div className={style.bg__light_blue}>
-        <NeetworkBanner />
-        <NeetworkBlock />
+        <NetworkBanner />
+        <NetworkBlock />
       </div>
     </Fragment>
   );
 };
-
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   (store) => async () => {
-//     store.dispatch(getAllFeatures.initiate({}));
-//     const res = await Promise.all(store.dispatch(getRunningQueriesThunk()));
-//     return {
-//       props: { result: res[0] },
-//     };
-//   }
-// );
 
 export default NetworkBlog;

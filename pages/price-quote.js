@@ -93,7 +93,7 @@ export default function Survey() {
           ).then(() => {
             router.push("/contact-us");
           });
-          // router.push("/book-meeting");
+          // router.push("/book-demo");
           return;
         } else {
           ToastMessage.error(response?.message || "Something went wrong");

@@ -8,6 +8,8 @@ import CommonUtility from "@/utils/common.utils";
 import moment from "moment";
 import { asyncCreateMeeting } from "@/services/product/product.service";
 import { ToastMessage } from "@/utils/toastMessage.utils";
+import { useRouter } from "next/router";
+import Loader from "@/components/Loader";
 
 export default function BookMeetingScreen() {
   const { user } = useAuth();
@@ -22,6 +24,7 @@ export default function BookMeetingScreen() {
     },
   });
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -55,6 +58,8 @@ export default function BookMeetingScreen() {
       const response = await asyncCreateMeeting(params, user);
       if (response && response.isSuccess && response.data) {
         setIsLoading(false);
+        router.push("/contact-us");
+
         ToastMessage.success("Meeting scheduled successfully");
       }
     } catch (error) {
@@ -69,7 +74,38 @@ export default function BookMeetingScreen() {
         <Row className="justify-content-center">
           <Col md={8}>
             <Card className="p-5 text-center book-meeting-card">
-              <h2>Book a Meeting</h2>
+              <div className="d-flex justify-content-start w-100 mb-4">
+                <div
+                  onClick={() => router.push("/contact-us")}
+                  style={{ cursor: "pointer" }}
+                >
+                  <svg
+                    width="46"
+                    height="46"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M11.69 15.75 7.969 12l3.72-3.75"></path>
+                    <path d="M8.486 12h7.546"></path>
+                    <path d="M21 12c0-4.969-4.031-9-9-9s-9 4.031-9 9 4.031 9 9 9 9-4.031 9-9Z"></path>
+                  </svg>
+                </div>
+                <h2
+                  className="d-flex align-items-center"
+                  style={{
+                    letterSpacing: "0.055em",
+                    textShadow: "3px 2px 7px rgba(0, 0, 0, 0.25)",
+                    margin: "0 auto",
+                  }}
+                >
+                  Book a Meeting
+                </h2>
+              </div>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Row className="g-3" style={{ marginBottom: "15px" }}>
                   <Col md={6} lg={4}>
@@ -227,6 +263,7 @@ export default function BookMeetingScreen() {
           </Col>
         </Row>
       </Container>
+      <Loader isLoading={isLoading} />
     </section>
   );
 }

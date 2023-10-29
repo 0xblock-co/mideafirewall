@@ -4,7 +4,7 @@ import getConfig from "next/config";
 import ContactWithSalesChat from "./UI/ChatWithSalesTeam";
 import { useRouter } from "next/router";
 
-export default function ContactChatBlock({ handleBookMeeting }) {
+export default function ContactChatBlock() {
   const { publicRuntimeConfig } = getConfig();
   const router = useRouter();
   return (
@@ -17,7 +17,14 @@ export default function ContactChatBlock({ handleBookMeeting }) {
         <Row>
           <Col lg={12}>
             <div className="three-block-title ">
-              <h2>Contact us using the following methods</h2>
+              <h2
+                style={{
+                  letterSpacing: "0.055em",
+                  textShadow: "3px 2px 7px rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                Contact us using the following methods
+              </h2>
             </div>
           </Col>
         </Row>
@@ -72,8 +79,7 @@ export default function ContactChatBlock({ handleBookMeeting }) {
                   type="submit"
                   variant="primary"
                   className="w-100 mt-3 py-3 common-btn"
-                  onClick={() => router.push("/price-qoute")}
-                  // onClick={() => handleBookMeeting(true)}
+                  onClick={() => router.push("/price-quote")}
                 >
                   Quote now
                 </Button>
@@ -84,53 +90,4 @@ export default function ContactChatBlock({ handleBookMeeting }) {
       </Container>
     </section>
   );
-
-  // return (
-  //   <section className={style.mdf__contactus_chatcard}>
-  //     <Container>
-  //       <Row className="justify-content-center">
-  //         <Col md={4} lg={3} xxl={3} className="mb-3">
-  //           <WhatsAppChat
-  //             phone={publicRuntimeConfig.whatsAppContactNumber}
-  //             message="Hello there!"
-  //           />
-  //         </Col>
-  //         <Col md={4} lg={3} xxl={3}>
-  //           <ContactWithSalesChat />
-  //         </Col>
-  //         <Col md={4} lg={3} xxl={3}>
-  //           <Card className={`${style.mdf__chatcard} mb-3`}>
-  //             <Image
-  //               className={style.chat__icons}
-  //               layout="fill"
-  //               src="/images/Play.png"
-  //               alt="A globe icon with filter and text."
-  //             />
-  //             <h6 className="my-4">Get a product demo</h6>
-  //             <Button
-  //               variant="primary"
-  //               onClick={() => router.push("/network-blog")}
-  //             >
-  //               Get a demo
-  //             </Button>
-  //           </Card>
-  //         </Col>
-  //         {/* <Col md={4} lg={3} xxl={3}>
-  //           <Card className={`${style.mdf__chatcard} mb-3`}>
-  //             <Image
-  //               className={style.chat__icons}
-  //               layout="fill"
-  //               src="/images/calendar.png"
-  //               alt="A globe icon with filter and text."
-  //             />
-  //             <h6 className="my-4">Book a Meeting</h6>
-  //             <Button variant="primary" onClick={() => handleBookMeeting(true)}>
-  //               Book
-  //             </Button>
-  //           </Card>
-  //         </Col> */}
-  //       </Row>
-  //     </Container>
-  //   </section>
-  // );
 }

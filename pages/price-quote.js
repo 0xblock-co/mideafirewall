@@ -6,7 +6,7 @@ import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
 import { getFilteredData } from "@/utils/globalFunctions";
-import { ToastMessage } from "@/utils/toastMessage.utils";
+import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 import { useAppDispatch } from "@/store/hooks";
 import { asyncGetPricingQuoteQuestions } from "@/services/product/product.service";
 import { useAuth } from "@/contexts/AuthContext";
@@ -82,8 +82,18 @@ export default function Survey() {
       );
       if (response) {
         if (response.isSuccess) {
-          ToastMessage.success("Thank you for submitting answer.");
-          router.push("/book-meeting");
+          // ToastMessage.success(
+          //   "The price quote will be sent to your email address. "
+          // );
+          newInfoAlert(
+            "Thank you for providing answers.",
+            "The price quote will be sent to your email address. ",
+            "Okay",
+            "success"
+          ).then(() => {
+            router.push("/contact-us");
+          });
+          // router.push("/book-meeting");
           return;
         } else {
           ToastMessage.error(response?.message || "Something went wrong");

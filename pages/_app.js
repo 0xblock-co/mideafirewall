@@ -53,11 +53,11 @@ export function App({ Component, pageProps }) {
         titleTemplate="Media Firewall | %s"
         defaultTitle="Media Firewall"
         description="Media Firewall is a powerful AI-based content moderation tool that helps online communities keep their platforms safe and free from harmful content."
-        canonical="https://example.com"
+        // canonical="https://example.com"
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://example.com",
+          // url: "https://example.com",
           site_name: "Media Firewall",
         }}
       />

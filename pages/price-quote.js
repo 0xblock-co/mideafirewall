@@ -89,10 +89,15 @@ export default function Survey() {
             "Thank you for providing answers.",
             "The price quote will be sent to your email address. ",
             "Okay",
-            "success"
-          ).then(() => {
-            router.push("/contact-us");
-          });
+            "success",
+            true
+          )
+            .then(() => {
+              router.push("/book-demo");
+            })
+            .catch(() => {
+              router.push("/contact-us");
+            });
           // router.push("/book-demo");
           return;
         } else {

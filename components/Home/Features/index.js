@@ -116,7 +116,12 @@ export default function FeatureBlog({ headerData }) {
                                   src={feature.imgUrl}
                                   alt={feature.name}
                                 /> */}
-                                <img src={feature.imgUrl} alt={feature.name} />
+                                <img
+                                  src={feature.imgUrl}
+                                  alt={feature.name}
+                                  loading="lazy"
+                                  className="lazyload"
+                                />
                               </Col>
                               <Col xs={8} xl={9}>
                                 <div className="p-0">

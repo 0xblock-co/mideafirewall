@@ -62,6 +62,8 @@ const ContactWithSalesChat = () => {
           src="/images/contact-our-sales.png"
           alt="Contact to Sales"
           title="Contact to Sales"
+          loading="lazy"
+          className="lazyload"
         />
       </div>
       <div className="box-content-block">

@@ -392,6 +392,8 @@ export default function DemoPage() {
                                   <td>{eventLogData?.operations}</td>
                                   <td className="d-flex justify-content-center align-items-center">
                                     <img
+                                      loading="lazy"
+                                      className="lazyload"
                                       src="/images/svgs/correct.svg"
                                       style={{ width: "30px", height: "30px" }}
                                     />
@@ -454,6 +456,8 @@ export default function DemoPage() {
                                     <td className="d-flex justify-content-center align-items-center">
                                       <img
                                         src="/images/svgs/wrong.svg"
+                                        loading="lazy"
+                                        className="lazyload"
                                         style={{
                                           width: "30px",
                                           height: "30px",

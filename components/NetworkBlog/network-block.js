@@ -223,7 +223,8 @@ export default function NetworkBlock() {
                               >
                                 <div>
                                   <img
-                                    className={`${style.mdf__card_img}`}
+                                    loading="lazy"
+                                    className={`lazyload ${style.mdf__card_img}`}
                                     src={item.imgUrl}
                                     alt="A globe icon with filter and text."
                                   />

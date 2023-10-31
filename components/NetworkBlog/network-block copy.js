@@ -254,7 +254,8 @@ export default function NeetworkBlock() {
                               >
                                 <div>
                                   <img
-                                    className={`${style.mdf__card_img}`}
+
+                                    className={`lazyload ${style.mdf__card_img}`}
                                     src={item.imgUrl}
                                     alt="A globe icon with filter and text."
                                   />

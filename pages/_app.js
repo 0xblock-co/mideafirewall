@@ -21,6 +21,7 @@ import ToastContainerConfig from "@/components/ToastContainer";
 import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
 import getConfig from "next/config";
 import { wrapper } from "@/store";
+import Head from "next/head";
 const messages = {
   en,
   fr,
@@ -63,6 +64,21 @@ export function App({ Component, pageProps }) {
       />
       <Helmet>
         <html lang="en" />
+        <Head>
+          {/* lazysizes  */}
+          <script
+            src="/vendor/lazysizes.min.js"
+            strategy="lazyOnload"
+            type="text/javascript"
+            defer
+          />
+          <script
+            src="/vendor/ls.unveilhooks.min.js"
+            strategy="lazyOnload"
+            type="text/javascript"
+            defer
+          />
+        </Head>
       </Helmet>
 
       <IntlProvider locale={locale} messages={messages[locale]}>

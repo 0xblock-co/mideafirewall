@@ -100,8 +100,9 @@ const DropZoneComponent = ({
                   <img
                     key={index}
                     src={file.preview}
+                    loading="lazy"
                     alt=""
-                    className="object-fit rounded-4 image_hover mt-3"
+                    className="lazyload object-fit rounded-4 image_hover mt-3"
                   />
                   <div
                     className="icon_sm_top position-absolute d-flex justify-content-center align-items-center"

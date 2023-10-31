@@ -22,9 +22,10 @@ export default function Moderation() {
                 <FormattedMessage id="page.home.moderation.Traditional Manual moderation" />
               </Card.Title>
               <Card.Img
+                loading="lazy"
                 variant="top"
                 src="/images/moderation-1.png"
-                className={style.mdf__img__rounded}
+                className={`lazyload ${style.mdf__img__rounded}`}
               />
               <ul className="list-unstyled mt-3 mt-lg-5 mb-0">
                 <li className="mb-3">
@@ -79,14 +80,15 @@ export default function Moderation() {
             {/* TODO:: Need to update the features list based on the market competitors  */}
             <Card className={`p-3 p-lg-5 h-100 ${style.card_custom}`}>
               <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
-                <FormattedMessage id="page.home.moderation.Midea Firewall Content Moderation" />
+                <FormattedMessage id="page.home.moderation.MediaFirewall Content Moderation" />
               </Card.Title>
               <Card.Img
                 variant="top"
+                loading="lazy"
                 src="/images/moderation-2.png"
-                className="mdf__img__rounded"
+                className="lazyload mdf__img__rounded"
               />
-              <ul className="list-unstyled mt-3 mt-lg-5 mb-0 px-3 px-lg-5">
+              <ul className="list-unstyled mt-3 mt-lg-5 mb-0">
                 <li className="mb-3">
                   <IoCheckmarkSharp size={24} color="#5E0496" />{" "}
                   <strong>Time-consuming:</strong> It requires significant time

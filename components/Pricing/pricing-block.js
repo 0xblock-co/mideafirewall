@@ -169,59 +169,24 @@ export default function PricingBlock({ priceData = [] }) {
                       listStyleType: "none",
                     }}
                   >
-                    <img
-                      className="check"
-                      src="/images/CheckCircle.svg"
-                      alt="supportFeatures"
-                    />
                     Content Moderation
                   </li>
                   <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
-                    <img
-                      className="check"
-                      src="/images/CheckCircle.svg"
-                      alt="supportFeatures"
-                    />
                     Content Moderation
                   </li>
                   <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
-                    <img
-                      className="check"
-                      src="/images/CheckCircle.svg"
-                      alt="supportFeatures"
-                    />
                     Image, Video Anonymization
                   </li>
                   <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
-                    <img
-                      className="check"
-                      src="/images/CheckCircle.svg"
-                      alt="supportFeatures"
-                    />
                     Dedicated infrastructure for Unparalleled performance
                   </li>
                   <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
-                    <img
-                      className="check"
-                      src="/images/CheckCircle.svg"
-                      alt="supportFeatures"
-                    />
                     Dedicated Customer Support Engineer
                   </li>
                   <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
-                    <img
-                      className="check"
-                      src="/images/CheckCircle.svg"
-                      alt="supportFeatures"
-                    />
                     Enterprise-class SLA
                   </li>
                   <li className="w-100 ms-auto gap-2 d-flex justify-content-start align-items-start">
-                    <img
-                      className="check"
-                      src="/images/CheckCircle.svg"
-                      alt="supportFeatures"
-                    />
                     Exclusive enterprise premium options
                   </li>
                 </ul>

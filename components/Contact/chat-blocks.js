@@ -45,6 +45,8 @@ export default function ContactChatBlock() {
                   src="/images/product-demo.jpg"
                   alt="Get a Product demo"
                   title="Get a Product demo"
+                  loading="lazy"
+                  className="lazyload"
                 />
               </div>
               <div className="box-content-block">
@@ -69,6 +71,8 @@ export default function ContactChatBlock() {
                 <img
                   src="/images/online-calendar.jpg"
                   alt="GiveUsACall"
+                  className="lazyload"
+                  loading="lazy"
                   title="give-call-icon"
                 />
               </div>

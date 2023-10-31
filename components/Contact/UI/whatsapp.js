@@ -9,6 +9,8 @@ const WhatsAppChat = ({ phone, message }) => {
         <img
           src="/images/whatsapp.jpg"
           alt="Connect via WhatsApp"
+          className="lazyload"
+          loading="lazy"
           title="Connect via WhatsApp"
         />
       </div>

@@ -5,7 +5,6 @@ import "select2/dist/css/select2.min.css";
 
 import "@/styles/pricing.scss";
 import "@/styles/module-style.scss";
-import { Elements } from "@stripe/react-stripe-js";
 import { IntlProvider } from "react-intl";
 import MainLayout from "@/components/layouts/main";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -31,8 +30,6 @@ const messages = {
 export function App({ Component, pageProps }) {
   const { locale } = useRouter();
   const { publicRuntimeConfig } = getConfig();
-  const stripePromise = loadStripe(publicRuntimeConfig.stripeClientKey);
-
   const dispatch = useAppDispatch();
   const headerData = useAppSelector(getAllHeaderDataOptions);
 
@@ -83,22 +80,20 @@ export function App({ Component, pageProps }) {
 
       <IntlProvider locale={locale} messages={messages[locale]}>
         <AuthProvider>
-          <Elements stripe={stripePromise}>
-            <MainLayout>
-              <GoogleReCaptchaProvider
-                reCaptchaKey={publicRuntimeConfig.reCaptchaSiteKey || ""}
-                scriptProps={{
-                  async: false,
-                  defer: false,
-                  appendTo: "head",
-                  nonce: undefined,
-                }}
-              >
-                <Component {...pageProps} />
-              </GoogleReCaptchaProvider>
-              <ToastContainerConfig />
-            </MainLayout>
-          </Elements>
+          <MainLayout>
+            <GoogleReCaptchaProvider
+              reCaptchaKey={publicRuntimeConfig.reCaptchaSiteKey || ""}
+              scriptProps={{
+                async: false,
+                defer: false,
+                appendTo: "head",
+                nonce: undefined,
+              }}
+            >
+              <Component {...pageProps} />
+            </GoogleReCaptchaProvider>
+            <ToastContainerConfig />
+          </MainLayout>
         </AuthProvider>
       </IntlProvider>
     </Fragment>

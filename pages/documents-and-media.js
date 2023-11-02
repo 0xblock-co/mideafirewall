@@ -1,56 +1,57 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-
 import NextImageComponent from "@/components/NextImageComponent";
 import CustomPagination from "@/components/Pagination";
 import Api from "@/services/RTK/axiosAPI.handler";
+import ResponsiveImage from "@/components/NextImageComponent/ResponsiveImage";
 
-export default function Blogs() {
-  // Constants
+export default function DocumentationAndBlogs() {
   const router = useRouter();
   const api = new Api();
 
-  // const { setHeaderDataFromServerSide } = useHeaderContext();
-
-  // States
   const [blogsDetails, setBlogsDetails] = useState({ items: [] });
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 10;
 
-  // Memoized getBlogs function
-  const getBlogs = useCallback(async (pageNumber = 0, pageSize = 10) => {
-    const response = await api.get(
-      `https://drivesafe360.themillionvisions.com/driveSafe/blogsPosts/?active=true&descend=true&pageNumber=${pageNumber}&pageSize=${pageSize}`
-    );
-    if (response.isSuccess) {
-      const thirdArray = response?.data?.items?.filter((elem) => {
-        return !blogsDetails?.items?.items?.some((ele) => {
-          return ele?.id === elem?.id;
-        });
-      });
-      setBlogsDetails({
-        items: thirdArray,
-        pageInfo: response?.data?.pageInfo,
-      });
-    }
-  }, []);
+  const getBlogs = useCallback(
+    async (pageNumber = 0, pageSize = 10) => {
+      try {
+        const response = await api.get(
+          `https://drivesafe360.themillionvisions.com/driveSafe/blogsPosts/?active=true&descend=true&pageNumber=${pageNumber}&pageSize=${pageSize}`
+        );
 
-  // Effect to initialize Aos and get blogs on mount
+        if (response.isSuccess) {
+          const newBlogs = response.data.items.filter((elem) => {
+            return !blogsDetails.items.some((ele) => ele.id === elem.id);
+          });
+
+          setBlogsDetails({
+            items: newBlogs,
+            pageInfo: response.data.pageInfo,
+          });
+        }
+      } catch (error) {
+        // Handle the error
+        console.error("Error fetching blogs:", error);
+      }
+    },
+    [blogsDetails]
+  );
 
   useEffect(() => {
     getBlogs(currentPage, pageSize);
-  }, [currentPage, pageSize]);
+  }, []);
 
-  // Handlers
-  function handlePageChange(page) {
+  const handlePageChange = (page) => {
     setCurrentPage(page);
     getBlogs(page, pageSize);
-  }
+  };
 
-  // Memoized latest blog
-  const latestBlog = blogsDetails?.items[0];
+  const latestBlog = blogsDetails.items[0];
 
   return (
     <main>
@@ -78,10 +79,11 @@ export default function Blogs() {
             </Col>
             <Col lg={5}>
               <div className="blog-img">
-                <NextImageComponent
-                  url={latestBlog?.imageUrl || "/images/logo.png"}
-                  isOriginalCheck={true}
-                  imageQuality={50}
+                <ResponsiveImage
+                  url={latestBlog?.imageUrl}
+                  alt="Documentation & Blogs"
+                  altUrlType="Documentation & Blogs"
+                  imageQuality={75}
                 />
               </div>
             </Col>
@@ -102,36 +104,37 @@ export default function Blogs() {
             </Col>
           </Row>
           <Row>
-            {blogsDetails?.items?.map((item, index) => (
+            {blogsDetails.items.map((item, index) => (
               <Col lg={4} key={index}>
                 <div
                   className="recent-blog-main"
-                  onClick={() => router.push(`/blogdetail/${item?.id}`)}
+                  onClick={() => router.push(`/blogdetail/${item.id}`)}
                 >
                   <div className="recent-blog-img">
-                    <NextImageComponent
-                      url={item?.imageUrl || "publicimages/logo.png"}
-                      isOriginalCheck={true}
-                      imageQuality={50}
+                    <ResponsiveImage
+                      url={item.imageUrl}
+                      alt="Documentation & Blogs"
+                      altUrlType="Documentation & Blogs"
+                      imageQuality={75}
                     />
                   </div>
                   <div className="recent-blog-content">
                     <span>
-                      Write By <a href="#">{item?.author}</a>
+                      Write By <a href="#">{item.author}</a>
                     </span>
-                    <h3>{item?.title}</h3>
-                    <p>{item?.content}</p>
+                    <h3>{item.title}</h3>
+                    <p>{item.content}</p>
                     <ul>
                       <li>
                         <span>
-                          {moment(item?.publicationDate).format("MMMM d, YYYY")}
+                          {moment(item.publicationDate).format("MMMM D, YYYY")}
                         </span>
                       </li>
                       <li>
-                        <span>{item?.likes} like</span>
+                        <span>{item.likes} like</span>
                       </li>
                       <li>
-                        <span>{item?.socialMediaShareCount} share</span>
+                        <span>{item.socialMediaShareCount} share</span>
                       </li>
                     </ul>
                   </div>
@@ -142,7 +145,7 @@ export default function Blogs() {
           <CustomPagination
             isFirst={blogsDetails?.pageInfo?.first}
             isLast={blogsDetails?.pageInfo?.last}
-            currentPage={currentPage == 0 ? currentPage + 1 : currentPage}
+            currentPage={currentPage + 1}
             totalPages={blogsDetails?.pageInfo?.totalPages}
             onPageChange={handlePageChange}
           />

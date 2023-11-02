@@ -1,12 +1,13 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
 
 import style from "./pricing.module.scss";
+import Router from "next/router";
 
 export default function PricingFaqs() {
   return (
     <section className={style.mdf__pricing_faqs}>
       <Container>
-        <h5 className="text-center">Plan FAQ</h5>
+        <h5 className="text-center text-shadow display-6">Plan FAQ</h5>
         <hr />
         <Row className="justify-content-center">
           <Col lg={6}>
@@ -78,10 +79,14 @@ export default function PricingFaqs() {
             </div>
           </Col>
         </Row>
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center mt-3">
           <h5 className="m-0">More Questions?</h5>
           <div>
-            <Button variant="primary" className="text-uppercase py-3 mx-3 mt-3">
+            <Button
+              variant="primary"
+              className="text-uppercase py-3 mx-3"
+              onClick={() => Router.push("/contact-us")}
+            >
               GET IN TOUCH
             </Button>
           </div>

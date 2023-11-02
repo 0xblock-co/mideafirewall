@@ -76,6 +76,24 @@
       height: 180px;
       object-fit: cover;
     }
+    .supported_moderation {
+      .supported_item {
+        border: 1px solid $primary;
+        padding: 3px 4px;
+        display: flex;
+        font-weight: 500;
+        align-items: center;
+        border-radius: 8px;
+      }
+      span,
+      svg {
+        fill: $primary;
+        color: $primary;
+      }
+      svg {
+        margin-right: 2px;
+      }
+    }
   }
 
   .btn-outline-dark {

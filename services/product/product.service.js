@@ -226,3 +226,80 @@ export const asyncCreateMeeting = async (payload, user) => {
     return error;
   }
 };
+
+export const asyncGetCheckoutSessionUrl = async (stripeCustomerId) => {
+  try {
+    const response = api
+      .get(
+        `https://mediafirewall-ai.themillionvisions.com/checkout/sessions?customerId=${stripeCustomerId}`,
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        return res;
+      });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const asyncGetCustomerSubscriptionData = async (payload) => {
+  try {
+    console.log("payload: ", payload);
+    const queryPayload = CommonUtility.objectToParams(payload);
+    console.log("queryPayload: ", queryPayload);
+    const response = api
+      .get(
+        `https://mediafirewall-ai.themillionvisions.com/mfw/customer/subscription?${queryPayload}`,
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        return res;
+      });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const asyncChangeSubscription = async (payload) => {
+  try {
+    const response = api
+      .post(
+        `https://mediafirewall-ai.themillionvisions.com/change/subscription`,
+        payload,
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        return res;
+      });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const asyncCancelSubscription = async (payload) => {
+  try {
+    const response = api
+      .post(
+        `https://mediafirewall-ai.themillionvisions.com/cancel-subscription`,
+        payload,
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        return res;
+      });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

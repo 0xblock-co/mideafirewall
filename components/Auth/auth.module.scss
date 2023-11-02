@@ -21,6 +21,19 @@
       border-radius: 30px;
     }
   }
+  .mdf__authpage__blocks_v2 {
+    // padding: 2rem 1rem 1rem 0;
+    // background: linear-gradient(269.24deg, #7b5b9e -81.4%, #ecebf7 99.1%);
+    box-shadow: -1px 1px 26px rgba(0, 0, 0, 0.151);
+    border-radius: 12px;
+    min-height: 90vh;
+    @include media-breakpoints-down-lg {
+      padding: 0rem;
+      min-height: 100%;
+      padding-top: 1.5rem;
+      border-radius: 30px;
+    }
+  }
   .mdf__logo_auth {
     width: 65% !important;
     height: unset !important;

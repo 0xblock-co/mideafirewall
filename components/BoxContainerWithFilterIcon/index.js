@@ -31,13 +31,13 @@ function BoxContainerWithFilterIconWrapper({
               </Col>
               <Col lg={lg} xl={xl} xxl={xxl}>
                 <div className="min-h-50v">
-                <Image
-                  className="mx-3 mdf__logo_footer"
-                  layout="fill"
-                  src="/images/logo.png"
-                  alt=""
-                />
-                {children}
+                  <Image
+                    className="mx-3 mdf__logo_footer"
+                    layout="fill"
+                    src="/images/logo.png"
+                    alt=""
+                  />
+                  {children}
                 </div>
               </Col>
             </Row>

@@ -1,8 +1,25 @@
+import { useAuth } from "@/contexts/AuthContext";
+// import { asyncGetCustomerSubscriptionData } from "@/services/product/product.service";
 import Image from "next/image";
-import { Fragment } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Fragment, useEffect } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { HiCheck } from "react-icons/hi";
 export default function PaymentSuccess() {
+  const { user } = useAuth();
+  console.log("user: ", user);
+  useEffect(() => {
+    // async function getPricingDetails() {
+    //   const tierName = localStorage.getItem("checkoutPlanName");
+    //   const abcRes = await asyncGetCustomerSubscriptionData({
+    //     tierName,
+    //     email: encodeURIComponent("jemish.me@gmail.com"),
+    //     customerId: user?.customerId,
+    //   });
+    //   console.log("abcRes: ", abcRes);
+    // }
+    // getPricingDetails();
+  }, []);
+
   return (
     <Fragment>
       <section className="payment__success__block">
@@ -12,6 +29,9 @@ export default function PaymentSuccess() {
               <h1 className="text-white">
                 Thank You for choosing Midea Firewall
               </h1>
+              <Button variant="primary" className=" mt-3 py-3">
+                Account
+              </Button>
             </Col>
             <Col md={6} xxl={5} className="text-center">
               <Image

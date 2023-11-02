@@ -12,12 +12,10 @@ export const newInfoAlert = (
             title: title,
             text: message,
             icon: icon,
-            showCancelButton: false,
+            showCancelButton: isCancelBtn,
             confirmButtonText: actionButtonText,
             customClass: {
-                confirmButton: isCancelBtn
-                    ? `ff_cancel_btn_info w-50`
-                    : `ff_new_alert_btn mb-1`,
+                confirmButton: `ff_new_alert_btn mb-1`,
                 icon: `ff_icon_warning`,
                 popup: `ff_popup_bg`,
                 title: `ff_popup_title`,

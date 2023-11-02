@@ -1,0 +1,18 @@
+/* responsive-image.css */
+
+/* Container for the responsive image */
+.responsive-image-container {
+  position: relative;
+  width: 100%; /* Adjust the width as needed */
+  height: 100%; /* Adjust the width as needed */
+  max-width: 100%; /* Ensure the container doesn't exceed its parent's width */
+  /* You can add more styles to control the container's appearance */
+}
+
+/* The image itself */
+.responsive-image {
+  display: block;
+  width: 100%; /* The image will fill the width of the container */
+  height: auto; /* Maintain the aspect ratio */
+  /* You can add more styles to control the image's appearance */
+}

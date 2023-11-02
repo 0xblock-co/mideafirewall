@@ -35,10 +35,10 @@ export default function Pricing() {
     <Fragment>
       <PricingBanner />
       {priceData && priceData.length > 0 && (
-        <PricingBlock priceData={priceData} />
+        <PricingBlock priceData={priceData} setIsLoading={setIsLoading} />
       )}
       {/* <CalculateSaving /> */}
-      <PricingModerate />
+      {/* <PricingModerate /> */}
       <PricingFaqs />
       <Loader isLoading={isLoading} />
     </Fragment>

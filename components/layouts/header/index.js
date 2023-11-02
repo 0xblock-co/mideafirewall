@@ -115,13 +115,9 @@ export default function HeaderTop() {
                     Pricing
                   </Link>
 
-                  <Link href="/" className={`nav-link`}>
+                  <Link href="/documents-and-media" className={`nav-link`}>
                     Documentation & Media
                   </Link>
-
-                  {/* <Link href="/" className="nav-link">
-                    Documentation
-                  </Link> */}
                   {/* {userDetails?.isLoggedIn && ( */}
                   <Link
                     href="/network-blog"
@@ -171,7 +167,7 @@ export default function HeaderTop() {
                 {!userDetails?.isLoggedIn ? (
                   <Button
                     variant="outline-primary"
-                    className={`rounded-pill fw-bold border-2 ${
+                    className={`rounded-pill fw-bold border-2 m-0${
                       isActiveLink("/account-security/signup")
                         ? "nav-active"
                         : ""

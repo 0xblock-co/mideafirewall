@@ -4,13 +4,43 @@ import { Button, Container } from "react-bootstrap";
 
 import { useAuth } from "@/contexts/AuthContext";
 import CommonUtility from "@/utils/common.utils";
-import { newInfoAlert } from "@/utils/toastMessage.utils";
+import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 import PricingCard from "./PricingCard";
 import style from "./pricing.module.scss";
+import { asyncChangeSubscription } from "@/services/product/product.service";
+import { useAppDispatch } from "@/store/hooks";
+import { authActions } from "@/store/auth.slice";
 
-const PricingBlock = ({ priceData = [], setIsLoading }) => {
+const PricingBlock = ({ priceData = [], setIsLoading, isUpgrade }) => {
   const router = useRouter();
   const { isLogin, user } = useAuth();
+
+  const dispatch = useAppDispatch();
+
+  const upgradeSubscription = async (selectedPricing) => {
+    setIsLoading(true);
+    const payload = {
+      customerId: user?.subscriptionDetails?.customer,
+      email: user?.userDetails?.email,
+      newProductId: selectedPricing?.productId,
+    };
+    const response = await asyncChangeSubscription(payload);
+    setIsLoading(false);
+    if (response.isSuccess && CommonUtility.isNotEmptyObject(response.data)) {
+      dispatch(
+        authActions.setUserData({
+          ...user,
+          subscriptionDetails: {
+            ...response.data,
+          },
+        })
+      );
+      router.push("/account");
+    } else {
+      ToastMessage.error("Something went wrong");
+      router.back();
+    }
+  };
 
   const handleGetStartedClick = async (e, selectedPricing) => {
     e.preventDefault();
@@ -25,7 +55,10 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
       });
       return;
     }
-
+    if (isUpgrade) {
+      await upgradeSubscription(selectedPricing);
+      return;
+    }
     if (
       user &&
       user.userDetails.email &&
@@ -46,6 +79,8 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
                 item={item}
                 index={index}
                 handleGetStartedClick={handleGetStartedClick}
+                subscriptionDetails={user?.subscriptionDetails}
+                isUpgrade={isUpgrade}
               />
             ))}
           <div

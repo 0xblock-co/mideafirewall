@@ -1,13 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+import ResponsiveImage from "@/components/NextImageComponent/ResponsiveImage";
+import CustomPagination from "@/components/Pagination";
+import Api from "@/services/RTK/axiosAPI.handler";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import NextImageComponent from "@/components/NextImageComponent";
-import CustomPagination from "@/components/Pagination";
-import Api from "@/services/RTK/axiosAPI.handler";
-import ResponsiveImage from "@/components/NextImageComponent/ResponsiveImage";
 
 export default function DocumentationAndBlogs() {
   const router = useRouter();

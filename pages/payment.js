@@ -1,6 +1,3 @@
-import { useStripe } from "@stripe/react-stripe-js";
-import axios from "axios";
-import Router from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
@@ -8,12 +5,11 @@ import Loader from "@/components/Loader";
 import PaymentLeftBlock from "@/components/Payment/payment-left-block";
 import PaymentRightBlock from "@/components/Payment/payment-right-block";
 import style from "@/components/Payment/payment.module.scss";
-import { showToast } from "@/components/ToastContainer/toaster";
 import { getSelectedPlan } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 
 export default function Payment() {
-  const stripe = useStripe();
+  // const stripe = useStripe();
   const [isLoading, setIsLoading] = useState(false);
   const [priceData, setPriceData] = useState(null);
   const selectedPlan = useAppSelector(getSelectedPlan);
@@ -40,49 +36,49 @@ export default function Payment() {
   }, []);
 
   const handlePaymentSubmit = async (params) => {
-    setIsLoading(true);
-    const { name, cardElement, email, address, priceId } = params;
-    await stripe
-      .createPaymentMethod({
-        type: "card",
-        card: cardElement,
-        billing_details: {
-          name,
-          email,
-          address,
-        },
-      })
-      .then(async function (result) {
-        if (result) {
-          if (result.paymentMethod) {
-            const customerBody = {
-              email,
-              name,
-              payment_method: result.paymentMethod?.id,
-              priceId: priceId,
-            };
-            try {
-              const result = await axios.post(
-                "http://localhost:3000/api/createSubscription",
-                customerBody
-              );
-              setIsLoading(false);
-              showToast("success", "Your transaction has been successful");
-              Router.push("/network-blog");
-            } catch (error) {
-              setIsLoading(false);
-              showToast("error", error?.message || "Something went wrong");
-            }
-          } else if (result?.error) {
-            setIsLoading(false);
-            showToast(
-              "error",
-              result?.error?.message || "Something went wrong"
-            );
-          }
-          return;
-        }
-      });
+    // setIsLoading(true);
+    // const { name, cardElement, email, address, priceId } = params;
+    // await stripe
+    //   .createPaymentMethod({
+    //     type: "card",
+    //     card: cardElement,
+    //     billing_details: {
+    //       name,
+    //       email,
+    //       address,
+    //     },
+    //   })
+    //   .then(async function (result) {
+    //     if (result) {
+    //       if (result.paymentMethod) {
+    //         const customerBody = {
+    //           email,
+    //           name,
+    //           payment_method: result.paymentMethod?.id,
+    //           priceId: priceId,
+    //         };
+    //         try {
+    //           const result = await axios.post(
+    //             "http://localhost:3000/api/createSubscription",
+    //             customerBody
+    //           );
+    //           setIsLoading(false);
+    //           showToast("success", "Your transaction has been successful");
+    //           Router.push("/network-blog");
+    //         } catch (error) {
+    //           setIsLoading(false);
+    //           showToast("error", error?.message || "Something went wrong");
+    //         }
+    //       } else if (result?.error) {
+    //         setIsLoading(false);
+    //         showToast(
+    //           "error",
+    //           result?.error?.message || "Something went wrong"
+    //         );
+    //       }
+    //       return;
+    //     }
+    //   });
   };
 
   return (

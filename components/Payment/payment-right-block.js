@@ -1,11 +1,4 @@
 import { COUNTRY_LIST_WITH_CODE } from "@/data";
-import {
-  CardCvcElement,
-  CardExpiryElement,
-  CardNumberElement,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
@@ -13,15 +6,15 @@ import Form from "react-bootstrap/Form";
 const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function PaymentRightBlock({ handlePaymentSubmit }) {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [cardComplete, setCardComplete] = useState(false);
-  const [expComplete, setExpComplete] = useState(false);
-  const [cvvComplete, setCvvComplete] = useState(false);
+  // const stripe = useStripe();
+  // const elements = useElements();
+  // const [cardComplete, setCardComplete] = useState(false);
+  // const [expComplete, setExpComplete] = useState(false);
+  // const [cvvComplete, setCvvComplete] = useState(false);
   const [cardHolderName, setCardHolderName] = useState("");
-  const [cardNumberError, setCardNumberError] = useState("");
-  const [cardExpiryError, setCardExpiryError] = useState("");
-  const [cardCvcError, setCardCvcError] = useState("");
+  // const [cardNumberError, setCardNumberError] = useState("");
+  // const [cardExpiryError, setCardExpiryError] = useState("");
+  // const [cardCvcError, setCardCvcError] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -76,29 +69,29 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
 
   const handleCompleteOrder = async (e) => {
     e.preventDefault();
-    if (!stripe || !elements) {
-      return;
-    }
+    // if (!stripe || !elements) {
+    //   return;
+    // }
     if (!email) {
       setEmailError("Email is required");
       return;
     }
 
-    if (!cardComplete) {
-      elements.getElement(CardNumberElement).focus();
-      setCardNumberError("Your card number is invalid.");
-      return;
-    }
-    if (!expComplete) {
-      elements.getElement(CardExpiryElement).focus();
-      setCardExpiryError("Your card's expiration is invalid.");
-      return;
-    }
-    if (!cvvComplete) {
-      elements.getElement(CardCvcElement).focus();
-      setCardCvcError("Your card's security code is incomplete.");
-      return;
-    }
+    // if (!cardComplete) {
+    //   elements.getElement(CardNumberElement).focus();
+    //   setCardNumberError("Your card number is invalid.");
+    //   return;
+    // }
+    // if (!expComplete) {
+    //   elements.getElement(CardExpiryElement).focus();
+    //   setCardExpiryError("Your card's expiration is invalid.");
+    //   return;
+    // }
+    // if (!cvvComplete) {
+    //   elements.getElement(CardCvcElement).focus();
+    //   setCardCvcError("Your card's security code is incomplete.");
+    //   return;
+    // }
     if (!cardHolderName) {
       setNameError("Name is required");
       return;
@@ -113,7 +106,7 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
       setZipCodeError("Zip code is required");
       return;
     }
-    const cardElement = elements.getElement(CardNumberElement);
+    // const cardElement = elements.getElement(CardNumberElement);
 
     const params = {
       name: cardHolderName,
@@ -122,7 +115,7 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
         country,
         postal_code: zipCode,
       },
-      cardElement,
+      // cardElement,
       priceId: "price_1MvlkbSBv99P2DLPh1kK4FJL",
     };
 
@@ -162,9 +155,8 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
         />
         {emailError && <span className="error-message">{emailError}</span>}
       </Form.Group>
-      <Form.Group className="mt-3" controlId="exampleForm.ControlInput56">
+      {/* <Form.Group className="mt-3" controlId="exampleForm.ControlInput56">
         <label className="w-100">
-          {/* Card number */}
           <CardNumberElement
             className="form-control py-3"
             onChange={(e) => handleCardInputChange(e, "cardNumber")}
@@ -183,10 +175,9 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
             <span className="error-message">{cardNumberError}</span>
           )}
         </label>
-      </Form.Group>
-      <Form.Group className="mt-3" controlId="exampleForm.ControlInput56">
+      </Form.Group> */}
+      {/* <Form.Group className="mt-3" controlId="exampleForm.ControlInput56">
         <label className="w-100">
-          {/* Expiration date */}
           <CardExpiryElement
             className="form-control py-3"
             onChange={(e) => handleCardInputChange(e, "cardExpiry")}
@@ -195,10 +186,9 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
             <span className="error-message">{cardExpiryError}</span>
           )}
         </label>
-      </Form.Group>
-      <Form.Group className="mt-3" controlId="exampleForm.ControlInput56">
+      </Form.Group> */}
+      {/* <Form.Group className="mt-3" controlId="exampleForm.ControlInput56">
         <label className="w-100">
-          {/* CVV */}
           <CardCvcElement
             className="form-control py-3"
             onChange={(e) => handleCardInputChange(e, "cardCvc")}
@@ -216,7 +206,7 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
             <span className="error-message">{cardCvcError}</span>
           )}
         </label>
-      </Form.Group>
+      </Form.Group> */}
 
       <Form.Group className="mt-3" controlId="exampleForm.ControlInput56">
         <Form.Control

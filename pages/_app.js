@@ -3,24 +3,23 @@ import fr from "@/lang/fr.json";
 import nl_NL from "@/lang/nl-NL.json";
 import "select2/dist/css/select2.min.css";
 
-import "@/styles/pricing.scss";
-import "@/styles/module-style.scss";
-import { IntlProvider } from "react-intl";
+import ToastContainerConfig from "@/components/ToastContainer";
 import MainLayout from "@/components/layouts/main";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { loadStripe } from "@stripe/stripe-js";
+import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
+import { wrapper } from "@/store";
+import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import "@/styles/module-style.scss";
+import "@/styles/pricing.scss";
 import { DefaultSeo } from "next-seo";
+import getConfig from "next/config";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useEffect } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Helmet } from "react-helmet";
-import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import ToastContainerConfig from "@/components/ToastContainer";
-import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
-import getConfig from "next/config";
-import { wrapper } from "@/store";
-import Head from "next/head";
+import { IntlProvider } from "react-intl";
 const messages = {
   en,
   fr,

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import Loader from "@/components/Loader";
 import { useAuth } from "@/contexts/AuthContext";
 import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
 import {
@@ -35,6 +36,7 @@ export default function Survey() {
   const [formData, setFormData] = useState([]);
   const [defaultValue, setDefaultValue] = useState({});
   const [formAnswerData, setFormAnswerData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { user, checkAuthRouteV2 } = useAuth();
 
@@ -103,10 +105,7 @@ export default function Survey() {
     }
   };
 
-  const onSubmitForm = async (
-    data,
-    id
-  ) => {
+  const onSubmitForm = async (data, id) => {
     const questionObj = formData.find((value) => value.id === id);
     const cloneFormAnswerData = cloneDeep(formAnswerData);
     const lastElement = formData[formData?.length - 1];
@@ -122,6 +121,7 @@ export default function Survey() {
     }));
 
     if (id === lastElement.id) {
+      setIsLoading(true);
       const paymentUrl = await submitAnswers(cloneFormAnswerData, user, router);
 
       if (paymentUrl) {
@@ -131,89 +131,16 @@ export default function Survey() {
           "Subscribe",
           "success"
         ).then(() => {
+          setIsLoading(false);
           window.open(paymentUrl, "_self");
         });
       } else {
+        setIsLoading(false);
         ToastMessage.error("Error processing payment");
         Router.reload();
       }
     }
 
-    setFormData(newFormData);
-  };
-
-  const onSubmitForm1 = async (data, id) => {
-    const questionObj = formData.find((value) => value.id === id);
-    const cloneFormAnswerData = cloneDeep(formAnswerData);
-    const lastElement = formData[formData?.length - 1];
-
-    let ans = data[questionObj.name];
-    if (questionObj.type == "radio") {
-      const radioSelectedValue = questionObj.options.find(
-        (item) => item.value == ans
-      )?.label;
-      ans = radioSelectedValue;
-    }
-
-    const answerObj = {
-      id: questionObj.id,
-      title: questionObj.label,
-      question: questionObj.title,
-      answers: Array.isArray(ans) ? ans : [ans],
-    };
-
-    cloneFormAnswerData.push(answerObj);
-    setFormAnswerData(cloneFormAnswerData);
-
-    const newFormData = formData?.map((value) => ({
-      ...value,
-      isRender:
-        value.id === id ? false : value.id === id + 1 ? true : value.isRender,
-    }));
-
-    if (id === lastElement.id) {
-      const response = await asyncPostSignedUpSurveySubmitAnswers(
-        cloneFormAnswerData,
-        user
-      );
-      if (response) {
-        if (response.isSuccess) {
-          if (
-            CommonUtility.isNotEmpty(user.userDetails.fullName) &&
-            CommonUtility.isNotEmpty(user.userDetails.fullName)
-          ) {
-            const res = await asyncCreateStripeCustomer({
-              name: user.userDetails.fullName,
-              email: user.userDetails.email,
-            });
-            if (res && res.isSuccess && CommonUtility.isNotEmpty(res.data)) {
-              const response = await asyncGetCheckoutSessionUrl(
-                res.data,
-                router.query.id
-              );
-
-              if (
-                response.isSuccess &&
-                CommonUtility.isNotEmpty(response.data)
-              ) {
-                newInfoAlert(
-                  "Thank you for submitting questions.",
-                  "By clicking on the subscribe button you will be redirect to payment screen.",
-                  "Subscribe",
-                  "success"
-                ).then(() => {
-                  window.open(response.data, "_self");
-                });
-              }
-            }
-          }
-          return;
-        } else {
-          ToastMessage.error("Something went wrong");
-          Router.reload();
-        }
-      }
-    }
     setFormData(newFormData);
   };
 
@@ -224,6 +151,7 @@ export default function Survey() {
         defaultValue={defaultValue}
         onSubmit={onSubmitForm}
       />
+      <Loader isLoading={isLoading} />
     </BoxContainerWithFilterIconWrapper>
   );
 }

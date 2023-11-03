@@ -2,12 +2,11 @@
 import { useRouter } from "next/router";
 import { Button, Container } from "react-bootstrap";
 
-import style from "./pricing.module.scss";
-import CommonUtility from "@/utils/common.utils";
 import { useAuth } from "@/contexts/AuthContext";
+import CommonUtility from "@/utils/common.utils";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
-import { asyncGetCheckoutSessionUrl } from "@/services/product/product.service";
 import PricingCard from "./PricingCard";
+import style from "./pricing.module.scss";
 
 const PricingBlock = ({ priceData = [], setIsLoading }) => {
   const router = useRouter();
@@ -26,14 +25,13 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
       });
       return;
     }
-    if (user && user.customerId && CommonUtility.isNotEmpty(user.customerId)) {
-      setIsLoading(true);
-      const response = await asyncGetCheckoutSessionUrl(user.customerId);
-      if (response.isSuccess && CommonUtility.isNotEmpty(response.data)) {
-        localStorage.setItem("checkoutPlanName", selectedPricing.tierName);
-        window.open(response.data, "_blank");
-      }
-      setIsLoading(false);
+
+    if (
+      user &&
+      user.userDetails.email &&
+      CommonUtility.isNotEmpty(user.userDetails.email)
+    ) {
+      router.push(`/pricing-survey?id=${selectedPricing?.productId}`);
     }
   };
 

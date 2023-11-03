@@ -180,7 +180,7 @@ export const asyncGetAllPricingData = async () => {
   try {
     const response = api
       .get(
-        "http://mediafirewall.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
+        "http://mediafirewall-ai.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
         {},
         true,
         false
@@ -227,11 +227,14 @@ export const asyncCreateMeeting = async (payload, user) => {
   }
 };
 
-export const asyncGetCheckoutSessionUrl = async (stripeCustomerId) => {
+export const asyncGetCheckoutSessionUrl = async (
+  stripeCustomerId,
+  selectedProductId
+) => {
   try {
     const response = api
       .get(
-        `https://mediafirewall-ai.themillionvisions.com/checkout/sessions?customerId=${stripeCustomerId}`,
+        `https://mediafirewall-ai.themillionvisions.com/mfw/checkout/sessions?customerId=${stripeCustomerId}&productId=${selectedProductId}`,
         {},
         true,
         false
@@ -245,17 +248,11 @@ export const asyncGetCheckoutSessionUrl = async (stripeCustomerId) => {
   }
 };
 
-export const asyncGetCustomerSubscriptionData = async (payload) => {
+export const asyncGetCustomerSubscriptionData = async () => {
   try {
-    console.log("payload: ", payload);
-    const queryPayload = CommonUtility.objectToParams(payload);
-    console.log("queryPayload: ", queryPayload);
     const response = api
-      .get(
-        `https://mediafirewall-ai.themillionvisions.com/mfw/customer/subscription?${queryPayload}`,
-        {},
-        true,
-        false
+      .post(
+        `https://mediafirewall-ai.themillionvisions.com/mfw/subscription/details`,{},{}, true, false
       )
       .then(async (res) => {
         return res;
@@ -290,6 +287,24 @@ export const asyncCancelSubscription = async (payload) => {
     const response = api
       .post(
         `https://mediafirewall-ai.themillionvisions.com/cancel-subscription`,
+        payload,
+        {},
+        true,
+        false
+      )
+      .then(async (res) => {
+        return res;
+      });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+export const asyncCreateStripeCustomer = async (payload) => {
+  try {
+    const response = api
+      .post(
+        `https://mediafirewall-ai.themillionvisions.com/mfw/create/customer`,
         payload,
         {},
         true,

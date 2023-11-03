@@ -1,15 +1,15 @@
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import style from "@/styles/bookMeeting.module.scss";
-import { useFieldArray, useForm } from "react-hook-form";
-import React, { useState } from "react";
-import { TIME_ZONE } from "@/data";
-import { useAuth } from "@/contexts/AuthContext";
-import CommonUtility from "@/utils/common.utils";
-import moment from "moment";
-import { asyncCreateMeeting } from "@/services/product/product.service";
-import { ToastMessage } from "@/utils/toastMessage.utils";
-import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
+import { useAuth } from "@/contexts/AuthContext";
+import { TIME_ZONE } from "@/data";
+import { asyncCreateMeeting } from "@/services/product/product.service";
+import style from "@/styles/bookMeeting.module.scss";
+import CommonUtility from "@/utils/common.utils";
+import { ToastMessage } from "@/utils/toastMessage.utils";
+import moment from "moment";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { useFieldArray, useForm } from "react-hook-form";
 
 export default function BookMeetingScreen() {
   const { user } = useAuth();
@@ -39,8 +39,8 @@ export default function BookMeetingScreen() {
     if (CommonUtility.isValidArray(data.participants)) {
       data.participants.map((item) => {
         item.invited = true;
-        item.type = "string";
-        item.participant = "string";
+        item.type = "email";
+        item.participant = item.email;
       });
     }
     const params = {

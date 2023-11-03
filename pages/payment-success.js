@@ -1,23 +1,38 @@
 import { useAuth } from "@/contexts/AuthContext";
-// import { asyncGetCustomerSubscriptionData } from "@/services/product/product.service";
+import { asyncGetCustomerSubscriptionData } from "@/services/product/product.service";
+import { authActions } from "@/store/auth.slice";
+import { useAppDispatch } from "@/store/hooks";
+import CommonUtility from "@/utils/common.utils";
+import { ToastMessage } from "@/utils/toastMessage.utils";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { Fragment, useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { HiCheck } from "react-icons/hi";
+
 export default function PaymentSuccess() {
   const { user } = useAuth();
-  console.log("user: ", user);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   useEffect(() => {
-    // async function getPricingDetails() {
-    //   const tierName = localStorage.getItem("checkoutPlanName");
-    //   const abcRes = await asyncGetCustomerSubscriptionData({
-    //     tierName,
-    //     email: encodeURIComponent("jemish.me@gmail.com"),
-    //     customerId: user?.customerId,
-    //   });
-    //   console.log("abcRes: ", abcRes);
-    // }
-    // getPricingDetails();
+    async function getPricingDetails() {
+      const response = await asyncGetCustomerSubscriptionData();
+      if (response.isSuccess && CommonUtility.isNotEmptyObject(response.data)) {
+        dispatch(
+          authActions.setUserData({
+            ...user,
+            subscriptionDetails: {
+              ...response.data,
+            },
+          })
+        );
+      } else {
+        ToastMessage.error("Something went wrong");
+        // router.push("/");
+        router.reload();
+      }
+    }
+    if (user && user.isLoggedIn) getPricingDetails();
   }, []);
 
   return (
@@ -29,8 +44,12 @@ export default function PaymentSuccess() {
               <h1 className="text-white">
                 Thank You for choosing Midea Firewall
               </h1>
-              <Button variant="primary" className=" mt-3 py-3">
-                Account
+              <Button
+                variant="primary"
+                className=" mt-3 py-3"
+                onClick={() => router.push("/network-blog")}
+              >
+                Start Moderating Content
               </Button>
             </Col>
             <Col md={6} xxl={5} className="text-center">

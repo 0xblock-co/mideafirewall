@@ -1,8 +1,7 @@
-import React from "react";
-import { Button } from "react-bootstrap";
-import style from "./pricing.module.scss";
 import { PRICING_CARD_BG } from "@/constants/global.constants";
 import CommonUtility from "@/utils/common.utils";
+import { Button } from "react-bootstrap";
+import style from "./pricing.module.scss";
 
 const PricingCard = ({ item, index, handleGetStartedClick }) => {
   const className =

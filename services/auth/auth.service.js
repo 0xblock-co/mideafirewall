@@ -1,9 +1,9 @@
+import { localStorageKeys } from "@/constants/global.constants";
+import { setCookieWithJwtExp } from "@/utils/cookieCreator";
+import { setCookieWithExpiration } from "@/utils/globalFunctions";
+import { ToastMessage } from "@/utils/toastMessage.utils";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Api from "../RTK/axiosAPI.handler";
-import { ToastMessage } from "@/utils/toastMessage.utils";
-import { localStorageKeys } from "@/constants/global.constants";
-import { setCookieWithExpiration } from "@/utils/globalFunctions";
-import { setCookieWithJwtExp } from "@/utils/cookieCreator";
 
 const api = Api.getInstance();
 

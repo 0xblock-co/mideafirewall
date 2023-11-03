@@ -252,7 +252,11 @@ export const asyncGetCustomerSubscriptionData = async () => {
   try {
     const response = api
       .post(
-        `https://mediafirewall-ai.themillionvisions.com/mfw/subscription/details`,{},{}, true, false
+        `https://mediafirewall-ai.themillionvisions.com/mfw/subscription/details`,
+        {},
+        {},
+        true,
+        false
       )
       .then(async (res) => {
         return res;
@@ -267,7 +271,7 @@ export const asyncChangeSubscription = async (payload) => {
   try {
     const response = api
       .post(
-        `https://mediafirewall-ai.themillionvisions.com/change/subscription`,
+        `https://mediafirewall-ai.themillionvisions.com/mfw/change/subscription`,
         payload,
         {},
         true,
@@ -286,7 +290,7 @@ export const asyncCancelSubscription = async (payload) => {
   try {
     const response = api
       .post(
-        `https://mediafirewall-ai.themillionvisions.com/cancel-subscription`,
+        `https://mediafirewall-ai.themillionvisions.com/mfw/cancel/subscription`,
         payload,
         {},
         true,

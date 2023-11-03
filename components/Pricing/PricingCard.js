@@ -3,7 +3,13 @@ import CommonUtility from "@/utils/common.utils";
 import { Button } from "react-bootstrap";
 import style from "./pricing.module.scss";
 
-const PricingCard = ({ item, index, handleGetStartedClick }) => {
+const PricingCard = ({
+  item,
+  index,
+  handleGetStartedClick,
+  subscriptionDetails,
+  isUpgrade,
+}) => {
   const className =
     index >= PRICING_CARD_BG.length
       ? PRICING_CARD_BG[index % PRICING_CARD_BG.length]
@@ -83,8 +89,17 @@ const PricingCard = ({ item, index, handleGetStartedClick }) => {
             left: 0,
             right: 0,
           }}
+          disabled={
+            subscriptionDetails?.active &&
+            subscriptionDetails?.tireName === item.tierName
+          }
         >
-          Get Started
+          {subscriptionDetails?.active &&
+          subscriptionDetails?.tireName === item.tierName
+            ? "Active"
+            : isUpgrade
+            ? "Upgrade"
+            : "Get Started"}
         </Button>
       </div>
     </div>

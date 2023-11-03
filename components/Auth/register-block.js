@@ -11,7 +11,6 @@ import * as yup from "yup";
 import style from "./auth.module.scss";
 
 import { showToast } from "@/components/ToastContainer/toaster";
-import { regex } from "@/constants/global.constants";
 import { useCallback } from "react";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
@@ -25,11 +24,13 @@ const schema = yup.object().shape({
   lastName: yup.string().required("Last name is required"),
   passWord: yup
     .string()
+    .required("Password is required.")
     .matches(
-      regex.passwordRegex,
-      "Password must contain at least 8 characters, including at least one lowercase letter, one uppercase letter, and one special character."
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"
     )
-    .required("Password is required."),
+    .min(8, "Password must be at least 8 characters long")
+    .max(20, "Password must not exceed 20 characters"),
   passwordConfirmation: yup
     .string()
     .oneOf([yup.ref("passWord"), null], "Passwords must match.")

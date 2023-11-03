@@ -230,6 +230,9 @@ export default function HeaderTop() {
                         {/* <Dropdown.Item as={Link} href="/contact-us">
                           Settings
                         </Dropdown.Item> */}
+                        <Dropdown.Item onClick={() => router.push("/account")}>
+                          Account
+                        </Dropdown.Item>
                         <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>

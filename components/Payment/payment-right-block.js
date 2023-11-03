@@ -122,24 +122,24 @@ export default function PaymentRightBlock({ handlePaymentSubmit }) {
     handlePaymentSubmit(params);
   };
 
-  const handleCardInputChange = (event, fieldName) => {
-    switch (fieldName) {
-      case "cardNumber":
-        setCardNumberError(event.error ? event.error.message : "");
-        setCardComplete(event.complete);
-        break;
-      case "cardExpiry":
-        setCardExpiryError(event.error ? event.error.message : "");
-        setExpComplete(event.complete);
-        break;
-      case "cardCvc":
-        setCardCvcError(event.error ? event.error.message : "");
-        setCvvComplete(event.complete);
-        break;
-      default:
-        break;
-    }
-  };
+  // const handleCardInputChange = (event, fieldName) => {
+  //   switch (fieldName) {
+  //     case "cardNumber":
+  //       setCardNumberError(event.error ? event.error.message : "");
+  //       setCardComplete(event.complete);
+  //       break;
+  //     case "cardExpiry":
+  //       setCardExpiryError(event.error ? event.error.message : "");
+  //       setExpComplete(event.complete);
+  //       break;
+  //     case "cardCvc":
+  //       setCardCvcError(event.error ? event.error.message : "");
+  //       setCvvComplete(event.complete);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
   return (
     <div className={`mdf__payment-right-banner p-5`}>

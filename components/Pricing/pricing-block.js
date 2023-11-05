@@ -7,11 +7,14 @@ import CommonUtility from "@/utils/common.utils";
 import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 import PricingCard from "./PricingCard";
 import style from "./pricing.module.scss";
-import { asyncChangeSubscription } from "@/services/product/product.service";
+import {
+  asyncChangeSubscription,
+  asyncCreateStripeCustomer,
+  asyncGetCheckoutSessionUrl,
+} from "@/services/product/product.service";
 import { useAppDispatch } from "@/store/hooks";
 import { authActions } from "@/store/auth.slice";
 import { useEffect, useState } from "react";
-import Loader from "../Loader";
 
 const PricingBlock = ({ priceData = [], setIsLoading }) => {
   const [isUpgrade, setIsUpgrade] = useState(false);
@@ -53,9 +56,8 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
       }
     } catch (error) {
       console.error("Something went wrong");
-      // Handle errors here, e.g., log the error or display an error message
     } finally {
-      setIsLoading(false); // Set isLoading to false in both success and error cases
+      setIsLoading(false);
     }
   };
 
@@ -76,10 +78,13 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
       await upgradeSubscription(selectedPricing);
       return;
     }
+
     if (
       user &&
       user.userDetails.email &&
-      CommonUtility.isNotEmpty(user.userDetails.email)
+      CommonUtility.isNotEmpty(user.userDetails.email) &&
+      !user.subscriptionDetails.active &&
+      !user.priceSurveyAnswered
     ) {
       router.push(`/pricing-survey?id=${selectedPricing?.productId}`);
     }

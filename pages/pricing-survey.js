@@ -15,6 +15,8 @@ import {
 import CommonUtility from "@/utils/common.utils";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
+import { useAppDispatch } from "@/store/hooks";
+import { authActions } from "@/store/auth.slice";
 
 const processQuestion = (data, questionObj) => {
   let ans = data[questionObj.name];
@@ -38,6 +40,7 @@ export default function Survey() {
   const [formAnswerData, setFormAnswerData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { user, checkAuthRouteV2 } = useAuth();
 
   useEffect(() => {
@@ -76,6 +79,12 @@ export default function Survey() {
     );
 
     if (response && response.isSuccess) {
+      dispatch(
+        authActions.setUserData({
+          ...user,
+          priceSurveyAnswered: true,
+        })
+      );
       if (
         CommonUtility.isNotEmpty(user.userDetails.fullName) &&
         CommonUtility.isNotEmpty(user.userDetails.email)

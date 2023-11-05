@@ -167,11 +167,15 @@ export const asyncGetSignedUpSurveyQuestions = async () => {
   }
 };
 
-export const asyncPostSignedUpSurveySubmitAnswers = (payload, user) => {
+export const asyncPostSignedUpSurveySubmitAnswers = (
+  payload,
+  user,
+  surveyType
+) => {
   try {
     const response = api
       .post(
-        `https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/answers/users/${user?.userDetails?.email}`,
+        `https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/answers/users/${user?.userDetails?.email}/${surveyType}`,
         payload,
         {},
         true,

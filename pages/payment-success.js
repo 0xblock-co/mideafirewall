@@ -11,7 +11,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { HiCheck } from "react-icons/hi";
 
 export default function PaymentSuccess() {
-  const { user } = useAuth();
+  const { isLogin, user } = useAuth();
   const dispatch = useAppDispatch();
   const router = useRouter();
   useEffect(() => {
@@ -32,8 +32,9 @@ export default function PaymentSuccess() {
         router.reload();
       }
     }
-    if (user && user.isLoggedIn) getPricingDetails();
-  }, []);
+
+    if (user && isLogin) getPricingDetails();
+  }, [isLogin]);
 
   return (
     <Fragment>

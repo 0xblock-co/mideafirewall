@@ -13,6 +13,7 @@ import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
 import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
+import Loader from "@/components/Loader";
 
 export default function Survey() {
   const [formData, setFormData] = useState([]);
@@ -21,6 +22,7 @@ export default function Survey() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { isLogin, user, checkAuthRouteV2 } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // const { isActive, route } = checkAuthRouteV2();
@@ -80,10 +82,13 @@ export default function Survey() {
     }));
 
     if (id === lastElement.id) {
+      setIsLoading(true);
       const response = await asyncPostSignedUpSurveySubmitAnswers(
         cloneFormAnswerData,
-        user
+        user,
+        "User"
       );
+      setIsLoading(false);
       if (response) {
         if (response.isSuccess) {
           ToastMessage.success("Thank you for submitting answer.");
@@ -106,6 +111,7 @@ export default function Survey() {
         defaultValue={defaultValue}
         onSubmit={onSubmitForm}
       />
+      {isLoading && <Loader isLoading={isLoading} />}
     </BoxContainerWithFilterIconWrapper>
   );
 }

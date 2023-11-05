@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+import Loader from "@/components/Loader";
 import ResponsiveImage from "@/components/NextImageComponent/ResponsiveImage";
 import CustomPagination from "@/components/Pagination";
 import Api from "@/services/RTK/axiosAPI.handler";
@@ -7,11 +8,12 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
+const api = new Api();
 
 export default function DocumentationAndBlogs() {
   const router = useRouter();
-  const api = new Api();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [blogsDetails, setBlogsDetails] = useState({ items: [] });
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 10;
@@ -19,11 +21,16 @@ export default function DocumentationAndBlogs() {
   const getBlogs = useCallback(
     async (pageNumber = 0, pageSize = 10) => {
       try {
+        setIsLoading(true);
         const response = await api.get(
-          `https://drivesafe360.themillionvisions.com/driveSafe/blogsPosts/?active=true&descend=true&pageNumber=${pageNumber}&pageSize=${pageSize}`
+          `https://drivesafe360.themillionvisions.com/driveSafe/blogsPosts/?active=true&descend=true&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+          {},
+          true,
+          false
         );
 
         if (response.isSuccess) {
+          setIsLoading(false);
           const newBlogs = response.data.items.filter((elem) => {
             return !blogsDetails.items.some((ele) => ele.id === elem.id);
           });
@@ -35,7 +42,7 @@ export default function DocumentationAndBlogs() {
         }
       } catch (error) {
         // Handle the error
-        console.error("Error fetching blogs:", error);
+        setIsLoading(false);
       }
     },
     [blogsDetails]
@@ -150,6 +157,7 @@ export default function DocumentationAndBlogs() {
           />
         </Container>
       </section>
+      <Loader isLoading={isLoading} />
     </main>
   );
 }

@@ -302,12 +302,13 @@ a {
   font-weight: bold;
   color: $text-dark;
 }
+.btn-check + .btn:hover,
 .btn-check:checked + .checkbox__primary,
 :not(.btn-check) + .checkbox__primary:active,
 .checkbox__primary:first-child:active,
 .checkbox__primary.active,
 .checkbox__primary.show {
-  background: $primary_v2_selected;
+  background: $primary;
   color: #fff;
 }
 

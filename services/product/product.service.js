@@ -271,7 +271,7 @@ export const asyncChangeSubscription = async (payload) => {
   try {
     const response = api
       .post(
-        `https://mediafirewall-ai.themillionvisions.com/mfw/change/subscription`,
+        `http://mediafirewall-ai.themillionvisions.com/mfw/change/subscription`,
         payload,
         {},
         true,

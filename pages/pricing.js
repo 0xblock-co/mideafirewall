@@ -25,7 +25,7 @@ export default function Pricing() {
   useEffect(() => {
     if (router.query?.isUpgrade) {
       setIsUpgrade(true);
-      router.replace("/pricing");
+      // router.replace("/pricing");
     }
   }, [router]);
 

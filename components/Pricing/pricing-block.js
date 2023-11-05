@@ -10,16 +10,21 @@ import style from "./pricing.module.scss";
 import { asyncChangeSubscription } from "@/services/product/product.service";
 import { useAppDispatch } from "@/store/hooks";
 import { authActions } from "@/store/auth.slice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../Loader";
 
-const PricingBlock = ({ priceData = [], isUpgrade }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const PricingBlock = ({ priceData = [], setIsLoading }) => {
+  const [isUpgrade, setIsUpgrade] = useState(false);
 
   const router = useRouter();
   const { isLogin, user } = useAuth();
 
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (router.query?.isUpgrade) {
+      setIsUpgrade(true);
+    }
+  }, [router]);
 
   const upgradeSubscription = async (selectedPricing) => {
     setIsLoading(true);
@@ -28,21 +33,29 @@ const PricingBlock = ({ priceData = [], isUpgrade }) => {
       email: user?.userDetails?.email,
       newProductId: selectedPricing?.productId,
     };
-    const response = await asyncChangeSubscription(payload);
-    setIsLoading(false);
-    if (response.isSuccess && CommonUtility.isNotEmptyObject(response.data)) {
-      dispatch(
-        authActions.setUserData({
-          ...user,
-          subscriptionDetails: {
-            ...response.data,
-          },
-        })
-      );
-      router.push("/account");
-    } else {
-      ToastMessage.error("Something went wrong");
-      router.back();
+
+    try {
+      const response = await asyncChangeSubscription(payload);
+
+      if (response.isSuccess && CommonUtility.isNotEmptyObject(response.data)) {
+        dispatch(
+          authActions.setUserData({
+            ...user,
+            subscriptionDetails: {
+              ...response.data,
+            },
+          })
+        );
+        router.push("/account");
+      } else {
+        ToastMessage.error("Something went wrong");
+        router.back();
+      }
+    } catch (error) {
+      console.error("Something went wrong");
+      // Handle errors here, e.g., log the error or display an error message
+    } finally {
+      setIsLoading(false); // Set isLoading to false in both success and error cases
     }
   };
 
@@ -142,7 +155,6 @@ const PricingBlock = ({ priceData = [], isUpgrade }) => {
           </div>
         </div>
       </Container>
-      {isLoading && <Loader isLoading={isLoading} />}
     </section>
   );
 };

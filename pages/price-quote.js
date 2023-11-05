@@ -78,7 +78,8 @@ export default function Survey() {
     if (id === lastElement.id) {
       const response = await asyncPostSignedUpSurveySubmitAnswers(
         cloneFormAnswerData,
-        user
+        user,
+        "PriceQuote"
       );
       if (response) {
         if (response.isSuccess) {

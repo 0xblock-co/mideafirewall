@@ -10,8 +10,12 @@ import style from "./pricing.module.scss";
 import { asyncChangeSubscription } from "@/services/product/product.service";
 import { useAppDispatch } from "@/store/hooks";
 import { authActions } from "@/store/auth.slice";
+import { useState } from "react";
+import Loader from "../Loader";
 
-const PricingBlock = ({ priceData = [], setIsLoading, isUpgrade }) => {
+const PricingBlock = ({ priceData = [], isUpgrade }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
   const { isLogin, user } = useAuth();
 
@@ -138,6 +142,7 @@ const PricingBlock = ({ priceData = [], setIsLoading, isUpgrade }) => {
           </div>
         </div>
       </Container>
+      {isLoading && <Loader isLoading={isLoading} />}
     </section>
   );
 };

@@ -69,7 +69,11 @@ export default function Survey() {
   };
 
   const submitAnswers = async (answers, user, router) => {
-    const response = await asyncPostSignedUpSurveySubmitAnswers(answers, user);
+    const response = await asyncPostSignedUpSurveySubmitAnswers(
+      answers,
+      user,
+      "Payment"
+    );
 
     if (response && response.isSuccess) {
       if (

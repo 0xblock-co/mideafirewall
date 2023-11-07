@@ -25,6 +25,9 @@
     box-shadow: -2px -2px 11px rgba(0, 0, 0, 0.4);
   }
 }
+.active_border {
+  box-shadow: -5px -5px 15px 5px rgba(0, 0.5, 0.5, 0.5);
+}
 .card__price__yellow {
   border: 2px solid #dfbc05;
   .b_bottom {

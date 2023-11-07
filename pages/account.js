@@ -10,9 +10,12 @@ import { asyncCancelSubscription } from "@/services/product/product.service";
 import moment from "moment";
 import DeleteConfirmationModal from "@/components/Modals/DeleteConfirmationModal";
 import Loader from "@/components/Loader";
+import CommonUtility from "@/utils/common.utils";
+import { authActions } from "@/store/auth.slice";
+import { useAppDispatch } from "@/store/hooks";
 export default function Survey() {
   const { user } = useAuth();
-  const { subscriptionDetails } = user;
+  const dispatch = useAppDispatch();
 
   const ContactInformationSection = () => {
     return (
@@ -49,12 +52,20 @@ export default function Survey() {
       setShowModal(false);
       const payload = {
         subscriptionId: subscriptionDetails?.subscriptionId,
+        userId: user?.userDetails?.email,
       };
       const response = await asyncCancelSubscription(payload);
       setIsLoading(false);
-      if (response.isSuccess && response.data) {
+      if (response.isSuccess && CommonUtility.isNotEmptyObject(response.data)) {
         ToastMessage.success("Subscription is canceled");
-        //TODO: Need to handle data after cancel subscription
+        dispatch(
+          authActions.setUserData({
+            ...user,
+            subscriptionDetails: {
+              ...response.data,
+            },
+          })
+        );
       } else {
         ToastMessage.error("Something went wrong");
       }
@@ -179,10 +190,10 @@ export default function Survey() {
             <ContactInformationSection />
           </Col>
         </Row>
-        {subscriptionDetails && (
+        {user?.subscriptionDetails && (
           <Row className="justify-content-center">
             <Col lg={12} xl={8}>
-              <BillingSection subscriptionDetails={subscriptionDetails} />
+              <BillingSection subscriptionDetails={user?.subscriptionDetails} />
             </Col>
           </Row>
         )}

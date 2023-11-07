@@ -1,40 +1,11 @@
-import { useAuth } from "@/contexts/AuthContext";
-import { asyncGetCustomerSubscriptionData } from "@/services/product/product.service";
-import { authActions } from "@/store/auth.slice";
-import { useAppDispatch } from "@/store/hooks";
-import CommonUtility from "@/utils/common.utils";
-import { ToastMessage } from "@/utils/toastMessage.utils";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { Fragment, useEffect } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import React, { Fragment } from "react";
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { HiCheck } from "react-icons/hi";
+import { FcCancel } from "react-icons/fc";
 
-export default function PaymentSuccess() {
-  const { isLogin, user } = useAuth();
-  const dispatch = useAppDispatch();
+const PaymentFailure = () => {
   const router = useRouter();
-  useEffect(() => {
-    async function getPricingDetails() {
-      const response = await asyncGetCustomerSubscriptionData();
-      if (response.isSuccess && CommonUtility.isNotEmptyObject(response.data)) {
-        dispatch(
-          authActions.setUserData({
-            ...user,
-            subscriptionDetails: {
-              ...response.data,
-            },
-          })
-        );
-      } else {
-        ToastMessage.error("Something went wrong");
-        // router.push("/");
-        router.reload();
-      }
-    }
-
-    if (user && isLogin) getPricingDetails();
-  }, [isLogin]);
 
   return (
     <Fragment>
@@ -43,14 +14,14 @@ export default function PaymentSuccess() {
           <Row className="h-100 justify-content-center align-items-center">
             <Col md={6} xxl={5}>
               <h1 className="text-white">
-                Thank You for choosing Media Firewall
+                Your payment is not successfully done.
               </h1>
               <Button
                 variant="primary"
                 className=" mt-3 py-3"
-                onClick={() => router.push("/network-blog")}
+                onClick={() => router.push("/pricing")}
               >
-                Start Moderating Content
+                Please choose plan
               </Button>
             </Col>
             <Col md={6} xxl={5} className="text-center">
@@ -73,9 +44,9 @@ export default function PaymentSuccess() {
                   </div>
                   <div className="step-name">Card Added</div>
                 </div>
-                <div className="stepper-item  completed">
+                <div className="stepper-item ">
                   <div className="step-counter">
-                    <HiCheck />
+                    <FcCancel />
                   </div>
                   <div className="step-name">Payment Received</div>
                 </div>
@@ -86,4 +57,6 @@ export default function PaymentSuccess() {
       </section>
     </Fragment>
   );
-}
+};
+
+export default PaymentFailure;

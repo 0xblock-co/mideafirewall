@@ -4,11 +4,9 @@ import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { ToastMessage } from "@/utils/toastMessage.utils";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { Fragment, useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { HiCheck } from "react-icons/hi";
 
 export default function PaymentSuccess() {
   const { isLogin, user } = useAuth();
@@ -21,6 +19,7 @@ export default function PaymentSuccess() {
         dispatch(
           authActions.setUserData({
             ...user,
+            priceSurveyAnswered: true,
             subscriptionDetails: {
               ...response.data,
             },
@@ -40,10 +39,11 @@ export default function PaymentSuccess() {
     <Fragment>
       <section className="payment__success__block">
         <Container className="h-100">
-          <Row className="h-100 justify-content-center align-items-center">
-            <Col md={6} xxl={5}>
+          <Row className="h-100 justify-content-start align-items-center">
+            <Col md={10} className="text-start">
               <h1 className="text-white">
-                Thank You for choosing Media Firewall
+                Thank you for choosing Media Firewall. <br />
+                Your payment has been successfully processed.
               </h1>
               <Button
                 variant="primary"
@@ -53,7 +53,7 @@ export default function PaymentSuccess() {
                 Start Moderating Content
               </Button>
             </Col>
-            <Col md={6} xxl={5} className="text-center">
+            {/* <Col md={6} xxl={5} className="text-center">
               <Image
                 className="mb-3 w-75"
                 layout="fill"
@@ -80,7 +80,7 @@ export default function PaymentSuccess() {
                   <div className="step-name">Payment Received</div>
                 </div>
               </div>
-            </Col>
+            </Col> */}
           </Row>
         </Container>
       </section>

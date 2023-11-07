@@ -40,7 +40,8 @@ export default function BookMeetingScreen() {
       data.participants.map((item) => {
         item.invited = true;
         item.type = "email";
-        item.participant = item.email;
+        item.participant = item.Email;
+        return item;
       });
     }
     const params = {

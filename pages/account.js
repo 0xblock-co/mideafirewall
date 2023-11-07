@@ -61,6 +61,7 @@ export default function Survey() {
         dispatch(
           authActions.setUserData({
             ...user,
+            priceSurveyAnswered: false,
             subscriptionDetails: {
               ...response.data,
             },

@@ -84,7 +84,8 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
       user.userDetails.email &&
       CommonUtility.isNotEmpty(user.userDetails.email) &&
       !user.subscriptionDetails.active &&
-      !user.priceSurveyAnswered
+      (!user.subscriptionDetails.priceSurveyAnswered ||
+        !user.priceSurveyAnswered)
     ) {
       router.push(`/pricing-survey?id=${selectedPricing?.productId}`);
     }

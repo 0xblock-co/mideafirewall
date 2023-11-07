@@ -19,6 +19,11 @@ const PricingCard = ({
     <div
       className={`mfw__pricing-col ${className} ${style.mdf__pricingcard} ${
         style[`card__price__${className}`]
+      } ${
+        subscriptionDetails?.active &&
+        subscriptionDetails?.tireName === item.tierName
+          ? style.active_border
+          : ""
       }`}
       key={index}
     >

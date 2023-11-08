@@ -739,3 +739,9 @@ a {
     }
   }
 }
+.nav__dropdown_toggle {
+  @media (max-width: 991px) {
+    left: unset !important;
+    width: 100%;
+  }
+}

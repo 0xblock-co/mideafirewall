@@ -3,8 +3,8 @@ import style from "@/components/Auth/auth.module.scss";
 import { useAuth } from "@/contexts/AuthContext";
 
 import { BsFillClipboardFill } from "react-icons/bs";
-import { useState } from "react";
-import { ToastMessage } from "@/utils/toastMessage.utils";
+import { useEffect, useState } from "react";
+import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 import Router from "next/router";
 import { asyncCancelSubscription } from "@/services/product/product.service";
 import moment from "moment";
@@ -44,32 +44,50 @@ export default function Survey() {
   };
 
   const BillingSection = ({ subscriptionDetails }) => {
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const cancelSubscription = async () => {
-      setIsLoading(true);
-      setShowModal(false);
-      const payload = {
-        subscriptionId: subscriptionDetails?.subscriptionId,
-        userId: user?.userDetails?.email,
-      };
-      const response = await asyncCancelSubscription(payload);
-      setIsLoading(false);
-      if (response.isSuccess && CommonUtility.isNotEmptyObject(response.data)) {
-        ToastMessage.success("Subscription is canceled");
-        dispatch(
-          authActions.setUserData({
-            ...user,
-            priceSurveyAnswered: false,
-            subscriptionDetails: {
-              ...response.data,
-            },
-          })
-        );
-      } else {
-        ToastMessage.error("Something went wrong");
-      }
+      newInfoAlert(
+        "Cancel Subscription",
+        "Are you sure you want to cancel this subscription?",
+        "Continue",
+        "warning",
+        true
+      ).then(async () => {
+        try {
+          setIsLoading(true);
+          // setShowModal(true);
+
+          const payload = {
+            subscriptionId: subscriptionDetails?.subscriptionId,
+            userId: user?.userDetails?.email,
+          };
+
+          const response = await asyncCancelSubscription(payload);
+
+          if (
+            response.isSuccess &&
+            CommonUtility.isNotEmptyObject(response.data)
+          ) {
+            ToastMessage.success("Subscription is canceled");
+            dispatch(
+              authActions.setUserData({
+                ...user,
+                priceSurveyAnswered: false,
+                subscriptionDetails: {
+                  ...response.data,
+                },
+              })
+            );
+          } else {
+            ToastMessage.error("Something went wrong");
+          }
+        } catch (error) {
+        } finally {
+          setIsLoading(false);
+        }
+      });
     };
 
     return (
@@ -104,7 +122,7 @@ export default function Survey() {
               >
                 Upgrade
               </Button>
-              <Button variant="danger" onClick={() => setShowModal(true)}>
+              <Button variant="danger" onClick={() => cancelSubscription()}>
                 Cancel Subscription
               </Button>
             </>
@@ -119,7 +137,7 @@ export default function Survey() {
             </>
           )}
         </Card.Body>
-        {showModal && (
+        {/* {showModal && (
           <DeleteConfirmationModal
             show={showModal}
             onHide={() => setShowModal(false)}
@@ -128,7 +146,7 @@ export default function Survey() {
             confirmText="Are you sure you want to cancel this subscription?"
             confirmButtonText="Cancel"
           />
-        )}
+        )} */}
         {isLoading && <Loader isLoading={isLoading} />}
       </Card>
     );

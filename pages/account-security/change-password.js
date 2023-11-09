@@ -21,6 +21,7 @@ const ForgotPasswordScreen = () => {
         asyncRestPassword({
           userId: formData.userId,
           password: formData.password,
+          token: router?.query?.vcode,
         })
       );
       setIsLoading(false);

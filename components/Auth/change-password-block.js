@@ -84,10 +84,10 @@ const ChangePasswordForm = ({ handleResetPasswordSubmit }) => {
 
   //Form submit method
   const onSubmitResetPassword = useCallback((data) => {
-    console.log("data: ", data);
     delete data.passwordConfirmation;
     handleResetPasswordSubmit({
       ...data,
+      token: router.query.vcode,
     });
   }, []);
 

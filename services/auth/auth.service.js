@@ -164,7 +164,7 @@ export const asyncRestPassword = createAsyncThunk(
     try {
       const response = api
         .put(
-          `https://mediafirewall-ai.themillionvisions.com/user/reset/password/${payload.userId}?password=${payload.password}`,
+          `https://mediafirewall-ai.themillionvisions.com/user/reset/password/${payload.userId}?password=${payload.password}&token=${payload.token}`,
           payload,
           {},
           true,

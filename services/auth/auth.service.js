@@ -129,6 +129,63 @@ export const asyncSocialAuth = createAsyncThunk(
   }
 );
 
+export const asyncForgotPassword = createAsyncThunk(
+  "asyncForgotPassword",
+  async (payload, thunkAPI) => {
+    try {
+      const response = api
+        .post(
+          `https://mediafirewall-ai.themillionvisions.com/user/reset/password/${payload.email}?userId=${payload.email}`,
+          payload,
+          {},
+          true,
+          false
+        )
+        .then(async (res) => {
+          if (res && res?.isSuccess) {
+            return thunkAPI.fulfillWithValue({
+              ...res.data,
+              isSuccess: res.isSuccess,
+            });
+          }
+          return thunkAPI.rejectWithValue(res);
+        });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const asyncRestPassword = createAsyncThunk(
+  "asyncRestPassword",
+  async (payload, thunkAPI) => {
+    console.log("payload: ", payload);
+    try {
+      const response = api
+        .put(
+          `https://mediafirewall-ai.themillionvisions.com/user/reset/password/${payload.userId}?password=${payload.password}`,
+          payload,
+          {},
+          true,
+          false
+        )
+        .then(async (res) => {
+          if (res && res?.isSuccess) {
+            return thunkAPI.fulfillWithValue({
+              ...res.data,
+              isSuccess: res.isSuccess,
+            });
+          }
+          return thunkAPI.rejectWithValue(res);
+        });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 // End New V2
 export const asyncLoginAndSignupService = (payload, idToken) => {
   try {

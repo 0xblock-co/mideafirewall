@@ -10,6 +10,8 @@ import { HiMail } from "react-icons/hi";
 import * as yup from "yup";
 
 import style from "./auth.module.scss";
+import { useCallback } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 //Validation Schema
 const schema = yup.object().shape({
@@ -19,25 +21,42 @@ const schema = yup.object().shape({
     .required("Email is required"),
 });
 
-const ForgotPasswordBlock = () => {
+const ForgotPasswordBlock = ({ handleForgotPasswordSubmit }) => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
   //useForm
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema), // set the validation schema resolver
   });
 
   //Form submit method
-  const onSubmitLogin = () => Router.push("/account-security/login");
+  const onSubmitLogin = useCallback(
+    (data) => {
+      if (!executeRecaptcha) {
+        setError("captcha", { message: "Please verify captcha" });
+        return;
+      }
+      executeRecaptcha("login").then(async (gReCaptchaToken) => {
+        await handleForgotPasswordSubmit({
+          ...data,
+          authType: "email",
+          gReCaptchaToken,
+        });
+      });
+    },
+    [executeRecaptcha, setError]
+  );
 
   //render method
   return (
     <section className={style.mdf__login_right_block}>
       <h1 className={`${style.text_blue} fw-bold`}>Password forgotten?</h1>
 
-      <p className="mt-3">Your Email</p>
       <Form onSubmit={handleSubmit(onSubmitLogin)}>
         <Form.Group
           className="mb-2 position-relative"

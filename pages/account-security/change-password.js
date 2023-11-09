@@ -1,12 +1,12 @@
 import { NextSeo } from "next-seo";
 import { Fragment, useState } from "react";
 
-import ForgotPasswordBlock from "@/components/Auth/forgot-password-block";
+import ChangePasswordForm from "@/components/Auth/change-password-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "@/store/hooks";
+import { asyncRestPassword } from "@/services/auth/auth.service";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
-import { asyncForgotPassword } from "@/services/auth/auth.service";
 import Loader from "@/components/Loader";
 
 const ForgotPasswordScreen = () => {
@@ -14,19 +14,20 @@ const ForgotPasswordScreen = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const handleForgotPasswordSubmit = async (formData) => {
+  const handleResetPasswordSubmit = async (formData) => {
     setIsLoading(true);
     try {
       const response = await dispatch(
-        asyncForgotPassword({
-          email: formData.email,
+        asyncRestPassword({
+          userId: formData.userId,
+          password: formData.password,
         })
       );
       setIsLoading(false);
       if (response?.payload?.isSuccess) {
         newInfoAlert(
-          "Password Reset Request Submitted",
-          "Please check your email for further instructions on resetting your password.",
+          "Password Reset Successful",
+          "Your password has been successfully reset. You can now log in using your new password.",
           "OK",
           "success"
         ).then(() => {
@@ -38,13 +39,12 @@ const ForgotPasswordScreen = () => {
       console.error("Forgot password request failed:", error);
     }
   };
-
   return (
     <Fragment>
-      <NextSeo title="Forgot Password" />
+      <NextSeo title="Change Password" />
       <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
-        <ForgotPasswordBlock
-          handleForgotPasswordSubmit={handleForgotPasswordSubmit}
+        <ChangePasswordForm
+          handleResetPasswordSubmit={handleResetPasswordSubmit}
         />
       </BoxContainerWithFilterIconWrapper>
       <Loader isLoading={isLoading} />

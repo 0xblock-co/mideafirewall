@@ -371,6 +371,18 @@ class Api {
             return;
         }
 
+        if (isErrorHandle && errorData?.code === 409 && errorData?.apiMessageRes) {
+            newInfoAlert(errorData?.apiMessageRes?.title || "Authentication Error", errorData?.apiMessageRes?.detail || "", "OK", "error").then(() => {
+                return {
+                    isSuccess: false,
+                    isStore: false,
+                    code: code.toString(),
+                    message: errorData.message || errorString.catchError,
+                };
+            })
+            return;
+        }
+
         if (isErrorHandle && errorData.code) {
             ToastMessage.error(errorData?.message?.toString() || errorData?.successCode?.toString() || errorString.catchError);
         }

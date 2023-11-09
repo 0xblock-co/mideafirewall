@@ -98,6 +98,18 @@ export default function UploadTabs() {
   };
 
   const handleOnClickUploadFiles = async () => {
+    if (user.api_secret === "") {
+      newInfoAlert(
+        "Free quota exceeded",
+        "Unlock additional features by subscribing to access extended operations beyond the current limit.",
+        "OK",
+        "warning"
+      ).then(() => {
+        router.push("/pricing");
+      });
+      return;
+    }
+
     await setIsUploading(true);
     if (CommonUtility.isValidArray(contentData)) {
       const cloneContentData = cloneDeep(contentData);
@@ -110,6 +122,7 @@ export default function UploadTabs() {
           filters: router.query.filters,
         }
       );
+      await setIsUploading(false);
       if (
         response?.isSuccess &&
         CommonUtility.isNotEmpty(response.data.videoId)

@@ -69,7 +69,24 @@ const LoginScreen = () => {
         } else if (payload.surveyAnswered === false) {
           router.push("/survey");
         } else {
-          router.push("/network-blog");
+          if (response?.payload?.api_secret === "") {
+            router.push("/pricing");
+            // newInfoAlert(
+            //   "Free quota exceeded",
+            //   "Unlock additional features by subscribing to access extended operations beyond the current limit.",
+            //   "OK",
+            //   "warning",
+            //   true
+            // )
+            //   .then(() => {
+            //     router.push("/pricing");
+            //   })
+            //   .catch(() => {
+            //     router.push("/network-blog");
+            //   });
+          } else {
+            router.push("/network-blog");
+          }
         }
       }
     } catch (error) {

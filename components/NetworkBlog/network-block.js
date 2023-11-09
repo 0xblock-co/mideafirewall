@@ -109,6 +109,17 @@ export default function NetworkBlock() {
         });
         return;
       }
+      if (user.api_secret === "") {
+        newInfoAlert(
+          "Free quota exceeded",
+          "Unlock additional features by subscribing to access extended operations beyond the current limit.",
+          "OK",
+          "warning"
+        ).then(() => {
+          router.push("/pricing");
+        });
+        return;
+      }
 
       const formData = {
         selectedFeatureIds,

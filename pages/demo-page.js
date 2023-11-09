@@ -4,7 +4,7 @@ import {
   asyncGetContentEventLogs,
 } from "@/services/product/product.service";
 
-import { ToastMessage } from "@/utils/toastMessage.utils";
+import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 import Router, { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -194,6 +194,18 @@ export default function DemoPage() {
   const { control, handleSubmit, reset } = useForm();
   const onSubmit = async (data) => {
     try {
+      if (user.api_secret === "") {
+        newInfoAlert(
+          "Free quota exceeded",
+          "Unlock additional features by subscribing to access extended operations beyond the current limit.",
+          "OK",
+          "warning"
+        ).then(() => {
+          router.push("/pricing");
+        });
+        return;
+      }
+
       const formData = new FormData();
       formData.append("videoID", router.query.videoId);
 

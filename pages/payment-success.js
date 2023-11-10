@@ -9,51 +9,47 @@ import { Fragment, useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
 export default function PaymentSuccess() {
-  const { isLogin, user } = useAuth();
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-  useEffect(() => {
-    async function getPricingDetails() {
-      const response = await asyncGetCustomerSubscriptionData();
-      if (response.isSuccess && CommonUtility.isNotEmptyObject(response.data)) {
-        dispatch(
-          authActions.setUserData({
-            ...user,
-            priceSurveyAnswered: true,
-            subscriptionDetails: {
-              ...response.data,
-            },
-          })
-        );
-      } else {
-        ToastMessage.error("Something went wrong");
-        // router.push("/");
-        router.reload();
-      }
-    }
+    const { isLogin, user } = useAuth();
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+    useEffect(() => {
+        async function getPricingDetails() {
+            const response = await asyncGetCustomerSubscriptionData();
+            if (response.isSuccess && CommonUtility.isNotEmptyObject(response.data)) {
+                dispatch(
+                    authActions.setUserData({
+                        ...user,
+                        priceSurveyAnswered: true,
+                        subscriptionDetails: {
+                            ...response.data,
+                        },
+                    })
+                );
+            } else {
+                ToastMessage.error("Something went wrong");
+                // router.push("/");
+                router.reload();
+            }
+        }
 
-    if (user && isLogin) getPricingDetails();
-  }, [isLogin]);
+        if (user && isLogin) getPricingDetails();
+    }, [isLogin]);
 
-  return (
-    <Fragment>
-      <section className="payment__success__block">
-        <Container className="h-100">
-          <Row className="h-100 justify-content-start align-items-center">
-            <Col md={10} className="text-start">
-              <h1 className="text-white">
-                Thank you for choosing Media Firewall. <br />
-                Your payment has been successfully processed.
-              </h1>
-              <Button
-                variant="primary"
-                className=" mt-3 py-3"
-                onClick={() => router.push("/network-blog")}
-              >
-                Start Moderating Content
-              </Button>
-            </Col>
-            {/* <Col md={6} xxl={5} className="text-center">
+    return (
+        <Fragment>
+            <section className="payment__success__block">
+                <Container className="h-100">
+                    <Row className="h-100 justify-content-start align-items-center">
+                        <Col md={10} className="text-start">
+                            <h1 className="text-white">
+                                Thank you for choosing Media Firewall. <br />
+                                Your payment has been successfully processed.
+                            </h1>
+                            <Button variant="primary" className=" mt-3 py-3" onClick={() => router.push("/network-blog")}>
+                                Start Moderating Content
+                            </Button>
+                        </Col>
+                        {/* <Col md={6} xxl={5} className="text-center">
               <Image
                 className="mb-3 w-75"
                 layout="fill"
@@ -81,9 +77,9 @@ export default function PaymentSuccess() {
                 </div>
               </div>
             </Col> */}
-          </Row>
-        </Container>
-      </section>
-    </Fragment>
-  );
+                    </Row>
+                </Container>
+            </section>
+        </Fragment>
+    );
 }

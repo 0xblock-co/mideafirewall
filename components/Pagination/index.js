@@ -1,7 +1,7 @@
 import React from "react";
 import Pagination from "react-bootstrap/Pagination";
 
-const CustomPagination = ({isFirst,isLast, currentPage, totalPages, onPageChange }) => {
+const CustomPagination = ({ isFirst, isLast, currentPage, totalPages, onPageChange }) => {
     const pageNumbers = [];
 
     const handlePageChange = (page) => {
@@ -48,15 +48,15 @@ const CustomPagination = ({isFirst,isLast, currentPage, totalPages, onPageChange
 
     return (
         <Pagination className="d-flex justify-content-center">
-            <Pagination.First disabled={isFirst} onClick={()=>onPageChange(0)}/>
+            <Pagination.First disabled={isFirst} onClick={() => onPageChange(0)} />
             <Pagination.Prev disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)} />
             {pageNumbers.map((pageNumber, index) => (
-                <Pagination.Item key={index} active={pageNumber === currentPage} onClick={() => onPageChange(pageNumber)} disabled={pageNumber==="..."}>
+                <Pagination.Item key={index} active={pageNumber === currentPage} onClick={() => onPageChange(pageNumber)} disabled={pageNumber === "..."}>
                     {pageNumber}
                 </Pagination.Item>
             ))}
             <Pagination.Next disabled={currentPage === totalPages} onClick={() => handlePageChange(currentPage + 1)} />
-            <Pagination.Last disabled={isLast} onClick={()=>onPageChange(totalPages)}/>
+            <Pagination.Last disabled={isLast} onClick={() => onPageChange(totalPages)} />
         </Pagination>
     );
     //   const handlePageChange = (page) => {

@@ -1,12 +1,6 @@
 import Swal, { SweetAlertIcon, SweetAlertPosition } from "sweetalert2";
 
-export const newInfoAlert = (
-    title,
-    message,
-    actionButtonText,
-    icon,
-    isCancelBtn = false
-) => {
+export const newInfoAlert = (title, message, actionButtonText, icon, isCancelBtn = false) => {
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: title,
@@ -23,13 +17,13 @@ export const newInfoAlert = (
             },
         }).then((result) => {
             if (result.value) {
-                resolve("action button press")
+                resolve("action button press");
             } else {
-                reject("cancel Press")
+                reject("cancel Press");
             }
-        })
-    })
-}
+        });
+    });
+};
 
 export class ToastMessage {
     private static toastOptions = {

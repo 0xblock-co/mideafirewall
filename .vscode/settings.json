@@ -1,0 +1,102 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#ab307e",
+        "activityBar.background": "#ab307e",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#25320e",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#ab307e",
+        "statusBar.background": "#832561",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#ab307e",
+        "statusBarItem.remoteBackground": "#832561",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#832561",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#83256199",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#832561",
+    "cSpell.words": ["datatables", "Fiascal", "Formik", "taxregion", "taxregions"],
+    "workbench.editor.highlightModifiedTabs": true,
+    "editor.cursorStyle": "line",
+    "editor.cursorBlinking": "smooth",
+    "files.trimFinalNewlines": true,
+    "prettier.singleQuote": false,
+    "editor.autoClosingBrackets": "always",
+    "editor.suggestSelection": "first",
+    "editor.minimap.enabled": false,
+    "emmet.triggerExpansionOnTab": true,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "editor.fontSize": 12,
+    "editor.fontLigatures": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.format.insertSpaceAfterConstructor": true,
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "javascript.format.insertSpaceAfterConstructor": true,
+    "git.autofetch": true,
+    "javascript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "javascript.format.enable": false,
+    "files.associations": {
+        "*.js": "javascriptreact"
+    },
+    "workbench.startupEditor": "newUntitledFile",
+    "breadcrumbs.enabled": true,
+    "editor.wordWrap": "on",
+    "tabnine.experimentalAutoImports": true,
+    "todo-tree.general.tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "[ ]", "[x]"],
+    "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+    "cSpell.enableFiletypes": ["jsonc"],
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "prettier.embeddedLanguageFormatting": "off",
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[handlebars]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "debug.console.closeOnEnd": true,
+    "cSpell.language": "en",
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "eslint.format.enable": true,
+    "git.confirmSync": false,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true,
+        "source.fixAll": true
+    },
+    "[svg]": {
+        "editor.defaultFormatter": "jock.svg"
+    }
+}

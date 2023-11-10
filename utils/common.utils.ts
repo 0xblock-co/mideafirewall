@@ -68,7 +68,6 @@ export default class CommonUtility {
         return inputString;
     }
 
-
     static copyToClipboard(toSave: string): void {
         const textArea = document.createElement("textarea");
         textArea.value = toSave;
@@ -107,7 +106,7 @@ export default class CommonUtility {
         return originalArray.map((item) => ({
             label: item[preparedKey.label] as string,
             value: item[preparedKey.value] as string,
-            isDisabled: preparedKey.isDisabled ? item[preparedKey.isDisabled] as boolean : false,
+            isDisabled: preparedKey.isDisabled ? (item[preparedKey.isDisabled] as boolean) : false,
         }));
     }
 
@@ -117,5 +116,4 @@ export default class CommonUtility {
         const replacedFilters = replacedApiSecret.replace(/{selectedFilters}/g, `${newSelectedFilters}`);
         return replacedFilters;
     }
-
 }

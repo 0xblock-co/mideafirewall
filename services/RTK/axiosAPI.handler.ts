@@ -1,9 +1,4 @@
-import {
-    AxiosError,
-    AxiosResponse,
-    CancelTokenSource,
-    Method,
-} from "axios";
+import { AxiosError, AxiosResponse, CancelTokenSource, Method } from "axios";
 import instanceCreator from "./instanceCreator";
 
 import { errorString } from "@/constants/global.constants";
@@ -14,7 +9,7 @@ class Api {
     private static _instance: Api;
     instance: any; // The Axios instance used for making HTTP requests
 
-    constructor (baseUrl = null) {
+    constructor(baseUrl = null) {
         this.instance = instanceCreator(baseUrl);
     }
 
@@ -40,21 +35,12 @@ class Api {
      * @param isSuccessHandle - Whether to handle success messages (default: true).
      * @returns A Promise that resolves to the response data.
      */
-    async handleResponse<T, D extends object | null>(
-        response: AxiosResponse<D>,
-        url: string,
-        data: D,
-        isErrorHandle: boolean,
-        isSuccessHandle: boolean
-    ): Promise<T> {
+    async handleResponse<T, D extends object | null>(response: AxiosResponse<D>, url: string, data: D, isErrorHandle: boolean, isSuccessHandle: boolean): Promise<T> {
         // Handle success(2xx), client errors(4xx), and server errors(5xx)
         let errorData: ErrorResult;
         switch (true) {
             case response.status >= 200 && response.status < 300:
-                return Api.getSuccessData(
-                    response.data as SuccessData,
-                    isSuccessHandle
-                ) as T;
+                return Api.getSuccessData(response.data as SuccessData, isSuccessHandle) as T;
 
             case response.status >= 400 && response.status < 500:
                 errorData = {
@@ -63,9 +49,7 @@ class Api {
                     message: response.statusText,
                     isStore: false,
                 };
-                throw new Error(
-                    JSON.stringify(Api.getErrorData(errorData, isErrorHandle))
-                );
+                throw new Error(JSON.stringify(Api.getErrorData(errorData, isErrorHandle)));
 
             case response.status >= 500:
                 errorData = {
@@ -74,9 +58,7 @@ class Api {
                     message: errorString.serverError,
                     isStore: false,
                 };
-                throw new Error(
-                    JSON.stringify(Api.getErrorData(errorData, isErrorHandle))
-                );
+                throw new Error(JSON.stringify(Api.getErrorData(errorData, isErrorHandle)));
 
             default:
                 errorData = {
@@ -85,11 +67,9 @@ class Api {
                     message: errorString.unknownError,
                     isStore: false,
                 };
-                throw new Error(
-                    JSON.stringify(Api.getErrorData(errorData, isErrorHandle))
-                );
+                throw new Error(JSON.stringify(Api.getErrorData(errorData, isErrorHandle)));
         }
-    };
+    }
 
     /**
      * Handle errors from an API request.
@@ -100,17 +80,12 @@ class Api {
      * @param isErrorHandle - Whether to handle errors (default: true).
      * @returns A Promise that rejects with the error data.
      */
-    private handleError<T>(
-        error: AxiosError | any,
-        url: string,
-        data: object | null,
-        isErrorHandle: boolean
-    ): Promise<T> {
+    private handleError<T>(error: AxiosError | any, url: string, data: object | null, isErrorHandle: boolean): Promise<T> {
         if (error.response) {
             const errorData = {
                 code: error.response.status,
                 message: error.response.statusText,
-                apiMessageRes: error.response.data || ""
+                apiMessageRes: error.response.data || "",
             };
             return Promise.reject<T>(Api.getErrorData(errorData, isErrorHandle));
         }
@@ -129,22 +104,8 @@ class Api {
      * @param isSuccessHandle - Whether to handle success messages (default: true).
      * @returns A Promise that resolves to the response data or rejects with the error data.
      */
-    public async makeCustomRequestBaseQuery<T>(
-        method: Method,
-        url: string,
-        data: object | null,
-        conf: CustomAxiosConfig,
-        isErrorHandle: boolean,
-        isSuccessHandle: boolean
-    ): Promise<T> {
-        return this.makeRequest<T>(
-            method,
-            url,
-            data,
-            conf,
-            isErrorHandle,
-            isSuccessHandle
-        );
+    public async makeCustomRequestBaseQuery<T>(method: Method, url: string, data: object | null, conf: CustomAxiosConfig, isErrorHandle: boolean, isSuccessHandle: boolean): Promise<T> {
+        return this.makeRequest<T>(method, url, data, conf, isErrorHandle, isSuccessHandle);
     }
 
     /**
@@ -158,14 +119,7 @@ class Api {
      * @param isSuccessHandle - Whether to handle success messages (default: true).
      * @returns A Promise that resolves to the response data or rejects with the error data.
      */
-    private makeRequest<T>(
-        method: Method,
-        url: string,
-        data: object | null,
-        conf: CustomAxiosConfig,
-        isErrorHandle: boolean,
-        isSuccessHandle: boolean
-    ): Promise<T> {
+    private makeRequest<T>(method: Method, url: string, data: object | null, conf: CustomAxiosConfig, isErrorHandle: boolean, isSuccessHandle: boolean): Promise<T> {
         return this.instance
             .request({
                 method,
@@ -174,16 +128,10 @@ class Api {
                 ...conf,
             })
             .then((response: AxiosResponse<T>) => {
-                return this.handleResponse<T, any>(
-                    response,
-                    url,
-                    data,
-                    isErrorHandle,
-                    isSuccessHandle
-                );
+                return this.handleResponse<T, any>(response, url, data, isErrorHandle, isSuccessHandle);
             })
             .catch((error: AxiosError) => {
-                return this.handleError(error, url, data, isErrorHandle)
+                return this.handleError(error, url, data, isErrorHandle);
             });
     }
 
@@ -196,20 +144,8 @@ class Api {
      * @param isSuccessHandle - Whether to handle success messages (default: true).
      * @returns A Promise that resolves to the response data or rejects with the error data.
      */
-    get<T>(
-        url: string,
-        conf: CustomAxiosConfig = {},
-        isErrorHandle = true,
-        isSuccessHandle = true
-    ): Promise<T> {
-        return this.makeRequest<T>(
-            "get",
-            url,
-            null,
-            conf,
-            isErrorHandle,
-            isSuccessHandle
-        );
+    get<T>(url: string, conf: CustomAxiosConfig = {}, isErrorHandle = true, isSuccessHandle = true): Promise<T> {
+        return this.makeRequest<T>("get", url, null, conf, isErrorHandle, isSuccessHandle);
     }
 
     /**
@@ -222,21 +158,8 @@ class Api {
      * @param isSuccessHandle - Whether to handle success messages (default: true).
      * @returns A Promise that resolves to the response data or rejects with the error data.
      */
-    post<T>(
-        url: string,
-        data: object | null,
-        conf: CustomAxiosConfig = {},
-        isErrorHandle = true,
-        isSuccessHandle = true
-    ): Promise<T> {
-        return this.makeRequest<T>(
-            "post",
-            url,
-            data,
-            conf,
-            isErrorHandle,
-            isSuccessHandle
-        );
+    post<T>(url: string, data: object | null, conf: CustomAxiosConfig = {}, isErrorHandle = true, isSuccessHandle = true): Promise<T> {
+        return this.makeRequest<T>("post", url, data, conf, isErrorHandle, isSuccessHandle);
     }
 
     /**
@@ -249,21 +172,8 @@ class Api {
      * @param isSuccessHandle - Whether to handle success messages (default: true).
      * @returns A Promise that resolves to the response data or rejects with the error data.
      */
-    put<T>(
-        url: string,
-        data: object | null,
-        conf: CustomAxiosConfig = {},
-        isErrorHandle = true,
-        isSuccessHandle = true
-    ): Promise<T> {
-        return this.makeRequest<T>(
-            "put",
-            url,
-            data,
-            conf,
-            isErrorHandle,
-            isSuccessHandle
-        );
+    put<T>(url: string, data: object | null, conf: CustomAxiosConfig = {}, isErrorHandle = true, isSuccessHandle = true): Promise<T> {
+        return this.makeRequest<T>("put", url, data, conf, isErrorHandle, isSuccessHandle);
     }
 
     /**
@@ -275,20 +185,8 @@ class Api {
      * @param isSuccessHandle - Whether to handle success messages (default: true).
      * @returns A Promise that resolves to the response data or rejects with the error data.
      */
-    delete<T>(
-        url: string,
-        conf: CustomAxiosConfig = {},
-        isErrorHandle = true,
-        isSuccessHandle = true
-    ): Promise<T> {
-        return this.makeRequest<T>(
-            "delete",
-            url,
-            null,
-            conf,
-            isErrorHandle,
-            isSuccessHandle
-        );
+    delete<T>(url: string, conf: CustomAxiosConfig = {}, isErrorHandle = true, isSuccessHandle = true): Promise<T> {
+        return this.makeRequest<T>("delete", url, null, conf, isErrorHandle, isSuccessHandle);
     }
 
     /**
@@ -302,16 +200,13 @@ class Api {
     }
 
     /**
-    * Extract success data from the Axios response.
-    *
-    * @param data - The success data from the Axios response.
-    * @param isSuccessHandle - Whether to handle success messages.
-    * @returns An object with isSuccess and data properties.
-    */
-    private static getSuccessData<T>(
-        data: SuccessData,
-        isSuccessHandle: boolean
-    ): T | SuccessData | any {
+     * Extract success data from the Axios response.
+     *
+     * @param data - The success data from the Axios response.
+     * @param isSuccessHandle - Whether to handle success messages.
+     * @returns An object with isSuccess and data properties.
+     */
+    private static getSuccessData<T>(data: SuccessData, isSuccessHandle: boolean): T | SuccessData | any {
         if (isSuccessHandle) {
             ToastMessage.success(data?.message?.toString() || data?.successCode?.toString() || "Request has been successfully processed");
         }
@@ -329,10 +224,7 @@ class Api {
      * @param isErrorHandle - Whether to handle error messages.
      * @returns An object with isSuccess, isStore, code, and message properties.
      */
-    private static getErrorData(
-        errorData: ErrorResult | any,
-        isErrorHandle: boolean
-    ): ErrorResult | any {
+    private static getErrorData(errorData: ErrorResult | any, isErrorHandle: boolean): ErrorResult | any {
         // Prepare error data
         // console.log("errorData ---1-", errorData);
         const code: string | number = errorData.code || "";
@@ -344,7 +236,7 @@ class Api {
                     code: code.toString(),
                     message: errorData.message || errorString.catchError,
                 };
-            })
+            });
             return;
         }
 
@@ -356,7 +248,7 @@ class Api {
                     code: code.toString(),
                     message: errorData.message || errorString.catchError,
                 };
-            })
+            });
             return;
         }
 
@@ -368,7 +260,7 @@ class Api {
                     code: code.toString(),
                     message: errorData.message || errorString.catchError,
                 };
-            })
+            });
             return;
         }
 
@@ -380,7 +272,7 @@ class Api {
                     code: code.toString(),
                     message: errorData.message || errorString.catchError,
                 };
-            })
+            });
             return;
         }
 
@@ -392,10 +284,10 @@ class Api {
                     code: code.toString(),
                     message: errorData.message || errorString.catchError,
                 };
-            })
+            });
             return;
         }
-        
+
         if (isErrorHandle && errorData.code) {
             ToastMessage.error(errorData?.message?.toString() || errorData?.successCode?.toString() || errorString.catchError);
         }

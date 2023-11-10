@@ -12,111 +12,94 @@ import { asyncGetPricingQuoteQuestions } from "@/services/product/product.servic
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Survey() {
-  const [formData, setFormData] = useState([]);
-  const [defaultValue, setDefaultValue] = useState({});
-  const [formAnswerData, setFormAnswerData] = useState([]);
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { user } = useAuth();
-  useEffect(() => {
-    // const { isActive, route } = checkAuthRouteV2();
-    // if (!isLogin && !isActive) {
-    //   router.push(route);
-    //   return;
-    // }
-    getQuestions();
-  }, []);
+    const [formData, setFormData] = useState([]);
+    const [defaultValue, setDefaultValue] = useState({});
+    const [formAnswerData, setFormAnswerData] = useState([]);
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const { user } = useAuth();
+    useEffect(() => {
+        // const { isActive, route } = checkAuthRouteV2();
+        // if (!isLogin && !isActive) {
+        //   router.push(route);
+        //   return;
+        // }
+        getQuestions();
+    }, []);
 
-  const getQuestions = async () => {
-    const response = await asyncGetPricingQuoteQuestions();
-    if (response && response.isSuccess && response.data) {
-      const data = getFilteredData(response.data.questions);
-      if (data) {
-        const defaultValue = {};
-        data.forEach((element) => {
-          if (element.type == "checkbox") {
-            defaultValue[element.name] = [];
-          } else {
-            defaultValue[element.name] = element.defaultValues;
-          }
-        });
-        setDefaultValue(defaultValue);
-        setFormData(data);
-      }
-    }
-  };
-
-  const onSubmitForm = async (data, id) => {
-    const questionObj = formData.find((value) => value.id === id);
-    const cloneFormAnswerData = cloneDeep(formAnswerData);
-    const lastElement = formData[formData?.length - 1];
-
-    let ans = data[questionObj.name];
-    if (questionObj.type == "radio") {
-      const radioSelectedValue = questionObj.options.find(
-        (item) => item.value == ans
-      )?.label;
-      ans = radioSelectedValue;
-    }
-
-    const answerObj = {
-      id: questionObj.id,
-      title: questionObj.label,
-      question: questionObj.title,
-      answers: Array.isArray(ans) ? ans : [ans],
+    const getQuestions = async () => {
+        const response = await asyncGetPricingQuoteQuestions();
+        if (response && response.isSuccess && response.data) {
+            const data = getFilteredData(response.data.questions);
+            if (data) {
+                const defaultValue = {};
+                data.forEach((element) => {
+                    if (element.type == "checkbox") {
+                        defaultValue[element.name] = [];
+                    } else {
+                        defaultValue[element.name] = element.defaultValues;
+                    }
+                });
+                setDefaultValue(defaultValue);
+                setFormData(data);
+            }
+        }
     };
 
-    cloneFormAnswerData.push(answerObj);
-    setFormAnswerData(cloneFormAnswerData);
+    const onSubmitForm = async (data, id) => {
+        const questionObj = formData.find((value) => value.id === id);
+        const cloneFormAnswerData = cloneDeep(formAnswerData);
+        const lastElement = formData[formData?.length - 1];
 
-    const newFormData = formData?.map((value) => ({
-      ...value,
-      isRender:
-        value.id === id ? false : value.id === id + 1 ? true : value.isRender,
-    }));
-
-    if (id === lastElement.id) {
-      const response = await asyncPostSignedUpSurveySubmitAnswers(
-        cloneFormAnswerData,
-        user,
-        "PriceQuote"
-      );
-      if (response) {
-        if (response.isSuccess) {
-          // ToastMessage.success(
-          //   "The price quote will be sent to your email address. "
-          // );
-          newInfoAlert(
-            "Thank you for providing answers.",
-            "The price quote will be sent to your email address. ",
-            "Okay",
-            "success",
-            true
-          )
-            .then(() => {
-              router.push("/book-demo");
-            })
-            .catch(() => {
-              router.push("/contact-us");
-            });
-          // router.push("/book-demo");
-          return;
-        } else {
-          ToastMessage.error(response?.message || "Something went wrong");
-          Router.reload();
+        let ans = data[questionObj.name];
+        if (questionObj.type == "radio") {
+            const radioSelectedValue = questionObj.options.find((item) => item.value == ans)?.label;
+            ans = radioSelectedValue;
         }
-      }
-    }
-    setFormData(newFormData);
-  };
 
-  return (
-    <BoxContainerWithFilterIconWrapper>
-      <SurveyForm
-        elements={formData}
-        defaultValue={defaultValue}
-        onSubmit={onSubmitForm}
-      />
-    </BoxContainerWithFilterIconWrapper>
-  );
+        const answerObj = {
+            id: questionObj.id,
+            title: questionObj.label,
+            question: questionObj.title,
+            answers: Array.isArray(ans) ? ans : [ans],
+        };
+
+        cloneFormAnswerData.push(answerObj);
+        setFormAnswerData(cloneFormAnswerData);
+
+        const newFormData = formData?.map((value) => ({
+            ...value,
+            isRender: value.id === id ? false : value.id === id + 1 ? true : value.isRender,
+        }));
+
+        if (id === lastElement.id) {
+            const response = await asyncPostSignedUpSurveySubmitAnswers(cloneFormAnswerData, user, "PriceQuote");
+            if (response) {
+                if (response.isSuccess) {
+                    // ToastMessage.success(
+                    //   "The price quote will be sent to your email address. "
+                    // );
+                    newInfoAlert("Thank you for providing answers.", "The price quote will be sent to your email address. ", "Okay", "success", true)
+                        .then(() => {
+                            router.push("/book-demo");
+                        })
+                        .catch(() => {
+                            router.push("/contact-us");
+                        });
+                    // router.push("/book-demo");
+                    return;
+                } else {
+                    ToastMessage.error(response?.message || "Something went wrong");
+                    Router.reload();
+                }
+            }
+        }
+        setFormData(newFormData);
+    };
+
+    return (
+        <BoxContainerWithFilterIconWrapper>
+            <SurveyForm elements={formData} defaultValue={defaultValue} onSubmit={onSubmitForm} />
+        </BoxContainerWithFilterIconWrapper>
+    );
 }

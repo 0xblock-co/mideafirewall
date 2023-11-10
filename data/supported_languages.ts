@@ -1,902 +1,902 @@
 export const SUPPORTED_LANGUAGES = {
-    "text": [
+    text: [
         {
-            "language": "Afrikaans",
-            "code": "af"
+            language: "Afrikaans",
+            code: "af",
         },
         {
-            "language": "Albanian",
-            "code": "sq"
+            language: "Albanian",
+            code: "sq",
         },
         {
-            "language": "Amharic",
-            "code": "am"
+            language: "Amharic",
+            code: "am",
         },
         {
-            "language": "Arabic",
-            "code": "ar"
+            language: "Arabic",
+            code: "ar",
         },
         {
-            "language": "Armenian",
-            "code": "hy"
+            language: "Armenian",
+            code: "hy",
         },
         {
-            "language": "Azerbaijani",
-            "code": "az"
+            language: "Azerbaijani",
+            code: "az",
         },
         {
-            "language": "Basque",
-            "code": "eu"
+            language: "Basque",
+            code: "eu",
         },
         {
-            "language": "Belarusian",
-            "code": "be"
+            language: "Belarusian",
+            code: "be",
         },
         {
-            "language": "Bengali",
-            "code": "bn"
+            language: "Bengali",
+            code: "bn",
         },
         {
-            "language": "Bosnian",
-            "code": "bs"
+            language: "Bosnian",
+            code: "bs",
         },
         {
-            "language": "Bulgarian",
-            "code": "bg"
+            language: "Bulgarian",
+            code: "bg",
         },
         {
-            "language": "Catalan",
-            "code": "ca"
+            language: "Catalan",
+            code: "ca",
         },
         {
-            "language": "Cebuano",
-            "code": "ceb"
+            language: "Cebuano",
+            code: "ceb",
         },
         {
-            "language": "Chinese (Simplified)",
-            "code": "zh-CN"
+            language: "Chinese (Simplified)",
+            code: "zh-CN",
         },
         {
-            "language": "Chinese (Traditional)",
-            "code": "zh-TW"
+            language: "Chinese (Traditional)",
+            code: "zh-TW",
         },
         {
-            "language": "Corsican",
-            "code": "co"
+            language: "Corsican",
+            code: "co",
         },
         {
-            "language": "Croatian",
-            "code": "hr"
+            language: "Croatian",
+            code: "hr",
         },
         {
-            "language": "Czech",
-            "code": "cs"
+            language: "Czech",
+            code: "cs",
         },
         {
-            "language": "Danish",
-            "code": "da"
+            language: "Danish",
+            code: "da",
         },
         {
-            "language": "Dutch",
-            "code": "nl"
+            language: "Dutch",
+            code: "nl",
         },
         {
-            "language": "English",
-            "code": "en"
+            language: "English",
+            code: "en",
         },
         {
-            "language": "Esperanto",
-            "code": "eo"
+            language: "Esperanto",
+            code: "eo",
         },
         {
-            "language": "Estonian",
-            "code": "et"
+            language: "Estonian",
+            code: "et",
         },
         {
-            "language": "Finnish",
-            "code": "fi"
+            language: "Finnish",
+            code: "fi",
         },
         {
-            "language": "French",
-            "code": "fr"
+            language: "French",
+            code: "fr",
         },
         {
-            "language": "Frisian",
-            "code": "fy"
+            language: "Frisian",
+            code: "fy",
         },
         {
-            "language": "Galician",
-            "code": "gl"
+            language: "Galician",
+            code: "gl",
         },
         {
-            "language": "Georgian",
-            "code": "ka"
+            language: "Georgian",
+            code: "ka",
         },
         {
-            "language": "German",
-            "code": "de"
+            language: "German",
+            code: "de",
         },
         {
-            "language": "Greek",
-            "code": "el"
+            language: "Greek",
+            code: "el",
         },
         {
-            "language": "Gujarati",
-            "code": "gu"
+            language: "Gujarati",
+            code: "gu",
         },
         {
-            "language": "Haitian Creole",
-            "code": "ht"
+            language: "Haitian Creole",
+            code: "ht",
         },
         {
-            "language": "Hausa",
-            "code": "ha"
+            language: "Hausa",
+            code: "ha",
         },
         {
-            "language": "Hawaiian",
-            "code": "haw"
+            language: "Hawaiian",
+            code: "haw",
         },
         {
-            "language": "Hebrew",
-            "code": "iw"
+            language: "Hebrew",
+            code: "iw",
         },
         {
-            "language": "Hindi",
-            "code": "hi"
+            language: "Hindi",
+            code: "hi",
         },
         {
-            "language": "Hmong",
-            "code": "hmn"
+            language: "Hmong",
+            code: "hmn",
         },
         {
-            "language": "Hungarian",
-            "code": "hu"
+            language: "Hungarian",
+            code: "hu",
         },
         {
-            "language": "Icelandic",
-            "code": "is"
+            language: "Icelandic",
+            code: "is",
         },
         {
-            "language": "Igbo",
-            "code": "ig"
+            language: "Igbo",
+            code: "ig",
         },
         {
-            "language": "Indonesian",
-            "code": "id"
+            language: "Indonesian",
+            code: "id",
         },
         {
-            "language": "Irish",
-            "code": "ga"
+            language: "Irish",
+            code: "ga",
         },
         {
-            "language": "Italian",
-            "code": "it"
+            language: "Italian",
+            code: "it",
         },
         {
-            "language": "Japanese",
-            "code": "ja"
+            language: "Japanese",
+            code: "ja",
         },
         {
-            "language": "Javanese",
-            "code": "jw"
+            language: "Javanese",
+            code: "jw",
         },
         {
-            "language": "Kannada",
-            "code": "kn"
+            language: "Kannada",
+            code: "kn",
         },
         {
-            "language": "Kazakh",
-            "code": "kk"
+            language: "Kazakh",
+            code: "kk",
         },
         {
-            "language": "Khmer",
-            "code": "km"
+            language: "Khmer",
+            code: "km",
         },
         {
-            "language": "Korean",
-            "code": "ko"
+            language: "Korean",
+            code: "ko",
         },
         {
-            "language": "Kurdish",
-            "code": "ku"
+            language: "Kurdish",
+            code: "ku",
         },
         {
-            "language": "Kyrgyz",
-            "code": "ky"
+            language: "Kyrgyz",
+            code: "ky",
         },
         {
-            "language": "Lao",
-            "code": "lo"
+            language: "Lao",
+            code: "lo",
         },
         {
-            "language": "Latin",
-            "code": "la"
+            language: "Latin",
+            code: "la",
         },
         {
-            "language": "Latvian",
-            "code": "lv"
+            language: "Latvian",
+            code: "lv",
         },
         {
-            "language": "Lithuanian",
-            "code": "lt"
+            language: "Lithuanian",
+            code: "lt",
         },
         {
-            "language": "Luxembourgish",
-            "code": "lb"
+            language: "Luxembourgish",
+            code: "lb",
         },
         {
-            "language": "Macedonian",
-            "code": "mk"
+            language: "Macedonian",
+            code: "mk",
         },
         {
-            "language": "Malagasy",
-            "code": "mg"
+            language: "Malagasy",
+            code: "mg",
         },
         {
-            "language": "Malay",
-            "code": "ms"
+            language: "Malay",
+            code: "ms",
         },
         {
-            "language": "Malayalam",
-            "code": "ml"
+            language: "Malayalam",
+            code: "ml",
         },
         {
-            "language": "Maltese",
-            "code": "mt"
+            language: "Maltese",
+            code: "mt",
         },
         {
-            "language": "Maori",
-            "code": "mi"
+            language: "Maori",
+            code: "mi",
         },
         {
-            "language": "Marathi",
-            "code": "mr"
+            language: "Marathi",
+            code: "mr",
         },
         {
-            "language": "Mongolian",
-            "code": "mn"
+            language: "Mongolian",
+            code: "mn",
         },
         {
-            "language": "Myanmar (Burmese)",
-            "code": "my"
+            language: "Myanmar (Burmese)",
+            code: "my",
         },
         {
-            "language": "Nepali",
-            "code": "ne"
+            language: "Nepali",
+            code: "ne",
         },
         {
-            "language": "Norwegian",
-            "code": "no"
+            language: "Norwegian",
+            code: "no",
         },
         {
-            "language": "Nyanja (Chichewa)",
-            "code": "ny"
+            language: "Nyanja (Chichewa)",
+            code: "ny",
         },
         {
-            "language": "Pashto",
-            "code": "ps"
+            language: "Pashto",
+            code: "ps",
         },
         {
-            "language": "Persian",
-            "code": "fa"
+            language: "Persian",
+            code: "fa",
         },
         {
-            "language": "Polish",
-            "code": "pl"
+            language: "Polish",
+            code: "pl",
         },
         {
-            "language": "Portuguese (Portugal, Brazil)",
-            "code": "pt"
+            language: "Portuguese (Portugal, Brazil)",
+            code: "pt",
         },
         {
-            "language": "Punjabi",
-            "code": "pa"
+            language: "Punjabi",
+            code: "pa",
         },
         {
-            "language": "Romanian",
-            "code": "ro"
+            language: "Romanian",
+            code: "ro",
         },
         {
-            "language": "Russian",
-            "code": "ru"
+            language: "Russian",
+            code: "ru",
         },
         {
-            "language": "Samoan",
-            "code": "sm"
+            language: "Samoan",
+            code: "sm",
         },
         {
-            "language": "Scots Gaelic",
-            "code": "gd"
+            language: "Scots Gaelic",
+            code: "gd",
         },
         {
-            "language": "Serbian",
-            "code": "sr"
+            language: "Serbian",
+            code: "sr",
         },
         {
-            "language": "Sesotho",
-            "code": "st"
+            language: "Sesotho",
+            code: "st",
         },
         {
-            "language": "Shona",
-            "code": "sn"
+            language: "Shona",
+            code: "sn",
         },
         {
-            "language": "Sindhi",
-            "code": "sd"
+            language: "Sindhi",
+            code: "sd",
         },
         {
-            "language": "Sinhala (Sinhalese)",
-            "code": "si"
+            language: "Sinhala (Sinhalese)",
+            code: "si",
         },
         {
-            "language": "Slovak",
-            "code": "sk"
+            language: "Slovak",
+            code: "sk",
         },
         {
-            "language": "Slovenian",
-            "code": "sl"
+            language: "Slovenian",
+            code: "sl",
         },
         {
-            "language": "Somali",
-            "code": "so"
+            language: "Somali",
+            code: "so",
         },
         {
-            "language": "Spanish",
-            "code": "es"
+            language: "Spanish",
+            code: "es",
         },
         {
-            "language": "Sundanese",
-            "code": "su"
+            language: "Sundanese",
+            code: "su",
         },
         {
-            "language": "Swahili",
-            "code": "sw"
+            language: "Swahili",
+            code: "sw",
         },
         {
-            "language": "Swedish",
-            "code": "sv"
+            language: "Swedish",
+            code: "sv",
         },
         {
-            "language": "Tagalog (Filipino)",
-            "code": "tl"
+            language: "Tagalog (Filipino)",
+            code: "tl",
         },
         {
-            "language": "Tajik",
-            "code": "tg"
+            language: "Tajik",
+            code: "tg",
         },
         {
-            "language": "Tamil",
-            "code": "ta"
+            language: "Tamil",
+            code: "ta",
         },
         {
-            "language": "Telugu",
-            "code": "te"
+            language: "Telugu",
+            code: "te",
         },
         {
-            "language": "Thai",
-            "code": "th"
+            language: "Thai",
+            code: "th",
         },
         {
-            "language": "Turkish",
-            "code": "tr"
+            language: "Turkish",
+            code: "tr",
         },
         {
-            "language": "Ukrainian",
-            "code": "uk"
+            language: "Ukrainian",
+            code: "uk",
         },
         {
-            "language": "Urdu",
-            "code": "ur"
+            language: "Urdu",
+            code: "ur",
         },
         {
-            "language": "Uzbek",
-            "code": "uz"
+            language: "Uzbek",
+            code: "uz",
         },
         {
-            "language": "Vietnamese",
-            "code": "vi"
+            language: "Vietnamese",
+            code: "vi",
         },
         {
-            "language": "Welsh",
-            "code": "cy"
+            language: "Welsh",
+            code: "cy",
         },
         {
-            "language": "Xhosa",
-            "code": "xh"
+            language: "Xhosa",
+            code: "xh",
         },
         {
-            "language": "Yiddish",
-            "code": "yi"
+            language: "Yiddish",
+            code: "yi",
         },
         {
-            "language": "Yoruba",
-            "code": "yo"
+            language: "Yoruba",
+            code: "yo",
         },
         {
-            "language": "Zulu",
-            "code": "zu"
-        }
+            language: "Zulu",
+            code: "zu",
+        },
     ],
-    "tts": [
+    tts: [
         {
-            "language": "Afrikaans (South Africa)",
-            "code": "af-ZA"
+            language: "Afrikaans (South Africa)",
+            code: "af-ZA",
         },
         {
-            "language": "Amharic (Ethiopia)",
-            "code": "am-ET"
+            language: "Amharic (Ethiopia)",
+            code: "am-ET",
         },
         {
-            "language": "Armenian (Armenia)",
-            "code": "hy-AM"
+            language: "Armenian (Armenia)",
+            code: "hy-AM",
         },
         {
-            "language": "Azerbaijani (Azerbaijan)",
-            "code": "az-AZ"
+            language: "Azerbaijani (Azerbaijan)",
+            code: "az-AZ",
         },
         {
-            "language": "Indonesian (Indonesia)",
-            "code": "id-ID"
+            language: "Indonesian (Indonesia)",
+            code: "id-ID",
         },
         {
-            "language": "Malay (Malaysia)",
-            "code": "ms-MY"
+            language: "Malay (Malaysia)",
+            code: "ms-MY",
         },
         {
-            "language": "Bengali (Bangladesh)",
-            "code": "bn-BD"
+            language: "Bengali (Bangladesh)",
+            code: "bn-BD",
         },
         {
-            "language": "Bengali (India)",
-            "code": "bn-IN"
+            language: "Bengali (India)",
+            code: "bn-IN",
         },
         {
-            "language": "Catalan (Spain)",
-            "code": "ca-ES"
+            language: "Catalan (Spain)",
+            code: "ca-ES",
         },
         {
-            "language": "Czech (Czech Republic)",
-            "code": "cs-CZ"
+            language: "Czech (Czech Republic)",
+            code: "cs-CZ",
         },
         {
-            "language": "Danish (Denmark)",
-            "code": "da-DK"
+            language: "Danish (Denmark)",
+            code: "da-DK",
         },
         {
-            "language": "German (Germany)",
-            "code": "de-DE"
+            language: "German (Germany)",
+            code: "de-DE",
         },
         {
-            "language": "English (Australia)",
-            "code": "en-AU"
+            language: "English (Australia)",
+            code: "en-AU",
         },
         {
-            "language": "English (Canada)",
-            "code": "en-CA"
+            language: "English (Canada)",
+            code: "en-CA",
         },
         {
-            "language": "English (Ghana)",
-            "code": "en-GH"
+            language: "English (Ghana)",
+            code: "en-GH",
         },
         {
-            "language": "English (United Kingdom)",
-            "code": "en-GB"
+            language: "English (United Kingdom)",
+            code: "en-GB",
         },
         {
-            "language": "English (India)",
-            "code": "en-IN"
+            language: "English (India)",
+            code: "en-IN",
         },
         {
-            "language": "English (Ireland)",
-            "code": "en-IE"
+            language: "English (Ireland)",
+            code: "en-IE",
         },
         {
-            "language": "English (Kenya)",
-            "code": "en-KE"
+            language: "English (Kenya)",
+            code: "en-KE",
         },
         {
-            "language": "English (New Zealand)",
-            "code": "en-NZ"
+            language: "English (New Zealand)",
+            code: "en-NZ",
         },
         {
-            "language": "English (Nigeria)",
-            "code": "en-NG"
+            language: "English (Nigeria)",
+            code: "en-NG",
         },
         {
-            "language": "English (Philippines)",
-            "code": "en-PH"
+            language: "English (Philippines)",
+            code: "en-PH",
         },
         {
-            "language": "English (Singapore)",
-            "code": "en-SG"
+            language: "English (Singapore)",
+            code: "en-SG",
         },
         {
-            "language": "English (South Africa)",
-            "code": "en-ZA"
+            language: "English (South Africa)",
+            code: "en-ZA",
         },
         {
-            "language": "English (Tanzania)",
-            "code": "en-TZ"
+            language: "English (Tanzania)",
+            code: "en-TZ",
         },
         {
-            "language": "English (United States)",
-            "code": "en-US"
+            language: "English (United States)",
+            code: "en-US",
         },
         {
-            "language": "Spanish (Argentina)",
-            "code": "es-AR"
+            language: "Spanish (Argentina)",
+            code: "es-AR",
         },
         {
-            "language": "Spanish (Bolivia)",
-            "code": "es-BO"
+            language: "Spanish (Bolivia)",
+            code: "es-BO",
         },
         {
-            "language": "Spanish (Chile)",
-            "code": "es-CL"
+            language: "Spanish (Chile)",
+            code: "es-CL",
         },
         {
-            "language": "Spanish (Colombia)",
-            "code": "es-CO"
+            language: "Spanish (Colombia)",
+            code: "es-CO",
         },
         {
-            "language": "Spanish (Costa Rica)",
-            "code": "es-CR"
+            language: "Spanish (Costa Rica)",
+            code: "es-CR",
         },
         {
-            "language": "Spanish (Ecuador)",
-            "code": "es-EC"
+            language: "Spanish (Ecuador)",
+            code: "es-EC",
         },
         {
-            "language": "Spanish (El Salvador)",
-            "code": "es-SV"
+            language: "Spanish (El Salvador)",
+            code: "es-SV",
         },
         {
-            "language": "Spanish (Spain)",
-            "code": "es-ES"
+            language: "Spanish (Spain)",
+            code: "es-ES",
         },
         {
-            "language": "Spanish (United States)",
-            "code": "es-US"
+            language: "Spanish (United States)",
+            code: "es-US",
         },
         {
-            "language": "Spanish (Guatemala)",
-            "code": "es-GT"
+            language: "Spanish (Guatemala)",
+            code: "es-GT",
         },
         {
-            "language": "Spanish (Honduras)",
-            "code": "es-HN"
+            language: "Spanish (Honduras)",
+            code: "es-HN",
         },
         {
-            "language": "Spanish (Mexico)",
-            "code": "es-MX"
+            language: "Spanish (Mexico)",
+            code: "es-MX",
         },
         {
-            "language": "Spanish (Nicaragua)",
-            "code": "es-NI"
+            language: "Spanish (Nicaragua)",
+            code: "es-NI",
         },
         {
-            "language": "Spanish (Panama)",
-            "code": "es-PA"
+            language: "Spanish (Panama)",
+            code: "es-PA",
         },
         {
-            "language": "Spanish (Paraguay)",
-            "code": "es-PY"
+            language: "Spanish (Paraguay)",
+            code: "es-PY",
         },
         {
-            "language": "Spanish (Peru)",
-            "code": "es-PE"
+            language: "Spanish (Peru)",
+            code: "es-PE",
         },
         {
-            "language": "Spanish (Puerto Rico)",
-            "code": "es-PR"
+            language: "Spanish (Puerto Rico)",
+            code: "es-PR",
         },
         {
-            "language": "Spanish (Dominican Republic)",
-            "code": "es-DO"
+            language: "Spanish (Dominican Republic)",
+            code: "es-DO",
         },
         {
-            "language": "Spanish (Uruguay)",
-            "code": "es-UY"
+            language: "Spanish (Uruguay)",
+            code: "es-UY",
         },
         {
-            "language": "Spanish (Venezuela)",
-            "code": "es-VE"
+            language: "Spanish (Venezuela)",
+            code: "es-VE",
         },
         {
-            "language": "Basque (Spain)",
-            "code": "eu-ES"
+            language: "Basque (Spain)",
+            code: "eu-ES",
         },
         {
-            "language": "Filipino (Philippines)",
-            "code": "fil-PH"
+            language: "Filipino (Philippines)",
+            code: "fil-PH",
         },
         {
-            "language": "French (Canada)",
-            "code": "fr-CA"
+            language: "French (Canada)",
+            code: "fr-CA",
         },
         {
-            "language": "French (France)",
-            "code": "fr-FR"
+            language: "French (France)",
+            code: "fr-FR",
         },
         {
-            "language": "Galician (Spain)",
-            "code": "gl-ES"
+            language: "Galician (Spain)",
+            code: "gl-ES",
         },
         {
-            "language": "Georgian (Georgia)",
-            "code": "ka-GE"
+            language: "Georgian (Georgia)",
+            code: "ka-GE",
         },
         {
-            "language": "Gujarati (India)",
-            "code": "gu-IN"
+            language: "Gujarati (India)",
+            code: "gu-IN",
         },
         {
-            "language": "Croatian (Croatia)",
-            "code": "hr-HR"
+            language: "Croatian (Croatia)",
+            code: "hr-HR",
         },
         {
-            "language": "Zulu (South Africa)",
-            "code": "zu-ZA"
+            language: "Zulu (South Africa)",
+            code: "zu-ZA",
         },
         {
-            "language": "Icelandic (Iceland)",
-            "code": "is-IS"
+            language: "Icelandic (Iceland)",
+            code: "is-IS",
         },
         {
-            "language": "Italian (Italy)",
-            "code": "it-IT"
+            language: "Italian (Italy)",
+            code: "it-IT",
         },
         {
-            "language": "Javanese (Indonesia)",
-            "code": "jv-ID"
+            language: "Javanese (Indonesia)",
+            code: "jv-ID",
         },
         {
-            "language": "Kannada (India)",
-            "code": "kn-IN"
+            language: "Kannada (India)",
+            code: "kn-IN",
         },
         {
-            "language": "Khmer (Cambodia)",
-            "code": "km-KH"
+            language: "Khmer (Cambodia)",
+            code: "km-KH",
         },
         {
-            "language": "Lao (Laos)",
-            "code": "lo-LA"
+            language: "Lao (Laos)",
+            code: "lo-LA",
         },
         {
-            "language": "Latvian (Latvia)",
-            "code": "lv-LV"
+            language: "Latvian (Latvia)",
+            code: "lv-LV",
         },
         {
-            "language": "Lithuanian (Lithuania)",
-            "code": "lt-LT"
+            language: "Lithuanian (Lithuania)",
+            code: "lt-LT",
         },
         {
-            "language": "Hungarian (Hungary)",
-            "code": "hu-HU"
+            language: "Hungarian (Hungary)",
+            code: "hu-HU",
         },
         {
-            "language": "Malayalam (India)",
-            "code": "ml-IN"
+            language: "Malayalam (India)",
+            code: "ml-IN",
         },
         {
-            "language": "Marathi (India)",
-            "code": "mr-IN"
+            language: "Marathi (India)",
+            code: "mr-IN",
         },
         {
-            "language": "Dutch (Netherlands)",
-            "code": "nl-NL"
+            language: "Dutch (Netherlands)",
+            code: "nl-NL",
         },
         {
-            "language": "Nepali (Nepal)",
-            "code": "ne-NP"
+            language: "Nepali (Nepal)",
+            code: "ne-NP",
         },
         {
-            "language": "Norwegian Bokmål (Norway)",
-            "code": "nb-NO"
+            language: "Norwegian Bokmål (Norway)",
+            code: "nb-NO",
         },
         {
-            "language": "Polish (Poland)",
-            "code": "pl-PL"
+            language: "Polish (Poland)",
+            code: "pl-PL",
         },
         {
-            "language": "Portuguese (Brazil)",
-            "code": "pt-BR"
+            language: "Portuguese (Brazil)",
+            code: "pt-BR",
         },
         {
-            "language": "Portuguese (Portugal)",
-            "code": "pt-PT"
+            language: "Portuguese (Portugal)",
+            code: "pt-PT",
         },
         {
-            "language": "Romanian (Romania)",
-            "code": "ro-RO"
+            language: "Romanian (Romania)",
+            code: "ro-RO",
         },
         {
-            "language": "Sinhala (Sri Lanka)",
-            "code": "si-LK"
+            language: "Sinhala (Sri Lanka)",
+            code: "si-LK",
         },
         {
-            "language": "Slovak (Slovakia)",
-            "code": "sk-SK"
+            language: "Slovak (Slovakia)",
+            code: "sk-SK",
         },
         {
-            "language": "Slovenian (Slovenia)",
-            "code": "sl-SI"
+            language: "Slovenian (Slovenia)",
+            code: "sl-SI",
         },
         {
-            "language": "Sundanese (Indonesia)",
-            "code": "su-ID"
+            language: "Sundanese (Indonesia)",
+            code: "su-ID",
         },
         {
-            "language": "Swahili (Tanzania)",
-            "code": "sw-TZ"
+            language: "Swahili (Tanzania)",
+            code: "sw-TZ",
         },
         {
-            "language": "Swahili (Kenya)",
-            "code": "sw-KE"
+            language: "Swahili (Kenya)",
+            code: "sw-KE",
         },
         {
-            "language": "Finnish (Finland)",
-            "code": "fi-FI"
+            language: "Finnish (Finland)",
+            code: "fi-FI",
         },
         {
-            "language": "Swedish (Sweden)",
-            "code": "sv-SE"
+            language: "Swedish (Sweden)",
+            code: "sv-SE",
         },
         {
-            "language": "Tamil (India)",
-            "code": "ta-IN"
+            language: "Tamil (India)",
+            code: "ta-IN",
         },
         {
-            "language": "Tamil (Singapore)",
-            "code": "ta-SG"
+            language: "Tamil (Singapore)",
+            code: "ta-SG",
         },
         {
-            "language": "Tamil (Sri Lanka)",
-            "code": "ta-LK"
+            language: "Tamil (Sri Lanka)",
+            code: "ta-LK",
         },
         {
-            "language": "Tamil (Malaysia)",
-            "code": "ta-MY"
+            language: "Tamil (Malaysia)",
+            code: "ta-MY",
         },
         {
-            "language": "Telugu (India)",
-            "code": "te-IN"
+            language: "Telugu (India)",
+            code: "te-IN",
         },
         {
-            "language": "Vietnamese (Vietnam)",
-            "code": "vi-VN"
+            language: "Vietnamese (Vietnam)",
+            code: "vi-VN",
         },
         {
-            "language": "Turkish (Turkey)",
-            "code": "tr-TR"
+            language: "Turkish (Turkey)",
+            code: "tr-TR",
         },
         {
-            "language": "Urdu (Pakistan)",
-            "code": "ur-PK"
+            language: "Urdu (Pakistan)",
+            code: "ur-PK",
         },
         {
-            "language": "Urdu (India)",
-            "code": "ur-IN"
+            language: "Urdu (India)",
+            code: "ur-IN",
         },
         {
-            "language": "Greek (Greece)",
-            "code": "el-GR"
+            language: "Greek (Greece)",
+            code: "el-GR",
         },
         {
-            "language": "Bulgarian (Bulgaria)",
-            "code": "bg-BG"
+            language: "Bulgarian (Bulgaria)",
+            code: "bg-BG",
         },
         {
-            "language": "Russian (Russia)",
-            "code": "ru-RU"
+            language: "Russian (Russia)",
+            code: "ru-RU",
         },
         {
-            "language": "Serbian (Serbia)",
-            "code": "sr-RS"
+            language: "Serbian (Serbia)",
+            code: "sr-RS",
         },
         {
-            "language": "Ukrainian (Ukraine)",
-            "code": "uk-UA"
+            language: "Ukrainian (Ukraine)",
+            code: "uk-UA",
         },
         {
-            "language": "Hebrew (Israel)",
-            "code": "he-IL"
+            language: "Hebrew (Israel)",
+            code: "he-IL",
         },
         {
-            "language": "Arabic (Israel)",
-            "code": "ar-IL"
+            language: "Arabic (Israel)",
+            code: "ar-IL",
         },
         {
-            "language": "Arabic (Jordan)",
-            "code": "ar-JO"
+            language: "Arabic (Jordan)",
+            code: "ar-JO",
         },
         {
-            "language": "Arabic (United Arab Emirates)",
-            "code": "ar-AE"
+            language: "Arabic (United Arab Emirates)",
+            code: "ar-AE",
         },
         {
-            "language": "Arabic (Bahrain)",
-            "code": "ar-BH"
+            language: "Arabic (Bahrain)",
+            code: "ar-BH",
         },
         {
-            "language": "Arabic (Algeria)",
-            "code": "ar-DZ"
+            language: "Arabic (Algeria)",
+            code: "ar-DZ",
         },
         {
-            "language": "Arabic (Saudi Arabia)",
-            "code": "ar-SA"
+            language: "Arabic (Saudi Arabia)",
+            code: "ar-SA",
         },
         {
-            "language": "Arabic (Iraq)",
-            "code": "ar-IQ"
+            language: "Arabic (Iraq)",
+            code: "ar-IQ",
         },
         {
-            "language": "Arabic (Kuwait)",
-            "code": "ar-KW"
+            language: "Arabic (Kuwait)",
+            code: "ar-KW",
         },
         {
-            "language": "Arabic (Morocco)",
-            "code": "ar-MA"
+            language: "Arabic (Morocco)",
+            code: "ar-MA",
         },
         {
-            "language": "Arabic (Tunisia)",
-            "code": "ar-TN"
+            language: "Arabic (Tunisia)",
+            code: "ar-TN",
         },
         {
-            "language": "Arabic (Oman)",
-            "code": "ar-OM"
+            language: "Arabic (Oman)",
+            code: "ar-OM",
         },
         {
-            "language": "Arabic (State of Palestine)",
-            "code": "ar-PS"
+            language: "Arabic (State of Palestine)",
+            code: "ar-PS",
         },
         {
-            "language": "Arabic (Qatar)",
-            "code": "ar-QA"
+            language: "Arabic (Qatar)",
+            code: "ar-QA",
         },
         {
-            "language": "Arabic (Lebanon)",
-            "code": "ar-LB"
+            language: "Arabic (Lebanon)",
+            code: "ar-LB",
         },
         {
-            "language": "Arabic (Egypt)",
-            "code": "ar-EG"
+            language: "Arabic (Egypt)",
+            code: "ar-EG",
         },
         {
-            "language": "Persian (Iran)",
-            "code": "fa-IR"
+            language: "Persian (Iran)",
+            code: "fa-IR",
         },
         {
-            "language": "Hindi (India)",
-            "code": "hi-IN"
+            language: "Hindi (India)",
+            code: "hi-IN",
         },
         {
-            "language": "Thai (Thailand)",
-            "code": "th-TH"
+            language: "Thai (Thailand)",
+            code: "th-TH",
         },
         {
-            "language": "Korean (South Korea)",
-            "code": "ko-KR"
+            language: "Korean (South Korea)",
+            code: "ko-KR",
         },
         {
-            "language": "Chinese, Mandarin (Traditional, Taiwan)",
-            "code": "zh-TW"
+            language: "Chinese, Mandarin (Traditional, Taiwan)",
+            code: "zh-TW",
         },
         {
-            "language": "Chinese, Cantonese (Traditional, Hong Kong)",
-            "code": "yue-Hant-HK"
+            language: "Chinese, Cantonese (Traditional, Hong Kong)",
+            code: "yue-Hant-HK",
         },
         {
-            "language": "Japanese (Japan)",
-            "code": "ja-JP"
+            language: "Japanese (Japan)",
+            code: "ja-JP",
         },
         {
-            "language": "Chinese, Mandarin (Simplified, Hong Kong)",
-            "code": "zh-HK"
+            language: "Chinese, Mandarin (Simplified, Hong Kong)",
+            code: "zh-HK",
         },
         {
-            "language": "Chinese, Mandarin (Simplified, China)",
-            "code": "zh"
-        }
-    ]
-}
+            language: "Chinese, Mandarin (Simplified, China)",
+            code: "zh",
+        },
+    ],
+};

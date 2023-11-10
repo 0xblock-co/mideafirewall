@@ -10,42 +10,42 @@ import { Fragment } from "react";
 //   ssr: false,
 // });
 const Banner1 = dynamic(() => import("@/components/Home/Banner1"), {
-  ssr: false,
+    ssr: false,
 });
 const Feature = dynamic(() => import("@/components/Home/Features"), {
-  ssr: false,
+    ssr: false,
 });
 const Moderation = dynamic(() => import("@/components/Home/Moderation"), {
-  ssr: false,
+    ssr: false,
 });
 const OfferBlock = dynamic(() => import("@/components/Home/Offer"), {
-  ssr: false,
+    ssr: false,
 });
 
 export default function LandingScreen(props) {
-  // const { setAllFeatureList } = useAuth();
-  const headerData = useAppSelector(getAllHeaderDataOptionsUpdated);
-  // useEffect(() => {
-  //   if (
-  //     props.result.isSuccess &&
-  //     CommonUtility.isValidArray(props.result?.data?.response)
-  //   ) {
-  //     setAllFeatureList(props.result?.data?.response);
-  //   }
-  // }, []);
+    // const { setAllFeatureList } = useAuth();
+    const headerData = useAppSelector(getAllHeaderDataOptionsUpdated);
+    // useEffect(() => {
+    //   if (
+    //     props.result.isSuccess &&
+    //     CommonUtility.isValidArray(props.result?.data?.response)
+    //   ) {
+    //     setAllFeatureList(props.result?.data?.response);
+    //   }
+    // }, []);
 
-  return (
-    <Fragment>
-      <Banner1 />
+    return (
+        <Fragment>
+            <Banner1 />
 
-      {/* <Banner /> */}
-      <RenderIf isTrue={headerData && CommonUtility.isValidArray(headerData)}>
-        <Feature headerData={headerData} featureLists={headerData} />
-      </RenderIf>
-      <Moderation />
-      <OfferBlock />
-    </Fragment>
-  );
+            {/* <Banner /> */}
+            <RenderIf isTrue={headerData && CommonUtility.isValidArray(headerData)}>
+                <Feature headerData={headerData} featureLists={headerData} />
+            </RenderIf>
+            <Moderation />
+            <OfferBlock />
+        </Fragment>
+    );
 }
 
 // export const getServerSideProps = wrapper.getServerSideProps(

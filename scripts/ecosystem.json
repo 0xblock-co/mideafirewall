@@ -1,23 +1,23 @@
 {
-  "apps": [
-    {
-      "name": "medeafirewall",
-      "script": "npm",
-      "args": "run build:serve:prod",
-      "watch": false,
-      "cwd": "/home/ubuntu/yosprecyclers.com",
-      "out_file": "/home/ubuntu/logs/log.out.log",
-      "err_file": "/home/ubuntu/logs/log.err.log",
-      "merge_logs": true,
-      "instances": 1,
-      "exec_mode": "cluster",
-      "autorestart": false,
-      "max_memory_restart": "1G",
-      "log_date_format": "DD-MM HH:mm:ss.SSS",
-      "env": {
-        "PORT": 3000,
-        "NODE_ENV": "development"
-      }
-    }
-  ]
+    "apps": [
+        {
+            "name": "medeafirewall",
+            "script": "npm",
+            "args": "run build:serve:prod",
+            "watch": false,
+            "cwd": "/home/ubuntu/yosprecyclers.com",
+            "out_file": "/home/ubuntu/logs/log.out.log",
+            "err_file": "/home/ubuntu/logs/log.err.log",
+            "merge_logs": true,
+            "instances": 1,
+            "exec_mode": "cluster",
+            "autorestart": false,
+            "max_memory_restart": "1G",
+            "log_date_format": "DD-MM HH:mm:ss.SSS",
+            "env": {
+                "PORT": 3000,
+                "NODE_ENV": "development"
+            }
+        }
+    ]
 }

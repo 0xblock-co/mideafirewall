@@ -1,12 +1,12 @@
 export const UPLOAD_USING_CODE_STUBS = [
-  {
-    title: "Curl",
-    urlSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters?filters={selectedFilters}&mediaUrl=&apikey={api_secret}`,
-    fileSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters?filters={selectedFilters}&apikey={api_secret}" / -F "file=@path"`,
-  },
-  {
-    title: "Python",
-    urlSnippets: `import requests
+    {
+        title: "Curl",
+        urlSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters?filters={selectedFilters}&mediaUrl=&apikey={api_secret}`,
+        fileSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters?filters={selectedFilters}&apikey={api_secret}" / -F "file=@path"`,
+    },
+    {
+        title: "Python",
+        urlSnippets: `import requests
 
 url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters'
 
@@ -18,7 +18,7 @@ params = {
 
 response = requests.post(url, params=params)
 print(response.text)`,
-    fileSnippets: `import requests
+        fileSnippets: `import requests
 
 url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters'
 
@@ -30,10 +30,10 @@ files = {'file': open('', 'rb')}
 response = requests.post(url, files=files, params=params)
 
 print(response.text)`,
-  },
-  {
-    title: "Java",
-    urlSnippets: `import org.springframework.http.ResponseEntity;
+    },
+    {
+        title: "Java",
+        urlSnippets: `import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.net.*;
@@ -54,7 +54,7 @@ public class UrlRequest {
     result = restTemplate.postForEntity(uri,null,String.class);
   }
 }`,
-    fileSnippets: `import org.springframework.core.io.FileSystemResource;
+        fileSnippets: `import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -89,15 +89,15 @@ public class UploadRequest {
         result = restTemplate.postForEntity(uri,requestEntity,String.class);
     }
 }`,
-  },
-  {
-    title: "PHP",
-    urlSnippets: ` Comming soon `,
-    fileSnippets: ` Comming soon `,
-  },
-  {
-    title: "Javascript",
-    urlSnippets: `const axios = require('axios');
+    },
+    {
+        title: "PHP",
+        urlSnippets: ` Comming soon `,
+        fileSnippets: ` Comming soon `,
+    },
+    {
+        title: "Javascript",
+        urlSnippets: `const axios = require('axios');
 
 const url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters';
 
@@ -116,7 +116,7 @@ axios.post(url, null, { params })
     // Handle any errors here
     console.error('Error:', error);
   });`,
-    fileSnippets: `const axios = require('axios');
+        fileSnippets: `const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
 
@@ -136,5 +136,5 @@ axios.post(url, data, { params }, {
 }).catch(function (error) {
   // handle error
 });`,
-  },
+    },
 ];

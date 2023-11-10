@@ -3,15 +3,15 @@ import { useRouter } from "next/router";
 import { Button, Container } from "react-bootstrap";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { asyncChangeSubscription } from "@/services/product/product.service";
+import { authActions } from "@/store/auth.slice";
+import { getMfwTestCustomersSelector } from "@/store/defaultConfig.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
+import { useEffect, useState } from "react";
 import PricingCard from "./PricingCard";
 import style from "./pricing.module.scss";
-import { asyncChangeSubscription } from "@/services/product/product.service";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { authActions } from "@/store/auth.slice";
-import { useEffect, useState } from "react";
-import { getMfwTestCustomersSelector } from "@/store/defaultConfig.slice";
 
 const PricingBlock = ({ priceData = [], setIsLoading }) => {
     const [isUpgrade, setIsUpgrade] = useState(false);
@@ -84,6 +84,7 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
                 ).then(() => {
                     router.push("/network-blog");
                 });
+                return;
             }
         }
 

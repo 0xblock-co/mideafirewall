@@ -180,7 +180,7 @@ export const asyncGetAllPricingData = async () => {
   try {
     const response = api
       .get(
-        "http://mediafirewall-ai.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
+        "https://mediafirewall-ai.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10",
         {},
         true,
         false
@@ -271,7 +271,7 @@ export const asyncChangeSubscription = async (payload) => {
   try {
     const response = api
       .post(
-        `http://mediafirewall-ai.themillionvisions.com/mfw/change/subscription`,
+        `https://mediafirewall-ai.themillionvisions.com/mfw/change/subscription`,
         payload,
         {},
         true,
@@ -320,5 +320,18 @@ export const asyncCreateStripeCustomer = async (payload) => {
     return response;
   } catch (error) {
     return error;
+  }
+};
+
+export const asyncGetMFWTestCustomers = async () => {
+  try {
+    const response = api
+      .get(`/mfw/test/customers`, {}, true, false)
+      .then(async (res) => {
+        return res;
+      });
+    return response;
+  } catch (e) {
+    return e.message;
   }
 };

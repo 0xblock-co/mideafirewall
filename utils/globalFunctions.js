@@ -223,3 +223,14 @@ export const asyncGetAccessToken = async () => {
     return { isSuccess: false, error: error.message };
   }
 };
+
+export function getUrlVars() {
+  var vars = {};
+  window.location.href.replace(
+    /[?&]+([^=&]+)=([^&]*)/gi,
+    function (m, key, value) {
+      vars[key] = value;
+    }
+  );
+  return vars;
+}

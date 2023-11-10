@@ -4,7 +4,7 @@ import {
   asyncGetContentEventLogs,
 } from "@/services/product/product.service";
 
-import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
+import { ToastMessage } from "@/utils/toastMessage.utils";
 import Router, { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -29,17 +29,17 @@ import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 
 const shouldStopFetching = (data) => {
-  return data?.modelStatus && Object.keys(data?.modelStatus).length > 0;
+  return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;
 };
 
 const fetchInterval = 5000;
 
 function getMatchingValues(data) {
-  if (data && data.modelStatus && data.eventLog) {
-    const { modelStatus, eventLog } = data;
+  if (data && data.featureStatus && data.eventLog) {
+    const { featureStatus, eventLog } = data;
     const matchingValues = {};
-    for (const key in modelStatus) {
-      if (modelStatus[key] === true) {
+    for (const key in featureStatus) {
+      if (featureStatus[key] === true) {
         if (eventLog[key]) {
           matchingValues[key] = eventLog[key];
         }
@@ -152,8 +152,7 @@ export default function DemoPage() {
       while (
         isFetching &&
         router.query.videoId &&
-        router.query.videoId !== undefined &&
-        router.query.videoId !== ""
+        CommonUtility.isNotEmpty(router.query.videoId)
       ) {
         try {
           const response = await asyncGetContentEventLogs(
@@ -194,17 +193,17 @@ export default function DemoPage() {
   const { control, handleSubmit, reset } = useForm();
   const onSubmit = async (data) => {
     try {
-      if (user.api_secret === "") {
-        newInfoAlert(
-          "Free quota exceeded",
-          "Unlock additional features by subscribing to access extended operations beyond the current limit.",
-          "OK",
-          "warning"
-        ).then(() => {
-          router.push("/pricing");
-        });
-        return;
-      }
+      // if (user.api_secret === "") {
+      //   newInfoAlert(
+      //     "Free quota exceeded",
+      //     "Unlock additional features by subscribing to access extended operations beyond the current limit.",
+      //     "OK",
+      //     "warning"
+      //   ).then(() => {
+      //     router.push("/pricing");
+      //   });
+      //   return;
+      // }
 
       const formData = new FormData();
       formData.append("videoID", router.query.videoId);
@@ -332,9 +331,31 @@ export default function DemoPage() {
     <div className="py-5">
       <Container>
         <Row className="justify-content-center">
-          <h1 className="fw-bold text-shadow mb-2">
-            Content Moderation Logs & Verification
-          </h1>
+          <div className="d-flex gap-2 p-1">
+            <div
+              onClick={() => router.push("/network-blog")}
+              style={{ cursor: "pointer" }}
+            >
+              <svg
+                width="46"
+                height="46"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M11.69 15.75 7.969 12l3.72-3.75"></path>
+                <path d="M8.486 12h7.546"></path>
+                <path d="M21 12c0-4.969-4.031-9-9-9s-9 4.031-9 9 4.031 9 9 9 9-4.031 9-9Z"></path>
+              </svg>
+            </div>
+            <h1 className="fw-bold text-shadow mb-2">
+              Content Moderation Logs & Verification
+            </h1>
+          </div>
           <p className="fw-semibold mb-2">
             Gain a deeper understanding of our content moderation procedures by
             delving into the event logs.
@@ -362,7 +383,6 @@ export default function DemoPage() {
                           />
                           We are verifying your records, kindly wait for a
                           moment.
-                          {/* Your uploaded content is being processed. */}
                         </div>
                       </RenderIf>
                       <RenderIf
@@ -464,7 +484,7 @@ export default function DemoPage() {
                                       </Link>
                                     </td>
                                     <td>{eventLogData?.requestType}</td>
-                                    <td>{item.operations}</td>
+                                    <td>{eventLogData.operations}</td>
                                     <td className="d-flex justify-content-center align-items-center">
                                       <img
                                         src="/images/svgs/wrong.svg"
@@ -493,7 +513,7 @@ export default function DemoPage() {
             </Row>
           </Col>
 
-          <Col lg={4}>
+          <Col lg={4} style={{ maxHeight: "400px" }}>
             <RenderIf
               isTrue={CommonUtility.isValidArray(
                 Object.keys(getMatchingValues(eventLogData))

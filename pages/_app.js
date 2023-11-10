@@ -8,7 +8,11 @@ import MainLayout from "@/components/layouts/main";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
 import { wrapper } from "@/store";
-import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
+import {
+  getAllHeaderDataOptions,
+  getMfwTestCustomersSelector,
+  setMfwTestCustomers,
+} from "@/store/defaultConfig.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import "@/styles/module-style.scss";
 import "@/styles/pricing.scss";
@@ -20,6 +24,7 @@ import { Fragment, useEffect } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Helmet } from "react-helmet";
 import { IntlProvider } from "react-intl";
+import { asyncGetMFWTestCustomers } from "@/services/product/product.service";
 const messages = {
   en,
   fr,
@@ -31,12 +36,22 @@ export function App({ Component, pageProps }) {
   const { publicRuntimeConfig } = getConfig();
   const dispatch = useAppDispatch();
   const headerData = useAppSelector(getAllHeaderDataOptions);
+  const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.min.js");
+    async function getMFWTestCustomers() {
+      const result = await asyncGetMFWTestCustomers();
+      if (result && result.isSuccess) {
+        dispatch(setMfwTestCustomers(result.data));
+      }
+    }
+
     if (headerData && headerData?.length == 0) {
       getProducts();
     }
+    if (mfw_customersList && mfw_customersList.length === 0)
+      getMFWTestCustomers();
   }, []);
 
   const getProducts = async () => {

@@ -99,7 +99,7 @@ const LoginBlock = ({ handleLoginSubmit }) => {
           />
           Google
         </Button>
-        <Button className="ms-3" onClick={handleLinkedInLogin}>
+        {/* <Button className="ms-3" onClick={handleLinkedInLogin}>
           <Image
             className={style.social__icons}
             layout="fill"
@@ -107,7 +107,7 @@ const LoginBlock = ({ handleLoginSubmit }) => {
             alt=""
           />
           LinkedIn
-        </Button>
+        </Button> */}
         <Button className="ms-3" onClick={handleMicrosoftInLogin}>
           <Image
             className={style.social__icons}

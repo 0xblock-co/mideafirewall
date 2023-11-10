@@ -13,6 +13,7 @@ const initialState = {
   ],
   headerData: [],
   selectedPricingPlan: null,
+  mfwTestCustomers: [],
   allHeaderDataList: {
     currentRequestId: "",
     isLoading: false,
@@ -33,6 +34,9 @@ const defaultConfigSlice = createSlice({
     },
     setSelectedPricingPlan(state, { payload }) {
       state.selectedPricingPlan = payload;
+    },
+    setMfwTestCustomers(state, { payload }) {
+      state.mfwTestCustomers = payload;
     },
   },
   extraReducers: {
@@ -67,8 +71,12 @@ const defaultConfigSlice = createSlice({
   },
 });
 // Actions
-export const { setPageTitle, setHeaderDataOptions, setSelectedPricingPlan } =
-  defaultConfigSlice.actions;
+export const {
+  setPageTitle,
+  setHeaderDataOptions,
+  setSelectedPricingPlan,
+  setMfwTestCustomers,
+} = defaultConfigSlice.actions;
 
 // Selectors
 export const getAllHeaderDataOptions = (state) =>
@@ -82,6 +90,9 @@ export const getAllPricingPlanSelector = (state) =>
   state.defaultConfig?.allPricingPlanList?.data?.items || [];
 export const getSelectedPlan = (state) =>
   state.defaultConfig?.selectedPricingPlan || null;
+
+export const getMfwTestCustomersSelector = (state) =>
+  state.defaultConfig?.mfwTestCustomers || null;
 
 // Reducer
 export default defaultConfigSlice.reducer;

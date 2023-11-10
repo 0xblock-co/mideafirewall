@@ -334,6 +334,7 @@ class Api {
         isErrorHandle: boolean
     ): ErrorResult | any {
         // Prepare error data
+        // console.log("errorData ---1-", errorData);
         const code: string | number = errorData.code || "";
         if (isErrorHandle && errorData?.code === 403 && errorData?.apiMessageRes?.detail) {
             newInfoAlert("Authentication Error", errorData?.apiMessageRes.detail || "", "OK", "error").then(() => {
@@ -383,6 +384,18 @@ class Api {
             return;
         }
 
+        if (isErrorHandle && errorData?.code === 429 && errorData?.apiMessageRes?.detail) {
+            newInfoAlert("Free quota exceeded", errorData?.apiMessageRes.detail, "OK", "error").then(() => {
+                return {
+                    isSuccess: false,
+                    isStore: false,
+                    code: code.toString(),
+                    message: errorData.message || errorString.catchError,
+                };
+            })
+            return;
+        }
+        
         if (isErrorHandle && errorData.code) {
             ToastMessage.error(errorData?.message?.toString() || errorData?.successCode?.toString() || errorString.catchError);
         }

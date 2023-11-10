@@ -72,20 +72,19 @@ export default function BookMeeting({
       subject,
     } = data;
 
-    console.log("data: ", data);
     const attendees = data.attendees.map((attendee) => attendee.email);
     const ccEmails = data.ccEmails.map((cc) => cc.email);
-    const params = {
-      ...defaultMeetingData,
-      companyName,
-      firstname: firstName,
-      lastName,
-      websiteUrl,
-      attendees,
-      dateAndTime: `${date} ${time}:00`,
-      ccEmails,
-      timeZone,
-    };
+    // const params = {
+    //   ...defaultMeetingData,
+    //   companyName,
+    //   firstname: firstName,
+    //   lastName,
+    //   websiteUrl,
+    //   attendees,
+    //   dateAndTime: `${date} ${time}:00`,
+    //   ccEmails,
+    //   timeZone,
+    // };
     const payload = {
       ...defaultMeetingData,
       meetingId: "",
@@ -291,8 +290,10 @@ export default function BookMeeting({
                         {...register("virtualLocation")}
                         className="mdf__form__input"
                       >
-                        <option defaultValue="Google Meet">Google Meet</option>
+                        {/* <option defaultValue="Google Meet">Google Meet</option> */}
+                        {/* <option defaultValue="ZOHO">Microsoft Teams</option> */}
                         <option defaultValue="Zoom Meet">Zoom Meet</option>
+                        <option defaultValue="ZOHO">Zoho Meet</option>
                       </Form.Select>
                       {errors.virtualLocation && (
                         <span className="d-flex text-left error-message">

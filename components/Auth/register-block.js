@@ -117,7 +117,7 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
           />
           Google
         </Button>
-        <Button className="ms-3" onClick={handleLinkedInLogin}>
+        {/* <Button className="ms-3" onClick={handleLinkedInLogin}>
           <Image
             className={style.social__icons}
             layout="fill"
@@ -125,7 +125,7 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
             alt=""
           />
           LinkedIn
-        </Button>
+        </Button> */}
         <Button className="ms-3" onClick={handleMicrosoftInLogin}>
           <Image
             className={style.social__icons}

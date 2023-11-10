@@ -160,7 +160,6 @@ export const asyncForgotPassword = createAsyncThunk(
 export const asyncRestPassword = createAsyncThunk(
   "asyncRestPassword",
   async (payload, thunkAPI) => {
-    console.log("payload: ", payload);
     try {
       const response = api
         .put(

@@ -7,17 +7,15 @@ import CommonUtility from "@/utils/common.utils";
 import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 import PricingCard from "./PricingCard";
 import style from "./pricing.module.scss";
-import {
-  asyncChangeSubscription,
-  asyncCreateStripeCustomer,
-  asyncGetCheckoutSessionUrl,
-} from "@/services/product/product.service";
-import { useAppDispatch } from "@/store/hooks";
+import { asyncChangeSubscription } from "@/services/product/product.service";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { authActions } from "@/store/auth.slice";
 import { useEffect, useState } from "react";
+import { getMfwTestCustomersSelector } from "@/store/defaultConfig.slice";
 
 const PricingBlock = ({ priceData = [], setIsLoading }) => {
   const [isUpgrade, setIsUpgrade] = useState(false);
+  const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
 
   const router = useRouter();
   const { isLogin, user } = useAuth();
@@ -74,6 +72,21 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
       });
       return;
     }
+    const currentUserEmail = user?.userDetails?.email;
+    if (currentUserEmail !== "") {
+      if (mfw_customersList && !mfw_customersList.includes(currentUserEmail)) {
+        newInfoAlert(
+          "Thank you for your interest in our services!",
+          "Services begin in December! Come back then for subscriptions and enjoy our offerings",
+          // "We're excited to have you on board. Please note that our subscription services will kick off in December. Come back then to experience the full benefits! We appreciate your patience.",
+          "Okay",
+          "warning"
+        ).then(() => {
+          router.push("/network-blog");
+        });
+      }
+    }
+
     if (isUpgrade) {
       await upgradeSubscription(selectedPricing);
       return;

@@ -116,12 +116,12 @@ export default function BookMeetingScreen() {
                         {...register("virtualLocation")}
                         className="mdf__form__input"
                       >
-                        <option defaultValue="GoogleMeet">GoogleMeet</option>
+                        {/* <option defaultValue="GoogleMeet">GoogleMeet</option> */}
+                        {/* <option defaultValue="MicrosoftTeams">
+                          MicrosoftTeams
+                        </option> */}
                         <option defaultValue="ZoomMeeting">ZoomMeeting</option>
                         <option defaultValue="ZOHO">ZOHO </option>
-                        <option defaultValue="MicrosoftTeams">
-                          MicrosoftTeams
-                        </option>
                       </Form.Select>
                       {errors.virtualLocation && (
                         <span className="d-flex text-left error-message">

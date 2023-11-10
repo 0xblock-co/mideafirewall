@@ -32,7 +32,6 @@ export default function Survey() {
     const response = await asyncGetMeetingQuestions();
     if (response && response.isSuccess && response.data) {
       const data = getFilteredData(response.data.questions);
-      console.log("data: ", data);
       if (data) {
         const defaultValue = {};
         data.forEach((element) => {

@@ -8,6 +8,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { asyncRestPassword } from "@/services/auth/auth.service";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import Loader from "@/components/Loader";
+import { getUrlVars } from "@/utils/globalFunctions";
 
 const ForgotPasswordScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,11 +18,12 @@ const ForgotPasswordScreen = () => {
   const handleResetPasswordSubmit = async (formData) => {
     setIsLoading(true);
     try {
+      const routerParams = getUrlVars();
       const response = await dispatch(
         asyncRestPassword({
           userId: formData.userId,
           password: formData.password,
-          token: router?.query?.vcode,
+          token: routerParams?.vcode,
         })
       );
       setIsLoading(false);

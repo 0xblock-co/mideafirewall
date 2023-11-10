@@ -115,9 +115,9 @@ export default function HeaderTop() {
                     Pricing
                   </Link>
 
-                  <Link href="/documents-and-media" className={`nav-link`}>
+                  {/* <Link href="/documents-and-media" className={`nav-link`}>
                     Documentation & Media
-                  </Link>
+                  </Link> */}
                   {/* {userDetails?.isLoggedIn && ( */}
                   <Link
                     href="/network-blog"

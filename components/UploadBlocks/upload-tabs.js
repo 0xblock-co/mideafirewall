@@ -97,97 +97,181 @@ export default function UploadTabs() {
     }
   };
 
+  // const handleOnClickUploadFilesV0 = async () => {
+  //   // if (user.api_secret === "") {
+  //   //   newInfoAlert(
+  //   //     "Free quota exceeded",
+  //   //     "Unlock additional features by subscribing to access extended operations beyond the current limit.",
+  //   //     "OK",
+  //   //     "warning"
+  //   //   ).then(() => {
+  //   //     router.push("/pricing");
+  //   //   });
+  //   //   return;
+  //   // }
+  //   await setIsUploading(true);
+  //   if (CommonUtility.isValidArray(contentData)) {
+  //     const cloneContentData = cloneDeep(contentData);
+  //     const finalFIles = cloneContentData.filter((data) => data.file !== null);
+  //     const response = await asyncUploadFileContent(
+  //       { file: finalFIles[0].file },
+  //       user?.userDetails?.email,
+  //       {
+  //         apikey: user?.api_secret,
+  //         filters: router.query.filters,
+  //       }
+  //     );
+  //     await setIsUploading(false);
+  //     if (
+  //       response?.isSuccess &&
+  //       CommonUtility.isNotEmpty(response.data.videoId)
+  //     ) {
+  //       ToastMessage.success("Uploaded successfully.");
+  //       setContentData([]);
+  //       await setIsUploading(false);
+  //       newInfoAlert(
+  //         "Content Upload Successful",
+  //         "Your content has been uploaded successfully. We will now proceed with moderation. If you wish to view proofs, please click the 'View Proofs' button below.",
+  //         "View Proofs",
+  //         "success"
+  //       ).then(() => {
+  //         router.push(
+  //           `/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}`
+  //         );
+  //       });
+  //       // const contentEventLogs = await asyncGetContentEventLogs(
+  //       //   user.id,
+  //       //   response.data.videoId,
+  //       //   user.token
+  //       // );
+  //     } else {
+  //       await setIsUploading(false);
+  //     }
+  //   } else if (imageUrl && router.query?.filters !== "") {
+  //     const response = await asyncUploadContentByUrl(user?.userDetails?.email, {
+  //       filters: router.query.filters,
+  //       mediaUrl: imageUrl,
+  //       apikey: user?.api_secret,
+  //     });
+  //     if (
+  //       response.isSuccess &&
+  //       CommonUtility.isNotEmpty(response.data.videoId)
+  //     ) {
+  //       await setIsUploading(false);
+  //       ToastMessage.success("Uploaded successfully.");
+  //       newInfoAlert(
+  //         "Content Upload Successful",
+  //         "Your content has been uploaded successfully. We will now proceed with moderation. If you wish to view proofs, please click the 'View Proofs' button below.",
+  //         "View Proofs",
+  //         "success"
+  //       ).then(() => {
+  //         router.push(
+  //           `/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}`
+  //         );
+  //       });
+  //       // const contentEventLogs = await asyncGetContentEventLogs(
+  //       //   user.id,
+  //       //   response.data.videoId,
+  //       //   user.token
+  //       // );
+  //     } else {
+  //       await setIsUploading(false);
+  //     }
+  //   } else {
+  //     await setIsUploading(false);
+  //     newInfoAlert(
+  //       "Content Upload Needed",
+  //       "To proceed, you need to either upload an image/video or provide a valid image/video URL. Please check that the necessary image/video content is included.",
+  //       "OK",
+  //       "error"
+  //     );
+  //   }
+  //   await setIsUploading(false);
+  // };
   const handleOnClickUploadFiles = async () => {
-    if (user.api_secret === "") {
-      newInfoAlert(
-        "Free quota exceeded",
-        "Unlock additional features by subscribing to access extended operations beyond the current limit.",
-        "OK",
-        "warning"
-      ).then(() => {
-        router.push("/pricing");
-      });
-      return;
-    }
+    try {
+      await setIsUploading(true);
 
-    await setIsUploading(true);
-    if (CommonUtility.isValidArray(contentData)) {
-      const cloneContentData = cloneDeep(contentData);
-      const finalFIles = cloneContentData.filter((data) => data.file !== null);
-      const response = await asyncUploadFileContent(
-        { file: finalFIles[0].file },
-        user?.userDetails?.email,
-        {
-          apikey: user?.api_secret,
-          filters: router.query.filters,
+      if (CommonUtility.isValidArray(contentData)) {
+        const cloneContentData = cloneDeep(contentData);
+        const finalFiles = cloneContentData.filter(
+          (data) => data.file !== null
+        );
+        if (finalFiles.length === 0) {
+          throw new Error("No files selected for upload.");
         }
-      );
-      await setIsUploading(false);
-      if (
-        response?.isSuccess &&
-        CommonUtility.isNotEmpty(response.data.videoId)
-      ) {
-        ToastMessage.success("Uploaded successfully.");
-        setContentData([]);
-        await setIsUploading(false);
-        newInfoAlert(
-          "Content Upload Successful",
-          "Your content has been uploaded successfully. We will now proceed with moderation. If you wish to view proofs, please click the 'View Proofs' button below.",
-          "View Proofs",
-          "success"
-        ).then(() => {
-          router.push(
-            `/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}`
-          );
-        });
-        // const contentEventLogs = await asyncGetContentEventLogs(
-        //   user.id,
-        //   response.data.videoId,
-        //   user.token
-        // );
+        const response = await asyncUploadFileContent(
+          { file: finalFiles[0].file },
+          user?.userDetails?.email,
+          {
+            apikey: user?.api_secret,
+            filters: router.query.filters,
+          }
+        );
+
+        if (
+          response?.isSuccess &&
+          CommonUtility.isNotEmpty(response.data.videoId)
+        ) {
+          ToastMessage.success("Uploaded successfully.");
+          setContentData([]);
+          newInfoAlert(
+            "Content Upload Successful",
+            "Your content has been uploaded successfully. We will now proceed with moderation. If you wish to view proofs, please click the 'View Proofs' button below.",
+            "View Proofs",
+            "success"
+          ).then(() => {
+            router.push(
+              `/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}`
+            );
+          });
+        } else {
+          throw new Error("Upload failed. Please try again.");
+        }
+      } else if (imageUrl && router.query?.filters !== "") {
+        const response = await asyncUploadContentByUrl(
+          user?.userDetails?.email,
+          {
+            filters: router.query.filters,
+            mediaUrl: imageUrl,
+            apikey: user?.api_secret,
+          }
+        );
+
+        if (
+          response.isSuccess &&
+          CommonUtility.isNotEmpty(response.data.videoId)
+        ) {
+          // ToastMessage.success("Uploaded successfully.");
+          newInfoAlert(
+            "Content Upload Successful",
+            "Your content has been uploaded successfully. We will now proceed with moderation. If you wish to view proofs, please click the 'View Proofs' button below.",
+            "View Proofs",
+            "success"
+          ).then(() => {
+            router.push(
+              `/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}`
+            );
+          });
+        } else {
+          throw new Error("Upload failed. Please try again.");
+        }
       } else {
-        await setIsUploading(false);
+        throw new Error(
+          "Invalid input. Please upload files or provide a valid image/video URL."
+        );
       }
-    } else if (imageUrl && router.query?.filters !== "") {
-      const response = await asyncUploadContentByUrl(user?.userDetails?.email, {
-        filters: router.query.filters,
-        mediaUrl: imageUrl,
-        apikey: user?.api_secret,
-      });
-      if (
-        response.isSuccess &&
-        CommonUtility.isNotEmpty(response.data.videoId)
-      ) {
-        await setIsUploading(false);
-        ToastMessage.success("Uploaded successfully.");
-        newInfoAlert(
-          "Content Upload Successful",
-          "Your content has been uploaded successfully. We will now proceed with moderation. If you wish to view proofs, please click the 'View Proofs' button below.",
-          "View Proofs",
-          "success"
-        ).then(() => {
-          router.push(
-            `/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}`
-          );
-        });
-        // const contentEventLogs = await asyncGetContentEventLogs(
-        //   user.id,
-        //   response.data.videoId,
-        //   user.token
-        // );
-      } else {
-        await setIsUploading(false);
-      }
-    } else {
-      await setIsUploading(false);
+    } catch (error) {
+      console.error("Error during content upload:", error.message);
       newInfoAlert(
-        "Content Upload Needed",
-        "To proceed, you need to either upload an image/video or provide a valid image/video URL. Please check that the necessary image/video content is included.",
+        "Content Upload Error",
+        `An error occurred during content upload: ${error.message}`,
         "OK",
         "error"
       );
+    } finally {
+      await setIsUploading(false);
     }
-    await setIsUploading(false);
   };
 
   return (

@@ -33,7 +33,6 @@ export default function Pricing() {
     setIsLoading(true);
     try {
       const response = await asyncGetAllPricingData();
-      console.log("response: ", response);
       if (response && response.isSuccess && response.data) {
         setPriceData(response.data.items);
       }

@@ -153,7 +153,7 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
 
                 {errors.captcha && <span className="error-message">{errors.captcha.message}</span>}
                 <div className="text-end">
-                    <Link href="/account-security/forgot-passWord" className="text-primary text-decoration-none fw-bold ">
+                    <Link href="/account-security/forgot-password" className="text-primary text-decoration-none fw-bold ">
                         Forgot Password?
                     </Link>
                 </div>

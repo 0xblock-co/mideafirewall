@@ -8,11 +8,11 @@ import Loader from "@/components/Loader";
 import { useAuth } from "@/contexts/AuthContext";
 import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
 import { asyncCreateStripeCustomer, asyncGetCheckoutSessionUrl, asyncGetPricingQuestions } from "@/services/product/product.service";
+import { authActions } from "@/store/auth.slice";
+import { useAppDispatch } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
-import { useAppDispatch } from "@/store/hooks";
-import { authActions } from "@/store/auth.slice";
 
 const processQuestion = (data, questionObj) => {
     let ans = data[questionObj.name];

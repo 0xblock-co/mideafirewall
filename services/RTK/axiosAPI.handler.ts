@@ -277,15 +277,21 @@ class Api {
         }
 
         if (isErrorHandle && errorData?.code === 429 && errorData?.apiMessageRes?.detail) {
-            newInfoAlert("Free quota exceeded", errorData?.apiMessageRes.detail, "OK", "error").then(() => {
-                return {
-                    isSuccess: false,
-                    isStore: false,
-                    code: code.toString(),
-                    message: errorData.message || errorString.catchError,
-                };
-            });
-            return;
+            return {
+                isSuccess: false,
+                isStore: false,
+                code: errorData?.code.toString(),
+                message: errorData?.apiMessageRes.detail,
+            };
+            // newInfoAlert("Free quota exceeded", errorData?.apiMessageRes.detail, "OK", "error").then(() => {
+            //     return {
+            //         isSuccess: false,
+            //         isStore: false,
+            //         code: code.toString(),
+            //         message: errorData.message || errorString.catchError,
+            //     };
+            // });
+            // return;
         }
 
         if (isErrorHandle && errorData.code) {

@@ -1,18 +1,18 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { asyncGenerateProofsByEmail, asyncGetContentEventLogs } from "@/services/product/product.service";
 
+import RenderIf from "@/components/ConditionalRender/RenderIf";
+import CommonUtility from "@/utils/common.utils";
 import { ToastMessage } from "@/utils/toastMessage.utils";
+import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Modal, Row, Tab, Table, Tabs } from "react-bootstrap";
-import style from "../components/DemoPage/demo-page.module.scss";
-import CommonUtility from "@/utils/common.utils";
-import Link from "next/link";
-import { MagnifyingGlass } from "react-loader-spinner";
 import { Controller, useForm } from "react-hook-form";
+import { MagnifyingGlass } from "react-loader-spinner";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import RenderIf from "@/components/ConditionalRender/RenderIf";
+import style from "../components/DemoPage/demo-page.module.scss";
 
 const shouldStopFetching = (data) => {
     return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;

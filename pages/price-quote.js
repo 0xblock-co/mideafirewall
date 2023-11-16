@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import { useAuth } from "@/contexts/AuthContext";
 import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
+import { asyncGetPricingQuoteQuestions } from "@/services/product/product.service";
+import { useAppDispatch } from "@/store/hooks";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
-import { useAppDispatch } from "@/store/hooks";
-import { asyncGetPricingQuoteQuestions } from "@/services/product/product.service";
-import { useAuth } from "@/contexts/AuthContext";
 
 export default function Survey() {
     const [formData, setFormData] = useState([]);
@@ -24,6 +24,10 @@ export default function Survey() {
         //   router.push(route);
         //   return;
         // }
+        if (isLogin && user?.priceQuoteAnswered) {
+            router.push("/book-demo");
+            return;
+        }
         getQuestions();
     }, []);
 

@@ -22,7 +22,7 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
 
     const dispatch = useAppDispatch();
     useEffect(() => {
-        if (router.query?.isUpgrade) {
+        if (router.query?.isUpgrade || user?.subscriptionDetails?.active) {
             setIsUpgrade(true);
         }
     }, [router]);

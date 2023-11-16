@@ -118,7 +118,7 @@ export default function BookMeetingScreen() {
                                     </Col>
                                     <Col md={6} lg={4}>
                                         <Form.Group>
-                                            <Form.Control type="date" placeholder="Select Date" className="mdf__form__input" {...register("date")} />
+                                            <Form.Control type="date" placeholder="Select Date" className="mdf__form__input" {...register("date")} min={moment().format("YYYY-MM-DD")} />
                                             {errors.date && <span className="d-flex text-left error-message">{errors.date.message}</span>}
                                         </Form.Group>
                                     </Col>

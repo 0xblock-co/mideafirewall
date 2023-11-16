@@ -5,6 +5,7 @@ import Tabs from "react-bootstrap/Tabs";
 
 import { contentUploadStaticObj } from "@/constants/global.constants";
 import { useAuth } from "@/contexts/AuthContext";
+import { UPLOAD_USING_CODE_STUBS } from "@/data";
 import { asyncUploadContentByUrl, asyncUploadFileContent } from "@/services/product/product.service";
 import CommonUtility from "@/utils/common.utils";
 import { checkContentValidation } from "@/utils/contentUpload";
@@ -15,7 +16,6 @@ import DropZoneComponent from "../DropZone";
 import Loader from "../Loader";
 import CodeBlock from "./CodeBlock";
 import style from "./uploads.module.scss";
-import { UPLOAD_USING_CODE_STUBS } from "@/data";
 
 export default function UploadTabs() {
     const router = useRouter();
@@ -230,8 +230,17 @@ export default function UploadTabs() {
                 throw new Error("Invalid input. Please upload files or provide a valid image/video URL.");
             }
         } catch (error) {
-            console.error("Error during content upload:", error.message);
-            newInfoAlert("Content Upload Error", `An error occurred during content upload: ${error.message}`, "OK", "error");
+            console.log("error: ", error);
+            newInfoAlert(
+                "Free quota exceeded",
+                error?.message || "Demo user quota is exceeded :Please subscribe to the Free Tier to continue experiencing our services with Media Firewall",
+                "OK",
+                "error"
+            ).then(() => {
+                router.push("/pricing");
+            });
+            // console.error("Error during content upload:", error.message);
+            // newInfoAlert("Content Upload Error", `An error occurred during content upload: ${error.message}`, "OK", "error");
         } finally {
             await setIsUploading(false);
         }

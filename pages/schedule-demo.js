@@ -6,18 +6,16 @@ import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import { useAuth } from "@/contexts/AuthContext";
 import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
+import { asyncGetMeetingQuestions } from "@/services/product/product.service";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
-import { useAppDispatch } from "@/store/hooks";
-import { asyncGetMeetingQuestions } from "@/services/product/product.service";
 
 export default function Survey() {
     const [formData, setFormData] = useState([]);
     const [defaultValue, setDefaultValue] = useState({});
     const [formAnswerData, setFormAnswerData] = useState([]);
     const router = useRouter();
-    const dispatch = useAppDispatch();
-    const { isLogin, user, checkAuthRouteV2 } = useAuth();
+    const { isLogin, user } = useAuth();
 
     useEffect(() => {
         // const { isActive, route } = checkAuthRouteV2();
@@ -25,6 +23,10 @@ export default function Survey() {
         //   router.push(route);
         //   return;
         // }
+        if (isLogin && user?.meetingSurveyAnswered) {
+            router.push("/book-demo");
+            return;
+        }
         getQuestions();
     }, []);
 

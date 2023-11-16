@@ -3,12 +3,14 @@ import { Fragment } from "react";
 import ContactBanner from "@/components/Contact/banner";
 import ContactChatBlock from "@/components/Contact/chat-blocks";
 import { Col, Container, Row } from "react-bootstrap";
+
 const videos = [
     "https://video.wixstatic.com/video/b4a04e_06eae65ea0624c8d8488e2ab0dff54e1/1080p/mp4/file.mp4",
     "https://www.youtube.com/embed/VYIlt3iBtmU",
     "https://www.youtube.com/embed/i0yqhHKWY0A",
     "https://www.youtube.com/embed/PiOqMMOFQNw",
 ];
+
 export default function ContactUsScreen() {
     return (
         <Fragment>

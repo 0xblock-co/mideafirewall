@@ -2,11 +2,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { Controller, useForm } from "react-hook-form";
-import * as yup from "yup";
 import Select2 from "react-select2-wrapper";
+import * as yup from "yup";
 
-import style from "./contact.module.scss";
 import { SUPPORTED_LANGUAGES, TIME_ZONE } from "@/data";
+import style from "./contact.module.scss";
 
 const schema = yup.object().shape({
     // attendees: yup

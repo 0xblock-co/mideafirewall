@@ -1,12 +1,14 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
-import WhatsAppChat from "./UI/whatsapp";
+import { useAuth } from "@/contexts/AuthContext";
 import getConfig from "next/config";
-import ContactWithSalesChat from "./UI/ChatWithSalesTeam";
 import { useRouter } from "next/router";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import ContactWithSalesChat from "./UI/ChatWithSalesTeam";
+import WhatsAppChat from "./UI/whatsapp";
 
 export default function ContactChatBlock() {
     const { publicRuntimeConfig } = getConfig();
     const router = useRouter();
+    const { isLogin, user } = useAuth();
     return (
         <section className="three-block-section" data-aos="fade-up" data-aos-delay="100">
             <Container>
@@ -44,7 +46,13 @@ export default function ContactChatBlock() {
                                     variant="primary"
                                     className="w-100 mt-3 py-3 common-btn"
                                     // onClick={() => router.push("/network-blog")}
-                                    onClick={() => router.push("/schedule-demo")}
+                                    onClick={() => {
+                                        if (isLogin && user?.meetingSurveyAnswered) {
+                                            router.push("/book-demo");
+                                        } else {
+                                            router.push("/schedule-demo");
+                                        }
+                                    }}
                                     // onClick={() => setIsShowProductDemoFormModal(true)}
                                 >
                                     Schedule now
@@ -59,8 +67,19 @@ export default function ContactChatBlock() {
                             </div>
                             <div className="box-content-block">
                                 <h2>Get a Price Quote</h2>
-                                <p>We're here to help you with your personalized usage.</p>
-                                <Button type="submit" variant="primary" className="w-100 mt-3 py-3 common-btn" onClick={() => router.push("/price-quote")}>
+                                <p>We&apos;re here to help you with your personalized usage.</p>
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    className="w-100 mt-3 py-3 common-btn"
+                                    onClick={() => {
+                                        if (isLogin && user?.meetingSurveyAnswered) {
+                                            router.push("/book-demo");
+                                        } else {
+                                            router.push("/price-quote");
+                                        }
+                                    }}
+                                >
                                     Quote now
                                 </Button>
                             </div>

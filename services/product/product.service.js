@@ -152,7 +152,7 @@ export const asyncGetDefaultMeeting = async () => {
 
 export const asyncCreateMeeting = async (payload, user) => {
     try {
-        const response = api.post(`https://mediafirewall-ai.themillionvisions.com/mfw/web/meetings/${user?.userDetails?.email}`, payload).then(async (res) => {
+        const response = api.post(`https://mediafirewall-ai.themillionvisions.com/mfw/web/meeting`, payload).then(async (res) => {
             return res;
         });
         return response;

@@ -252,8 +252,14 @@ class Api {
             return;
         }
 
+        console.log("errorData: ", errorData);
         if (isErrorHandle && errorData?.code === 401 && errorData?.apiMessageRes) {
-            newInfoAlert("Invalid User Credentials", "We couldn't authenticate your account. Please double-check your username and password and try again.", "OK", "error").then(() => {
+            newInfoAlert(
+                errorData?.title || "Invalid User Credentials",
+                errorData?.detail || "We couldn't authenticate your account. Please double-check your username and password and try again.",
+                "OK",
+                "error"
+            ).then(() => {
                 return {
                     isSuccess: false,
                     isStore: false,
@@ -261,6 +267,14 @@ class Api {
                     message: errorData.message || errorString.catchError,
                 };
             });
+            // newInfoAlert("Invalid User Credentials", "We couldn't authenticate your account. Please double-check your username and password and try again.", "OK", "error").then(() => {
+            //     return {
+            //         isSuccess: false,
+            //         isStore: false,
+            //         code: code.toString(),
+            //         message: errorData.message || errorString.catchError,
+            //     };
+            // });
             return;
         }
 

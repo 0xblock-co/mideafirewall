@@ -3,6 +3,7 @@ import { asyncGenerateProofsByEmail, asyncGetContentEventLogs } from "@/services
 
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 import CommonUtility from "@/utils/common.utils";
+import { getUrlVars } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
@@ -14,8 +15,16 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import style from "../components/DemoPage/demo-page.module.scss";
 
-const shouldStopFetching = (data) => {
+const shouldStopFetchingV1 = (data) => {
     return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;
+};
+const shouldStopFetching = (data) => {
+    const routerData = getUrlVars();
+    if (CommonUtility.isNotEmpty(routerData?.filters)) {
+        const appliedFiltersLength = routerData.filters.split(",").length;
+        return data?.operationStatus && Object.keys(data?.operationStatus).length == appliedFiltersLength;
+    }
+    // return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;
 };
 
 const fetchInterval = 5000;
@@ -32,6 +41,28 @@ function getMatchingValues(data) {
             }
         }
         return { ...matchingValues };
+    }
+    return {};
+}
+
+function getMatchingValuesV2(data) {
+    if (data && data.featureStatus && data.eventLog && data.operationStatus) {
+        const routerData = getUrlVars();
+        if (CommonUtility.isNotEmpty(routerData?.filters)) {
+            const appliedFiltersLength = routerData.filters.split(",").length;
+            if (data?.operationStatus && Object.keys(data?.operationStatus).length == appliedFiltersLength) {
+                const { featureStatus, eventLog } = data;
+                const matchingValues = {};
+                for (const key in featureStatus) {
+                    if (featureStatus[key] === true) {
+                        if (eventLog[key]) {
+                            matchingValues[key] = eventLog[key];
+                        }
+                    }
+                }
+                return { ...matchingValues };
+            }
+        }
     }
     return {};
 }
@@ -278,7 +309,7 @@ export default function DemoPage() {
     }, []);
 
     return (
-        <div className="py-5">
+        <div className="py-5" style={{ minHeight: "70vh" }}>
             <Container>
                 <Row className="justify-content-center">
                     <div className="d-flex gap-2 p-1">
@@ -308,12 +339,6 @@ export default function DemoPage() {
                                 <Tab eventKey="table" className="pt-3" title="Table">
                                     <Col lg={12}>
                                         <section>
-                                            <RenderIf isTrue={isFetchingState}>
-                                                <div className="d-flex flex-column justify-content-center">
-                                                    <MagnifyingGlass height="60" width="60" color="#7B5B9E" ariaLabel="circles-loading" wrapperStyle={{}} wrapperClass="" visible={isFetchingState} />
-                                                    We are verifying your records, kindly wait for a moment.
-                                                </div>
-                                            </RenderIf>
                                             <RenderIf isTrue={!isFetchingState && !CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
                                                 <>
                                                     <Table bordered>
@@ -401,6 +426,12 @@ export default function DemoPage() {
                                                     </tbody>
                                                 </Table>
                                             </RenderIf>
+                                            <RenderIf isTrue={isFetchingState}>
+                                                <div className="d-flex flex-column justify-content-center">
+                                                    <MagnifyingGlass height="60" width="60" color="#7B5B9E" ariaLabel="circles-loading" wrapperStyle={{}} wrapperClass="" visible={isFetchingState} />
+                                                    We are verifying your records, kindly wait for a moment.
+                                                </div>
+                                            </RenderIf>
                                         </section>
                                     </Col>
                                 </Tab>
@@ -412,7 +443,7 @@ export default function DemoPage() {
                     </Col>
 
                     <Col lg={4} style={{ maxHeight: "400px" }}>
-                        <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
+                        <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValuesV2(eventLogData)))}>
                             <Card
                                 className="box_show_msg h-100 shadow-lg border-primary rounded-4 d-flex justify-content-center align-items-center"
                                 style={{

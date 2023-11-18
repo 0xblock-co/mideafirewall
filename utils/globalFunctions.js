@@ -2,10 +2,11 @@
 import * as yup from "yup";
 
 import { localStorageKeys } from "@/constants/global.constants";
+import axios from "axios";
+import jwt from "jwt-decode";
+import CommonUtility from "./common.utils";
 import { readCookie } from "./cookieCreator";
 const jwt_simple = require("jwt-simple");
-import jwt from "jwt-decode";
-import axios from "axios";
 export const getFilteredData = (dataObj) => {
     const formElements = [];
     let counter = 0;
@@ -209,4 +210,29 @@ export function getUrlVars() {
         vars[key] = value;
     });
     return vars;
+}
+
+export function getUserProfileTextByUserName(fName, lName) {
+    const firstInitial = CommonUtility.isNotEmpty(fName) ? fName.charAt(0) : "";
+    const lastInitial = CommonUtility.isNotEmpty(lName) ? lName.charAt(0) : "";
+    return (firstInitial + lastInitial).toUpperCase();
+}
+function getRandomColor() {
+    // Generate a random hex color code, e.g., "#RRGGBB"
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+export function getUserBadgeByUserName(fName, lName) {
+    const firstInitial = CommonUtility.isNotEmpty(fName) ? fName.charAt(0) : "";
+    const lastInitial = CommonUtility.isNotEmpty(lName) ? lName.charAt(0) : "";
+
+    const userBadgeText = (firstInitial + lastInitial).toUpperCase();
+    const randomColor = getRandomColor(); // Assuming you have a function to generate a random color
+
+    return { text: userBadgeText, color: randomColor };
 }

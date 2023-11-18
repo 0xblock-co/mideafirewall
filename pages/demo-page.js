@@ -313,7 +313,7 @@ export default function DemoPage() {
             <Container>
                 <Row className="justify-content-center">
                     <div className="d-flex gap-2 p-1">
-                        <div onClick={() => router.push("/network-blog")} style={{ cursor: "pointer" }}>
+                        <div onClick={() => !isFetchingState && router.push("/network-blog")} style={{ cursor: isFetchingState ? "not-allowed" : "pointer" }}>
                             <svg
                                 width="46"
                                 height="46"
@@ -364,8 +364,9 @@ export default function DemoPage() {
                                                                     </td>
                                                                     <td>{eventLogData?.requestType}</td>
                                                                     <td>{eventLogData?.operations}</td>
-                                                                    <td className="d-flex justify-content-center align-items-center">
-                                                                        <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "30px", height: "30px" }} />
+                                                                    <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                        <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                        <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "16px", height: "16px" }} />
                                                                     </td>
                                                                 </tr>
                                                             )}
@@ -409,7 +410,8 @@ export default function DemoPage() {
                                                                     </td>
                                                                     <td>{eventLogData?.requestType}</td>
                                                                     <td>{eventLogData.operations}</td>
-                                                                    <td className="d-flex justify-content-center align-items-center">
+                                                                    <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
                                                                         <img
                                                                             src="/images/svgs/wrong.svg"
                                                                             loading="lazy"
@@ -429,7 +431,8 @@ export default function DemoPage() {
                                             <RenderIf isTrue={isFetchingState}>
                                                 <div className="d-flex flex-column justify-content-center">
                                                     <MagnifyingGlass height="60" width="60" color="#7B5B9E" ariaLabel="circles-loading" wrapperStyle={{}} wrapperClass="" visible={isFetchingState} />
-                                                    We are verifying your records, kindly wait for a moment.
+                                                    AI is in the process of verifying your information. This may take a moment.
+                                                    {/* We are verifying your records, kindly wait for a moment. */}
                                                 </div>
                                             </RenderIf>
                                         </section>
@@ -447,11 +450,14 @@ export default function DemoPage() {
                             <Card
                                 className="box_show_msg h-100 shadow-lg border-primary rounded-4 d-flex justify-content-center align-items-center"
                                 style={{
-                                    maxHeight: "300px; !important",
+                                    maxHeight: "350px; !important",
                                 }}
                             >
                                 <div className="p-5 m-3 text-center">
-                                    <h4 className="text_gredient text-shadow">Your proofs are ready. Curious to verify? Press on the below button.</h4>
+                                    <h5 className="text_gredient text-shadow">
+                                        Proofs for content moderation in the sent media, including clips and images, are now available for your review. <br /> <br />
+                                        Click the button below to access and verify.
+                                    </h5>
                                     <Button variant="primary" className="bn13 btn-lg rounded-pill px-5 fs-6 mt-3" onClick={handleShowModal}>
                                         Request Proof
                                     </Button>

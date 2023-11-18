@@ -1,3 +1,6 @@
+import { useAuth } from "@/contexts/AuthContext";
+import { getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
+import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { useRouter } from "next/router";
@@ -6,12 +9,9 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
-import style from "./network-blog.module.scss";
-import { useAuth } from "@/contexts/AuthContext";
-import { useAppSelector } from "@/store/hooks";
-import { getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
 import RenderIf from "../ConditionalRender/RenderIf";
 import ReadMore from "../ReadMore";
+import style from "./network-blog.module.scss";
 
 export default function NetworkBlock() {
     const router = useRouter();
@@ -34,7 +34,7 @@ export default function NetworkBlock() {
             }
         }
         getPreSelectedDataFromLocalStorage();
-    }, []);
+    }, [router]);
 
     useEffect(() => {
         const { query } = router;

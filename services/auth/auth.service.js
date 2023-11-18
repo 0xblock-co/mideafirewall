@@ -1,6 +1,6 @@
 import { localStorageKeys } from "@/constants/global.constants";
 import { setCookieWithJwtExp } from "@/utils/cookieCreator";
-import { setCookieWithExpiration } from "@/utils/globalFunctions";
+import { getUserBadgeByUserName, setCookieWithExpiration } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Api from "../RTK/axiosAPI.handler";
@@ -18,6 +18,7 @@ export const asyncLoginWithEmail = createAsyncThunk("LOGIN_WITH_EMAIL", async (p
                     setCookieWithJwtExp(localStorageKeys.userEmail, res.data.userDetails.email, res.data.tokens.accessToken);
                 }
                 ToastMessage.success("Logged in successfully.");
+                res.data.userDetails.profileInfo = getUserBadgeByUserName(res.data.userDetails.firstName, res.data.userDetails.lastName);
                 return thunkAPI.fulfillWithValue({
                     ...res.data,
                     isSuccess: res.isSuccess,
@@ -74,6 +75,7 @@ export const asyncSocialAuth = createAsyncThunk("SOCIAL_AUTH", async (payload, t
                         setCookieWithExpiration(localStorageKeys.userAccessToken, res.data.tokens.accessToken);
                         setCookieWithJwtExp(localStorageKeys.userEmail, res.data.userDetails.email, res.data.tokens.accessToken);
                     }
+                    res.data.userDetails.profileInfo = getUserBadgeByUserName(res.data.userDetails.firstName, res.data.userDetails.lastName);
                     return thunkAPI.fulfillWithValue({
                         ...res.data,
                         isSuccess: res.isSuccess,

@@ -7,7 +7,6 @@ import Api from "../RTK/axiosAPI.handler";
 
 const api = Api.getInstance();
 
-// Start New V2
 export const asyncLoginWithEmail = createAsyncThunk("LOGIN_WITH_EMAIL", async (payload, thunkAPI) => {
     try {
         const response = api.post(`/user/signIn/form`, payload, {}, true, false).then(async (res) => {
@@ -126,57 +125,50 @@ export const asyncRestPassword = createAsyncThunk("asyncRestPassword", async (pa
     }
 });
 
-// End New V2
-export const asyncLoginAndSignupService = (payload, idToken) => {
+export const asyncGetSignedUpSurveyQuestionsV2 = createAsyncThunk("GET_SIGNED_UP_SURVEY_QUESTIONS", async (payload, thunkAPI) => {
     try {
-        const response = api
-            .post("/user/signIn/form", payload, {
-                headers: {
-                    Authorization: `Bearer ${idToken}`,
-                },
-            })
-            .then(async (res) => {
-                return res;
-            });
-        return response;
-    } catch (error) {
-        return error;
-    }
-};
-
-export const asyncGetSignedUpSurveyQuestions = async () => {
-    try {
-        const response = api.get("https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_customer", {}, true, false).then(async (res) => {
+        const response = api.get(`https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_customer`, {}, true, false).then(async (res) => {
             if (res && res?.isSuccess) {
-                return res;
+                return thunkAPI.fulfillWithValue({
+                    data: res.data,
+                    isSuccess: res.isSuccess,
+                });
             }
+            return thunkAPI.rejectWithValue(res);
         });
         return response;
-    } catch (e) {
-        return e.message;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
     }
-};
-
-export const asyncPostSignedUpSurveySubmitAnswers = (payload, user, surveyType) => {
+});
+export const asyncPostSignedUpSurveySubmitAnswersV2 = createAsyncThunk("SUBMIT_SURVEY_ANSWERS", async (payload, thunkAPI) => {
     try {
         const response = api
-            .post(`https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/answers/users/${user?.userDetails?.email}/${surveyType}`, payload, {}, true, false)
+            .post(`https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/answers/users/${payload?.userEmail}/${payload?.surveyType}`, payload.answers, {}, true, false)
             .then(async (res) => {
-                return res;
+                if (res && res?.isSuccess) {
+                    return thunkAPI.fulfillWithValue({
+                        data: {},
+                        isSuccess: res.isSuccess,
+                    });
+                }
+                return thunkAPI.rejectWithValue(res);
             });
         return response;
     } catch (error) {
-        return error;
+        return thunkAPI.rejectWithValue(error.message);
     }
-};
+});
 
-export const asyncSurveySubmitAnswers = (payload, user) => {
-    try {
-        const response = api.post(`https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/answers/users/${user?.userDetails?.email}`, payload).then(async (res) => {
-            return res;
-        });
-        return response;
-    } catch (error) {
-        return error;
-    }
-};
+// export const asyncPostSignedUpSurveySubmitAnswers = (payload, user, surveyType) => {
+//     try {
+//         const response = api
+//             .post(`https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/answers/users/${user?.userDetails?.email}/${surveyType}`, payload, {}, true, false)
+//             .then(async (res) => {
+//                 return res;
+//             });
+//         return response;
+//     } catch (error) {
+//         return error;
+//     }
+// };

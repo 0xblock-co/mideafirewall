@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import Loader from "@/components/Loader";
 import { useAuth } from "@/contexts/AuthContext";
-import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
+import { asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { asyncGetMeetingQuestions } from "@/services/product/product.service";
+import { useAppDispatch } from "@/store/hooks";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
 
@@ -16,7 +18,9 @@ export default function Survey() {
     const [formAnswerData, setFormAnswerData] = useState([]);
     const router = useRouter();
     const { isLogin, user } = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
 
+    const dispatch = useAppDispatch();
     useEffect(() => {
         // const { isActive, route } = checkAuthRouteV2();
         // if (!isLogin && !isActive) {
@@ -76,17 +80,25 @@ export default function Survey() {
         }));
 
         if (id === lastElement.id) {
-            const response = await asyncPostSignedUpSurveySubmitAnswers(cloneFormAnswerData, user, "DemoMeeting");
-            if (response) {
-                if (response.isSuccess) {
-                    ToastMessage.success("Thank you for submitting answer.");
-                    Router.push("/book-demo");
-                    return;
-                } else {
-                    ToastMessage.error(response?.message || "Something went wrong");
-                    Router.reload();
-                }
-            }
+            dispatch(asyncPostSignedUpSurveySubmitAnswersV2({ answers: cloneFormAnswerData, userEmail: user?.userDetails?.email, surveyType: "DemoMeeting" }))
+                .unwrap()
+                .then((response) => {
+                    setIsLoading(false);
+                    if (response) {
+                        if (response.isSuccess) {
+                            ToastMessage.success("Thank you for submitting answer.");
+                            Router.push("/book-demo");
+                            return;
+                        } else {
+                            ToastMessage.error(response?.message || "Something went wrong");
+                            Router.reload();
+                        }
+                    }
+                })
+                .catch((e) => {
+                    setIsLoading(false);
+                });
+            setFormData(newFormData);
         }
         setFormData(newFormData);
     };
@@ -94,6 +106,7 @@ export default function Survey() {
     return (
         <BoxContainerWithFilterIconWrapper>
             <SurveyForm elements={formData} defaultValue={defaultValue} onSubmit={onSubmitForm} />
+            {isLoading && <Loader isLoading={isLoading} />}
         </BoxContainerWithFilterIconWrapper>
     );
 }

@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import Loader from "@/components/Loader";
 import { useAuth } from "@/contexts/AuthContext";
-import { asyncGetSignedUpSurveyQuestions, asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
-import { getFilteredData } from "@/utils/globalFunctions";
-import { ToastMessage } from "@/utils/toastMessage.utils";
+import { asyncGetSignedUpSurveyQuestionsV2, asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
-import Loader from "@/components/Loader";
+import { getFilteredData } from "@/utils/globalFunctions";
+import { ToastMessage } from "@/utils/toastMessage.utils";
 
 export default function Survey() {
     const [formData, setFormData] = useState([]);
@@ -31,22 +31,26 @@ export default function Survey() {
     }, []);
 
     const getQuestions = async () => {
-        const response = await asyncGetSignedUpSurveyQuestions();
-        if (response && response.isSuccess && response.data) {
-            const data = getFilteredData(response.data.questions);
-            if (data) {
-                const defaultValue = {};
-                data.forEach((element) => {
-                    if (element.type == "checkbox") {
-                        defaultValue[element.name] = [];
-                    } else {
-                        defaultValue[element.name] = element.defaultValues;
+        dispatch(asyncGetSignedUpSurveyQuestionsV2())
+            .unwrap()
+            .then((response) => {
+                console.log("response: ", response);
+                if (response && response.isSuccess && response.data) {
+                    const data = getFilteredData(response.data.questions);
+                    if (data) {
+                        const defaultValue = {};
+                        data.forEach((element) => {
+                            if (element.type == "checkbox") {
+                                defaultValue[element.name] = [];
+                            } else {
+                                defaultValue[element.name] = element.defaultValues;
+                            }
+                        });
+                        setDefaultValue(defaultValue);
+                        setFormData(data);
                     }
-                });
-                setDefaultValue(defaultValue);
-                setFormData(data);
-            }
-        }
+                }
+            });
     };
 
     const onSubmitForm = async (data, id) => {
@@ -77,19 +81,26 @@ export default function Survey() {
 
         if (id === lastElement.id) {
             setIsLoading(true);
-            const response = await asyncPostSignedUpSurveySubmitAnswers(cloneFormAnswerData, user, "User");
-            setIsLoading(false);
-            if (response) {
-                if (response.isSuccess) {
-                    ToastMessage.success("Thank you for submitting answer.");
-                    dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
-                    Router.push("/network-blog");
-                    return;
-                } else {
-                    ToastMessage.error(response?.message || "Something went wrong");
-                    Router.reload();
-                }
-            }
+            dispatch(asyncPostSignedUpSurveySubmitAnswersV2({ answers: cloneFormAnswerData, userEmail: user?.userDetails?.email, surveyType: "User" }))
+                .unwrap()
+                .then((response) => {
+                    setIsLoading(false);
+                    if (response) {
+                        if (response.isSuccess) {
+                            ToastMessage.success("Thank you for submitting answer.");
+                            dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
+                            Router.push("/network-blog");
+                            return;
+                        } else {
+                            ToastMessage.error(response?.message || "Something went wrong");
+                            Router.reload();
+                        }
+                    }
+                })
+                .catch((e) => {
+                    setIsLoading(false);
+                });
+            setFormData(newFormData);
         }
         setFormData(newFormData);
     };

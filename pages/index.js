@@ -6,10 +6,7 @@ import CommonUtility from "@/utils/common.utils";
 import dynamic from "next/dynamic";
 import { Fragment } from "react";
 
-// const Banner = dynamic(() => import("@/components/Home/Banner"), {
-//   ssr: false,
-// });
-const Banner1 = dynamic(() => import("@/components/Home/Banner1"), {
+const Banner = dynamic(() => import("@/components/Home/Banner1"), {
     ssr: false,
 });
 const Feature = dynamic(() => import("@/components/Home/Features"), {
@@ -23,22 +20,10 @@ const OfferBlock = dynamic(() => import("@/components/Home/Offer"), {
 });
 
 export default function LandingScreen(props) {
-    // const { setAllFeatureList } = useAuth();
     const headerData = useAppSelector(getAllHeaderDataOptionsUpdated);
-    // useEffect(() => {
-    //   if (
-    //     props.result.isSuccess &&
-    //     CommonUtility.isValidArray(props.result?.data?.response)
-    //   ) {
-    //     setAllFeatureList(props.result?.data?.response);
-    //   }
-    // }, []);
-
     return (
         <Fragment>
-            <Banner1 />
-
-            {/* <Banner /> */}
+            <Banner />
             <RenderIf isTrue={headerData && CommonUtility.isValidArray(headerData)}>
                 <Feature headerData={headerData} featureLists={headerData} />
             </RenderIf>
@@ -47,13 +32,3 @@ export default function LandingScreen(props) {
         </Fragment>
     );
 }
-
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   (store) => async () => {
-//     store.dispatch(getAllFeatures.initiate({}));
-//     const res = await Promise.all(store.dispatch(getRunningQueriesThunk()));
-//     return {
-//       props: { result: res[0] },
-//     };
-//   }
-// );

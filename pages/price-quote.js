@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import Loader from "@/components/Loader";
 import { useAuth } from "@/contexts/AuthContext";
-import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
+import { asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { asyncGetPricingQuoteQuestions } from "@/services/product/product.service";
 import { useAppDispatch } from "@/store/hooks";
 import { getFilteredData } from "@/utils/globalFunctions";
@@ -16,8 +17,10 @@ export default function Survey() {
     const [defaultValue, setDefaultValue] = useState({});
     const [formAnswerData, setFormAnswerData] = useState([]);
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
+
     const dispatch = useAppDispatch();
-    const { user } = useAuth();
+    const { user, isLogin } = useAuth();
     useEffect(() => {
         // const { isActive, route } = checkAuthRouteV2();
         // if (!isLogin && !isActive) {
@@ -48,6 +51,7 @@ export default function Survey() {
                 setFormData(data);
             }
         }
+        setIsLoading(false);
     };
 
     const onSubmitForm = async (data, id) => {
@@ -77,26 +81,34 @@ export default function Survey() {
         }));
 
         if (id === lastElement.id) {
-            const response = await asyncPostSignedUpSurveySubmitAnswers(cloneFormAnswerData, user, "PriceQuote");
-            if (response) {
-                if (response.isSuccess) {
-                    // ToastMessage.success(
-                    //   "The price quote will be sent to your email address. "
-                    // );
-                    newInfoAlert("Thank you for providing answers.", "The price quote will be sent to your email address. ", "Okay", "success", true)
-                        .then(() => {
-                            router.push("/book-demo");
-                        })
-                        .catch(() => {
-                            router.push("/contact-us");
-                        });
-                    // router.push("/book-demo");
-                    return;
-                } else {
-                    ToastMessage.error(response?.message || "Something went wrong");
-                    Router.reload();
-                }
-            }
+            setFormData(newFormData);
+            dispatch(asyncPostSignedUpSurveySubmitAnswersV2({ answers: cloneFormAnswerData, userEmail: user?.userDetails?.email, surveyType: "PriceQuote" }))
+                .unwrap()
+                .then((response) => {
+                    setIsLoading(false);
+                    if (response) {
+                        if (response.isSuccess) {
+                            // ToastMessage.success(
+                            //   "The price quote will be sent to your email address. "
+                            // );
+                            newInfoAlert("Thank you for providing answers.", "The price quote will be sent to your email address. ", "Okay", "success", true)
+                                .then(() => {
+                                    router.push("/book-demo");
+                                })
+                                .catch(() => {
+                                    router.push("/contact-us");
+                                });
+                            // router.push("/book-demo");
+                            return;
+                        } else {
+                            ToastMessage.error(response?.message || "Something went wrong");
+                            Router.reload();
+                        }
+                    }
+                })
+                .catch((e) => {
+                    setIsLoading(false);
+                });
         }
         setFormData(newFormData);
     };
@@ -104,6 +116,7 @@ export default function Survey() {
     return (
         <BoxContainerWithFilterIconWrapper>
             <SurveyForm elements={formData} defaultValue={defaultValue} onSubmit={onSubmitForm} />
+            {isLoading && <Loader isLoading={isLoading} />}
         </BoxContainerWithFilterIconWrapper>
     );
 }

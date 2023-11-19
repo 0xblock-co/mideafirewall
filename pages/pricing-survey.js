@@ -1,12 +1,12 @@
 import { cloneDeep } from "lodash";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
 import { useAuth } from "@/contexts/AuthContext";
-import { asyncPostSignedUpSurveySubmitAnswers } from "@/services/auth/auth.service";
+import { asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { asyncCreateStripeCustomer, asyncGetCheckoutSessionUrl, asyncGetPricingQuestions } from "@/services/product/product.service";
 import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
@@ -32,7 +32,7 @@ export default function Survey() {
     const [formData, setFormData] = useState([]);
     const [defaultValue, setDefaultValue] = useState({});
     const [formAnswerData, setFormAnswerData] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const dispatch = useAppDispatch();
     const { user, checkAuthRouteV2 } = useAuth();
@@ -63,40 +63,44 @@ export default function Survey() {
                 setFormData(data);
             }
         }
+        setIsLoading(false);
     };
 
     const submitAnswers = async (answers, user, router) => {
-        const response = await asyncPostSignedUpSurveySubmitAnswers(answers, user, "Payment");
-
-        if (response && response.isSuccess) {
-            dispatch(
-                authActions.setUserData({
-                    ...user,
-                    priceSurveyAnswered: true,
-                })
-            );
-            if (CommonUtility.isNotEmpty(user.userDetails.fullName) && CommonUtility.isNotEmpty(user.userDetails.email)) {
-                try {
-                    const res = await asyncCreateStripeCustomer({
-                        name: user.userDetails.fullName,
-                        email: user.userDetails.email,
-                    });
-
-                    if (res && res.isSuccess && CommonUtility.isNotEmpty(res.data)) {
-                        const checkoutResponse = await asyncGetCheckoutSessionUrl(res.data, router.query.id);
-
-                        if (checkoutResponse.isSuccess && CommonUtility.isNotEmpty(checkoutResponse.data)) {
-                            return checkoutResponse.data;
+        return dispatch(asyncPostSignedUpSurveySubmitAnswersV2({ answers: answers, userEmail: user?.userDetails?.email, surveyType: "Payment" }))
+            .unwrap()
+            .then(async (response) => {
+                if (response && response.isSuccess) {
+                    dispatch(
+                        authActions.setUserData({
+                            ...user,
+                            priceSurveyAnswered: true,
+                        })
+                    );
+                    if (CommonUtility.isNotEmpty(user.userDetails.fullName) && CommonUtility.isNotEmpty(user.userDetails.email)) {
+                        try {
+                            const res = await asyncCreateStripeCustomer({
+                                name: user.userDetails.fullName,
+                                email: user.userDetails.email,
+                            });
+                            if (res && res.isSuccess && CommonUtility.isNotEmpty(res.data)) {
+                                const checkoutResponse = await asyncGetCheckoutSessionUrl(res.data, router.query.id);
+                                if (checkoutResponse.isSuccess && CommonUtility.isNotEmpty(checkoutResponse.data)) {
+                                    return checkoutResponse.data;
+                                }
+                            }
+                        } catch (error) {
+                            return { error: "Error processing payment" };
                         }
                     }
-                } catch (error) {
-                    return { error: "Error processing payment" };
+                    return { error: "Error creating Stripe customer" };
+                } else {
+                    return { error: response?.message || "Something went wrong" };
                 }
-            }
-            return { error: "Error creating Stripe customer" };
-        } else {
-            return { error: response?.message || "Something went wrong" };
-        }
+            })
+            .catch((e) => {
+                setIsLoading(false);
+            });
     };
 
     const onSubmitForm = async (data, id) => {
@@ -116,7 +120,6 @@ export default function Survey() {
         if (id === lastElement.id) {
             setIsLoading(true);
             const paymentUrl = await submitAnswers(cloneFormAnswerData, user, router);
-
             if (paymentUrl) {
                 newInfoAlert("Thank you for submitting questions.", "By clicking on the subscribe button you will be redirected to the payment screen.", "Subscribe", "success").then(() => {
                     setIsLoading(false);
@@ -125,7 +128,7 @@ export default function Survey() {
             } else {
                 setIsLoading(false);
                 ToastMessage.error("Error processing payment");
-                Router.reload();
+                router.reload();
             }
         }
 

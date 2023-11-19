@@ -22,7 +22,7 @@ const shouldStopFetching = (data) => {
     const routerData = getUrlVars();
     if (CommonUtility.isNotEmpty(routerData?.filters)) {
         const appliedFiltersLength = routerData.filters.split(",").length;
-        return data?.operationStatus && Object.keys(data?.operationStatus).length == appliedFiltersLength;
+        return data?.operationStatus && Object.keys(data?.operationStatus).length == appliedFiltersLength && data?.eventLog && Object.keys(data?.eventLog).length == appliedFiltersLength;
     }
     // return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;
 };

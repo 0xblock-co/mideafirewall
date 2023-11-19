@@ -6,6 +6,7 @@ import "select2/dist/css/select2.min.css";
 import ToastContainerConfig from "@/components/ToastContainer";
 import MainLayout from "@/components/layouts/main";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { asyncGetMFWTestCustomers } from "@/services/product/product.service";
 import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
 import { wrapper } from "@/store";
 import { getAllHeaderDataOptions, getMfwTestCustomersSelector, setMfwTestCustomers } from "@/store/defaultConfig.slice";
@@ -20,7 +21,6 @@ import { Fragment, useEffect } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Helmet } from "react-helmet";
 import { IntlProvider } from "react-intl";
-import { asyncGetMFWTestCustomers } from "@/services/product/product.service";
 const messages = {
     en,
     fr,
@@ -56,17 +56,20 @@ export function App({ Component, pageProps }) {
     return (
         <Fragment>
             <DefaultSeo
-                title="Media Firewall"
-                titleTemplate="Media Firewall | %s"
-                defaultTitle="Media Firewall"
-                description="Media Firewall is a powerful AI-based content moderation tool that helps online communities keep their platforms safe and free from harmful content."
-                // canonical="https://example.com"
+                title="Ensuring Online Community Safety: A Comprehensive Guide to AI Content Moderation and Harmful Content Prevention"
+                titleTemplate="Media Firewall & AI | %s"
+                defaultTitle="Media Firewall & AI"
+                description="Safeguard online spaces with Media Firewall, a robust AI content moderation tool. Ensure platform safety and eliminate harmful content effortlessly in your online communities."
                 openGraph={{
                     type: "website",
                     locale: "en_US",
-                    // url: "https://example.com",
-                    site_name: "Media Firewall",
+                    url: "https://mediafirewall.ai/",
+                    title: "Media Firewall & AI: Elevating Platform Safety with Smart Content Moderation",
+                    description:
+                        "Discover the cutting-edge synergy of Media Firewall and AI, fortifying online platforms with intelligent content moderation. Enhance user well-being and digital safety effortlessly.",
+                    siteName: "Media Firewall & AI",
                 }}
+                canonical="https://mediafirewall.ai/"
             />
             <Helmet>
                 <html lang="en" />

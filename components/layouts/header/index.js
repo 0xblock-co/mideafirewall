@@ -20,8 +20,6 @@ import styles from "./header.module.scss";
 export default function HeaderTop() {
     const router = useRouter();
     const userDetails = useAppSelector(getUserDetails);
-    console.log("userDetails: ", userDetails);
-    console.log("userDetails: profileInfo", userDetails?.userDetails?.profileInfo);
     const headerData = useAppSelector(getAllHeaderDataOptions);
     const isActiveLink = (href) => {
         const { pathname } = router;

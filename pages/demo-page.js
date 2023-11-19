@@ -1,5 +1,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { asyncGenerateProofsByEmail, asyncGetContentEventLogs } from "@/services/product/product.service";
+import { cloneDeep } from "lodash";
 
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 import CommonUtility from "@/utils/common.utils";
@@ -15,30 +16,102 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import style from "../components/DemoPage/demo-page.module.scss";
 
-const shouldStopFetchingV1 = (data) => {
-    return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;
-};
+const fetchInterval = 5000;
 const shouldStopFetching = (data) => {
     const routerData = getUrlVars();
     if (CommonUtility.isNotEmpty(routerData?.filters)) {
         const appliedFiltersLength = routerData.filters.split(",").length;
-        return data?.operationStatus && Object.keys(data?.operationStatus).length == appliedFiltersLength && data?.eventLog && Object.keys(data?.eventLog).length == appliedFiltersLength;
+        return data?.operationStatus && Object.keys(data?.operationStatus).length == appliedFiltersLength;
+        // return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;
     }
     // return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;
 };
 
-const fetchInterval = 5000;
+function findFalseValueKeysV2(obj1, obj2) {
+    const falseValueKeys = Object.keys(obj1).filter((key) => obj1[key] === false);
+    const matchingKeys = falseValueKeys.filter((key) => obj2.hasOwnProperty(key));
+    return matchingKeys;
+}
 
 function getMatchingValues(data) {
+    console.log("data: ", data);
     if (data && data.featureStatus && data.eventLog) {
-        const { featureStatus, eventLog } = data;
+        const { featureStatus, eventLog, operationStatus } = data;
         const matchingValues = {};
         for (const key in featureStatus) {
             if (featureStatus[key] === true) {
-            if (featureStatus[key]) {
                 if (eventLog[key]) {
                     matchingValues[key] = eventLog[key];
+                    matchingValues[key].isSuccess = false;
                 }
+            } else {
+                const falseValueKeys = findFalseValueKeysV2(featureStatus, operationStatus);
+                CommonUtility.isValidArray(falseValueKeys) &&
+                    falseValueKeys.map((item) => {
+                        matchingValues[item] = {
+                            webFeatureKey: item,
+                            eventId: "",
+                            isSuccess: true,
+                            processingStartTime: "",
+                            processingEndTime: "",
+                            report: {
+                                imageUrls: [],
+                                clipUrls: [],
+                                videoUrls: [],
+                                documentReport: {
+                                    report: {
+                                        Model: "Success",
+                                        InputVideoUrl: data.video.inputVideoURL,
+                                        TotalFramesProcessed: "",
+                                        "Video processing time in minutes": "",
+                                    },
+                                },
+                            },
+                        };
+                    });
+            }
+        }
+        console.log("matchingValues: ", matchingValues);
+        return { ...matchingValues };
+    }
+    return {};
+}
+
+function getMatchingValuesV3(data) {
+    if (data && data.featureStatus && data.eventLog) {
+        const { featureStatus, eventLog, operationStatus } = data;
+        const matchingValues = {};
+        for (const key in featureStatus) {
+            if (featureStatus[key] === true) {
+                if (eventLog[key]) {
+                    matchingValues[key] = eventLog[key];
+                    matchingValues[key].isSuccess = false;
+                }
+            } else {
+                const falseValueKeys = findFalseValueKeysV2(featureStatus, operationStatus);
+                CommonUtility.isValidArray(falseValueKeys) &&
+                    falseValueKeys.map((item) => {
+                        matchingValues[item] = {
+                            webFeatureKey: item,
+                            eventId: "",
+                            isSuccess: true,
+                            processingStartTime: "",
+                            processingEndTime: "",
+                            report: {
+                                imageUrls: [],
+                                clipUrls: [],
+                                videoUrls: [],
+                                documentReport: {
+                                    report: {
+                                        Model: "Success",
+                                        InputVideoUrl: "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
+                                        TotalFramesProcessed: "",
+                                        "Video processing time in minutes": "",
+                                    },
+                                },
+                            },
+                        };
+                    });
             }
         }
         return { ...matchingValues };
@@ -151,11 +224,19 @@ export default function DemoPage() {
     //   },
     // });
     const [eventLogData, setEventLogData] = useState(null);
+    console.log("eventLogData: ", eventLogData);
+    // const [eventLogDataV2, setEventLogDataV2] = useState(null);
 
     const [selectedOption, setSelectedOption] = useState("email"); // Default option is 'email'
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
-
+    // useEffect(() => {
+    //     if (eventLogDataV2 && CommonUtility.isNotEmptyObject(eventLogDataV2) && eventLogDataV2.hasOwnProperty("eventLogsV2")) {
+    // const cloneEventDataV2 = cloneDeep(eventLogDataV2);
+    // delete cloneEventDataV2["eventLogsV2"];
+    // setEventLogDataV2(cloneEventDataV2);
+    //     }
+    // }, [eventLogDataV2]);
     useEffect(() => {
         const { isActive, route } = checkAuthRouteV2();
 
@@ -174,9 +255,14 @@ export default function DemoPage() {
                         encodeURIComponent(router.query.videoId),
                         user?.api_secret
                     );
+
                     if (response.isSuccess) {
+                        const resData = response.data;
+                        console.log("response.data: ", response.data);
                         // ToastMessage.success("Uploaded successfully.");
-                        setEventLogData(response.data);
+                        const updatedEventLogObj = getMatchingValuesV3(resData);
+                        resData.eventLogsV2 = updatedEventLogObj;
+                        setEventLogData(resData);
                     } else {
                         ToastMessage.error("Failed to fetch event logs.");
                     }
@@ -217,7 +303,6 @@ export default function DemoPage() {
             //   });
             //   return;
             // }
-
             const formData = new FormData();
             formData.append("videoID", router.query.videoId);
 
@@ -248,7 +333,13 @@ export default function DemoPage() {
         // Close the modal
         handleCloseModal();
     };
-
+    const returnJsonFormatRes = () => {
+        if (eventLogData && CommonUtility.isNotEmptyObject(eventLogData) && eventLogData.hasOwnProperty("eventLogsV2")) {
+            const cloneEventDataV2 = cloneDeep(eventLogData);
+            delete cloneEventDataV2["eventLogsV2"];
+            return JSON.stringify(cloneEventDataV2, null, 2);
+        }
+    };
     const renderGenerateProofModal = () => {
         return (
             <Modal show={showModal} onHide={handleCloseModal} centered>
@@ -372,16 +463,6 @@ export default function DemoPage() {
                                                             )}
                                                         </tbody>
                                                     </Table>
-                                                    {/* <b className="fw-bold text-shadow mb-2">Note:</b>
-                  <br />
-                  Unfortunately, we couldn't find any moderation events that
-                  match your uploaded content. To explore different results,
-                  consider using different moderation events with varying
-                  content. If you'd like to retry, you can{" "}
-                  <Link href={`/upload?filters=${router.query.filters}`}>
-                    click here
-                  </Link>{" "}
-                  to return to the previous screen and reupload your documents. */}
                                                 </>
                                             </RenderIf>
                                             <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
@@ -398,30 +479,40 @@ export default function DemoPage() {
                                                     </thead>
                                                     <tbody>
                                                         {Object.keys(getMatchingValues(eventLogData)).map((key, index) => {
-                                                            const item = eventLogData.eventLog[key];
+                                                            console.log("key: ", key);
+                                                            const item = eventLogData.eventLogsV2[key];
+                                                            console.log("item: ", item);
                                                             return (
                                                                 <tr key={key}>
                                                                     <th scope="row">{index + 1}</th>
-                                                                    <td>{item.report?.documentReport?.report?.Model_Name || item?.webFeatureKey}</td>
+                                                                    <td>{item?.report?.documentReport?.report?.Model_Name || item?.webFeatureKey}</td>
                                                                     <td>
                                                                         <Link href={eventLogData.video.inputVideoURL} target="_blank">
                                                                             Uploaded Link
                                                                         </Link>
                                                                     </td>
                                                                     <td>{eventLogData?.requestType}</td>
-                                                                    <td>{eventLogData.operations}</td>
-                                                                    <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
-                                                                        <img
-                                                                            src="/images/svgs/wrong.svg"
-                                                                            loading="lazy"
-                                                                            className="lazyload"
-                                                                            style={{
-                                                                                width: "30px",
-                                                                                height: "30px",
-                                                                            }}
-                                                                        />
-                                                                    </td>
+                                                                    <td>{eventLogData.operationStatus[item.webFeatureKey]}</td>
+                                                                    <RenderIf isTrue={item.isSuccess}>
+                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                            <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                            <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "16px", height: "16px" }} />
+                                                                        </td>
+                                                                    </RenderIf>
+                                                                    <RenderIf isTrue={!item.isSuccess}>
+                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                            <img
+                                                                                src="/images/svgs/wrong.svg"
+                                                                                loading="lazy"
+                                                                                className="lazyload"
+                                                                                style={{
+                                                                                    width: "16px",
+                                                                                    height: "16px",
+                                                                                }}
+                                                                            />
+                                                                        </td>
+                                                                    </RenderIf>
                                                                 </tr>
                                                             );
                                                         })}
@@ -439,7 +530,7 @@ export default function DemoPage() {
                                     </Col>
                                 </Tab>
                                 <Tab eventKey="json" className="pt-3" title="Json">
-                                    {highlightCode(JSON.stringify(eventLogData, null, 2), "json")}
+                                    {highlightCode(returnJsonFormatRes(), "json")}
                                 </Tab>
                             </Tabs>
                         </Row>

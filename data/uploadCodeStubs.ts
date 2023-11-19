@@ -92,8 +92,76 @@ public class UploadRequest {
     },
     {
         title: "PHP",
-        urlSnippets: ` Comming soon `,
-        fileSnippets: ` Comming soon `,
+        urlSnippets: ` <?php
+
+$baseUrl = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/sams@trek.com/url/filters';
+$filters = 'Type(HighDefinition)';
+$mediaUrl = 'https://media-firewall.s3.ap-south-1.amazonaws.com/Input/MEDIA/%2FVIDEO/ze.mp4';
+$apikey = 'vMoIhSZbp9ucWNEHSwyjV1qnU2iaIxYN';
+
+// Build the URL with query parameters
+$uri = $baseUrl . '?filters=' . urlencode($filters) . '&mediaUrl=' . urlencode($mediaUrl) . '&apikey=' . $apikey;
+
+// Initialize cURL session
+$ch = curl_init($uri);
+
+// Set cURL options
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+
+// Execute the cURL request
+$response = curl_exec($ch);
+
+// Check for cURL errors
+if (curl_errno($ch)) {
+    echo 'Curl error: ' . curl_error($ch);
+}
+
+// Close cURL session
+curl_close($ch);
+
+// Output the response
+echo $response;
+?> `,
+        fileSnippets: ` <?php
+
+$apiUrl = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/sams@trek.com/filters';
+$filters = 'Type(HighDefinition)';
+$apikey = 'vMoIhSZbp9ucWNEHSwyjV1qnU2iaIxYN';
+
+// Build the URL with query parameters
+$uri = $apiUrl . '?filters=' . urlencode($filters) . '&apikey=' . $apikey;
+
+// Initialize cURL session
+$ch = curl_init($uri);
+
+// Set cURL options
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+
+// Create a file upload array
+$fileToUpload = new CURLFile('Dark.jpg', 'image/jpeg', 'file');
+$postData = array(
+    'file' => $fileToUpload,
+);
+
+// Set the POST fields
+curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+// Execute the cURL request
+$response = curl_exec($ch);
+
+// Check for cURL errors
+if (curl_errno($ch)) {
+    echo 'Curl error: ' . curl_error($ch);
+}
+
+// Close cURL session
+curl_close($ch);
+
+// Output the response
+echo $response;
+?> `,
     },
     {
         title: "Javascript",

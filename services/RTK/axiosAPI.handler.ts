@@ -228,6 +228,18 @@ class Api {
         // Prepare error data
         // console.log("errorData ---1-", errorData);
         const code: string | number = errorData.code || "";
+        if (isErrorHandle && errorData?.code === 400 && errorData?.apiMessageRes?.detail) {
+            console.log("errorData jemish---1-", errorData);
+            newInfoAlert(errorData?.apiMessageRes?.title || "", errorData?.apiMessageRes?.detail || "", "OK", "error").then(() => {
+                return {
+                    isSuccess: false,
+                    isStore: false,
+                    code: code.toString(),
+                    message: errorData.message || errorString.catchError,
+                };
+            });
+            return;
+        }
         if (isErrorHandle && errorData?.code === 403 && errorData?.apiMessageRes?.detail) {
             newInfoAlert("Authentication Error", errorData?.apiMessageRes.detail || "", "OK", "error").then(() => {
                 return {

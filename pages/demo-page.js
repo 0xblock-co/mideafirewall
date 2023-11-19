@@ -35,6 +35,7 @@ function getMatchingValues(data) {
         const matchingValues = {};
         for (const key in featureStatus) {
             if (featureStatus[key] === true) {
+            if (featureStatus[key]) {
                 if (eventLog[key]) {
                     matchingValues[key] = eventLog[key];
                 }
@@ -185,8 +186,7 @@ export default function DemoPage() {
                         setIsFetchingState(false);
                     }
                 } catch (error) {
-                    console.error("Error fetching event logs:", error);
-                    ToastMessage.error("An error occurred while fetching event logs.");
+                    // ToastMessage.error("An error occurred while fetching event logs.");
                     isFetching = false;
                     setIsFetchingState(false);
                 }
@@ -201,7 +201,7 @@ export default function DemoPage() {
             setIsFetchingState(false);
             isFetching = false;
         };
-    }, []);
+    }, [router]);
 
     const { control, handleSubmit, reset } = useForm();
     const onSubmit = async (data) => {

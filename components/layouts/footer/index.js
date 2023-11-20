@@ -110,6 +110,15 @@ export default function FooterBottom() {
                             <li style={{ color: "#fff" }} className="py-2">
                                 <Link href="/network-blogs">Demo</Link>
                             </li>
+                            <li style={{ color: "#fff" }} className="py-2">
+                                <Link href="/privacy-policy">Privacy policy</Link>
+                            </li>
+                            <li style={{ color: "#fff" }} className="py-2">
+                                <Link href="/terms-of-service">Terms of Use</Link>
+                            </li>
+                            <li style={{ color: "#fff" }} className="py-2">
+                                <Link href="/cancellation">Cancellation</Link>
+                            </li>
                         </ul>
                     </Col>
                 </Row>

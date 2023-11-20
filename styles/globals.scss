@@ -734,3 +734,44 @@ a {
         width: 100%;
     }
 }
+
+.terms {
+    color: #737588;
+    a {
+        color: var(--primaryColor);
+        &:hover {
+            color: var(--primaryColor);
+        }
+    }
+    p {
+        color: #737588;
+        font-size: 16px;
+        font-weight: 400;
+        span {
+            font-size: 16px;
+            font-weight: 400;
+            color: #737588;
+            span {
+                font-size: 16px;
+                font-weight: 400;
+                color: #737588;
+            }
+        }
+    }
+    ul {
+        color: #737588;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 24px;
+        span {
+            font-size: 15px;
+            font-weight: 400;
+            color: #737588;
+            span {
+                font-size: 15px;
+                font-weight: 400;
+                color: #737588;
+            }
+        }
+    }
+}

@@ -15,6 +15,7 @@ const nextConfig = {
         reCaptchaSiteKey: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
         whatsAppContactNumber: process.env.WHATSAPP_PHONE_NUMBER,
         embedTawkToUrl: process.env.EMBED_TAWK_TO_URL,
+        zohoSalesIq: process.env.ZOHO_SALES_IQ,
     },
 };
 

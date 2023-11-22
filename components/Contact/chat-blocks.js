@@ -2,7 +2,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import ContactWithSalesChat from "./UI/ChatWithSalesTeam";
+import ContactWithSalesChatV2 from "./UI/ChatWithSalesTeamV2";
+// import ContactWithSalesChat from "./UI/ChatWithSalesTeam";
 import WhatsAppChat from "./UI/whatsapp";
 
 export default function ContactChatBlock() {
@@ -30,8 +31,11 @@ export default function ContactChatBlock() {
                     <Col lg={4} xl={3}>
                         <WhatsAppChat phone={publicRuntimeConfig.whatsAppContactNumber} message="Hello there!" />
                     </Col>
-                    <Col lg={4} xl={3}>
+                    {/* <Col lg={4} xl={3}>
                         <ContactWithSalesChat />
+                    </Col> */}
+                    <Col lg={4} xl={3}>
+                        <ContactWithSalesChatV2 />
                     </Col>
                     <Col lg={4} xl={3}>
                         <div className="box-block-main">

@@ -227,3 +227,14 @@ export const asyncGetMFWTestCustomers = async () => {
         return e.message;
     }
 };
+
+export const asyncCreateMeetingLink = async (payload) => {
+    try {
+        const response = api.get(`/mfw/web/meeting/${payload.meetingTool}/${payload.meetingFor}`, payload).then(async (res) => {
+            return res;
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};

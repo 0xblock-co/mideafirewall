@@ -5,12 +5,15 @@ import { Fragment, useEffect, useState } from "react";
 import RegisterBlock from "@/components/Auth//register-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
+import { useAuth } from "@/contexts/AuthContext";
 import { asyncSignUpWithEmail, asyncSocialAuth } from "@/services/auth/auth.service";
 import { useAppDispatch } from "@/store/hooks";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
-import { useAuth } from "@/contexts/AuthContext";
+import getConfig from "next/config";
+import Head from "next/head";
 
 const SignupScreen = () => {
+    const { publicRuntimeConfig } = getConfig();
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const { isLogin, checkAuthRouteV2 } = useAuth();
@@ -61,6 +64,9 @@ const SignupScreen = () => {
     return (
         <Fragment>
             <NextSeo title="Create Account" />
+            <Head>
+                <script src={`https://www.google.com/recaptcha/api.js?render=${publicRuntimeConfig.reCaptchaSiteKey}`} async defer></script>
+            </Head>
             <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
                 <RegisterBlock handleSubmitSingUp={handleSubmitSignUp} />
             </BoxContainerWithFilterIconWrapper>

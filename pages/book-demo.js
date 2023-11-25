@@ -1,71 +1,47 @@
 import Loader from "@/components/Loader";
-import { useAuth } from "@/contexts/AuthContext";
-import { TIME_ZONE } from "@/data";
-import { asyncCreateMeeting } from "@/services/product/product.service";
 import style from "@/styles/bookMeeting.module.scss";
-import CommonUtility from "@/utils/common.utils";
-import { ToastMessage } from "@/utils/toastMessage.utils";
-import moment from "moment";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { asyncCreateMeetingLink } from "../services/product/product.service";
 
 export default function BookMeetingScreen() {
-    const { user } = useAuth();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        control,
-    } = useForm({
-        defaultValues: {
-            participants: [{ Email: "", name: "" }],
-        },
-    });
-    const [isLoading, setIsLoading] = useState(false);
+    const [selectedMeeting, setSelectedMeeting] = useState("GOOGLE_MEET"); // Default to Google Meet
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: "participants",
-    });
-
-    const handleAddFields = () => {
-        append({ Email: "", name: "" });
+    const handleMeetingSelection = (meeting) => {
+        setSelectedMeeting(meeting);
     };
 
-    const onSubmit = async (data) => {
-        if (CommonUtility.isValidArray(data.participants)) {
-            data.participants.map((item) => {
-                item.invited = true;
-                item.type = "email";
-                item.participant = item.Email;
-                return item;
-            });
-        }
-        const params = {
-            participants: data.participants,
-            virtualLocation: data.virtualLocation,
-            timeZone: data.timeZone,
-            // meetingId: crypto.randomBytes(16).toString("hex"),
-            dateAndTime: moment(data.date + " " + data.time, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-        };
+    const handleBookMeeting = async () => {
         setIsLoading(true);
-        try {
-            const response = await asyncCreateMeeting(params, user);
-            if (response && response.isSuccess && response.data) {
-                setIsLoading(false);
-                router.push("/contact-us");
 
-                ToastMessage.success("Meeting scheduled successfully");
+        try {
+            const result = await asyncCreateMeetingLink({ meetingTool: selectedMeeting, meetingFor: "DEMO" });
+            if (result && result.isSuccess && result?.data !== "") {
+                showSuccessAlert(result.data);
+            } else {
+                showErrorAlert();
             }
         } catch (error) {
-            ToastMessage.error("Something went wrong");
+            console.error("Error booking meeting:", error);
+            showErrorAlert();
+        } finally {
             setIsLoading(false);
         }
     };
 
+    const showSuccessAlert = (redirectUrl) => {
+        newInfoAlert("Ready for Meeting", "Your preferred meeting link has been generated. Click 'Proceed' to schedule the meeting at your convenience.", "Proceed", "success").then(() => {
+            window.open(redirectUrl, "_self");
+        });
+    };
+
+    const showErrorAlert = () => {
+        newInfoAlert("Error", "An error occurred while scheduling the meeting. Please try again later.", "OK", "error");
+    };
     return (
         <section className={style.mdf__book__meeting}>
             <Container>
@@ -98,106 +74,23 @@ export default function BookMeetingScreen() {
                                         margin: "0 auto",
                                     }}
                                 >
-                                    Book a Demo
+                                    Schedule a Demo Meeting With
                                 </h2>
                             </div>
-                            <Form onSubmit={handleSubmit(onSubmit)}>
-                                <Row className="g-3" style={{ marginBottom: "15px" }}>
-                                    <Col md={6} lg={4}>
-                                        <Form.Group>
-                                            <Form.Select aria-label="Default select example" {...register("virtualLocation")} className="mdf__form__input">
-                                                {/* <option defaultValue="GoogleMeet">GoogleMeet</option> */}
-                                                {/* <option defaultValue="MicrosoftTeams">
-                          MicrosoftTeams
-                        </option> */}
-                                                <option defaultValue="ZoomMeeting">ZoomMeeting</option>
-                                                <option defaultValue="ZOHO">ZOHO </option>
-                                            </Form.Select>
-                                            {errors.virtualLocation && <span className="d-flex text-left error-message">{errors.virtualLocation.message}</span>}
-                                        </Form.Group>
+                            <Row className="meeting-with-body">
+                                {["GOOGLE_MEET", "ZOOM_MEETING", "MICROSOFT_TEAMS", "ZOHO_MEETING"].map((meeting, index) => (
+                                    <Col key={index}>
+                                        <Card className={`h-100 ${selectedMeeting === meeting ? "selected" : ""}`} onClick={() => handleMeetingSelection(meeting)}>
+                                            <Card.Body>
+                                                <img src={`/images/meetings/${meeting}.svg`} className="meeting-icon" />
+                                            </Card.Body>
+                                        </Card>
                                     </Col>
-                                    <Col md={6} lg={4}>
-                                        <Form.Group>
-                                            <Form.Control type="date" placeholder="Select Date" className="mdf__form__input" {...register("date")} min={moment().format("YYYY-MM-DD")} />
-                                            {errors.date && <span className="d-flex text-left error-message">{errors.date.message}</span>}
-                                        </Form.Group>
-                                    </Col>
-
-                                    <Col md={6} lg={4}>
-                                        <Form.Group>
-                                            <Form.Control type="time" placeholder="Select time" className="mdf__form__input" {...register("time")} />
-                                            {errors.time && <span className="d-flex text-left error-message">{errors.time.message}</span>}
-                                        </Form.Group>
-                                    </Col>
-
-                                    <Col md={6} lg={12}>
-                                        <Form.Group controlId="exampleForm.ControlInput3">
-                                            <Form.Select aria-label="Default select example" {...register("timeZone")} className="mdf__form__input">
-                                                <option defaultValue="Asia/Kolkata">Asia/Kolkata</option>
-                                                {TIME_ZONE.map((zone, index) => {
-                                                    return (
-                                                        <option value={zone} key={index}>
-                                                            {zone}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </Form.Select>
-                                        </Form.Group>
-                                        {errors.timeZone && <span className="error-message">{errors.timeZone.message}</span>}
-                                    </Col>
-                                </Row>
-
-                                <Row className="g-3 x">
-                                    {fields.map((attendee, index) => {
-                                        return (
-                                            <React.Fragment key={index}>
-                                                <Col md={6} lg={4}>
-                                                    <Form.Group>
-                                                        <Form.Control
-                                                            type="text"
-                                                            key={attendee.id}
-                                                            name={`participants[${index}].name`}
-                                                            placeholder="Participant Name"
-                                                            className="mdf__form__input"
-                                                            {...register(`participants[${index}].name`)}
-                                                        />
-                                                        {errors.participants && <span className="error-message">{errors.participants?.[index]?.name?.message}</span>}
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col md={6} lg={4}>
-                                                    <Form.Group controlId="exampleForm.ControlInput3" key={attendee.id}>
-                                                        <Form.Control
-                                                            key={attendee.id}
-                                                            type="email"
-                                                            name={`participants[${index}].Email`}
-                                                            placeholder="Participant Email Address"
-                                                            className="mdf__form__input"
-                                                            {...register(`participants[${index}].Email`)}
-                                                        />
-                                                    </Form.Group>
-
-                                                    {errors.participants && <span className="error-message">{errors.participants?.[index]?.Email?.message}</span>}
-                                                </Col>
-                                                <Col md={6} lg={4}>
-                                                    {index === 0 && (
-                                                        <Button className="btn btn-primary  py-2 px-5 w-100 h-100" onClick={handleAddFields}>
-                                                            Add More
-                                                        </Button>
-                                                    )}
-                                                    {index !== 0 && (
-                                                        <Button className="btn btn-danger py-2 px-5 w-100 h-100" onClick={() => remove(index)}>
-                                                            Remove
-                                                        </Button>
-                                                    )}
-                                                </Col>
-                                            </React.Fragment>
-                                        );
-                                    })}
-                                </Row>
-                                <Button type="submit" className="btn btn-primary  mt-3 py-2 px-5">
-                                    Book
-                                </Button>
-                            </Form>
+                                ))}
+                            </Row>
+                            <Button className="mt-5 p-3" onClick={handleBookMeeting}>
+                                Schedule Now
+                            </Button>
                         </Card>
                     </Col>
                 </Row>

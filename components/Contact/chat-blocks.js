@@ -40,7 +40,7 @@ export default function ContactChatBlock() {
                     <Col lg={4} xl={3}>
                         <div className="box-block-main">
                             <div className="img-wrapper">
-                                <img src="/images/product-demo.jpg" alt="Get a Product demo" title="Get a Product demo" loading="lazy" className="lazyload" />
+                                <img src="/images/online-calendar.jpg" alt="Get a Product demo" title="Get a Product demo" loading="lazy" className="lazyload" />
                             </div>
                             <div className="box-content-block">
                                 <h2>Schedule a Demo</h2>
@@ -67,7 +67,8 @@ export default function ContactChatBlock() {
                     <Col lg={4} xl={3}>
                         <div className="box-block-main">
                             <div className="img-wrapper">
-                                <img src="/images/online-calendar.jpg" alt="GiveUsACall" className="lazyload" loading="lazy" title="give-call-icon" />
+                                <img src="/images/price-qoute.jpg" alt="GiveUsACall" className="lazyload" loading="lazy" title="give-call-icon" />
+                                {/* <img src="/images/online-calendar.jpg" alt="GiveUsACall" className="lazyload" loading="lazy" title="give-call-icon" /> */}
                             </div>
                             <div className="box-content-block">
                                 <h2>Get a Price Quote</h2>

@@ -11,10 +11,8 @@ const nextConfig = {
     },
     publicRuntimeConfig: {
         apiPath: process.env.API_PATH,
-        stripeClientKey: process.env.STRIPE_CLIENT_KEY,
         reCaptchaSiteKey: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
         whatsAppContactNumber: process.env.WHATSAPP_PHONE_NUMBER,
-        embedTawkToUrl: process.env.EMBED_TAWK_TO_URL,
         zohoSalesIq: process.env.ZOHO_SALES_IQ,
     },
 };

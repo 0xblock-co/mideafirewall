@@ -18,7 +18,6 @@ import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useEffect } from "react";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Helmet } from "react-helmet";
 import { IntlProvider } from "react-intl";
 const messages = {
@@ -83,7 +82,7 @@ export function App({ Component, pageProps }) {
             <IntlProvider locale={locale} messages={messages[locale]}>
                 <AuthProvider>
                     <MainLayout>
-                        <GoogleReCaptchaProvider
+                        {/* <GoogleReCaptchaProvider
                             reCaptchaKey={publicRuntimeConfig.reCaptchaSiteKey || ""}
                             scriptProps={{
                                 async: false,
@@ -91,10 +90,12 @@ export function App({ Component, pageProps }) {
                                 appendTo: "head",
                                 nonce: undefined,
                             }}
-                        >
+                        > */}
+                        <>
                             <Component {...pageProps} />
-                        </GoogleReCaptchaProvider>
-                        <ToastContainerConfig />
+                            {/* </GoogleReCaptchaProvider> */}
+                            <ToastContainerConfig />
+                        </>
                     </MainLayout>
                 </AuthProvider>
             </IntlProvider>

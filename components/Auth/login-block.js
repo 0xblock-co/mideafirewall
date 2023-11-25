@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 import { HiLockClosed, HiMail } from "react-icons/hi";
 import * as yup from "yup";
 // import { auth } from "@/services/firebase";
 import { showToast } from "@/components/ToastContainer/toaster";
 import { regex } from "@/constants/global.constants";
+import useRecaptcha from "../../hooks/useRecaptcha";
 import style from "./auth.module.scss";
 
 // Validation Schema
@@ -23,7 +23,8 @@ const schema = yup.object().shape({
 });
 
 const LoginBlock = ({ handleLoginSubmit }) => {
-    const { executeRecaptcha } = useGoogleReCaptcha();
+    // const { executeRecaptcha } = useGoogleReCaptcha();
+    const { captchaToken, executeRecaptcha } = useRecaptcha();
 
     // Form methods
     const {
@@ -42,9 +43,7 @@ const LoginBlock = ({ handleLoginSubmit }) => {
                 setError("captcha", { message: "Please verify captcha" });
                 return;
             }
-            executeRecaptcha("login").then(async (gReCaptchaToken) => {
-                window.location.href = "/api/auth/google";
-            });
+            window.location.href = "/api/auth/google";
         } catch (error) {
             showToast("error", error);
         }
@@ -52,18 +51,21 @@ const LoginBlock = ({ handleLoginSubmit }) => {
 
     // Handle Form Submission
     const onSubmitLogin = useCallback(
-        (data) => {
+        async (data) => {
             if (!executeRecaptcha) {
                 setError("captcha", { message: "Please verify captcha" });
                 return;
             }
-            executeRecaptcha("login").then(async (gReCaptchaToken) => {
+            await executeRecaptcha();
+            if (captchaToken) {
                 await handleLoginSubmit({
                     ...data,
                     authType: "email",
-                    gReCaptchaToken,
+                    gReCaptchaToken: captchaToken,
                 });
-            });
+            } else {
+                setError("captcha", { message: "Please verify captcha" });
+            }
         },
         [executeRecaptcha, setError]
     );

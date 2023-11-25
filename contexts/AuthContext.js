@@ -1,11 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { authActions, getUserDetails } from "@/store/auth.slice";
-import { eraseCookie, readCookie } from "@/utils/cookieCreator";
 import { localStorageKeys } from "@/constants/global.constants";
-import Router from "next/router";
+import { authActions, getUserDetails } from "@/store/auth.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
+import { eraseCookie, readCookie } from "@/utils/cookieCreator";
+import getConfig from "next/config";
+import Router from "next/router";
+
+const { publicRuntimeConfig } = getConfig();
 
 //api here is an axios instance which has the baseURL set according to the env.
 
@@ -19,6 +22,31 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         setUser(userDetails);
+
+        const accessToken = readCookie(localStorageKeys.userAccessToken);
+        const refreshToken = readCookie(localStorageKeys.userRefreshToken);
+        if (CommonUtility.isNotEmptyObject(userDetails) && accessToken && refreshToken) {
+            const script = document.createElement("script");
+            script.type = "text/javascript";
+            script.id = "zsiqscript";
+            script.innerHTML = `
+                var $zoho = $zoho || {};
+                $zoho.salesiq = $zoho.salesiq || {
+                    widgetcode: "${publicRuntimeConfig.zohoSalesIq}",
+                    values: {},
+                    ready: function () {}
+                };
+                var d = document;
+                var s = d.createElement("script");
+                s.type = "text/javascript";
+                s.id = "zsiqscript";
+                s.defer = true;
+                s.src = "https://salesiq.zohopublic.in/widget";
+                var t = d.getElementsByTagName("script")[0];
+                t.parentNode.insertBefore(s, t);
+            `;
+            document.head.appendChild(script);
+        }
     }, [userDetails]);
 
     // useEffect(() => {

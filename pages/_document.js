@@ -28,24 +28,6 @@ class MyDocument extends Document {
                     />
                     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
                     <Script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" />
-                    {/* Include tawk.to chat script */}
-                    <script
-                        dangerouslySetInnerHTML={{
-                            __html: `
-                var Tawk_API = Tawk_API || {};
-                var Tawk_LoadStart = new Date();
-                (function () {
-                  var s1 = document.createElement("script"),
-                    s0 = document.getElementsByTagName("script")[0];
-                  s1.async = true;
-                  s1.src = 'https://embed.tawk.to/6526d910eb150b3fb9a07a1f/1hcfrvqpd';
-                  s1.charset = 'UTF-8';
-                  s1.setAttribute('crossorigin', '*');
-                  s0.parentNode.insertBefore(s1, s0);
-                })();
-              `,
-                        }}
-                    />
                 </Head>
                 <body>
                     <Main />

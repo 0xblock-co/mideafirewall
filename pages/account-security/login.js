@@ -1,15 +1,20 @@
-import { Fragment, useEffect, useState } from "react";
-import { NextSeo } from "next-seo";
-import { useAppDispatch } from "@/store/hooks";
+/* eslint-disable @next/next/no-sync-scripts */
 import LoginBlock from "@/components/Auth/login-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
-import { asyncLoginWithEmail, asyncSocialAuth } from "@/services/auth/auth.service";
-import { newInfoAlert } from "@/utils/toastMessage.utils";
-import { useRouter } from "next/router";
 import { useAuth } from "@/contexts/AuthContext";
+import { asyncLoginWithEmail, asyncSocialAuth } from "@/services/auth/auth.service";
+import { useAppDispatch } from "@/store/hooks";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
+import { NextSeo } from "next-seo";
+import getConfig from "next/config";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { Fragment, useEffect, useState } from "react";
 
 const LoginScreen = () => {
+    const { publicRuntimeConfig } = getConfig();
+
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const { isLogin, checkAuthRouteV2 } = useAuth();
@@ -89,6 +94,9 @@ const LoginScreen = () => {
     return (
         <Fragment>
             <NextSeo title="Login" />
+            <Head>
+                <script src={`https://www.google.com/recaptcha/api.js?render=${publicRuntimeConfig.reCaptchaSiteKey}`} async defer></script>
+            </Head>
             <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
                 <LoginBlock handleLoginSubmit={handleLoginSubmit} />
             </BoxContainerWithFilterIconWrapper>

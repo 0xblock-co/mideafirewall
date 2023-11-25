@@ -1,10 +1,6 @@
 import axios from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
-import getConfig from "next/config";
 
-const { publicRuntimeConfig } = getConfig();
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req, res) {
     const { token } = req.body;
 
     try {

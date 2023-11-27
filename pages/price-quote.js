@@ -28,7 +28,7 @@ export default function Survey() {
         //   return;
         // }
         if (isLogin && user?.priceQuoteAnswered) {
-            router.push("/book-demo");
+            router.push("/book-demo?type=DEMO");
             return;
         }
         getQuestions();
@@ -93,12 +93,11 @@ export default function Survey() {
                             // );
                             newInfoAlert("Thank you for providing answers.", "The price quote will be sent to your email address. ", "Okay", "success", true)
                                 .then(() => {
-                                    router.push("/book-demo");
+                                    router.push("/book-demo?type=DEMO");
                                 })
                                 .catch(() => {
                                     router.push("/contact-us");
                                 });
-                            // router.push("/book-demo");
                             return;
                         } else {
                             ToastMessage.error(response?.message || "Something went wrong");

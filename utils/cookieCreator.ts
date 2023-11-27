@@ -14,10 +14,11 @@ export function setCookieWithJwtExp(name, value, jwtToken) {
     const expirationTime = new Date(payload.exp * 1000); // Convert "exp" to milliseconds
     document.cookie = `${name}=${value};expires=${expirationTime.toUTCString()};path=/`;
 }
+const isDecode = typeof document !== "undefined";
 
 export function readCookie(name: string) {
     const nameEQ = `${name}=`;
-    const ca = document.cookie.split(";");
+    const ca = isDecode ? document.cookie.split(";") : ";";
     for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
         while (c.charAt(0) === " ") {
@@ -28,6 +29,17 @@ export function readCookie(name: string) {
         }
     }
     return null;
+}
+
+export function getCookieFromCookieStore(cName) {
+    const name = cName + "=";
+    const cDecoded = isDecode ? decodeURIComponent(document.cookie) : ";";
+    const cArr = cDecoded.split("; ");
+    let res;
+    cArr.forEach((val) => {
+        if (val.indexOf(name) === 0) res = val.substring(name.length);
+    });
+    return res;
 }
 
 export function eraseCookie(name: string) {

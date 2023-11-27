@@ -141,7 +141,8 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
                                 variant="success"
                                 className="mx-3 mb-3 text-uppercase d-flex align-items-center justify-content-center"
                                 size="lg"
-                                onClick={() => router.push("/contact-us")}
+                                onClick={() => router.push("/book-demo?type=ENTERPRISE")}
+                                // onClick={() => router.push("/contact-us")}
                                 style={{
                                     position: "absolute",
                                     bottom: "20px",

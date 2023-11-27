@@ -148,13 +148,22 @@ export const decodeData = (token, key) => {
     }
 };
 
-export const decodeJWTToekn = (token) => {
+export const decodeJWTToken = (token) => {
     return jwt(token);
 };
 export function setCookieWithExpiration(name, value) {
-    const decodedData = decodeJWTToekn(value);
-    const expirationTime = new Date(decodedData.exp * 1000);
-    document.cookie = `${name}=${value};expires=${expirationTime.toUTCString()};path=/`;
+    try {
+        const decodedData = decodeJWTToken(value);
+
+        if (!decodedData.exp) {
+            throw new Error("Token does not have an expiration time.");
+        }
+
+        const expirationTime = new Date(decodedData.exp * 1000);
+        document.cookie = `${name}=${value};expires=${expirationTime.toUTCString()};path=/`;
+    } catch (error) {
+        console.error("Error setting cookie with expiration:", error);
+    }
 }
 
 export const getComponentType = (type) => {
@@ -189,7 +198,7 @@ export const asyncGetAccessToken = async () => {
             email,
         });
 
-        if (response.data && response.isSuccess) {
+        if (response.data) {
             setCookieWithExpiration(localStorageKeys.userRefreshToken, response.data["refreshToken"]);
             setCookieWithExpiration(localStorageKeys.userAccessToken, response.data["accessToken"]);
             return {

@@ -28,7 +28,7 @@ export default function Survey() {
         //   return;
         // }
         if (isLogin && user?.meetingSurveyAnswered) {
-            router.push("/book-demo");
+            router.push("/book-demo?type=DEMO");
             return;
         }
         getQuestions();
@@ -87,7 +87,7 @@ export default function Survey() {
                     if (response) {
                         if (response.isSuccess) {
                             ToastMessage.success("Thank you for submitting answer.");
-                            Router.push("/book-demo");
+                            Router.push("/book-demo?type=DEMO");
                             return;
                         } else {
                             ToastMessage.error(response?.message || "Something went wrong");

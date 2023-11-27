@@ -52,7 +52,7 @@ export default function ContactChatBlock() {
                                     // onClick={() => router.push("/network-blog")}
                                     onClick={() => {
                                         if (isLogin && user?.meetingSurveyAnswered) {
-                                            router.push("/book-demo");
+                                            router.push("/book-demo?type=DEMO");
                                         } else {
                                             router.push("/schedule-demo");
                                         }
@@ -79,7 +79,7 @@ export default function ContactChatBlock() {
                                     className="w-100 mt-3 py-3 common-btn"
                                     onClick={() => {
                                         if (isLogin && user?.meetingSurveyAnswered) {
-                                            router.push("/book-demo");
+                                            router.push("/book-demo?type=DEMO");
                                         } else {
                                             router.push("/price-quote");
                                         }

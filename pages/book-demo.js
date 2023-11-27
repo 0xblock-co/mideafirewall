@@ -2,7 +2,7 @@ import Loader from "@/components/Loader";
 import style from "@/styles/bookMeeting.module.scss";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { asyncCreateMeetingLink } from "../services/product/product.service";
 
@@ -19,7 +19,7 @@ export default function BookMeetingScreen() {
         setIsLoading(true);
 
         try {
-            const result = await asyncCreateMeetingLink({ meetingTool: selectedMeeting, meetingFor: "DEMO" });
+            const result = await asyncCreateMeetingLink({ meetingTool: selectedMeeting, meetingFor: router.query.type || "DEMO" });
             if (result && result.isSuccess && result?.data !== "") {
                 showSuccessAlert(result.data);
             } else {

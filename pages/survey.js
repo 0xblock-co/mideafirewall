@@ -1,32 +1,27 @@
 import { cloneDeep } from "lodash";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
+import ProtectRoute from "@/contexts-v2/protectedRoute";
 import { asyncGetSignedUpSurveyQuestionsV2, asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
 
-export default function Survey() {
+const NewUserSurvey = () => {
     const [formData, setFormData] = useState([]);
     const [defaultValue, setDefaultValue] = useState({});
     const [formAnswerData, setFormAnswerData] = useState([]);
-    const router = useRouter();
     const dispatch = useAppDispatch();
-    const { isLogin, user, checkAuthRouteV2 } = useAuth();
+    const { user, checkIsValidRoute } = useAuthV3();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        // const { isActive, route } = checkAuthRouteV2();
-        // if (!isLogin && !isActive) {
-        //   router.push(route);
-        //   return;
-        // }
         getQuestions();
     }, []);
 
@@ -34,7 +29,6 @@ export default function Survey() {
         dispatch(asyncGetSignedUpSurveyQuestionsV2())
             .unwrap()
             .then((response) => {
-                console.log("response: ", response);
                 if (response && response.isSuccess && response.data) {
                     const data = getFilteredData(response.data.questions);
                     if (data) {
@@ -111,4 +105,5 @@ export default function Survey() {
             {isLoading && <Loader isLoading={isLoading} />}
         </BoxContainerWithFilterIconWrapper>
     );
-}
+};
+export default ProtectRoute(NewUserSurvey);

@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import { Button, Container } from "react-bootstrap";
 
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { asyncChangeSubscription } from "@/services/product/product.service";
 import { authActions } from "@/store/auth.slice";
 import { getMfwTestCustomersSelector } from "@/store/defaultConfig.slice";
@@ -18,7 +18,7 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
     const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
 
     const router = useRouter();
-    const { isLogin, user } = useAuth();
+    const { isLogin, user } = useAuthV3();
 
     const dispatch = useAppDispatch();
     useEffect(() => {

@@ -21,7 +21,8 @@ export default function BookMeetingScreen() {
         try {
             const result = await asyncCreateMeetingLink({ meetingTool: selectedMeeting, meetingFor: router.query.type || "DEMO" });
             if (result && result.isSuccess && result?.data !== "") {
-                showSuccessAlert(result.data);
+                window.open(result.data, "_self");
+                // showSuccessAlert(result.data);
             } else {
                 showErrorAlert();
             }
@@ -33,11 +34,11 @@ export default function BookMeetingScreen() {
         }
     };
 
-    const showSuccessAlert = (redirectUrl) => {
-        newInfoAlert("Ready for Meeting", "Your preferred meeting link has been generated. Click 'Proceed' to schedule the meeting at your convenience.", "Proceed", "success").then(() => {
-            window.open(redirectUrl, "_self");
-        });
-    };
+    // const showSuccessAlert = (redirectUrl) => {
+    //     newInfoAlert("Ready for Meeting", "Your preferred meeting link has been generated. Click 'Proceed' to schedule the meeting at your convenience.", "Proceed", "success").then(() => {
+    //         window.open(redirectUrl, "_self");
+    //     });
+    // };
 
     const showErrorAlert = () => {
         newInfoAlert("Error", "An error occurred while scheduling the meeting. Please try again later.", "OK", "error");
@@ -74,7 +75,7 @@ export default function BookMeetingScreen() {
                                         margin: "0 auto",
                                     }}
                                 >
-                                    Schedule a Demo Meeting With
+                                    Choose your preferred meeting tool
                                 </h2>
                             </div>
                             <Row className="meeting-with-body">

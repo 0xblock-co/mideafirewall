@@ -1,12 +1,11 @@
 import Router from "next/router";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
-import { useAuth } from "@/contexts/AuthContext";
-
+import { useAuthV3 } from "@/contexts-v2/auth.context";
 import style from "./pricing.module.scss";
 
 export default function PricingModerate() {
-    const { isLogin } = useAuth();
+    const { isLogin } = useAuthV3();
 
     return (
         <section className={style.mdf__moderate_banner}>

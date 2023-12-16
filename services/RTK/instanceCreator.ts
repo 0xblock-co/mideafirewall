@@ -64,6 +64,14 @@ const instanceCreator = (baseUrl = null): AxiosInstance => {
             if (token) {
                 request.headers.Authorization = `Bearer ${token}`;
             }
+            // else {
+            //     const refreshTokenResponse = await refreshAccessToken();
+            //     if (!refreshTokenResponse?.isSuccess) {
+            //         eraseCookie(localStorageKeys.userAccessToken);
+            //         eraseCookie(localStorageKeys.userRefreshToken);
+            //         localStorage.clear();
+            //     }
+            // }
         }
         // request.withCredentials = true;
         return request;

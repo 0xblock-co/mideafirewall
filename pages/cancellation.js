@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 
-const ContentPage = () => {
+const Cancellation = () => {
     return (
         <div style={{ margin: "100px 0" }}>
             <Container>
@@ -10,7 +10,7 @@ const ContentPage = () => {
                             <h1>Cancellation and Refund Policy</h1>
                             <p>
                                 <span>
-                                    This Cancellation and Refund Policy ("Policy") applies to all services provided by MediaFirewall through our website at{" "}
+                                    This Cancellation and Refund Policy (&quot;Policy&quot;) applies to all services provided by MediaFirewall through our website at{" "}
                                     <a href="http://www.mediafirewall.ai/" target="_blank" rel="noreferrer">
                                         www.mediafirewall.ai
                                     </a>
@@ -34,16 +34,6 @@ const ContentPage = () => {
                                             <br />
                                             Customers subscribing to our services may cancel their subscription at any time. The cancellation will be effective at the end of the current billing
                                             period. No pro-rata refunds will be provided for the remaining unused days of the subscription.
-                                        </li>
-                                        <li style={{ listStyle: "none" }}>
-                                            <span>
-                                                <span>
-                                                    <strong>1.2 One-Time Services:</strong>
-                                                </span>
-                                            </span>
-                                            <br />
-                                            For one-time services, customers may cancel within a specified time frame before the scheduled service delivery. Any cancellations after this period may not
-                                            be eligible for a refund.
                                         </li>
                                     </ol>
                                 </li>
@@ -74,7 +64,7 @@ const ContentPage = () => {
                                             Refunds for one-time services are subject to the following conditions:
                                             <ul>
                                                 <li>Full refund: If the cancellation is made within 1 days before the scheduled service date.</li>
-                                                <li>Partial refund: If the cancellation is made within 10 days before the scheduled service date, a [percentage]% cancellation fee may apply.</li>
+                                                <li>Partial refund: If the cancellation is made within 10 days before the scheduled service date, a 50% cancellation fee may apply.</li>
                                             </ul>
                                         </li>
                                     </ol>
@@ -86,7 +76,7 @@ const ContentPage = () => {
                                         </span>
                                     </span>
                                     <br />
-                                    Customers can request cancellations or refunds by contacting our customer support team at [Your Customer Support Email] or [Your Customer Support Phone Number].
+                                    Customers can request cancellations or refunds by contacting our customer support team at <a href="mailto:support@mediafirewall.ai">support@mediafirewall.ai</a>.
                                     Please provide relevant details, such as your order number and the reason for the cancellation or refund request.
                                 </li>
                                 <li style={{ listStyle: "none" }}>
@@ -106,7 +96,8 @@ const ContentPage = () => {
                                         </span>
                                     </span>
                                     <br />
-                                    If you have any questions about this Cancellation and Refund Policy, please contact us at [Your Contact Email] or [Your Contact Phone Number].
+                                    If you have any questions about this Cancellation and Refund Policy, please contact us at <a href="mailto:info@mediafirewall.ai">info@mediafirewall.ai</a> Or{" "}
+                                    <a href="mailto:info@mediafirewall.ai">+91 99001 19968</a>.
                                 </li>
                             </ol>
                         </div>
@@ -117,4 +108,4 @@ const ContentPage = () => {
     );
 };
 
-export default ContentPage;
+export default Cancellation;

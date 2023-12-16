@@ -19,20 +19,6 @@ const WhatsAppChat = ({ phone, message }) => {
             </div>
         </div>
     );
-    // return (
-    //   <Card className={style.mdf__chatcard}>
-    //     <Image
-    //       className={style.chat__icons}
-    //       layout="fill"
-    //       src="/images/Whatsapp.png"
-    //       alt="A globe icon with filter and text."
-    //     />
-    //     <h6 className="my-4">Whatsapp</h6>
-    //     <Button variant="primary" onClick={handleClickOnWhatsapp}>
-    //       Send Message
-    //     </Button>
-    //   </Card>
-    // );
 };
 
 export default WhatsAppChat;

@@ -9,7 +9,6 @@ import { HiMail } from "react-icons/hi";
 import * as yup from "yup";
 
 import { useCallback } from "react";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import style from "./auth.module.scss";
 
 //Validation Schema
@@ -18,9 +17,6 @@ const schema = yup.object().shape({
 });
 
 const ForgotPasswordBlock = ({ handleForgotPasswordSubmit }) => {
-    const { executeRecaptcha } = useGoogleReCaptcha();
-
-    //useForm
     const {
         register,
         handleSubmit,
@@ -32,20 +28,13 @@ const ForgotPasswordBlock = ({ handleForgotPasswordSubmit }) => {
 
     //Form submit method
     const onSubmitLogin = useCallback(
-        (data) => {
-            if (!executeRecaptcha) {
-                setError("captcha", { message: "Please verify captcha" });
-                return;
-            }
-            executeRecaptcha("login").then(async (gReCaptchaToken) => {
-                await handleForgotPasswordSubmit({
-                    ...data,
-                    authType: "email",
-                    gReCaptchaToken,
-                });
+        async (data) => {
+            await handleForgotPasswordSubmit({
+                ...data,
+                authType: "email",
             });
         },
-        [executeRecaptcha, setError]
+        [setError]
     );
 
     //render method

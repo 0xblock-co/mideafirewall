@@ -28,6 +28,20 @@ export const getFilteredData = (dataObj) => {
                     });
                     break;
 
+                case "text-area":
+                    formElements.push({
+                        id: counter++,
+                        name: component.label.toLowerCase(),
+                        label: component.label,
+                        title: question.question,
+                        placeholder: component.placeholder,
+                        rows: component.rows,
+                        type: "text-area",
+                        isRender: false,
+                        validation: yup.string().required(`${component.label} is required`),
+                    });
+                    break;
+
                 case "email":
                     formElements.push({
                         id: counter++,
@@ -215,9 +229,11 @@ export const asyncGetAccessToken = async () => {
 
 export function getUrlVars() {
     var vars = {};
-    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-        vars[key] = value;
-    });
+    if (window !== undefined) {
+        window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+            vars[key] = value;
+        });
+    }
     return vars;
 }
 

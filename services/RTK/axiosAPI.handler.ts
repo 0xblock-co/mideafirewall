@@ -226,10 +226,8 @@ class Api {
      */
     private static getErrorData(errorData: ErrorResult | any, isErrorHandle: boolean): ErrorResult | any {
         // Prepare error data
-        // console.log("errorData ---1-", errorData);
         const code: string | number = errorData.code || "";
         if (isErrorHandle && errorData?.code === 400 && errorData?.apiMessageRes?.detail) {
-            console.log("errorData jemish---1-", errorData);
             newInfoAlert(errorData?.apiMessageRes?.title || "", errorData?.apiMessageRes?.detail || "", "OK", "error").then(() => {
                 return {
                     isSuccess: false,
@@ -240,6 +238,7 @@ class Api {
             });
             return;
         }
+
         if (isErrorHandle && errorData?.code === 403 && errorData?.apiMessageRes?.detail) {
             newInfoAlert("Authentication Error", errorData?.apiMessageRes.detail || "", "OK", "error").then(() => {
                 return {
@@ -264,7 +263,6 @@ class Api {
             return;
         }
 
-        console.log("errorData: ", errorData);
         if (isErrorHandle && errorData?.code === 401 && errorData?.apiMessageRes) {
             newInfoAlert(
                 errorData?.title || "Invalid User Credentials",
@@ -279,14 +277,6 @@ class Api {
                     message: errorData.message || errorString.catchError,
                 };
             });
-            // newInfoAlert("Invalid User Credentials", "We couldn't authenticate your account. Please double-check your username and password and try again.", "OK", "error").then(() => {
-            //     return {
-            //         isSuccess: false,
-            //         isStore: false,
-            //         code: code.toString(),
-            //         message: errorData.message || errorString.catchError,
-            //     };
-            // });
             return;
         }
 
@@ -309,15 +299,6 @@ class Api {
                 code: errorData?.code.toString(),
                 message: errorData?.apiMessageRes.detail,
             };
-            // newInfoAlert("Free quota exceeded", errorData?.apiMessageRes.detail, "OK", "error").then(() => {
-            //     return {
-            //         isSuccess: false,
-            //         isStore: false,
-            //         code: code.toString(),
-            //         message: errorData.message || errorString.catchError,
-            //     };
-            // });
-            // return;
         }
 
         if (isErrorHandle && errorData?.code === 500 && errorData?.apiMessageRes?.detail) {
@@ -337,6 +318,7 @@ class Api {
         }
 
         return {
+            ...errorData,
             isSuccess: false,
             isStore: false,
             code: code.toString(),

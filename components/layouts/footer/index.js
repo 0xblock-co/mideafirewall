@@ -1,26 +1,64 @@
 import Image from "next/image";
 import { Col, Container, Row } from "react-bootstrap";
 
-import style from "./footer.module.scss";
+import VideoModal from "@/components/VideoModal";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
+import { getAllHeaderDataOptions, getAllHeaderDataOptionsUpdated, getMFWMediaContents } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
-import { getAllHeaderDataOptions, getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
 import CommonUtility from "@/utils/common.utils";
-import Link from "next/link";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import style from "./footer.module.scss";
 export default function FooterBottom() {
     const headerData = useAppSelector(getAllHeaderDataOptions);
     const headerDataV2 = useAppSelector(getAllHeaderDataOptionsUpdated);
+    const mediaContent = useAppSelector(getMFWMediaContents);
+
+    const { isLogin, user } = useAuthV3();
+    const [isShowVideoModel, setIsShowVideoModel] = useState(false);
+    const [selectedMediaContent, setSelectedMediaContent] = useState(null);
+
+    useEffect(() => {
+        if (!isShowVideoModel) setSelectedMediaContent(null);
+    }, [isShowVideoModel]);
 
     const router = useRouter();
     const handleFeatureCardOnClick = (feature, id) => {
         if (!feature.active) {
+            setSelectedMediaContent(feature);
+            if (feature.webFeatureKey === "deepfake" || feature.featureId == "134") {
+                newInfoAlert("Coming Soon", "", "Watch a Demo", "info", true, "Cancel").then(() => {
+                    setIsShowVideoModel(true);
+                });
+                return;
+            }
+
             newInfoAlert(
-                "Personalized Feature Activation",
-                "If you'd like to activate this feature for your account, please get in touch with us via email, and we'll take care of it for you.",
-                "Okay"
-            );
+                "Enterprise Feature",
+                "Your request for the enterprise feature is appreciated; however, it's not enabled by default. Would you be interested in a live demonstration?",
+                "Schedule a live demo",
+                "info",
+                true,
+                "Watch a Demo"
+            )
+                .then(() => {
+                    if (isLogin) {
+                        if (user?.meetingSurveyAnswered) {
+                            router.push("/book-demo?type=DEMO");
+                        } else {
+                            router.push("/schedule-demo");
+                        }
+                    } else {
+                        router.push("/account-security/login");
+                    }
+                })
+                .catch(() => {
+                    setIsShowVideoModel(true);
+                });
         } else {
+            setSelectedMediaContent(null);
             let selectedFeature = {
                 selectedFeatureIds: [feature.webFeatureKey],
                 selectedOptions: {},
@@ -47,13 +85,35 @@ export default function FooterBottom() {
                                 <Image className="mdf__logo_footer" layout="fill" src="/images/footer-logo.png" alt="" />
                             </div>
                             <div className={style.footer_content_text}>
-                                <b>Million Visions,</b>
+                                <a href="https://www.themillionvisions.com/" target="_blank">
+                                    <u>
+                                        <b>Million Visions,</b>
+                                    </u>
+                                </a>
                                 <br /> Hustlehub Tech Park - #36/5,
                                 <br /> Somasandra Palya, <br />
                                 Haralukunte Village, Sector2, <br /> adjacent 27th MainRoad,
                                 <br />
                                 HSR Layout, Bengaluru,
                                 <br /> Karnataka 560102.
+                                <div>
+                                    <div className="d-flex flex-row align-items-center gap-3" style={{ color: "white", fontSize: "14px" }}>
+                                        <span style={{ color: "#ca98e9", width: "auto" }}>
+                                            <i className="fa fa-envelope" aria-hidden="true" style={{ fontSize: "16px" }}></i>
+                                        </span>
+                                        <a href="mailto:sales@mediafirewall.ai">
+                                            <u>sales@mediafirewall.ai</u>
+                                        </a>
+                                    </div>
+                                    <div className="d-flex flex-row align-items-center gap-3" style={{ color: "white", fontSize: "14px" }}>
+                                        <span style={{ color: "#ca98e9", width: "auto" }}>
+                                            <i className="fa fa-envelope" aria-hidden="true" style={{ fontSize: "16px" }}></i>
+                                        </span>
+                                        <a href="mailto:support@mediafirewall.ai">
+                                            <u>support@mediafirewall.ai</u>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </Col>
@@ -71,7 +131,7 @@ export default function FooterBottom() {
                         </ul>
                     </Col>
                     <Col lg={3} md={6}>
-                        <h5 className="mt-3">Models</h5>
+                        <h5 className="mt-3">Features</h5>
                         <ul className="list-unstyled">
                             {CommonUtility.isValidArray(headerDataV2) &&
                                 CommonUtility.isValidArray(headerDataV2[0].features) &&
@@ -108,7 +168,7 @@ export default function FooterBottom() {
                                 <Link href="/pricing">Pricing</Link>
                             </li>
                             <li style={{ color: "#fff" }} className="py-2">
-                                <Link href="/network-blogs">Demo</Link>
+                                <Link href="/network-blog">Demo</Link>
                             </li>
                             <li style={{ color: "#fff" }} className="py-2">
                                 <Link href="/privacy-policy">Privacy policy</Link>
@@ -123,6 +183,14 @@ export default function FooterBottom() {
                     </Col>
                 </Row>
             </Container>
+            {selectedMediaContent && isShowVideoModel && (
+                <VideoModal
+                    show={isShowVideoModel}
+                    handleClose={setIsShowVideoModel}
+                    videoUrl={CommonUtility.isNotEmpty(selectedMediaContent?.clipUrl) ? selectedMediaContent?.clipUrl : "https://www.youtube.com/embed/nafYaz7caGQ?si=vQKekrtF7fNITp4d"}
+                    posterImage={selectedMediaContent?.imgUrl || ""}
+                />
+            )}
         </footer>
     );
 }

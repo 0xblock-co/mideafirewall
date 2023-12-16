@@ -1,13 +1,16 @@
-import { useAuth } from "@/contexts/AuthContext";
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/alt-text */
 import { asyncGenerateProofsByEmail, asyncGetContentEventLogs } from "@/services/product/product.service";
 import { cloneDeep } from "lodash";
 
 import RenderIf from "@/components/ConditionalRender/RenderIf";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
+import ProtectRoute from "@/contexts-v2/protectedRoute";
 import CommonUtility from "@/utils/common.utils";
 import { getUrlVars } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Modal, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
@@ -17,14 +20,18 @@ import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import style from "../components/DemoPage/demo-page.module.scss";
 
 const fetchInterval = 5000;
+const maxTimeout = 120000; // 2 minute in milliseconds
+
 const shouldStopFetching = (data) => {
     const routerData = getUrlVars();
     if (CommonUtility.isNotEmpty(routerData?.filters)) {
         const appliedFiltersLength = routerData.filters.split(",").length;
+
+        if (data?.errorLog) {
+            return true;
+        }
         return data?.operationStatus && Object.keys(data?.operationStatus).length == appliedFiltersLength;
-        // return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;
     }
-    // return data?.featureStatus && Object.keys(data?.featureStatus).length > 0;
 };
 
 function findFalseValueKeysV2(obj1, obj2) {
@@ -34,7 +41,6 @@ function findFalseValueKeysV2(obj1, obj2) {
 }
 
 function getMatchingValues(data) {
-    console.log("data: ", data);
     if (data && data.featureStatus && data.eventLog) {
         const { featureStatus, eventLog, operationStatus } = data;
         const matchingValues = {};
@@ -71,7 +77,6 @@ function getMatchingValues(data) {
                     });
             }
         }
-        console.log("matchingValues: ", matchingValues);
         return { ...matchingValues };
     }
     return {};
@@ -141,113 +146,46 @@ function getMatchingValuesV2(data) {
     return {};
 }
 
-export default function DemoPage() {
+const DemoPage = () => {
     const [showModal, setShowModal] = useState(false);
     const router = useRouter();
-    const { user, checkAuthRouteV2 } = useAuth();
-    const [isFetchingState, setIsFetchingState] = useState(true);
-    // const [eventLogData, setEventLogData] = useState({
-    //   videoId: "V490787171680137_sams@trek.com_URL_61743",
-    //   userId: "sams@trek.com",
-    //   complete: false,
-    //   requestType: "URL",
-    //   eventStartTime: "2023-10-09T07:06:21.797",
-    //   processExitStatus: false,
-    //   startTime: "2023-10-09T07:06:21.797",
-    //   eventLog: {
-    //     A: {
-    //       modelId: "A",
-    //       webFeatureKey: "Nudity",
-    //       eventId:
-    //         "sams@trek.com_V490787171680137_sams@trek.com_URL_61743_A_2023-10-09T07:06:23:675548_2023-10-09T07:06:29:651765",
-    //       processingStartTime: "2023-10-09T07:06:23:675548",
-    //       processingEndTime: "2023-10-09T07:06:29:651765",
-    //       report: {
-    //         imageUrls: [],
-    //         clipUrls: [],
-    //         videoUrls: [],
-    //         documentReport: {
-    //           report: {
-    //             Model: "Success",
-    //             Model_Name: "Nudity",
-    //             InputVideoUrl:
-    //               "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
-    //             TotalFramesProcessed: "1",
-    //             "Video processing time in minutes": "0.09960",
-    //           },
-    //         },
-    //       },
-    //       operations: 1,
-    //     },
-    //     2: {
-    //       modelId: "2",
-    //       webFeatureKey: "Type",
-    //       eventId:
-    //         "sams@trek.com_V490787171680137_sams@trek.com_URL_61743_2_2023-10-09T07:06:45:357037_2023-10-09T07:06:45:357338",
-    //       processingStartTime: "2023-10-09T07:06:45:357037",
-    //       processingEndTime: "2023-10-09T07:06:45:357338",
-    //       report: {
-    //         imageUrls: [],
-    //         clipUrls: [],
-    //         videoUrls: [],
-    //         documentReport: {
-    //           report: {
-    //             Model: "Success",
-    //             InputVideoUrl:
-    //               "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
-    //             "Image Quality": "Bad",
-    //             "Total Frames processed": "0",
-    //             "Video processing time in minutes": "0.00",
-    //           },
-    //         },
-    //       },
-    //       operations: 0,
-    //     },
-    //   },
-    //   operations: 1,
-    //   modelStatus: {
-    //     A: false,
-    //     Nudity: false,
-    //     2: false,
-    //     Type: false,
-    //   },
-    //   featureStatus: {},
-    //   video: {
-    //     inputVideoURL:
-    //       "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
-    //     videoSizeInKB: 0,
-    //     videoSizeInMB: 0,
-    //     videoDurationInSeconds: 0,
-    //     type: "IMAGE",
-    //     frames: 0,
-    //     fps: 0,
-    //   },
-    // });
-    const [eventLogData, setEventLogData] = useState(null);
-    console.log("eventLogData: ", eventLogData);
-    // const [eventLogDataV2, setEventLogDataV2] = useState(null);
+    const { user } = useAuthV3();
 
+    const [isFetchingState, setIsFetchingState] = useState(true);
+    const [eventLogData, setEventLogData] = useState(null);
     const [selectedOption, setSelectedOption] = useState("email"); // Default option is 'email'
+    const [isTaggingModelV2, setIsTaggingModelV2] = useState(0);
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
-    // useEffect(() => {
-    //     if (eventLogDataV2 && CommonUtility.isNotEmptyObject(eventLogDataV2) && eventLogDataV2.hasOwnProperty("eventLogsV2")) {
-    // const cloneEventDataV2 = cloneDeep(eventLogDataV2);
-    // delete cloneEventDataV2["eventLogsV2"];
-    // setEventLogDataV2(cloneEventDataV2);
-    //     }
-    // }, [eventLogDataV2]);
-    useEffect(() => {
-        const { isActive, route } = checkAuthRouteV2();
 
-        if (!isActive) {
-            Router.push(route);
-            return;
-        }
+    useEffect(() => {
         let isFetching = true;
         setIsFetchingState(true);
 
+        if (typeof window !== "undefined") {
+            const routerData = getUrlVars();
+            const data = router.query.filters || routerData.filters;
+            if (CommonUtility.isNotEmpty(data)) {
+                const payloadLength = data.split(",").length;
+                if (payloadLength === 1) {
+                    if (data.includes("Tagging")) {
+                        setIsTaggingModelV2(1);
+                    } else {
+                        setIsTaggingModelV2(2);
+                    }
+                } else if (payloadLength >= 1) {
+                    if (data.includes("Tagging")) {
+                        setIsTaggingModelV2(3);
+                    } else {
+                        setIsTaggingModelV2(4);
+                    }
+                }
+            }
+        }
+
         const fetchData = async () => {
+            const startTime = Date.now(); // Record the start time
+
             while (isFetching && router.query.videoId && CommonUtility.isNotEmpty(router.query.videoId)) {
                 try {
                     const response = await asyncGetContentEventLogs(
@@ -258,7 +196,10 @@ export default function DemoPage() {
 
                     if (response.isSuccess) {
                         const resData = response.data;
-                        console.log("response.data: ", response.data);
+                        if (CommonUtility.isNotEmptyObject(resData) && resData?.errorLog) {
+                            isFetching = false;
+                            setIsFetchingState(false);
+                        }
                         // ToastMessage.success("Uploaded successfully.");
                         const updatedEventLogObj = getMatchingValuesV3(resData);
                         resData.eventLogsV2 = updatedEventLogObj;
@@ -277,6 +218,21 @@ export default function DemoPage() {
                     setIsFetchingState(false);
                 }
 
+                const elapsedTime = Date.now() - startTime;
+                if (elapsedTime >= maxTimeout) {
+                    isFetching = false;
+                    setIsFetchingState(false);
+                    setEventLogData({
+                        ...eventLogData,
+                        errorLog: {
+                            error: "MAX_TME_EXCEED",
+                            errorCode: "9000",
+                            description:
+                                "Connection Issue: The operation couldn't be completed. Confirm your internet connection and retry. Moderation processes are typically quicker than what you're experiencing.",
+                        },
+                    });
+                    // there is a problem with connecting to the servers please try again
+                }
                 await new Promise((resolve) => setTimeout(resolve, fetchInterval));
             }
         };
@@ -292,17 +248,6 @@ export default function DemoPage() {
     const { control, handleSubmit, reset } = useForm();
     const onSubmit = async (data) => {
         try {
-            // if (user.api_secret === "") {
-            //   newInfoAlert(
-            //     "Free quota exceeded",
-            //     "Unlock additional features by subscribing to access extended operations beyond the current limit.",
-            //     "OK",
-            //     "warning"
-            //   ).then(() => {
-            //     router.push("/pricing");
-            //   });
-            //   return;
-            // }
             const formData = new FormData();
             formData.append("videoID", router.query.videoId);
 
@@ -333,6 +278,7 @@ export default function DemoPage() {
         // Close the modal
         handleCloseModal();
     };
+
     const returnJsonFormatRes = () => {
         if (eventLogData && CommonUtility.isNotEmptyObject(eventLogData) && eventLogData.hasOwnProperty("eventLogsV2")) {
             const cloneEventDataV2 = cloneDeep(eventLogData);
@@ -340,6 +286,7 @@ export default function DemoPage() {
             return JSON.stringify(cloneEventDataV2, null, 2);
         }
     };
+
     const renderGenerateProofModal = () => {
         return (
             <Modal show={showModal} onHide={handleCloseModal} centered>
@@ -426,139 +373,273 @@ export default function DemoPage() {
                     <p className="fw-semibold mb-2">Gain a deeper understanding of our content moderation procedures by delving into the event logs.</p>
                     <Col lg={8}>
                         <Row>
-                            <Tabs defaultActiveKey="table" className={` ${style.upload__main__tab}`} id="">
-                                <Tab eventKey="table" className="pt-3" title="Table">
-                                    <Col lg={12}>
-                                        <section>
-                                            <RenderIf isTrue={!isFetchingState && !CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
-                                                <>
-                                                    <Table bordered>
-                                                        <thead>
-                                                            <tr style={{ background: "#7b5b9e", color: "#fff" }}>
-                                                                <th>#</th>
-                                                                <th>Filter</th>
-                                                                <th>File</th>
-                                                                <th>Request Type</th>
-                                                                <th>No Of Operations</th>
-                                                                <th>Response</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {eventLogData && (
-                                                                <tr>
-                                                                    <th scope="row">1</th>
-                                                                    <td>{router.query.filters}</td>
-                                                                    <td>
-                                                                        <Link href={eventLogData.video.inputVideoURL} target="_blank">
-                                                                            {eventLogData?.video?.videoName}
-                                                                        </Link>
-                                                                    </td>
-                                                                    <td>{eventLogData?.requestType}</td>
-                                                                    <td>{eventLogData?.operations}</td>
-                                                                    <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                        <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
-                                                                        <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "16px", height: "16px" }} />
-                                                                    </td>
-                                                                </tr>
-                                                            )}
-                                                        </tbody>
-                                                    </Table>
-                                                </>
-                                            </RenderIf>
-                                            <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
-                                                <Table bordered>
-                                                    <thead>
-                                                        <tr style={{ background: "#7b5b9e", color: "#fff" }}>
-                                                            <th>#</th>
-                                                            <th>Filter</th>
-                                                            <th>File</th>
-                                                            <th>Request Type</th>
-                                                            <th>No Of Operations</th>
-                                                            <th>Response</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {Object.keys(getMatchingValues(eventLogData)).map((key, index) => {
-                                                            console.log("key: ", key);
-                                                            const item = eventLogData.eventLogsV2[key];
-                                                            console.log("item: ", item);
-                                                            return (
-                                                                <tr key={key}>
-                                                                    <th scope="row">{index + 1}</th>
-                                                                    <td>{item?.report?.documentReport?.report?.Model_Name || item?.webFeatureKey}</td>
-                                                                    <td>
-                                                                        <Link href={eventLogData.video.inputVideoURL} target="_blank">
-                                                                            Uploaded Link
-                                                                        </Link>
-                                                                    </td>
-                                                                    <td>{eventLogData?.requestType}</td>
-                                                                    <td>{eventLogData.operationStatus[item.webFeatureKey]}</td>
-                                                                    <RenderIf isTrue={item.isSuccess}>
-                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                            <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
-                                                                            <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "16px", height: "16px" }} />
-                                                                        </td>
+                            {CommonUtility.doesKeyExist(eventLogData, "errorLog") && (
+                                <div className="mt-2">
+                                    <span style={{ color: "red", marginRight: "3px" }}>
+                                        <b>Error:</b>
+                                    </span>
+                                    <br />
+                                    {eventLogData?.errorLog?.description || "The size of the URL is exceeding the limit of 50 MB"}
+                                </div>
+                            )}
+
+                            {!CommonUtility.doesKeyExist(eventLogData, "errorLog") && (
+                                <Tabs defaultActiveKey="table" className={`table table-fit  ${style.upload__main__tab}`} id="">
+                                    <Tab eventKey="table" className="pt-3" title="Table">
+                                        <Col lg={12}>
+                                            <section>
+                                                <RenderIf isTrue={!isFetchingState && !CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
+                                                    <>
+                                                        <div style={{ whiteSpace: "nowrap" }}>
+                                                            <Table bordered responsive>
+                                                                <thead>
+                                                                    <tr style={{ background: "#7b5b9e", color: "#fff" }}>
+                                                                        <th>#</th>
+                                                                        <th>Filter</th>
+                                                                        <th>File</th>
+                                                                        <th>Request Type</th>
+                                                                        <th>No Of Operations</th>
+                                                                        <RenderIf isTrue={isTaggingModelV2 === 1}>
+                                                                            <th>Tags</th>
+                                                                        </RenderIf>
+                                                                        <RenderIf isTrue={isTaggingModelV2 === 3}>
+                                                                            <th>Response</th>
+                                                                            <th>Tags</th>
+                                                                        </RenderIf>
+                                                                        <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
+                                                                            <th>Response</th>
+                                                                        </RenderIf>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {eventLogData && (
+                                                                        <tr>
+                                                                            <th scope="row">1</th>
+                                                                            <td>{router.query.filters}</td>
+                                                                            <td>
+                                                                                <Link href={eventLogData.video.inputVideoURL} target="_blank">
+                                                                                    {eventLogData?.video?.videoName}
+                                                                                </Link>
+                                                                            </td>
+                                                                            <td>{eventLogData?.requestType}</td>
+                                                                            <td>{eventLogData?.operations}</td>
+
+                                                                            <RenderIf isTrue={isTaggingModelV2 === 1}>
+                                                                                <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
+                                                                            </RenderIf>
+
+                                                                            <RenderIf isTrue={isTaggingModelV2 === 3}>
+                                                                                <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                                    <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                    <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "16px", height: "16px" }} />
+                                                                                </td>
+                                                                                <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
+                                                                            </RenderIf>
+                                                                            <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
+                                                                                <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                                    <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                    <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "16px", height: "16px" }} />
+                                                                                </td>
+                                                                            </RenderIf>
+                                                                        </tr>
+                                                                    )}
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
+                                                    </>
+                                                </RenderIf>
+                                                <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
+                                                    <div style={{ whiteSpace: "nowrap" }}>
+                                                        <Table bordered responsive>
+                                                            <thead>
+                                                                <tr style={{ background: "#7b5b9e", color: "#fff" }}>
+                                                                    <th>#</th>
+                                                                    <th>Filter</th>
+                                                                    <th>File</th>
+                                                                    <th>Request Type</th>
+                                                                    <th>No Of Operations</th>
+                                                                    <RenderIf isTrue={isTaggingModelV2 === 1}>
+                                                                        <th>Tags</th>
                                                                     </RenderIf>
-                                                                    <RenderIf isTrue={!item.isSuccess}>
-                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
-                                                                            <img
-                                                                                src="/images/svgs/wrong.svg"
-                                                                                loading="lazy"
-                                                                                className="lazyload"
-                                                                                style={{
-                                                                                    width: "16px",
-                                                                                    height: "16px",
-                                                                                }}
-                                                                            />
-                                                                        </td>
+                                                                    <RenderIf isTrue={isTaggingModelV2 === 3}>
+                                                                        <th>Response</th>
+                                                                        <th>Tags</th>
+                                                                    </RenderIf>
+                                                                    <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
+                                                                        <th>Response</th>
                                                                     </RenderIf>
                                                                 </tr>
-                                                            );
-                                                        })}
-                                                    </tbody>
-                                                </Table>
-                                            </RenderIf>
-                                            <RenderIf isTrue={isFetchingState}>
-                                                <div className="d-flex flex-column justify-content-center">
-                                                    <MagnifyingGlass height="60" width="60" color="#7B5B9E" ariaLabel="circles-loading" wrapperStyle={{}} wrapperClass="" visible={isFetchingState} />
-                                                    AI is in the process of verifying your information. This may take a moment.
-                                                    {/* We are verifying your records, kindly wait for a moment. */}
-                                                </div>
-                                            </RenderIf>
-                                        </section>
-                                    </Col>
-                                </Tab>
-                                <Tab eventKey="json" className="pt-3" title="Json">
-                                    {highlightCode(returnJsonFormatRes(), "json")}
-                                </Tab>
-                            </Tabs>
+                                                            </thead>
+                                                            <tbody>
+                                                                {Object.keys(getMatchingValues(eventLogData)).map((key, index) => {
+                                                                    const item = eventLogData.eventLogsV2[key];
+                                                                    const tagsList = item?.report?.documentReport?.report?.Tag?.split(",");
+                                                                    return (
+                                                                        <tr key={key}>
+                                                                            <th scope="row">{index + 1}</th>
+                                                                            <td>{item?.report?.documentReport?.report?.Model_Name || item?.webFeatureKey}</td>
+                                                                            <td>
+                                                                                <Link href={eventLogData.video.inputVideoURL} target="_blank">
+                                                                                    Uploaded Link
+                                                                                </Link>
+                                                                            </td>
+                                                                            <td>{eventLogData?.requestType}</td>
+                                                                            <td>{eventLogData.operationStatus[item.webFeatureKey]}</td>
+                                                                            <RenderIf isTrue={isTaggingModelV2 === 1}>
+                                                                                {item.isSuccess ? (
+                                                                                    <td>
+                                                                                        dds
+                                                                                        {CommonUtility.isValidArray(tagsList) &&
+                                                                                            tagsList.map((tag) => <span key={tag}>{CommonUtility.toTitleCase(tag || "")}</span>)}
+                                                                                    </td>
+                                                                                ) : (
+                                                                                    <td style={{ overflowX: "auto", maxWidth: "160px" }}>
+                                                                                        <span style={{ wordBreak: "break-word" }}>
+                                                                                            {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                        </span>
+                                                                                    </td>
+                                                                                )}
+                                                                            </RenderIf>
+
+                                                                            <RenderIf isTrue={isTaggingModelV2 === 3}>
+                                                                                {item.isSuccess ? (
+                                                                                    <>
+                                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                            {item.webFeatureKey !== "Tagging" ? (
+                                                                                                <>
+                                                                                                    <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                                    <img
+                                                                                                        loading="lazy"
+                                                                                                        className="lazyload"
+                                                                                                        src="/images/svgs/correct.svg"
+                                                                                                        style={{ width: "16px", height: "16px" }}
+                                                                                                    />
+                                                                                                </>
+                                                                                            ) : (
+                                                                                                "--"
+                                                                                            )}
+                                                                                        </td>
+                                                                                        <td style={{ overflowX: "auto", maxWidth: "160px" }}>
+                                                                                            <span>
+                                                                                                {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                            </span>
+                                                                                        </td>
+                                                                                    </>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                            {item.webFeatureKey !== "Tagging" ? (
+                                                                                                <>
+                                                                                                    <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                                                    <img
+                                                                                                        src="/images/svgs/wrong.svg"
+                                                                                                        loading="lazy"
+                                                                                                        className="lazyload"
+                                                                                                        style={{
+                                                                                                            width: "16px",
+                                                                                                            height: "16px",
+                                                                                                        }}
+                                                                                                    />
+                                                                                                </>
+                                                                                            ) : (
+                                                                                                "--"
+                                                                                            )}
+                                                                                        </td>
+                                                                                        <td style={{ overflowX: "auto", maxWidth: "160px" }}>
+                                                                                            <span>
+                                                                                                {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                            </span>
+                                                                                        </td>
+                                                                                    </>
+                                                                                )}
+                                                                            </RenderIf>
+
+                                                                            <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
+                                                                                {item.isSuccess ? (
+                                                                                    <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                        <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                        <img
+                                                                                            loading="lazy"
+                                                                                            className="lazyload"
+                                                                                            src="/images/svgs/correct.svg"
+                                                                                            style={{ width: "16px", height: "16px" }}
+                                                                                        />
+                                                                                    </td>
+                                                                                ) : (
+                                                                                    <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                                        <img
+                                                                                            src="/images/svgs/wrong.svg"
+                                                                                            loading="lazy"
+                                                                                            className="lazyload"
+                                                                                            style={{
+                                                                                                width: "16px",
+                                                                                                height: "16px",
+                                                                                            }}
+                                                                                        />
+                                                                                    </td>
+                                                                                )}
+                                                                            </RenderIf>
+                                                                        </tr>
+                                                                    );
+                                                                })}
+                                                            </tbody>
+                                                        </Table>
+                                                    </div>
+                                                </RenderIf>
+                                                <RenderIf isTrue={isFetchingState}>
+                                                    <div className="d-flex flex-column justify-content-center">
+                                                        <MagnifyingGlass
+                                                            height="60"
+                                                            width="60"
+                                                            color="#7B5B9E"
+                                                            ariaLabel="circles-loading"
+                                                            wrapperStyle={{}}
+                                                            wrapperClass=""
+                                                            visible={isFetchingState}
+                                                        />
+                                                        AI is in the process of verifying your information. This may take a moment.
+                                                        {/* We are verifying your records, kindly wait for a moment. */}
+                                                    </div>
+                                                </RenderIf>
+                                            </section>
+                                        </Col>
+                                    </Tab>
+                                    <Tab eventKey="json" className="pt-3" title="Json">
+                                        {highlightCode(returnJsonFormatRes(), "json")}
+                                    </Tab>
+                                </Tabs>
+                            )}
                         </Row>
                     </Col>
 
                     <Col lg={4} style={{ maxHeight: "400px" }}>
-                        <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValuesV2(eventLogData)))}>
-                            <Card
-                                className="box_show_msg h-100 shadow-lg border-primary rounded-4 d-flex justify-content-center align-items-center"
-                                style={{
-                                    maxHeight: "350px; !important",
-                                }}
-                            >
-                                <div className="p-5 m-3 text-center">
-                                    <h5 className="text_gredient text-shadow">
-                                        Proofs for content moderation in the sent media, including clips and images, are now available for your review. <br /> <br />
-                                        Click the button below to access and verify.
-                                    </h5>
-                                    <Button variant="primary" className="bn13 btn-lg rounded-pill px-5 fs-6 mt-3" onClick={handleShowModal}>
-                                        Request Proof
-                                    </Button>
-                                </div>
-                            </Card>
-                        </RenderIf>
+                        {isTaggingModelV2 >= 2 && (
+                            <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValuesV2(eventLogData)))}>
+                                <Card
+                                    className="box_show_msg h-100 shadow-lg border-primary rounded-4 d-flex justify-content-center align-items-center"
+                                    style={{
+                                        maxHeight: "350px; !important",
+                                    }}
+                                >
+                                    <div className={`p-5 text-center m-3 `}>
+                                        <h5 className="text_gredient text-shadow">
+                                            Proofs for content moderation in the sent media, including clips and images, are now available for your review. <br /> <br />
+                                            Click the button below to access and verify.
+                                        </h5>
+                                        <Button variant="primary" className="bn13 btn-lg rounded-pill px-5 fs-6 mt-3" onClick={handleShowModal}>
+                                            Request Proof
+                                        </Button>
+                                    </div>
+                                </Card>
+                            </RenderIf>
+                        )}
                     </Col>
                 </Row>
             </Container>
             {renderGenerateProofModal()}
         </div>
     );
-}
+};
+
+export default ProtectRoute(DemoPage);

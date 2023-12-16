@@ -1,4 +1,5 @@
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
+import ProtectRoute from "@/contexts-v2/protectedRoute";
 import { asyncGetCustomerSubscriptionData } from "@/services/product/product.service";
 import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
@@ -8,8 +9,8 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
-export default function PaymentSuccess() {
-    const { isLogin, user } = useAuth();
+const PaymentSuccess = () => {
+    const { isLogin, user } = useAuthV3();
     const dispatch = useAppDispatch();
     const router = useRouter();
     useEffect(() => {
@@ -27,7 +28,6 @@ export default function PaymentSuccess() {
                 );
             } else {
                 ToastMessage.error("Something went wrong");
-                // router.push("/");
                 router.reload();
             }
         }
@@ -41,45 +41,19 @@ export default function PaymentSuccess() {
                 <Container className="h-100">
                     <Row className="h-100 justify-content-start align-items-center">
                         <Col md={10} className="text-start">
-                            <h1 className="text-white">
-                                Thank you for choosing Media Firewall. <br />
-                                Your payment has been successfully processed.
-                            </h1>
+                            <h2 className="text-white">
+                                Thank you for considering Media Firewall.
+                                <br />
+                            </h2>
+                            <h4 className="text-white">Your payment has been successfully processed.</h4>
                             <Button variant="primary" className=" mt-3 py-3" onClick={() => router.push("/network-blog")}>
                                 Start Moderating Content
                             </Button>
                         </Col>
-                        {/* <Col md={6} xxl={5} className="text-center">
-              <Image
-                className="mb-3 w-75"
-                layout="fill"
-                src="/images/success.svg"
-                alt=""
-              />
-              <div className="stepper-wrapper">
-                <div className="stepper-item completed">
-                  <div className="step-counter">
-                    <HiCheck />
-                  </div>
-                  <div className="step-name">Plan Selected</div>
-                </div>
-                <div className="stepper-item completed">
-                  <div className="step-counter">
-                    <HiCheck />
-                  </div>
-                  <div className="step-name">Card Added</div>
-                </div>
-                <div className="stepper-item  completed">
-                  <div className="step-counter">
-                    <HiCheck />
-                  </div>
-                  <div className="step-name">Payment Received</div>
-                </div>
-              </div>
-            </Col> */}
                     </Row>
                 </Container>
             </section>
         </Fragment>
     );
-}
+};
+export default ProtectRoute(PaymentSuccess);

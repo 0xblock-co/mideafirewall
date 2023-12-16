@@ -1,5 +1,12 @@
+import RenderIf from "@/components/ConditionalRender/RenderIf";
+import Loader from "@/components/Loader";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
+import { asyncGetAllContents, asyncGetMFWTestCustomers } from "@/services/product/product.service";
+import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
+import { getAllHeaderDataOptions, getMfwTestCustomersSelector, setAllMediaContents, setMfwTestCustomers } from "@/store/defaultConfig.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import dynamic from "next/dynamic";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 const FooterComponent = dynamic(() => import("@/components/layouts/footer"), {
     ssr: false,
@@ -7,12 +14,68 @@ const FooterComponent = dynamic(() => import("@/components/layouts/footer"), {
 const HeaderComponent = dynamic(() => import("@/components/layouts/header"), {
     ssr: false,
 });
+function organizeDataByPageId(data) {
+    // Initialize an empty object to store the organized data
+    const organizedData = {};
+
+    // Iterate over the input data array
+    data.forEach((item) => {
+        // Extract the pageId from the current item
+        const { pageId } = item;
+
+        // If the pageId is not a key in the organizedData object, initialize it with an empty array
+        if (!organizedData[pageId]) {
+            organizedData[pageId] = [];
+        }
+
+        // Push the current item to the array corresponding to the pageId
+        organizedData[pageId].push(item);
+    });
+
+    return organizedData;
+}
 
 const MainLayout = ({ children }) => {
+    const dispatch = useAppDispatch();
+
+    const headerData = useAppSelector(getAllHeaderDataOptions);
+    const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
+    const { isLogin, isLoadingApp } = useAuthV3();
+
+    useEffect(() => {
+        import("bootstrap/dist/js/bootstrap.min.js");
+        async function getMFWTestCustomers() {
+            const result = await asyncGetMFWTestCustomers();
+            if (result && result?.isSuccess) {
+                dispatch(setMfwTestCustomers(result?.data));
+            }
+        }
+        async function getContents() {
+            const result = await asyncGetAllContents();
+            if (result && result?.isSuccess) {
+                const res = organizeDataByPageId(result?.data);
+                dispatch(setAllMediaContents(res));
+            }
+        }
+        getContents();
+
+        if (headerData && headerData?.length == 0) {
+            getProducts();
+        }
+        if (isLogin && mfw_customersList && mfw_customersList?.length === 0) getMFWTestCustomers();
+    }, []);
+
+    const getProducts = async () => {
+        dispatch(asyncGetAllHeaderData({}));
+    };
+
     return (
         <Fragment>
             <HeaderComponent />
             <main className="mdf__main_top_fix">
+                <RenderIf isTrue={isLoadingApp}>
+                    <Loader isLoading={isLoadingApp} />
+                </RenderIf>
                 {children}
                 <FooterComponent />
             </main>

@@ -1,15 +1,14 @@
-import { useAuth } from "@/contexts/AuthContext";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import ContactWithSalesChatV2 from "./UI/ChatWithSalesTeamV2";
 // import ContactWithSalesChat from "./UI/ChatWithSalesTeam";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
 import WhatsAppChat from "./UI/whatsapp";
 
 export default function ContactChatBlock() {
     const { publicRuntimeConfig } = getConfig();
     const router = useRouter();
-    const { isLogin, user } = useAuth();
+    const { isLogin, user } = useAuthV3();
     return (
         <section className="three-block-section" data-aos="fade-up" data-aos-delay="100">
             <Container>
@@ -28,16 +27,13 @@ export default function ContactChatBlock() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={4} xl={3}>
+                    <Col lg={4} xl={4}>
                         <WhatsAppChat phone={publicRuntimeConfig.whatsAppContactNumber} message="Hello there!" />
                     </Col>
                     {/* <Col lg={4} xl={3}>
-                        <ContactWithSalesChat />
-                    </Col> */}
-                    <Col lg={4} xl={3}>
                         <ContactWithSalesChatV2 />
-                    </Col>
-                    <Col lg={4} xl={3}>
+                    </Col> */}
+                    <Col lg={4} xl={4}>
                         <div className="box-block-main">
                             <div className="img-wrapper">
                                 <img src="/images/online-calendar.jpg" alt="Get a Product demo" title="Get a Product demo" loading="lazy" className="lazyload" />
@@ -51,10 +47,14 @@ export default function ContactChatBlock() {
                                     className="w-100 mt-3 py-3 common-btn"
                                     // onClick={() => router.push("/network-blog")}
                                     onClick={() => {
-                                        if (isLogin && user?.meetingSurveyAnswered) {
-                                            router.push("/book-demo?type=DEMO");
+                                        if (isLogin) {
+                                            if (user?.meetingSurveyAnswered) {
+                                                router.push("/book-demo?type=DEMO");
+                                            } else {
+                                                router.push("/schedule-demo");
+                                            }
                                         } else {
-                                            router.push("/schedule-demo");
+                                            router.push("/account-security/login");
                                         }
                                     }}
                                     // onClick={() => setIsShowProductDemoFormModal(true)}
@@ -64,7 +64,7 @@ export default function ContactChatBlock() {
                             </div>
                         </div>
                     </Col>
-                    <Col lg={4} xl={3}>
+                    <Col lg={4} xl={4}>
                         <div className="box-block-main">
                             <div className="img-wrapper">
                                 <img src="/images/price-qoute.jpg" alt="GiveUsACall" className="lazyload" loading="lazy" title="give-call-icon" />
@@ -78,10 +78,14 @@ export default function ContactChatBlock() {
                                     variant="primary"
                                     className="w-100 mt-3 py-3 common-btn"
                                     onClick={() => {
-                                        if (isLogin && user?.meetingSurveyAnswered) {
-                                            router.push("/book-demo?type=DEMO");
+                                        if (isLogin) {
+                                            if (user?.meetingSurveyAnswered) {
+                                                router.push("/book-demo?type=DEMO");
+                                            } else {
+                                                router.push("/price-quote");
+                                            }
                                         } else {
-                                            router.push("/price-quote");
+                                            router.push("/account-security/login");
                                         }
                                     }}
                                 >

@@ -6,12 +6,12 @@ const api = Api.getInstance();
 export const asyncUploadContentByUrl = async (userEmail, queryPayload) => {
     try {
         const queryString = CommonUtility.objectToParams(queryPayload);
-        const response = api.post(`/mfw/media/${userEmail}/url/filters?${queryString}`).then(async (res) => {
+        const response = await api.post(`/mfw/media/${userEmail}/url/filters?${queryString}`).then(async (res) => {
             return res;
         });
-        return response;
     } catch (e) {
-        return e.message;
+        console.log("e: ", e);
+        return e;
     }
 };
 
@@ -228,9 +228,31 @@ export const asyncGetMFWTestCustomers = async () => {
     }
 };
 
+export const asyncUserSatisfactionMetrics = async () => {
+    try {
+        const response = api.get(`/business/metrics`, {}, false, false).then(async (res) => {
+            return res;
+        });
+        return response;
+    } catch (e) {
+        return e.message;
+    }
+};
+
 export const asyncCreateMeetingLink = async (payload) => {
     try {
-        const response = api.get(`/mfw/web/meeting/${payload.meetingTool}/${payload.meetingFor}`, payload).then(async (res) => {
+        const response = api.get(`/mfw/web/meeting/${payload.meetingTool}/${payload.meetingFor}`, payload, true, false).then(async (res) => {
+            return res;
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const asyncGetAllContents = async (payload) => {
+    try {
+        const response = api.get(`https://mediafirewall.themillionvisions.com/mfw/web/content/`, {}, true, false).then(async (res) => {
             return res;
         });
         return response;

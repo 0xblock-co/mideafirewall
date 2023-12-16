@@ -21,6 +21,10 @@ export default class CommonUtility {
         return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
+    static doesKeyExist(obj: any, key: string): boolean {
+        return typeof obj === "object" && obj !== null && key in obj;
+    }
+
     static decimalWithCommas(x: number, decimal = 2): string {
         if (Number.isNaN(x)) {
             return "-";
@@ -110,10 +114,11 @@ export default class CommonUtility {
         }));
     }
 
-    static replaceApiSecretAndFilters(inputString: string, email: string, newApiSecret: string, newSelectedFilters: string): string {
+    static replaceApiSecretAndFilters(inputString: string, email: string, newApiSecret: string, newSelectedFilters: string, jwt_token): string {
         const replacedApiSecret1 = inputString.replace(/{userEmail}/g, email);
         const replacedApiSecret = replacedApiSecret1.replace(/{api_secret}/g, newApiSecret);
         const replacedFilters = replacedApiSecret.replace(/{selectedFilters}/g, `${newSelectedFilters}`);
-        return replacedFilters;
+        const replacedFiltersFinal = replacedFilters.replace(/{jwt_token}/g, `${jwt_token}`);
+        return replacedFiltersFinal;
     }
 }

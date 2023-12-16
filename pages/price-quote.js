@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { asyncGetPricingQuoteQuestions } from "@/services/product/product.service";
 import { useAppDispatch } from "@/store/hooks";
@@ -20,13 +20,8 @@ export default function Survey() {
     const [isLoading, setIsLoading] = useState(true);
 
     const dispatch = useAppDispatch();
-    const { user, isLogin } = useAuth();
+    const { user, isLogin } = useAuthV3();
     useEffect(() => {
-        // const { isActive, route } = checkAuthRouteV2();
-        // if (!isLogin && !isActive) {
-        //   router.push(route);
-        //   return;
-        // }
         if (isLogin && user?.priceQuoteAnswered) {
             router.push("/book-demo?type=DEMO");
             return;
@@ -91,7 +86,14 @@ export default function Survey() {
                             // ToastMessage.success(
                             //   "The price quote will be sent to your email address. "
                             // );
-                            newInfoAlert("Thank you for providing answers.", "The price quote will be sent to your email address. ", "Okay", "success", true)
+                            newInfoAlert(
+                                "Thank you for your interest!",
+                                "We'll email you a detailed price quote. If you'd like a demo, please feel free to schedule one. We appreciate your consideration!",
+                                "Schedule a Demo",
+                                "success",
+                                true,
+                                "No"
+                            )
                                 .then(() => {
                                     router.push("/book-demo?type=DEMO");
                                 })

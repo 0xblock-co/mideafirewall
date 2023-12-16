@@ -19,34 +19,56 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(userDetails);
     const [allFeatures, setAllFeatures] = useState([]);
     const dispatch = useAppDispatch();
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.id = "zsiqscript";
+        script.innerHTML = `
+            var $zoho = $zoho || {};
+            $zoho.salesiq = $zoho.salesiq || {
+                widgetcode: "${publicRuntimeConfig.zohoSalesIq}",
+                values: {},
+                ready: function () {}
+            };
+            var d = document;
+            var s = d.createElement("script");
+            s.type = "text/javascript";
+            s.id = "zsiqscript";
+            s.defer = true;
+            s.src = "https://salesiq.zohopublic.in/widget";
+            var t = d.getElementsByTagName("script")[0];
+            t.parentNode.insertBefore(s, t);
+        `;
+        document.head.appendChild(script);
+    }, []);
 
     useEffect(() => {
         setUser(userDetails);
 
-        const accessToken = readCookie(localStorageKeys.userAccessToken);
-        const refreshToken = readCookie(localStorageKeys.userRefreshToken);
-        if (CommonUtility.isNotEmptyObject(userDetails) && accessToken && refreshToken) {
-            const script = document.createElement("script");
-            script.type = "text/javascript";
-            script.id = "zsiqscript";
-            script.innerHTML = `
-                var $zoho = $zoho || {};
-                $zoho.salesiq = $zoho.salesiq || {
-                    widgetcode: "${publicRuntimeConfig.zohoSalesIq}",
-                    values: {},
-                    ready: function () {}
-                };
-                var d = document;
-                var s = d.createElement("script");
-                s.type = "text/javascript";
-                s.id = "zsiqscript";
-                s.defer = true;
-                s.src = "https://salesiq.zohopublic.in/widget";
-                var t = d.getElementsByTagName("script")[0];
-                t.parentNode.insertBefore(s, t);
-            `;
-            document.head.appendChild(script);
-        }
+        // const accessToken = readCookie(localStorageKeys.userAccessToken);
+        // const refreshToken = readCookie(localStorageKeys.userRefreshToken);
+        // if (CommonUtility.isNotEmptyObject(userDetails) && accessToken && refreshToken) {
+        // const script = document.createElement("script");
+        // script.type = "text/javascript";
+        // script.id = "zsiqscript";
+        // script.innerHTML = `
+        //     var $zoho = $zoho || {};
+        //     $zoho.salesiq = $zoho.salesiq || {
+        //         widgetcode: "${publicRuntimeConfig.zohoSalesIq}",
+        //         values: {},
+        //         ready: function () {}
+        //     };
+        //     var d = document;
+        //     var s = d.createElement("script");
+        //     s.type = "text/javascript";
+        //     s.id = "zsiqscript";
+        //     s.defer = true;
+        //     s.src = "https://salesiq.zohopublic.in/widget";
+        //     var t = d.getElementsByTagName("script")[0];
+        //     t.parentNode.insertBefore(s, t);
+        // `;
+        // document.head.appendChild(script);
+        // }
     }, [userDetails]);
 
     // useEffect(() => {

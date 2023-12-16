@@ -8,7 +8,7 @@ export default function PricingBanner() {
                 <Row className="justify-content-center">
                     <Col md={12} xl={12} className="text-center">
                         <h1 className="text-shadow display-4">Choose your plan</h1>
-                        <p className="fs-5 fw-normal mb-0">30 days unlimited free trial. No contract or credit card required.</p>
+                        <p className="fs-5 fw-normal mb-0">30 days free trial.</p>
                     </Col>
                 </Row>
             </Container>

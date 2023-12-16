@@ -1,12 +1,10 @@
-import Image from "next/image";
-import React from "react";
-import { Col, Form, Row } from "react-bootstrap";
 import style from "@/components/Auth/auth.module.scss";
+import { Col, Form, Row } from "react-bootstrap";
 
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
 
 const InputRadioBoxComponent = ({ title, name, options, register, errors }) => {
-    const { user } = useAuth();
+    const { user } = useAuthV3();
 
     return (
         <section className={style.mdf__login__card_button}>
@@ -19,7 +17,7 @@ const InputRadioBoxComponent = ({ title, name, options, register, errors }) => {
                             <Form.Group>
                                 <Form.Control type="radio" className="btn-check" name={name} id={`${name}-${item.value}`} autoComplete="off" hidden value={item.value} {...register(name)} />
                                 <label className={`btn btn-outline-primary ${style.raio__button__card}`} htmlFor={`${name}-${item.value}`}>
-                                    {item.image && <Image layout="fill" src={item.image} alt="" />}
+                                    {/* {item.image && <Image layout="fill" src={item.image} alt="" />} */}
                                     <h5 className="mt-3">{item.label}</h5>
                                 </label>
                             </Form.Group>

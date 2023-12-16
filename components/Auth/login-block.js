@@ -1,18 +1,16 @@
+import { showToast } from "@/components/ToastContainer/toaster";
+import { regex } from "@/constants/global.constants";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 import { HiLockClosed, HiMail } from "react-icons/hi";
 import * as yup from "yup";
-// import { auth } from "@/services/firebase";
-import { showToast } from "@/components/ToastContainer/toaster";
-import { regex } from "@/constants/global.constants";
-import useRecaptcha from "../../hooks/useRecaptcha";
 import style from "./auth.module.scss";
-
 // Validation Schema
 const schema = yup.object().shape({
     email: yup.string().email("Invalid email address").required("Email is required"),
@@ -23,9 +21,7 @@ const schema = yup.object().shape({
 });
 
 const LoginBlock = ({ handleLoginSubmit }) => {
-    // const { executeRecaptcha } = useGoogleReCaptcha();
-    const { captchaToken, executeRecaptcha } = useRecaptcha();
-
+    const { executeRecaptcha } = useGoogleReCaptcha();
     // Form methods
     const {
         register,
@@ -39,10 +35,10 @@ const LoginBlock = ({ handleLoginSubmit }) => {
     // Handle Google Login
     const handleGoogleLogin = async () => {
         try {
-            if (!executeRecaptcha) {
-                setError("captcha", { message: "Please verify captcha" });
-                return;
-            }
+            // if (!executeRecaptcha) {
+            //     setError("captcha", { message: "Please verify captcha" });
+            //     return;
+            // }
             window.location.href = "/api/auth/google";
         } catch (error) {
             showToast("error", error);
@@ -56,24 +52,25 @@ const LoginBlock = ({ handleLoginSubmit }) => {
                 setError("captcha", { message: "Please verify captcha" });
                 return;
             }
-            await executeRecaptcha();
-            if (captchaToken) {
-                await handleLoginSubmit({
-                    ...data,
-                    authType: "email",
-                    gReCaptchaToken: captchaToken,
-                });
-            } else {
-                setError("captcha", { message: "Please verify captcha" });
-            }
+            executeRecaptcha("login").then(async (gReCaptchaToken) => {
+                if (gReCaptchaToken) {
+                    await handleLoginSubmit({
+                        ...data,
+                        authType: "email",
+                        gReCaptchaToken,
+                    });
+                } else {
+                    setError("captcha", { message: "Please verify captcha" });
+                }
+            });
         },
         [executeRecaptcha, setError]
     );
 
     // Handle LinkedIn Login
-    const handleLinkedInLogin = () => {
-        window.location.href = "/api/auth/linkedin";
-    };
+    // const handleLinkedInLogin = () => {
+    //     window.location.href = "/api/auth/linkedin";
+    // };
     const handleMicrosoftInLogin = () => {
         window.location.href = "/api/auth/microsoft";
     };

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { asyncCreateStripeCustomer, asyncGetCheckoutSessionUrl, asyncGetPricingQuestions } from "@/services/product/product.service";
 import { authActions } from "@/store/auth.slice";
@@ -28,21 +28,16 @@ const processQuestion = (data, questionObj) => {
     };
 };
 
-export default function Survey() {
+const PricingSurvey = () => {
     const [formData, setFormData] = useState([]);
     const [defaultValue, setDefaultValue] = useState({});
     const [formAnswerData, setFormAnswerData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const { user, checkAuthRouteV2 } = useAuth();
+    const { user } = useAuthV3();
 
     useEffect(() => {
-        const { isActive, route } = checkAuthRouteV2();
-        if (!isActive) {
-            Router.push(route);
-            return;
-        }
         getQuestions();
     }, []);
 
@@ -141,4 +136,5 @@ export default function Survey() {
             <Loader isLoading={isLoading} />
         </BoxContainerWithFilterIconWrapper>
     );
-}
+};
+export default PricingSurvey;

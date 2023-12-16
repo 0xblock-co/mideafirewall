@@ -1,22 +1,19 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { yupResolver } from "@hookform/resolvers/yup";
-import { GoogleAuthProvider } from "firebase/auth";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
-import { HiLockClosed, HiMail, HiUser } from "react-icons/hi";
+import { HiLockClosed, HiMail } from "react-icons/hi";
 import * as yup from "yup";
 import style from "./auth.module.scss";
 
 import { showToast } from "@/components/ToastContainer/toaster";
-import { useCallback, useEffect } from "react";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { useRouter } from "next/router";
 import CommonUtility from "@/utils/common.utils";
-import { decodeJWTToekn } from "@/utils/globalFunctions";
+import { decodeJWTToken } from "@/utils/globalFunctions";
 import moment from "moment";
+import { useRouter } from "next/router";
+import { useCallback, useEffect } from "react";
 
 //Validation Schema
 const schema = yup.object().shape({
@@ -54,7 +51,7 @@ const ChangePasswordForm = ({ handleResetPasswordSubmit }) => {
         };
 
         if (CommonUtility.isNotEmptyObject(router.query) && CommonUtility.isNotEmpty(router.query?.email) && CommonUtility.isNotEmpty(router.query?.vcode)) {
-            const decodedVCode = decodeJWTToekn(router.query.vcode);
+            const decodedVCode = decodeJWTToken(router.query.vcode);
 
             if (!decodedVCode) {
                 handleInvalidLink();
@@ -65,7 +62,7 @@ const ChangePasswordForm = ({ handleResetPasswordSubmit }) => {
             const currentTime = moment();
 
             if (expirationTime.isBefore(currentTime)) {
-                showToast("error", "Token has expired. Please try again.");
+                showToast("error", "Your password reset request has expired. Please try again.");
                 router.push("/account-security/login");
             } else if (decodedVCode.sub === router.query?.email) {
                 setValue("userId", decodedVCode.sub);

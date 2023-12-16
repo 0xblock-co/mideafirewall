@@ -1,20 +1,20 @@
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import style from "@/components/Auth/auth.module.scss";
-import { useAuth } from "@/contexts/AuthContext";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 
-import { BsFillClipboardFill } from "react-icons/bs";
-import { useEffect, useState } from "react";
-import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
-import Router from "next/router";
-import { asyncCancelSubscription } from "@/services/product/product.service";
-import moment from "moment";
-import DeleteConfirmationModal from "@/components/Modals/DeleteConfirmationModal";
 import Loader from "@/components/Loader";
-import CommonUtility from "@/utils/common.utils";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
+import ProtectRoute from "@/contexts-v2/protectedRoute";
+import { asyncCancelSubscription } from "@/services/product/product.service";
 import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
-export default function Survey() {
-    const { user } = useAuth();
+import CommonUtility from "@/utils/common.utils";
+import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
+import moment from "moment";
+import Router from "next/router";
+import { useState } from "react";
+import { BsFillClipboardFill } from "react-icons/bs";
+const AccountDetails = () => {
+    const { user } = useAuthV3();
     const dispatch = useAppDispatch();
 
     const ContactInformationSection = () => {
@@ -37,7 +37,6 @@ export default function Survey() {
     };
 
     const BillingSection = ({ subscriptionDetails }) => {
-        // const [showModal, setShowModal] = useState(false);
         const [isLoading, setIsLoading] = useState(false);
 
         const cancelSubscription = async () => {
@@ -167,26 +166,30 @@ export default function Survey() {
     };
 
     return (
-        <section className={style.mdf__authpage__section}>
-            <Container>
-                <Row className="justify-content-center">
-                    <Col lg={12} xl={8}>
-                        <ContactInformationSection />
-                    </Col>
-                </Row>
-                {user?.subscriptionDetails && (
+        <>
+            <section className={style.mdf__authpage__section}>
+                <Container>
                     <Row className="justify-content-center">
                         <Col lg={12} xl={8}>
-                            <BillingSection subscriptionDetails={user?.subscriptionDetails} />
+                            <ContactInformationSection />
                         </Col>
                     </Row>
-                )}
-                <Row className="justify-content-center">
-                    <Col lg={12} xl={8}>
-                        <ApiKeysSection />
-                    </Col>
-                </Row>
-            </Container>
-        </section>
+                    {user?.subscriptionDetails && (
+                        <Row className="justify-content-center">
+                            <Col lg={12} xl={8}>
+                                <BillingSection subscriptionDetails={user?.subscriptionDetails} />
+                            </Col>
+                        </Row>
+                    )}
+                    <Row className="justify-content-center">
+                        <Col lg={12} xl={8}>
+                            <ApiKeysSection />
+                        </Col>
+                    </Row>
+                </Container>
+            </section>
+        </>
     );
-}
+};
+// export default AccountDetails;
+export default ProtectRoute(AccountDetails);

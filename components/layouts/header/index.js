@@ -8,12 +8,14 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-import { useAuth } from "@/contexts/AuthContext";
+import VideoModal from "@/components/VideoModal";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { getUserDetails } from "@/store/auth.slice";
 import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
+import { useEffect, useState } from "react";
 import { Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 import styles from "./header.module.scss";
 
@@ -25,14 +27,45 @@ export default function HeaderTop() {
         const { pathname } = router;
         return pathname === href;
     };
-    const { logout, user } = useAuth();
+    const [isShowVideoModel, setIsShowVideoModel] = useState(false);
+    const [selectedMediaContent, setSelectedMediaContent] = useState(null);
+    useEffect(() => {
+        if (!isShowVideoModel) setSelectedMediaContent(null);
+    }, [isShowVideoModel]);
+
+    const { logout, user, isLogin } = useAuthV3();
     const handleFeatureCardOnClick = (feature, id) => {
         if (!feature.active) {
+            setSelectedMediaContent(feature);
+            if (feature.webFeatureKey === "deepfake" || feature.featureId == "134") {
+                newInfoAlert("Coming Soon", "", "Watch a Demo", "info", true, "Cancel").then(() => {
+                    setIsShowVideoModel(true);
+                });
+                return;
+            }
+
             newInfoAlert(
-                "Personalized Feature Activation",
-                "If you'd like to activate this feature for your account, please get in touch with us via email, and we'll take care of it for you.",
-                "Okay"
-            );
+                "Enterprise Feature",
+                "Your request for the enterprise feature is appreciated; however, it's not enabled by default. Would you be interested in a live demonstration?",
+                "Schedule a live demo",
+                "info",
+                true,
+                "Watch a Demo"
+            )
+                .then(() => {
+                    if (isLogin) {
+                        if (user?.meetingSurveyAnswered) {
+                            router.push("/book-demo?type=DEMO");
+                        } else {
+                            router.push("/schedule-demo");
+                        }
+                    } else {
+                        router.push("/account-security/login");
+                    }
+                })
+                .catch(() => {
+                    setIsShowVideoModel(true);
+                });
         } else {
             let selectedFeature = {
                 selectedFeatureIds: [feature.webFeatureKey],
@@ -85,7 +118,7 @@ export default function HeaderTop() {
                                                                     </Tooltip>
                                                                 }
                                                             >
-                                                                <i className="fa fa-info-circle mr-6" aria-hidden="true"></i>
+                                                                <i className="fa fa-info-circle" style={{ marginRight: "10px", color: "#7b5b9e" }} aria-hidden="true"></i>
                                                             </OverlayTrigger>
                                                             <span className="ml-5">{headerOption.name}</span>
                                                         </span>
@@ -187,6 +220,22 @@ export default function HeaderTop() {
                     </Container>
                 </Navbar>
             ))}
+            {selectedMediaContent && isShowVideoModel && (
+                <VideoModal
+                    show={isShowVideoModel}
+                    handleClose={setIsShowVideoModel}
+                    videoUrl={CommonUtility.isNotEmpty(selectedMediaContent?.clipUrl) ? selectedMediaContent?.clipUrl : "https://www.youtube.com/embed/nafYaz7caGQ?si=vQKekrtF7fNITp4d"}
+                    posterImage={selectedMediaContent?.imgUrl || ""}
+                />
+            )}
+            {/* {mediaContent && CommonUtility.isNotEmptyObject(mediaContent) && CommonUtility.doesKeyExist(mediaContent, "deepfake") && isShowVideoModel && (
+                <VideoModal
+                    show={isShowVideoModel}
+                    handleClose={setIsShowVideoModel}
+                    videoUrl={CommonUtility.isValidArray(mediaContent?.deepfake) ? mediaContent?.deepfake[0]?.mediaUrl : "https://www.youtube.com/embed/nafYaz7caGQ?si=vQKekrtF7fNITp4d"}
+                    posterImage={mediaContent?.deepfake[0]?.thumbnailUrl || ""}
+                />
+            )} */}
         </>
     );
 }

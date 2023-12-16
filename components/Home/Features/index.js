@@ -1,26 +1,66 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { Button, Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
 
+import Count from "@/components/Count";
+import VideoModal from "@/components/VideoModal";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
+import { getMFWSatisfactionMetricsCount } from "@/store/defaultConfig.slice";
+import { useAppSelector } from "@/store/hooks";
+import CommonUtility from "@/utils/common.utils";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import style from "./feature.module.scss";
-import { useState } from "react";
-import { useRouter } from "next/router";
 
 export default function FeatureBlog({ headerData }) {
     const [activeTab, setActiveTab] = useState("0");
+    const satisFactionMetricsCount = useAppSelector(getMFWSatisfactionMetricsCount);
+
+    const [isShowVideoModel, setIsShowVideoModel] = useState(false);
+    const [selectedMediaContent, setSelectedMediaContent] = useState(null);
+    // const mediaContent = useAppSelector(getMFWMediaContents);
+
     const handleTabChange = (key) => setActiveTab(key);
     const router = useRouter();
+    useEffect(() => {
+        if (!isShowVideoModel) setSelectedMediaContent(null);
+    }, [isShowVideoModel]);
 
+    const { isLogin, user } = useAuthV3();
     const handleFeatureCardOnClick = (feature, id) => {
         if (!feature.active) {
+            setSelectedMediaContent(feature);
+
+            if (feature.webFeatureKey === "deepfake" || feature.featureId == "134") {
+                newInfoAlert("Coming Soon", "", "Watch a Demo", "info", true, "Cancel").then(() => {
+                    setIsShowVideoModel(true);
+                });
+                return;
+            }
+
             newInfoAlert(
-                "Personalized Feature Activation",
-                "If you'd like to activate this feature for your account, please get in touch with us via email, and we'll take care of it for you.",
-                "Okay"
-            );
+                "Enterprise Feature",
+                "Your request for the enterprise feature is appreciated; however, it's not enabled by default. Would you be interested in a live demonstration?",
+                "Schedule a live demo",
+                "info",
+                true,
+                "Watch a Demo"
+            )
+                .then(() => {
+                    if (isLogin) {
+                        if (user?.meetingSurveyAnswered) {
+                            router.push("/book-demo?type=DEMO");
+                        } else {
+                            router.push("/schedule-demo");
+                        }
+                    } else {
+                        router.push("/account-security/login");
+                    }
+                })
+                .catch(() => {
+                    setIsShowVideoModel(true);
+                });
         } else {
             let selectedFeature = {
                 selectedFeatureIds: [feature.webFeatureKey],
@@ -38,23 +78,113 @@ export default function FeatureBlog({ headerData }) {
             router.push(`/network-blog?key=${id}`);
         }
     };
-
-    const Link = ({ id, children, title }) => (
-        <OverlayTrigger placement="right" overlay={<Tooltip id={id}>{title}</Tooltip>}>
-            <a href="#">{children}</a>
-        </OverlayTrigger>
-    );
-
     return (
         <section className={style.mdf__personalized_feature}>
             <Container fluid="md">
+                <Row className="justify-content-center mb-5 p-3" style={{ borderRadius: "1rem" }}>
+                    <>
+                        <div className="text-center">
+                            <ul style={{ listStyle: "none", paddingLeft: "unset" }} className="d-flex justify-content-md-center justify-content-start flex-wrap align-items-center">
+                                {/* <li className="text-center px-0 col-md-auto col-12 mt-3 px-xxl-3 px-lg-2 px-md-3">
+                                    <div
+                                        className=" text_gredient px-2 h1-size font-size-super font-weight-bold mb-3 mb-md-0 fw-bold text-shadow text-lg-center"
+                                        style={{ lineHeight: "32px", fontWeight: "700", fontSize: "28px" }}
+                                    >
+                                        Trusted by over <br className="d-none d-md-block" />
+                                        <Count number={satisFactionMetricsCount?.numberOfActiveCustomers.toString() || "85"} />+ users
+                                    </div>
+                                </li> */}
+                                <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3 section2-border-right ">
+                                    <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
+                                        <span className="mb-4 font-size-normal font-weight-normal pt-1 d-inline-block text-shadow" style={{ fontSize: "18px", fontWeight: 700 }}>
+                                            Active Customers
+                                        </span>
+                                        <br />
+                                        <span className="lead font-weight-bold trusted-text01" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px", height: "20px", width: "20px" }}>
+                                            {/* <ChangingProgressProvider values={[0, 20, 40, 60, 80, 100]}>
+                                                {(percentage) => <CircularProgressbar value={percentage} text={`${percentage}`} />}
+                                            </ChangingProgressProvider> */}
+                                            <Count number={satisFactionMetricsCount?.numberOfActiveCustomers?.toString() || "85"} />
+                                        </span>
+                                        {/* <span className="lead font-weight-bold trusted-text" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
+                                                +
+                                        </span> */}{" "}
+                                    </div>
+                                </li>
+                                <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3 section2-border-right section2-border-left">
+                                    <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
+                                        <span className="mb-4 font-size-normal font-weight-normal pt-1 d-inline-block text-shadow" style={{ fontSize: "18px", fontWeight: 700 }}>
+                                            Total operations processed
+                                        </span>
+                                        <br />
+                                        <span className="lead font-weight-bold trusted-text01" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
+                                            <Count number={satisFactionMetricsCount?.numberOfOperationsProcessed?.toString() || "0"} />
+                                        </span>
+                                        {/* <span className="lead font-weight-bold trusted-text" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
+                                                +
+                                        </span> */}{" "}
+                                        {/* <br /> */}
+                                    </div>
+                                </li>
+                                <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3 section2-border-right">
+                                    <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
+                                        <span className="mb-4 font-size-normal font-weight-normal pt-1 d-inline-block text-shadow" style={{ fontSize: "18px", fontWeight: 700 }}>
+                                            Total media Size
+                                        </span>
+                                        <br />
+                                        <span className="lead font-weight-bold trusted-text02" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
+                                            <Count number={satisFactionMetricsCount?.numberOfContentModerated?.toString() || "0"} />
+                                        </span>
+                                        <span className="lead font-weight-bold trusted-text" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
+                                            {" "}
+                                            TB
+                                        </span>{" "}
+                                    </div>
+                                </li>
+                                <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3 ">
+                                    <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
+                                        <span className="mb-4 font-size-normal font-weight-normal pt-1 d-inline-block text-shadow" style={{ fontSize: "18px", fontWeight: 700 }}>
+                                            Regions
+                                        </span>
+                                        <br />
+                                        <span className="lead font-weight-bold trusted-text03" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
+                                            <Count number={satisFactionMetricsCount?.numberOfRegions?.toString() || "0"} />
+                                        </span>{" "}
+                                    </div>
+                                </li>
+                                {/* <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3">
+                                    <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
+                                        <span className="lead font-weight-bold trusted-text04" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
+                                            269
+                                        </span>
+                                        <span className="lead font-weight-bold" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
+                                            + million
+                                        </span>{" "}
+                                        <br />
+                                        <span className="font-size-normal font-weight-normal pt-1 d-inline-block" style={{ fontSize: "16px" }}>
+                                            Videos created
+                                        </span>
+                                    </div>
+                                </li> */}
+                            </ul>
+                        </div>
+                    </>
+                </Row>
                 <Row className="justify-content-center">
-                    <Col xxl={7}>
+                    <Col>
+                        {/* <h1 className="fw-bold text-shadow text-lg-center">
+                            Active Customers{" "}
+                            <span style={{ color: "#7b5b9e" }}>
+                                <b>20+</b>
+                            </span>{" "}
+                            satisfied customers
+                        </h1> */}
                         <h1 className="fw-bold text-shadow text-lg-center">
                             <FormattedMessage id="page.home.featureBlog.mainTitle" />
                         </h1>
                     </Col>
                 </Row>
+
                 <Row className="justify-content-center">
                     <Col
                         xl={12}
@@ -123,6 +253,28 @@ export default function FeatureBlog({ headerData }) {
                     </Col>
                 </Row>
             </Container>
+
+            {selectedMediaContent && isShowVideoModel && (
+                <VideoModal
+                    show={isShowVideoModel}
+                    handleClose={setIsShowVideoModel}
+                    videoUrl={CommonUtility.isNotEmpty(selectedMediaContent?.clipUrl) ? selectedMediaContent?.clipUrl : "https://www.youtube.com/embed/nafYaz7caGQ?si=vQKekrtF7fNITp4d"}
+                    posterImage={selectedMediaContent?.imgUrl || ""}
+                />
+            )}
+
+            {/* {mediaContent && CommonUtility.isNotEmptyObject(mediaContent) && CommonUtility.doesKeyExist(mediaContent, "deepfake") && isShowVideoModel && (
+                <VideoModal
+                    show={isShowVideoModel}
+                    handleClose={setIsShowVideoModel}
+                    videoUrl={
+                        CommonUtility.isValidArray(mediaContent?.deepfake)
+                            ? "https://mediastestbucket.s3.ap-south-1.amazonaws.com/DSFUIMEDIA/disturbing.gif"
+                            : "https://www.youtube.com/embed/nafYaz7caGQ?si=vQKekrtF7fNITp4d"
+                    }
+                    posterImage={mediaContent?.deepfake[0]?.thumbnailUrl || ""}
+                />
+            )} */}
         </section>
     );
 }

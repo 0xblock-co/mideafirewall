@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 
-import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const ContactWithSalesChat = () => {
     const router = useRouter(); // Get the router instance
@@ -69,20 +69,6 @@ const ContactWithSalesChat = () => {
             </div>
         </div>
     );
-    // return (
-    //   <Card className={`${style.mdf__chatcard} mb-3`}>
-    //     <Image
-    //       className={style.chat__icons}
-    //       layout="fill"
-    //       src="/images/Messages.png"
-    //       alt="A globe icon with filter and text."
-    //     />
-    //     <h6 className="my-4">Chat with our sales team</h6>
-    //     <Button id="chatButton" variant="primary">
-    //       Chat with Sales
-    //     </Button>
-    //   </Card>
-    // );
 };
 
 export default ContactWithSalesChat;

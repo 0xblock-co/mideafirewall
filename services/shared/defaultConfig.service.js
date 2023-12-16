@@ -1,6 +1,6 @@
+import CommonUtility from "@/utils/common.utils";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Api from "../RTK/axiosAPI.handler";
-import CommonUtility from "@/utils/common.utils";
 
 const api = Api.getInstance();
 

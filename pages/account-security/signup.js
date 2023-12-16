@@ -1,30 +1,27 @@
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import RegisterBlock from "@/components/Auth//register-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
+import GoogleCaptchaWrapper from "@/components/GoogleCaptchaWrapper";
 import Loader from "@/components/Loader";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { asyncSignUpWithEmail, asyncSocialAuth } from "@/services/auth/auth.service";
 import { useAppDispatch } from "@/store/hooks";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
-import getConfig from "next/config";
-import Head from "next/head";
 
 const SignupScreen = () => {
-    const { publicRuntimeConfig } = getConfig();
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-    const { isLogin, checkAuthRouteV2 } = useAuth();
+    const { isLogin } = useAuthV3();
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const { isActive, route } = checkAuthRouteV2();
-        if (isLogin && !isActive) {
-            router.push(route);
+        if (isLogin) {
+            router.replace("/network-blog");
         }
-    }, [isLogin, router, checkAuthRouteV2]);
+    }, [isLogin]);
 
     useEffect(() => {
         const { value, authType } = router.query;
@@ -62,16 +59,13 @@ const SignupScreen = () => {
     };
 
     return (
-        <Fragment>
+        <GoogleCaptchaWrapper>
             <NextSeo title="Create Account" />
-            <Head>
-                <script src={`https://www.google.com/recaptcha/api.js?render=${publicRuntimeConfig.reCaptchaSiteKey}`} async defer></script>
-            </Head>
             <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
                 <RegisterBlock handleSubmitSingUp={handleSubmitSignUp} />
             </BoxContainerWithFilterIconWrapper>
             <Loader isLoading={isLoading} />
-        </Fragment>
+        </GoogleCaptchaWrapper>
     );
 };
 

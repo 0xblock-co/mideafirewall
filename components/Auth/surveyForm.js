@@ -8,6 +8,7 @@ import InputCheckBoxComponent from "@/components/UI/InputCheckBox";
 import InputRadioBoxComponent from "@/components/UI/InputRadioBox";
 import InputTypeTextComponent from "@/components/UI/InputTextBox";
 import RangeBox from "@/components/UI/RangeBox";
+import InputTypeTextAreaComponent from "../UI/InputTextAreaBox";
 
 const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
     const validationSchema = yup.object().shape(Object.fromEntries(elements.filter((element) => element.isRender).map((element) => [element.name, element.validation])));
@@ -45,6 +46,20 @@ const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
                             return (
                                 <div key={index}>
                                     <InputTypeTextComponent title={element.title} placeholder={element.placeholder} register={register} name={element.name} errors={errors} />
+                                </div>
+                            );
+                        case "text-area":
+                            return (
+                                <div key={index}>
+                                    <InputTypeTextAreaComponent
+                                        InputTypeTextAreaComponent
+                                        title={element.title}
+                                        placeholder={element.placeholder}
+                                        register={register}
+                                        name={element.name}
+                                        rows={element.rows}
+                                        errors={errors}
+                                    />
                                 </div>
                             );
                         case "radio":

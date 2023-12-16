@@ -1,24 +1,28 @@
 import Swal, { SweetAlertIcon, SweetAlertPosition } from "sweetalert2";
 
-export const newInfoAlert = (title, message, actionButtonText, icon, isCancelBtn = false) => {
+export const newInfoAlert = (title, message, actionButtonText, icon, isCancelBtn = false, cancelButtonText = "Cancel", isBackDropAllow = true) => {
     return new Promise((resolve, reject) => {
         Swal.fire({
             title: title,
             text: message,
             icon: icon,
-            showCancelButton: isCancelBtn,
             confirmButtonText: actionButtonText,
+            // showCancelButton: isCancelBtn,
+            // cancelButtonText: cancelButtonText,
             customClass: {
                 confirmButton: `ff_new_alert_btn mb-1`,
-                icon: `ff_icon_warning`,
                 popup: `ff_popup_bg`,
                 title: `ff_popup_title`,
-                actions: `ff_action`,
             },
+            allowOutsideClick: isBackDropAllow,
+            showCloseButton: true,
+            showDenyButton: isCancelBtn,
+            denyButtonText: cancelButtonText,
         }).then((result) => {
-            if (result.value) {
+            console.log("result111: ", result);
+            if (result?.isConfirmed) {
                 resolve("action button press");
-            } else {
+            } else if (result?.isDenied) {
                 reject("cancel Press");
             }
         });

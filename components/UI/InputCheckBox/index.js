@@ -1,6 +1,5 @@
-import React from "react";
-import Form from "react-bootstrap/Form";
 import style from "@/components/Auth/auth.module.scss";
+import Form from "react-bootstrap/Form";
 
 export default function InputCheckBoxComponent({ title, register, name, options, errors }) {
     return (
@@ -19,7 +18,7 @@ export default function InputCheckBoxComponent({ title, register, name, options,
                                 value={item.value}
                                 // defaultChecked={}
                             />
-                            <label className={`btn btn-outline-primary checkbox__primary`} htmlFor={`${item.value}`}>
+                            <label className={`btn btn-outline-primary checkbox__primary`} style={{ textAlign: "left" }} htmlFor={`${item.value}`}>
                                 {item.label}
                             </label>
                         </Form.Group>

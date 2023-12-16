@@ -5,28 +5,23 @@ import { useEffect, useState } from "react";
 import SurveyForm from "@/components/Auth//surveyForm";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthV3 } from "@/contexts-v2/auth.context";
+import ProtectRoute from "@/contexts-v2/protectedRoute";
 import { asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { asyncGetMeetingQuestions } from "@/services/product/product.service";
 import { useAppDispatch } from "@/store/hooks";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage } from "@/utils/toastMessage.utils";
-
-export default function Survey() {
+const ScheduleDemo = () => {
     const [formData, setFormData] = useState([]);
     const [defaultValue, setDefaultValue] = useState({});
     const [formAnswerData, setFormAnswerData] = useState([]);
     const router = useRouter();
-    const { isLogin, user } = useAuth();
+    const { isLogin, user } = useAuthV3();
     const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useAppDispatch();
     useEffect(() => {
-        // const { isActive, route } = checkAuthRouteV2();
-        // if (!isLogin && !isActive) {
-        //   router.push(route);
-        //   return;
-        // }
         if (isLogin && user?.meetingSurveyAnswered) {
             router.push("/book-demo?type=DEMO");
             return;
@@ -109,4 +104,5 @@ export default function Survey() {
             {isLoading && <Loader isLoading={isLoading} />}
         </BoxContainerWithFilterIconWrapper>
     );
-}
+};
+export default ProtectRoute(ScheduleDemo);

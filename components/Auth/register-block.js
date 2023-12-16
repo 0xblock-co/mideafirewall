@@ -12,8 +12,7 @@ import style from "./auth.module.scss";
 
 import { showToast } from "@/components/ToastContainer/toaster";
 import { useCallback } from "react";
-import useRecaptcha from "../../hooks/useRecaptcha";
-
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 //Validation Schema
 const schema = yup.object().shape({
     email: yup.string().email("Invalid email address").required("Email is required"),
@@ -44,18 +43,17 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
     } = useForm({
         resolver: yupResolver(schema), // set the validation schema resolver
     });
-    const { captchaToken, executeRecaptcha } = useRecaptcha();
 
     //google auth provider from firebase
     const googleAuth = new GoogleAuthProvider();
-
+    const { executeRecaptcha } = useGoogleReCaptcha();
     //Handle method of google login
     const handleGoogleSignup = async () => {
         try {
-            if (!executeRecaptcha) {
-                setError("captcha", { message: "Please verify captcha" });
-                return;
-            }
+            // if (!executeRecaptcha) {
+            //     setError("captcha", { message: "Please verify captcha" });
+            //     return;
+            // }
             window.location.href = "/api/auth/google";
         } catch (error) {
             showToast("error", error);
@@ -63,9 +61,9 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
     };
 
     //Form submit method
-    const handleLinkedInLogin = () => {
-        window.location.href = "/api/auth/linkedin";
-    };
+    // const handleLinkedInLogin = () => {
+    //     window.location.href = "/api/auth/linkedin";
+    // };
     const handleMicrosoftInLogin = () => {
         window.location.href = "/api/auth/microsoft";
     };
@@ -75,17 +73,18 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
                 setError("captcha", { message: "Please verify captcha" });
                 return;
             }
-            await executeRecaptcha();
-            if (captchaToken) {
-                delete data.passwordConfirmation;
-                await handleSubmitSingUp({
-                    ...data,
-                    authType: "email",
-                    recaptchaResponse: captchaToken,
-                });
-            } else {
-                setError("captcha", { message: "Please verify captcha" });
-            }
+            executeRecaptcha("signup").then(async (gReCaptchaToken) => {
+                if (gReCaptchaToken) {
+                    delete data.passwordConfirmation;
+                    await handleSubmitSingUp({
+                        ...data,
+                        authType: "email",
+                        recaptchaResponse: gReCaptchaToken,
+                    });
+                } else {
+                    setError("captcha", { message: "Please verify captcha" });
+                }
+            });
         },
         [executeRecaptcha, setError]
     );

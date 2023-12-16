@@ -1,8 +1,10 @@
 export const UPLOAD_USING_CODE_STUBS = [
     {
         title: "Curl",
-        urlSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters?filters={selectedFilters}&mediaUrl=&apikey={api_secret}`,
-        fileSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters?filters={selectedFilters}&apikey={api_secret}" / -F "file=@path"`,
+        urlSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters?filters={selectedFilters}&mediaUrl=&apikey={api_secret}" ^ -H "Authorization: Bearer {jwt_token}"`,
+        fileSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters?filters={selectedFilters}&apikey={api_secret}" ^
+    -H "Authorization: Bearer {jwt_token}" ^
+    -F "file=@image.png"`,
     },
     {
         title: "Python",
@@ -16,7 +18,11 @@ params = {
   'mediaUrl': '{MEDIA_URL}',
 }
 
-response = requests.post(url, params=params)
+headers = {
+  'Authorization': 'Bearer {jwt_token}',
+}
+
+response = requests.post(url, params=params, headers = headers)
 print(response.text)`,
         fileSnippets: `import requests
 
@@ -26,8 +32,13 @@ params = {
   'filters': '{selectedFilters}',
   'apikey': '{api_secret}'
 }
+
+headers = {
+  'Authorization': 'Bearer {jwt_token}',
+}
+
 files = {'file': open('', 'rb')}
-response = requests.post(url, files=files, params=params)
+response = requests.post(url, files=files, params=params, headers = headers)
 
 print(response.text)`,
     },
@@ -49,9 +60,14 @@ public class UrlRequest {
       .queryParam("apikey", '{api_secret}');
       .queryParam("mediaUrl", '{MEDIA_URL}')
 
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Authorization", "Bearer {jwt_token}"); 
+    HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+    
     URI uri = uriBuilder.build().toUri();
 
     result = restTemplate.postForEntity(uri,null,String.class);
+    System.out.println(result.getBody());
   }
 }`,
         fileSnippets: `import org.springframework.core.io.FileSystemResource;
@@ -78,6 +94,7 @@ public class UploadRequest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.set("Authorization", "Bearer {jwt_token}"); 
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
@@ -90,79 +107,79 @@ public class UploadRequest {
     }
 }`,
     },
-    {
-        title: "PHP",
-        urlSnippets: ` <?php
+    //     {
+    //         title: "PHP",
+    //         urlSnippets: ` <?php
 
-$baseUrl = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/sams@trek.com/url/filters';
-$filters = 'Type(HighDefinition)';
-$mediaUrl = 'https://media-firewall.s3.ap-south-1.amazonaws.com/Input/MEDIA/%2FVIDEO/ze.mp4';
-$apikey = 'vMoIhSZbp9ucWNEHSwyjV1qnU2iaIxYN';
+    // $baseUrl = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/sams@trek.com/url/filters';
+    // $filters = 'Type(HighDefinition)';
+    // $mediaUrl = 'https://media-firewall.s3.ap-south-1.amazonaws.com/Input/MEDIA/%2FVIDEO/ze.mp4';
+    // $apikey = 'vMoIhSZbp9ucWNEHSwyjV1qnU2iaIxYN';
 
-// Build the URL with query parameters
-$uri = $baseUrl . '?filters=' . urlencode($filters) . '&mediaUrl=' . urlencode($mediaUrl) . '&apikey=' . $apikey;
+    // // Build the URL with query parameters
+    // $uri = $baseUrl . '?filters=' . urlencode($filters) . '&mediaUrl=' . urlencode($mediaUrl) . '&apikey=' . $apikey;
 
-// Initialize cURL session
-$ch = curl_init($uri);
+    // // Initialize cURL session
+    // $ch = curl_init($uri);
 
-// Set cURL options
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
+    // // Set cURL options
+    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // curl_setopt($ch, CURLOPT_POST, true);
 
-// Execute the cURL request
-$response = curl_exec($ch);
+    // // Execute the cURL request
+    // $response = curl_exec($ch);
 
-// Check for cURL errors
-if (curl_errno($ch)) {
-    echo 'Curl error: ' . curl_error($ch);
-}
+    // // Check for cURL errors
+    // if (curl_errno($ch)) {
+    //     echo 'Curl error: ' . curl_error($ch);
+    // }
 
-// Close cURL session
-curl_close($ch);
+    // // Close cURL session
+    // curl_close($ch);
 
-// Output the response
-echo $response;
-?> `,
-        fileSnippets: ` <?php
+    // // Output the response
+    // echo $response;
+    // ?> `,
+    //         fileSnippets: ` <?php
 
-$apiUrl = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/sams@trek.com/filters';
-$filters = 'Type(HighDefinition)';
-$apikey = 'vMoIhSZbp9ucWNEHSwyjV1qnU2iaIxYN';
+    // $apiUrl = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/sams@trek.com/filters';
+    // $filters = 'Type(HighDefinition)';
+    // $apikey = 'vMoIhSZbp9ucWNEHSwyjV1qnU2iaIxYN';
 
-// Build the URL with query parameters
-$uri = $apiUrl . '?filters=' . urlencode($filters) . '&apikey=' . $apikey;
+    // // Build the URL with query parameters
+    // $uri = $apiUrl . '?filters=' . urlencode($filters) . '&apikey=' . $apikey;
 
-// Initialize cURL session
-$ch = curl_init($uri);
+    // // Initialize cURL session
+    // $ch = curl_init($uri);
 
-// Set cURL options
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
+    // // Set cURL options
+    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // curl_setopt($ch, CURLOPT_POST, true);
 
-// Create a file upload array
-$fileToUpload = new CURLFile('Dark.jpg', 'image/jpeg', 'file');
-$postData = array(
-    'file' => $fileToUpload,
-);
+    // // Create a file upload array
+    // $fileToUpload = new CURLFile('Dark.jpg', 'image/jpeg', 'file');
+    // $postData = array(
+    //     'file' => $fileToUpload,
+    // );
 
-// Set the POST fields
-curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    // // Set the POST fields
+    // curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
-// Execute the cURL request
-$response = curl_exec($ch);
+    // // Execute the cURL request
+    // $response = curl_exec($ch);
 
-// Check for cURL errors
-if (curl_errno($ch)) {
-    echo 'Curl error: ' . curl_error($ch);
-}
+    // // Check for cURL errors
+    // if (curl_errno($ch)) {
+    //     echo 'Curl error: ' . curl_error($ch);
+    // }
 
-// Close cURL session
-curl_close($ch);
+    // // Close cURL session
+    // curl_close($ch);
 
-// Output the response
-echo $response;
-?> `,
-    },
+    // // Output the response
+    // echo $response;
+    // ?> `,
+    //     },
     {
         title: "Javascript",
         urlSnippets: `const axios = require('axios');
@@ -176,7 +193,12 @@ const params = {
 };
 
 // Make the POST request
-axios.post(url, null, { params })
+axios.post(url, null, {
+  params,
+  headers: {
+    'Authorization': 'Bearer {jwt_token}'
+  }
+ })
   .then(response => {
     // Handle the response data here
   })
@@ -198,11 +220,15 @@ const params = {
   apikey: '{api_secret}'
 };
 
-axios.post(url, data, { params }, {
-  headers: data.getHeaders(),
-}).then(function (response) {
-}).catch(function (error) {
-  // handle error
-});`,
+axios.post(url, data, {
+  params,
+  headers: {
+    'Authorization': 'Bearer {jwt_token}'
+  }
+})
+  .then(function (response) {
+  }).catch(function (error) {
+    // handle error
+  });`,
     },
 ];

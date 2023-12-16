@@ -238,9 +238,17 @@ a {
         min-width: 120px;
     }
 }
+button.swal2-close:focus {
+    border: unset;
+    box-shadow: unset;
+}
+.swal2-deny.swal2-styled,
 .swal2-cancel.swal2-styled {
     border-radius: 20px;
     min-width: 120px;
+}
+.swal2-deny.swal2-styled {
+    background-color: $text-desc;
 }
 .image_hover {
     height: 120px !important;
@@ -736,7 +744,7 @@ a {
 }
 
 .terms {
-    color: #737588;
+    color: black;
     a {
         color: var(--primaryColor);
         &:hover {
@@ -744,13 +752,13 @@ a {
         }
     }
     p {
-        color: #737588;
+        color: black;
         font-size: 16px;
         font-weight: 400;
         span {
             font-size: 16px;
             font-weight: 400;
-            color: #737588;
+            color: black;
             span {
                 font-size: 16px;
                 font-weight: 400;
@@ -793,4 +801,14 @@ a {
     .meeting-icon {
         object-fit: contain !important;
     }
+}
+div:where(.swal2-icon).swal2-info {
+    border-color: $primary !important;
+    color: $primary !important;
+}
+.section2-border-right {
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.section2-border-left {
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
 }

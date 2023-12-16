@@ -1,25 +1,26 @@
 import en from "@/lang/en.json";
 import fr from "@/lang/fr.json";
 import nl_NL from "@/lang/nl-NL.json";
+import "react-circular-progressbar/dist/styles.css";
 import "select2/dist/css/select2.min.css";
 
 import ToastContainerConfig from "@/components/ToastContainer";
 import MainLayout from "@/components/layouts/main";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { asyncGetMFWTestCustomers } from "@/services/product/product.service";
-import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
+import AuthProviderV3 from "@/contexts-v2/auth.context";
+import { asyncUserSatisfactionMetrics } from "@/services/product/product.service";
 import { wrapper } from "@/store";
-import { getAllHeaderDataOptions, getMfwTestCustomersSelector, setMfwTestCustomers } from "@/store/defaultConfig.slice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setSatisfactionMetricsCount } from "@/store/defaultConfig.slice";
+import { useAppDispatch } from "@/store/hooks";
 import "@/styles/module-style.scss";
 import "@/styles/pricing.scss";
 import { DefaultSeo } from "next-seo";
-import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { IntlProvider } from "react-intl";
+import LoadingBar from "react-top-loading-bar";
+
 const messages = {
     en,
     fr,
@@ -28,29 +29,37 @@ const messages = {
 
 export function App({ Component, pageProps }) {
     const { locale } = useRouter();
-    const { publicRuntimeConfig } = getConfig();
     const dispatch = useAppDispatch();
-    const headerData = useAppSelector(getAllHeaderDataOptions);
-    const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
+    const router = useRouter();
+    const [progress, setProgress] = useState(0);
+
+    const getLayout = Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
+    useEffect(() => {
+        // START VALUE - WHEN LOADING WILL START
+        router.events.on("routeChangeStart", (url) => {
+            setProgress(40);
+        });
+
+        // COMPLETE VALUE - WHEN LOADING IS FINISHED
+        router.events.on("routeChangeComplete", (url) => {
+            setProgress(100);
+        });
+
+        router.events.on("routeChangeError", (url) => {
+            setProgress(100);
+        });
+    }, [router]);
 
     useEffect(() => {
         import("bootstrap/dist/js/bootstrap.min.js");
-        async function getMFWTestCustomers() {
-            const result = await asyncGetMFWTestCustomers();
-            if (result && result.isSuccess) {
-                dispatch(setMfwTestCustomers(result.data));
+        async function getMFWSatisfactionMetrics() {
+            const result = await asyncUserSatisfactionMetrics();
+            if (result && result?.isSuccess) {
+                dispatch(setSatisfactionMetricsCount(result.data));
             }
         }
-
-        if (headerData && headerData?.length == 0) {
-            getProducts();
-        }
-        if (mfw_customersList && mfw_customersList.length === 0) getMFWTestCustomers();
+        getMFWSatisfactionMetrics();
     }, []);
-
-    const getProducts = async () => {
-        dispatch(asyncGetAllHeaderData({}));
-    };
 
     return (
         <Fragment>
@@ -80,24 +89,26 @@ export function App({ Component, pageProps }) {
             </Helmet>
 
             <IntlProvider locale={locale} messages={messages[locale]}>
-                <AuthProvider>
-                    <MainLayout>
-                        {/* <GoogleReCaptchaProvider
-                            reCaptchaKey={publicRuntimeConfig.reCaptchaSiteKey || ""}
-                            scriptProps={{
-                                async: false,
-                                defer: false,
-                                appendTo: "head",
-                                nonce: undefined,
-                            }}
-                        > */}
-                        <>
-                            <Component {...pageProps} />
-                            {/* </GoogleReCaptchaProvider> */}
-                            <ToastContainerConfig />
-                        </>
-                    </MainLayout>
-                </AuthProvider>
+                <>
+                    <>
+                        <AuthProviderV3>
+                            {getLayout(
+                                <>
+                                    <LoadingBar
+                                        color="#7b5b9e"
+                                        progress={progress}
+                                        waitingTime={400}
+                                        onLoaderFinished={() => {
+                                            setProgress(0);
+                                        }}
+                                    />
+                                    <Component {...pageProps} />
+                                    <ToastContainerConfig />
+                                </>
+                            )}
+                        </AuthProviderV3>
+                    </>
+                </>
             </IntlProvider>
         </Fragment>
     );

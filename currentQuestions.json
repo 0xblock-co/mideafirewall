@@ -1,0 +1,589 @@
+{
+    "pageInfo": {
+        "first": true,
+        "totalElements": 4,
+        "totalPages": 1,
+        "pageSize": 100,
+        "pageNumber": 1,
+        "last": true,
+        "sort": false,
+        "sortValue": []
+    },
+    "items": [
+        {
+            "id": "mfw_pricing",
+            "locale": "en_US",
+            "active": true,
+            "questions": {
+                "PRICING": [
+                    {
+                        "id": "2",
+                        "title": "Duration Of Video",
+                        "question": "What is the average duration of the video that are uploaded to platform?",
+                        "component": {
+                            "label": "Duration Of Video",
+                            "type": "CHOICE_BOX",
+                            "customAttributes": "{\"type\":\"radio\",\"label\":\"DurationOfVideo\",\"validation\":\"radio\"}"
+                        },
+                        "options": [],
+                        "ranges": [
+                            {
+                                "startValue": 1,
+                                "label": "1-10000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "100001-300000",
+                                "endValue": 300000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 10001,
+                                "label": "10001-50000",
+                                "endValue": 50000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 50001,
+                                "label": "50001-100000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 300001,
+                                "label": "300001-1000000",
+                                "endValue": 1000000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "1000001-More",
+                                "endValue": -1,
+                                "urlToIcon": ""
+                            }
+                        ]
+                    },
+                    {
+                        "id": "1",
+                        "title": "Volume of Operations",
+                        "question": "What is the average number of posts, vidoe, or other content types generated  per day?",
+                        "component": {
+                            "label": "Volume of Operations",
+                            "type": "CHOICE_BOX",
+                            "customAttributes": "{\"type\":\"radio\",\"label\":\"VolumeofOperations\",\"validation\":\"radio\"}"
+                        },
+                        "options": [],
+                        "ranges": [
+                            {
+                                "startValue": 1,
+                                "label": "1-10000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "100001-300000",
+                                "endValue": 300000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 10001,
+                                "label": "10001-50000",
+                                "endValue": 50000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 50001,
+                                "label": "50001-100000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 300001,
+                                "label": "300001-1000000",
+                                "endValue": 1000000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "1000001-More",
+                                "endValue": -1,
+                                "urlToIcon": ""
+                            }
+                        ]
+                    },
+                    {
+                        "id": "3",
+                        "title": "Money Spend",
+                        "question": "How much money does your company currenlty spend on manual content moderation?",
+                        "component": {
+                            "label": "Money Spend",
+                            "type": "SCROLLER",
+                            "customAttributes": "{\"type\":\"scroller\",\"label\":\"MoneySpend\",\"validation\":\"range\",\"minValue\":\"0\",\"maxValue\":\"100\",\"defaultValue\":\"50\"}"
+                        },
+                        "options": [],
+                        "ranges": []
+                    }
+                ]
+            }
+        },
+        {
+            "id": "mfw_meeting",
+            "locale": "en_US",
+            "active": true,
+            "questions": {
+                "PRICING": [
+                    {
+                        "id": "1",
+                        "title": "Volume of Operations",
+                        "question": "What is the average number of posts, video, or other content types generated  per day?",
+                        "component": {
+                            "label": "Volume of Operations",
+                            "type": "CHOICE_BOX",
+                            "customAttributes": "{\"type\":\"radio\",\"label\":\"VolumeofOperations\",\"validation\":\"radio\"}"
+                        },
+                        "options": [],
+                        "ranges": [
+                            {
+                                "startValue": 1,
+                                "label": "1-10000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "100001-300000",
+                                "endValue": 300000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 10001,
+                                "label": "10001-50000",
+                                "endValue": 50000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 50001,
+                                "label": "50001-100000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 300001,
+                                "label": "300001-1000000",
+                                "endValue": 1000000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "1000001-More",
+                                "endValue": -1,
+                                "urlToIcon": ""
+                            }
+                        ]
+                    },
+                    {
+                        "id": "3",
+                        "title": "Money Spend",
+                        "question": "How much money does your company currenlty spend on manual content moderation?",
+                        "component": {
+                            "label": "Money Spend",
+                            "type": "SCROLLER",
+                            "customAttributes": "{\"type\":\"scroller\",\"label\":\"MoneySpend\",\"validation\":\"range\",\"minValue\":\"0\",\"maxValue\":\"100\",\"defaultValue\":\"50\"}"
+                        },
+                        "options": [],
+                        "ranges": []
+                    },
+                    {
+                        "id": "2",
+                        "title": "Duration Of Video",
+                        "question": "What is the average duration of the video that are uploaded to platform?",
+                        "component": {
+                            "label": "Duration Of Video",
+                            "type": "CHOICE_BOX",
+                            "customAttributes": "{\"type\":\"radio\",\"label\":\"DurationOfVideo\",\"validation\":\"radio\"}"
+                        },
+                        "options": [],
+                        "ranges": [
+                            {
+                                "startValue": 1,
+                                "label": "1-10000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "100001-300000",
+                                "endValue": 300000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 10001,
+                                "label": "10001-50000",
+                                "endValue": 50000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 50001,
+                                "label": "50001-100000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 300001,
+                                "label": "300001-1000000",
+                                "endValue": 1000000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "1000001-More",
+                                "endValue": -1,
+                                "urlToIcon": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "mfw_pricing_quote",
+            "locale": "en_US",
+            "active": true,
+            "questions": {
+                "PRICING": [
+                    {
+                        "id": "3",
+                        "title": "Money Spend",
+                        "question": "How much money does your company currenlty spend on manual content moderation?",
+                        "component": {
+                            "label": "Money Spend",
+                            "type": "SCROLLER",
+                            "customAttributes": "{\"type\":\"scroller\",\"label\":\"MoneySpend\",\"validation\":\"range\",\"minValue\":\"0\",\"maxValue\":\"100\",\"defaultValue\":\"50\"}"
+                        },
+                        "options": [],
+                        "ranges": []
+                    },
+                    {
+                        "id": "2",
+                        "title": "Duration Of Video",
+                        "question": "What is the average duration of the video that are uploaded to platform?",
+                        "component": {
+                            "label": "Duration Of Video",
+                            "type": "CHOICE_BOX",
+                            "customAttributes": "{\"type\":\"radio\",\"label\":\"DurationOfVideo\",\"validation\":\"radio\"}"
+                        },
+                        "options": [],
+                        "ranges": [
+                            {
+                                "startValue": 1,
+                                "label": "1-10000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "100001-300000",
+                                "endValue": 300000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 10001,
+                                "label": "10001-50000",
+                                "endValue": 50000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 50001,
+                                "label": "50001-100000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 300001,
+                                "label": "300001-1000000",
+                                "endValue": 1000000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "1000001-More",
+                                "endValue": -1,
+                                "urlToIcon": ""
+                            }
+                        ]
+                    },
+                    {
+                        "id": "1",
+                        "title": "Volume of Operations",
+                        "question": "What is the average number of posts, videos, or other content types generated  per day?",
+                        "component": {
+                            "label": "Volume of Operations",
+                            "type": "CHOICE_BOX",
+                            "customAttributes": "{\"type\":\"radio\",\"label\":\"VolumeofOperations\",\"validation\":\"radio\"}"
+                        },
+                        "options": [],
+                        "ranges": [
+                            {
+                                "startValue": 1,
+                                "label": "1-10000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "100001-300000",
+                                "endValue": 300000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 10001,
+                                "label": "10001-50000",
+                                "endValue": 50000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 50001,
+                                "label": "50001-100000",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 300001,
+                                "label": "300001-1000000",
+                                "endValue": 1000000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100001,
+                                "label": "1000001-More",
+                                "endValue": -1,
+                                "urlToIcon": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "mfw_customer",
+            "locale": "en_US",
+            "active": true,
+            "questions": {
+                "CUSTOMER": [
+                    {
+                        "id": "2",
+                        "title": "Email Address",
+                        "question": "What is your business email?",
+                        "component": {
+                            "label": "Email Address",
+                            "type": "TEXTBOX",
+                            "customAttributes": "{\"type\":\"email\",\"label\":\"Email Address\",\"placeholder\":\"Your email\",\"validation\":\"email\"}"
+                        },
+                        "options": [],
+                        "ranges": []
+                    },
+                    {
+                        "id": "8",
+                        "title": "Types of Filters",
+                        "question": "What types of filters do you require? (Select all that apply)",
+                        "component": {
+                            "label": "Types of Filters",
+                            "type": "CHECK_BOX",
+                            "customAttributes": "{\"type\":\"checkbox\",\"label\":\"Types of Filters\",\"validation\":\"checkbox\"}"
+                        },
+                        "options": [
+                            {
+                                "id": "2",
+                                "label": "Media Quality Filter",
+                                "urlToIcon": "Http Url to Icon"
+                            },
+                            {
+                                "id": "1",
+                                "label": "Profanity Filter",
+                                "urlToIcon": "Http Url to Icon"
+                            },
+                            {
+                                "id": "4",
+                                "label": "Sentiment Analysis Filter",
+                                "urlToIcon": "Http Url to Icon"
+                            },
+                            {
+                                "id": "3",
+                                "label": "Content Category Filter",
+                                "urlToIcon": "Http Url to Icon"
+                            }
+                        ],
+                        "ranges": []
+                    },
+                    {
+                        "id": "9",
+                        "title": "Financial Range",
+                        "question": "What is your approximate monthly budget for content moderation?",
+                        "component": {
+                            "label": "Financial Range",
+                            "type": "CHOICE_BOX",
+                            "customAttributes": "{\"type\":\"radio\",\"label\":\"FinancialRange\",\"validation\":\"radio\"}"
+                        },
+                        "options": [],
+                        "ranges": [
+                            {
+                                "startValue": 1000,
+                                "label": "1,000$ - 5,000$",
+                                "endValue": 5000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 10000,
+                                "label": "10,000$ - 50,000$",
+                                "endValue": 50000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100,
+                                "label": "100$ - 1000$",
+                                "endValue": 1000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 50000,
+                                "label": "50,000$ - 100,000$",
+                                "endValue": 100000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 10,
+                                "label": "10$ - 100$",
+                                "endValue": 100,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 5000,
+                                "label": "5,000$ - 10,000$",
+                                "endValue": 10000,
+                                "urlToIcon": ""
+                            },
+                            {
+                                "startValue": 100000,
+                                "label": "Over 100,000$",
+                                "endValue": -1,
+                                "urlToIcon": ""
+                            }
+                        ]
+                    },
+                    {
+                        "id": "5",
+                        "title": "Contact Number",
+                        "question": "What is your contact number?",
+                        "component": {
+                            "label": "Contact Number",
+                            "type": "TEXTBOX",
+                            "customAttributes": "{\"type\":\"text-box\",\"label\":\"Contact Number\",\"placeholder\":\"Your Contact Number\",\"validation\":\"contactNumber\"}"
+                        },
+                        "options": [],
+                        "ranges": []
+                    },
+                    {
+                        "id": "1",
+                        "title": "Name (First and Last)",
+                        "question": "What is your name?",
+                        "component": {
+                            "label": "Name (First and Last)",
+                            "type": "TEXTBOX",
+                            "customAttributes": "{\"type\":\"text-box\",\"label\":\"Name (First and Last)\",\"placeholder\":\"Your Name\",\"validation\":\"name\"}"
+                        },
+                        "options": [],
+                        "ranges": []
+                    },
+                    {
+                        "id": "7",
+                        "title": "Content Types",
+                        "question": "What type of content do you plan to process?",
+                        "component": {
+                            "label": "Content Types",
+                            "type": "CHECK_BOX",
+                            "customAttributes": "{\"type\":\"checkbox\",\"label\":\"Content Types\",\"validation\":\"checkbox\"}"
+                        },
+                        "options": [
+                            {
+                                "id": "videos",
+                                "label": "Videos",
+                                "urlToIcon": "Http Url to Icon"
+                            },
+                            {
+                                "id": "images",
+                                "label": "Images",
+                                "urlToIcon": "Http Url to Icon"
+                            },
+                            {
+                                "id": "text",
+                                "label": "Text",
+                                "urlToIcon": "Http Url to Icon"
+                            }
+                        ],
+                        "ranges": []
+                    },
+                    {
+                        "id": "4",
+                        "title": "Company Name",
+                        "question": "What is your company name?",
+                        "component": {
+                            "label": "Company Name",
+                            "type": "TEXTBOX",
+                            "customAttributes": "{\"type\":\"text-box\",\"label\":\"Company Name\",\"placeholder\":\"Your Company Name\",\"validation\":\"companyName\"}"
+                        },
+                        "options": [],
+                        "ranges": []
+                    },
+                    {
+                        "id": "6",
+                        "title": "Website Url (optional)",
+                        "question": "What is your website URL?",
+                        "component": {
+                            "label": "Website Url (optional)",
+                            "type": "TEXTBOX",
+                            "customAttributes": "{\"type\":\"text-box\",\"label\":\"Website Url (optional)\",\"placeholder\":\"Your Website URL\",\"validation\":\"websiteUrl\"}"
+                        },
+                        "options": [],
+                        "ranges": []
+                    },
+                    {
+                        "id": "3",
+                        "title": "Describe",
+                        "question": "Which best describes you?",
+                        "component": {
+                            "label": "Describe",
+                            "type": "CHOICE_BOX",
+                            "customAttributes": "{\"type\":\"radio\",\"label\":\"Describe\",\"validation\":\"radio\"}"
+                        },
+                        "options": [
+                            {
+                                "id": "3",
+                                "label": "I'm director",
+                                "urlToIcon": "/images/director.png"
+                            },
+                            {
+                                "id": "1",
+                                "label": "I'm lead",
+                                "urlToIcon": "/images/founder.png"
+                            },
+                            {
+                                "id": "0",
+                                "label": "I'm a freelancer",
+                                "urlToIcon": "/images/freelancer.png"
+                            },
+                            {
+                                "id": "2",
+                                "label": "I'm contributor",
+                                "urlToIcon": "/images/contibutor.png"
+                            }
+                        ],
+                        "ranges": []
+                    }
+                ]
+            }
+        }
+    ]
+}

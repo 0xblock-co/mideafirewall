@@ -1,3 +1,5 @@
+import { getMFWSatisfactionMetricsCount } from "@/store/defaultConfig.slice";
+import { useAppSelector } from "@/store/hooks";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import Image from "next/image";
 import { useCallback, useEffect } from "react";
@@ -6,6 +8,8 @@ import { useDropzone } from "react-dropzone";
 import { HiOutlineX } from "react-icons/hi";
 
 const DropZoneComponent = ({ onContentDrop, filePreviews, setFilePreviews }) => {
+    const satisFactionMetricsCount = useAppSelector(getMFWSatisfactionMetricsCount);
+
     const onDrop = useCallback(
         (acceptedFiles, fileRejections) => {
             fileRejections.forEach((file) => {
@@ -68,7 +72,9 @@ const DropZoneComponent = ({ onContentDrop, filePreviews, setFilePreviews }) => 
                     <Image className="mt-2" layout="fill" src="/images/upload.png" alt="A globe icon with filter and text." />
                 </div>
                 <Form.Group controlId="formFile" className="mt-4" {...getRootProps()} style={{ border: "1px dashed", padding: 20, borderRadius: 6 }}>
-                    <Form.Label>Drop files here or click to upload</Form.Label>
+                    <Form.Label style={{ fontSize: "13px", color: "gray" }}>
+                        Drop your files here or click to upload, making sure that the size of each file is less than {satisFactionMetricsCount?.mediaSizeLimit || 50} MB.
+                    </Form.Label>
                     <Form.Control type="file" {...getInputProps()} />
                 </Form.Group>
             </div>

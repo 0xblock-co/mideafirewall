@@ -22,7 +22,7 @@ export default function OfferBlock() {
                 </Row>
                 <Row className="flex flex-column align-items-center">
                     <Col sm={4} lg={3} xl={2}>
-                        <Button variant="primary" className="mt-4 rounded-pill w-100" onClick={() => Router.push("/network-blog")}>
+                        <Button variant="primary" className="mt-4 rounded-pill w-100" onClick={() => Router.push("/features-list")}>
                             <FormattedMessage id="button.See Demo" />
                         </Button>
                     </Col>

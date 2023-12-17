@@ -82,7 +82,7 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
                     "Okay",
                     "warning"
                 ).then(() => {
-                    router.push("/network-blog");
+                    router.push("/features-list");
                 });
                 return;
             }

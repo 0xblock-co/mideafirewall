@@ -125,7 +125,7 @@ export const AuthProvider = ({ children }) => {
                 return { isActive: false, route: "/survey" };
             }
 
-            return { isActive: true, route: "/network-blog" };
+            return { isActive: true, route: "/features-list" };
         }
 
         return { isActive: false, route: "/" };

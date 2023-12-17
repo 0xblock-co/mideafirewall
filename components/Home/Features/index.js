@@ -75,7 +75,7 @@ export default function FeatureBlog({ headerData }) {
                 };
             }
             localStorage.setItem("selectedDataForDemo", JSON.stringify(selectedFeature));
-            router.push(`/network-blog?key=${id}`);
+            router.push(`/features-list?key=${id}`);
         }
     };
     return (

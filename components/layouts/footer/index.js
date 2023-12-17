@@ -72,7 +72,7 @@ export default function FooterBottom() {
                 };
             }
             localStorage.setItem("selectedDataForDemo", JSON.stringify(selectedFeature));
-            router.push(`/network-blog?key=${id}`);
+            router.push(`/features-list?key=${id}`);
         }
     };
     return (
@@ -124,7 +124,7 @@ export default function FooterBottom() {
                                 headerData.map((item, index) => {
                                     return (
                                         <li style={{ color: "#fff" }} className="py-2" key={item.id + "_" + index}>
-                                            <Link href={`/network-blog?key=${item.id}`}>{item.name}</Link>
+                                            <Link href={`/features-list?key=${item.id}`}>{item.name}</Link>
                                         </li>
                                     );
                                 })}
@@ -140,7 +140,7 @@ export default function FooterBottom() {
                                         if (index === 5) {
                                             return (
                                                 <li style={{ color: "#fff" }} className="py-2" key={`n_${index}`}>
-                                                    <Link href={`/network-blog?key=0`}>more...</Link>
+                                                    <Link href={`/features-list?key=0`}>more...</Link>
                                                 </li>
                                             );
                                         }
@@ -168,16 +168,16 @@ export default function FooterBottom() {
                                 <Link href="/pricing">Pricing</Link>
                             </li>
                             <li style={{ color: "#fff" }} className="py-2">
-                                <Link href="/network-blog">Demo</Link>
+                                <Link href="/features-list">Demo</Link>
                             </li>
                             <li style={{ color: "#fff" }} className="py-2">
                                 <Link href="/privacy-policy">Privacy policy</Link>
                             </li>
                             <li style={{ color: "#fff" }} className="py-2">
-                                <Link href="/terms-of-service">Terms of Use</Link>
+                                <Link href="/terms-of-use">Terms of Use</Link>
                             </li>
                             <li style={{ color: "#fff" }} className="py-2">
-                                <Link href="/cancellation">Cancellation</Link>
+                                <Link href="/cancellation-refund-policy">Cancellation policy</Link>
                             </li>
                         </ul>
                     </Col>

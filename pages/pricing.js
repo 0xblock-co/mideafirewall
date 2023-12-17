@@ -5,6 +5,7 @@ import PricingBanner from "@/components/Pricing/banner";
 import PricingBlock from "@/components/Pricing/pricing-block";
 import PricingFaqs from "@/components/Pricing/pricing-faqs";
 import { asyncGetAllPricingData } from "@/services/product/product.service";
+import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 export default function Pricing() {
     const [priceData, setPriceData] = useState([]);
@@ -34,6 +35,32 @@ export default function Pricing() {
 
     return (
         <Fragment>
+            <NextSeo
+                title="Pricing Plans"
+                description="Explore our subscription options: FREE, STARTER, STANDARD, PROFESSIONAL, and ENTERPRISE. Details on operations, parallelism limits, support levels, and custom options. FAQs on operations, plan changes, free trials, and more."
+                canonical="https://mediafirewall.ai/pricing"
+                openGraph={{
+                    type: "website",
+                    locale: "en_US",
+                    url: "https://mediafirewall.ai/pricing",
+                    title: "Pricing Plans",
+                    description:
+                        "Explore our subscription options: FREE, STARTER, STANDARD, PROFESSIONAL, and ENTERPRISE. Details on operations, parallelism limits, support levels, and custom options. FAQs on operations, plan changes, free trials, and more.",
+                    site_name: "Media Firewall & AI",
+                }}
+                // twitter={{
+                //     cardType: "summary_large_image",
+                //     handle: "@yourTwitterHandle", // Replace with your Twitter handle
+                //     site: "@yourTwitterHandle", // Replace with your Twitter handle
+                // }}
+                additionalMetaTags={[
+                    {
+                        name: "keywords",
+                        content:
+                            "Pricing, Subscription Plans, Operations, Parallelism Limit, Support Levels, Custom Pricing, Free Trial, Bulk Analysis, Monthly Limit, Content Moderation, Image Anonymization, Video Anonymization, Dedicated Infrastructure, Customer Support, Enterprise SLA, FAQ, Plan Changes",
+                    },
+                ]}
+            />
             <PricingBanner />
             {priceData && priceData.length > 0 && <PricingBlock priceData={priceData} setIsLoading={setIsLoading} />}
             {/* <CalculateSaving /> */}

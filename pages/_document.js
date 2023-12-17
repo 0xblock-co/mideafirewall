@@ -8,7 +8,7 @@ class MyDocument extends Document {
                 <Head>
                     {/* Define the viewport meta tag */}
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+                    <meta name="robots" content="index, follow"></meta>
                     {/* Add your favicon and other meta tags */}
                     <link rel="icon" href="/favicon.ico" />
                     <link rel="apple-touch-icon" sizes="180x180" href="/meta/apple-touch-icon.png" />

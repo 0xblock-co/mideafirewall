@@ -10,7 +10,7 @@ const Uploads = () => {
     const router = useRouter();
     useEffect(() => {
         if (CommonUtility.isNotEmptyObject(router.query) && (!("filters" in router.query) || !CommonUtility.isNotEmpty(router.query.filters))) {
-            router.push("/network-blog");
+            router.push("/features-list");
         }
     }, [router.query]);
 

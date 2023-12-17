@@ -77,7 +77,7 @@ const AuthProvider = ({ children }) => {
             if (currentRoute === "/survey") {
                 if (user?.surveyAnswered) {
                     console.log("Called");
-                    replace("/network-blog");
+                    replace("/features-list");
                 }
             }
         }

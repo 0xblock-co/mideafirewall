@@ -351,7 +351,7 @@ const DemoPage = () => {
             <Container>
                 <Row className="justify-content-center">
                     <div className="d-flex gap-2 p-1">
-                        <div onClick={() => !isFetchingState && router.push("/network-blog")} style={{ cursor: isFetchingState ? "not-allowed" : "pointer" }}>
+                        <div onClick={() => !isFetchingState && router.push("/features-list")} style={{ cursor: isFetchingState ? "not-allowed" : "pointer" }}>
                             <svg
                                 width="46"
                                 height="46"

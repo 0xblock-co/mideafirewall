@@ -19,7 +19,7 @@ const LoginScreen = () => {
 
     useEffect(() => {
         if (isLogin) {
-            router.replace("/network-blog");
+            router.replace("/features-list");
         }
     }, [isLogin]);
 
@@ -33,7 +33,7 @@ const LoginScreen = () => {
                     if (!response.surveyAnswered) {
                         router.push("/survey");
                     } else {
-                        router.push("/network-blog");
+                        router.push("/features-list");
                     }
                 });
         }
@@ -75,10 +75,10 @@ const LoginScreen = () => {
                         //     router.push("/pricing");
                         //   })
                         //   .catch(() => {
-                        //     router.push("/network-blog");
+                        //     router.push("/features-list");
                         //   });
                     } else {
-                        router.push("/network-blog");
+                        router.push("/features-list");
                     }
                 }
             }
@@ -88,13 +88,41 @@ const LoginScreen = () => {
     };
 
     return (
-        <GoogleCaptchaWrapper>
-            <NextSeo title="Login" />
-            <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
-                <LoginBlock handleLoginSubmit={handleLoginSubmit} />
-            </BoxContainerWithFilterIconWrapper>
-            <Loader isLoading={isLoading} />
-        </GoogleCaptchaWrapper>
+        <>
+            <NextSeo
+                title="Login"
+                description="Access your MediaFirewall account with ease. Login securely with your email and password or choose a faster option with Google, Microsoft, or LinkedIn. Experience convenient and reliable authentication for your MediaFirewall account."
+                canonical="https://mediafirewall.ai/account-security/login"
+                openGraph={{
+                    type: "website",
+                    locale: "en_US",
+                    url: "https://mediafirewall.ai/account-security/login",
+                    title: "Login",
+                    description:
+                        "Access your MediaFirewall account with ease. Login securely with your email and password or choose a faster option with Google, Microsoft, or LinkedIn. Experience convenient and reliable authentication for your MediaFirewall account.",
+                    site_name: "Media Firewall & AI",
+                }}
+                // twitter={{
+                //     cardType: "summary_large_image",
+                //     handle: "@yourTwitterHandle", // Replace with your Twitter handle
+                //     site: "@yourTwitterHandle", // Replace with your Twitter handle
+                // }}
+                additionalMetaTags={[
+                    {
+                        name: "keywords",
+                        content: "Login, Media Firewall, Secure Login, Email and Password, Google Login, Microsoft Login, LinkedIn Login, Authentication, User Access, Media Firewall & AI",
+                    },
+                ]}
+            />
+
+            <GoogleCaptchaWrapper>
+                <NextSeo title="Login" />
+                <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
+                    <LoginBlock handleLoginSubmit={handleLoginSubmit} />
+                </BoxContainerWithFilterIconWrapper>
+                <Loader isLoading={isLoading} />
+            </GoogleCaptchaWrapper>
+        </>
     );
 };
 

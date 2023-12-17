@@ -46,7 +46,7 @@ const PaymentSuccess = () => {
                                 <br />
                             </h2>
                             <h4 className="text-white">Your payment has been successfully processed.</h4>
-                            <Button variant="primary" className=" mt-3 py-3" onClick={() => router.push("/network-blog")}>
+                            <Button variant="primary" className=" mt-3 py-3" onClick={() => router.push("/features-list")}>
                                 Start Moderating Content
                             </Button>
                         </Col>

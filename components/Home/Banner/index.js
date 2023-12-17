@@ -24,7 +24,7 @@ export default function HomeBanner() {
           helps online communities keep their platforms safe and free from
           harmful content. */}
                 </p>
-                <Button variant="primary" className="rounded-pill button_primary py-2 px-4" onClick={() => Router.push("/network-blog")}>
+                <Button variant="primary" className="rounded-pill button_primary py-2 px-4" onClick={() => Router.push("/features-list")}>
                     <FormattedMessage id="button.See Demo" />
                 </Button>
             </div>

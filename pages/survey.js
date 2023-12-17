@@ -83,7 +83,7 @@ const NewUserSurvey = () => {
                         if (response.isSuccess) {
                             ToastMessage.success("Thank you for submitting answer.");
                             dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
-                            Router.push("/network-blog");
+                            Router.push("/features-list");
                             return;
                         } else {
                             ToastMessage.error(response?.message || "Something went wrong");

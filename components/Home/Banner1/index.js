@@ -33,7 +33,7 @@ export default function HomeBanner() {
                             {/* <p className="fw-semibold">
                                 Mediafirewall is a powerful AI-based content moderation tool that helps online communities keep their platforms safe and free from harmful content.
                             </p> */}
-                            <Button variant="primary" className="rounded-pill button_primary py-2 px-4" onClick={() => Router.push("/network-blog")}>
+                            <Button variant="primary" className="rounded-pill button_primary py-2 px-4" onClick={() => Router.push("/features-list")}>
                                 <FormattedMessage id="button.See Demo" />
                             </Button>
                         </div>

@@ -5,6 +5,7 @@ import ContactChatBlock from "@/components/Contact/chat-blocks";
 import { getMFWMediaContents } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
+import { NextSeo } from "next-seo";
 import { Col, Container, Row } from "react-bootstrap";
 
 // const videos = [
@@ -18,6 +19,32 @@ export default function ContactUsScreen() {
     const mediaContent = useAppSelector(getMFWMediaContents);
     return (
         <Fragment>
+            <NextSeo
+                title="Contact Us"
+                description="Contact us effortlessly through WhatsApp, schedule a demo, or request a price quote. Explore our onboarding videos for a seamless experience. Connect with us for the latest in AI content moderation and platform safety."
+                canonical="https://mediafirewall.ai/contact-us"
+                openGraph={{
+                    type: "website",
+                    locale: "en_US",
+                    url: "https://mediafirewall.ai/contact-us",
+                    title: "Contact Us",
+                    description:
+                        "Contact us effortlessly through WhatsApp, schedule a demo, or request a price quote. Explore our onboarding videos for a seamless experience. Connect with us for the latest in AI content moderation and platform safety.",
+                    site_name: "Media Firewall & AI",
+                }}
+                // twitter={{
+                //     cardType: "summary_large_image",
+                //     handle: "@yourTwitterHandle", // Replace with your Twitter handle
+                //     site: "@yourTwitterHandle", // Replace with your Twitter handle
+                // }}
+                additionalMetaTags={[
+                    {
+                        name: "keywords",
+                        content:
+                            "Contact Us, Contact Methods, WhatsApp, Schedule Demo, Price Quote, Onboarding Videos, AI Safety, Digital Safety, Platform Security, Seamless Communication, AI Content Moderation, Platform Safety, Customer Inquiry",
+                    },
+                ]}
+            />
             <ContactBanner />
             <ContactChatBlock />
             <section className={`video-block-wrapper `}>

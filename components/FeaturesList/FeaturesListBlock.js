@@ -13,9 +13,9 @@ import RenderIf from "../ConditionalRender/RenderIf";
 import Loader from "../Loader";
 import ReadMore from "../ReadMore";
 import VideoModal from "../VideoModal";
-import style from "./network-blog.module.scss";
+import style from "./featuresList.module.scss";
 
-export default function NetworkBlock() {
+export default function FeaturesListBlock() {
     const router = useRouter();
     const { user, isLogin } = useAuthV3();
     const [isLoading, setIsLoading] = useState(false);

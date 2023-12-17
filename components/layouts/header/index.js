@@ -80,7 +80,7 @@ export default function HeaderTop() {
                 };
             }
             localStorage.setItem("selectedDataForDemo", JSON.stringify(selectedFeature));
-            router.push(`/network-blog?key=${id}`);
+            router.push(`/features-list?key=${id}`);
         }
     };
     // const { locales } = useRouter();
@@ -135,7 +135,7 @@ export default function HeaderTop() {
                                                                     onClick={() => handleFeatureCardOnClick(feature, headerOption.id)}
                                                                     className={`nav-link sub-features`}
                                                                     style={{ lineHeight: "16px", fontSize: "14px" }}
-                                                                    // className={`nav-link ${isActiveLink(`/network-blog?key=${feature.id}`) ? "nav-active" : ""}`}
+                                                                    // className={`nav-link ${isActiveLink(`/features-list?key=${feature.id}`) ? "nav-active" : ""}`}
                                                                 >
                                                                     {feature.name}
                                                                 </a>
@@ -152,7 +152,7 @@ export default function HeaderTop() {
                     Documentation & Media
                   </Link> */}
                                     {/* {userDetails?.isLoggedIn && ( */}
-                                    <Link href="/network-blog" className={`nav-link ${isActiveLink("/network-blog") ? "nav-active" : ""}`}>
+                                    <Link href="/features-list" className={`nav-link ${isActiveLink("/features-list") ? "nav-active" : ""}`}>
                                         Demo
                                     </Link>
                                     <Link href="/contact-us" className={`nav-link ${isActiveLink("/contact-us") ? "nav-active" : ""}`}>

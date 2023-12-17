@@ -143,7 +143,7 @@ export const checkAuthRoute = () => {
         if (user) {
             return {
                 isActive: true,
-                route: "/network-blog",
+                route: "/features-list",
             };
         }
     }

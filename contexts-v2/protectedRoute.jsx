@@ -29,7 +29,7 @@ const ProtectRoute = (Component) => {
 
                 if (authContextData?.currentRoute === "/survey") {
                     if (authContextData?.user?.surveyAnswered) {
-                        replace("/network-blog");
+                        replace("/features-list");
                     }
                 }
             }

@@ -19,7 +19,7 @@ const SignupScreen = () => {
 
     useEffect(() => {
         if (isLogin) {
-            router.replace("/network-blog");
+            router.replace("/features-list");
         }
     }, [isLogin]);
 
@@ -33,7 +33,7 @@ const SignupScreen = () => {
                     if (!response.surveyAnswered) {
                         router.push("/survey");
                     } else {
-                        router.push("/network-blog");
+                        router.push("/features-list");
                     }
                 });
         }
@@ -59,13 +59,41 @@ const SignupScreen = () => {
     };
 
     return (
-        <GoogleCaptchaWrapper>
-            <NextSeo title="Create Account" />
-            <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
-                <RegisterBlock handleSubmitSingUp={handleSubmitSignUp} />
-            </BoxContainerWithFilterIconWrapper>
-            <Loader isLoading={isLoading} />
-        </GoogleCaptchaWrapper>
+        <>
+            <NextSeo
+                title="Create Account"
+                description="Create a new MediaFirewall account effortlessly. Sign up using your email and password or opt for a quicker registration with Google, Microsoft, or LinkedIn. Enjoy a seamless onboarding experience with secure and efficient authentication methods."
+                canonical="https://mediafirewall.ai/account-security/signup"
+                openGraph={{
+                    type: "website",
+                    locale: "en_US",
+                    url: "https://mediafirewall.ai/account-security/signup",
+                    title: "Signup",
+                    description:
+                        "Create a new MediaFirewall account effortlessly. Sign up using your email and password or opt for a quicker registration with Google, Microsoft, or LinkedIn. Enjoy a seamless onboarding experience with secure and efficient authentication methods.",
+                    site_name: "Media Firewall & AI",
+                }}
+                // twitter={{
+                //     cardType: "summary_large_image",
+                //     handle: "@yourTwitterHandle", // Replace with your Twitter handle
+                //     site: "@yourTwitterHandle", // Replace with your Twitter handle
+                // }}
+                additionalMetaTags={[
+                    {
+                        name: "keywords",
+                        content:
+                            "Signup, Media Firewall, Create Account, Email and Password, Google Signup, Microsoft Signup, LinkedIn Signup, Registration, Onboarding, Authentication, Media Firewall & AI",
+                    },
+                ]}
+            />
+            <GoogleCaptchaWrapper>
+                {/* <NextSeo title="Create Account" /> */}
+                <BoxContainerWithFilterIconWrapper lg={12} xl={7} xxl={6}>
+                    <RegisterBlock handleSubmitSingUp={handleSubmitSignUp} />
+                </BoxContainerWithFilterIconWrapper>
+                <Loader isLoading={isLoading} />
+            </GoogleCaptchaWrapper>
+        </>
     );
 };
 

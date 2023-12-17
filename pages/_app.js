@@ -64,20 +64,34 @@ export function App({ Component, pageProps }) {
     return (
         <Fragment>
             <DefaultSeo
-                title="Ensuring Online Community Safety: A Comprehensive Guide to AI Content Moderation and Harmful Content Prevention"
-                titleTemplate="Media Firewall & AI | %s"
+                titleTemplate="%s - Media Firewall & AI"
                 defaultTitle="Media Firewall & AI"
-                description="Safeguard online spaces with Media Firewall, a robust AI content moderation tool. Ensure platform safety and eliminate harmful content effortlessly in your online communities."
+                title="Media Firewall & AI"
+                description="Discover the forefront of online safety with Media Firewall & AI. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with intelligent content moderation. Dive into our comprehensive guide for insights on the synergy of Media Firewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety. Ensuring Online Community Safety: A Comprehensive Guide to AI Content Moderation and Harmful Content Prevention."
+                canonical="https://mediafirewall.ai/"
                 openGraph={{
                     type: "website",
+                    author: "",
                     locale: "en_US",
+                    author: "https://www.themillionvisions.com/",
                     url: "https://mediafirewall.ai/",
                     title: "Media Firewall & AI: Elevating Platform Safety with Smart Content Moderation",
                     description:
-                        "Discover the cutting-edge synergy of Media Firewall and AI, fortifying online platforms with intelligent content moderation. Enhance user well-being and digital safety effortlessly.",
-                    siteName: "Media Firewall & AI",
+                        "Discover the forefront of online safety with Media Firewall & AI. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with intelligent content moderation. Dive into our comprehensive guide for insights on the synergy of Media Firewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety.",
+                    site_name: "Media Firewall & AI",
                 }}
-                canonical="https://mediafirewall.ai/"
+                // twitter={{
+                //     cardType: "summary_large_image",
+                //     handle: "@yourTwitterHandle", // Replace with your Twitter handle
+                //     site: "@yourTwitterHandle", // Replace with your Twitter handle
+                // }}
+                additionalMetaTags={[
+                    {
+                        name: "keywords",
+                        content:
+                            "AI Content Moderation, Media Firewall Technology, Online Community Safety, Digital Well-being Solutions, Harmful Content Prevention, Platform Security Innovations, User Safety Technology, Intelligent Content Moderation, Online Platform Protection, Digital Safety Measures",
+                    },
+                ]}
             />
             <Helmet>
                 <html lang="en" />

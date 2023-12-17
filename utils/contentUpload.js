@@ -32,7 +32,7 @@ export const getVideoDuration = async (file) => {
     });
 };
 
-export const checkContentValidation = async (fileData, isContentUpload) => {
+export const checkContentValidation = async (fileData, isContentUpload, maxUploadFileSizeInMb) => {
     let totalContentSize = 0;
     const contentItem = [];
     const files = [];
@@ -79,24 +79,29 @@ export const checkContentValidation = async (fileData, isContentUpload) => {
             return false;
         }
 
-        if (isContentUpload && mediaFile.type.includes("video")) {
-            const maxDuration = durationLimit.MAX_VIDEO_DURATION_PREMIUM;
+        // if (isContentUpload && mediaFile.type.includes("video")) {
+        //     const maxDuration = durationLimit.MAX_VIDEO_DURATION_PREMIUM;
 
-            const video = await getVideoDuration(mediaFile);
-            if (video && video.duration > maxDuration) {
-                ToastMessage.error("Video duration can not be longer than 10 minutes.");
-                return false;
-            }
-        }
+        //     const video = await getVideoDuration(mediaFile);
+        //     if (video && video.duration > maxDuration) {
+        //         ToastMessage.error("Video duration can not be longer than 10 minutes.");
+        //         return false;
+        //     }
+        // }
     }
 
     if (isContentUpload) {
-        const maxFileSize = fileLimit.MAX_UPLOAD_SIZE_PREMIUM;
-
+        const maxFileSize = mbToBytes(maxUploadFileSizeInMb);
         if (totalContentSize > maxFileSize) {
-            ToastMessage.error("File size can not be larger than 250MB.");
+            ToastMessage.error(`File size can not be larger than ${maxUploadFileSizeInMb}MB.`);
             return false;
         }
     }
     return true;
 };
+
+function mbToBytes(mb) {
+    // 1 megabyte is equivalent to 1,048,576 bytes
+    var bytes = mb * 1024 * 1024;
+    return bytes;
+}

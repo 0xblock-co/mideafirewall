@@ -97,7 +97,9 @@ export default function UploadTabs() {
                     .then(() => {
                         setContentData([]);
                     })
-                    .catch(() => {});
+                    .catch(() => {
+                        setIsUploading(false);
+                    });
                 return;
             }
 
@@ -135,7 +137,7 @@ export default function UploadTabs() {
             }
 
             // check validation
-            let validationResult = await checkContentValidation(cloneContentData, true);
+            let validationResult = await checkContentValidation(cloneContentData, true, satisFactionMetricsCount?.mediaSizeLimit || 50);
 
             if (validationResult) {
                 setContentData(cloneContentData);
@@ -147,6 +149,7 @@ export default function UploadTabs() {
             setContentData([]);
         }
     };
+
     const handleOnClickUploadFiles = async () => {
         try {
             setIsUploading(true);
@@ -176,7 +179,7 @@ export default function UploadTabs() {
         } catch (error) {
             handleError(error);
         } finally {
-            // setIsUploading(false);
+            setIsUploading(false);
         }
     };
 
@@ -196,7 +199,7 @@ export default function UploadTabs() {
             errorMessage = error?.apiMessageRes?.title;
             errorDescription = error?.apiMessageRes?.detail || "Please choose file less then 50mb limit.";
         }
-
+        setIsUploading(false);
         newInfoAlert(errorMessage, errorDescription, "Okay", "error", true, "Cancel", false)
             .then(() => {
                 cleanup();

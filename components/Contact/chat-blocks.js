@@ -79,7 +79,7 @@ export default function ContactChatBlock() {
                                     className="w-100 mt-3 py-3 common-btn"
                                     onClick={() => {
                                         if (isLogin) {
-                                            if (user?.meetingSurveyAnswered) {
+                                            if (user?.priceQuoteAnswered) {
                                                 router.push("/book-demo?type=DEMO");
                                             } else {
                                                 router.push("/price-quote");

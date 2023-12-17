@@ -61,7 +61,7 @@ export const getFilteredData = (dataObj) => {
                         question.options && question.options.length > 0
                             ? question.options.map((option) => ({
                                   image: option.urlToIcon,
-                                  value: option.id,
+                                  value: option.label,
                                   label: option.label,
                               }))
                             : question.ranges.map((option) => ({
@@ -92,7 +92,7 @@ export const getFilteredData = (dataObj) => {
                 case "checkbox":
                     const checkboxOptions = question.options.map((option) => ({
                         image: option.urlToIcon,
-                        value: option.id,
+                        value: option.label,
                         label: option.label,
                     }));
                     formElements.push({

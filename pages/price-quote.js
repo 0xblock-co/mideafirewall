@@ -12,7 +12,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 
-export default function Survey() {
+export default function PriceQoute() {
     const [formData, setFormData] = useState([]);
     const [defaultValue, setDefaultValue] = useState({});
     const [formAnswerData, setFormAnswerData] = useState([]);

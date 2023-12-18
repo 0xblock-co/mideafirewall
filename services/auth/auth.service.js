@@ -1,7 +1,7 @@
 import { localStorageKeys } from "@/constants/global.constants";
 import { setCookieWithJwtExp } from "@/utils/cookieCreator";
 import { getUserBadgeByUserName, setCookieWithExpiration } from "@/utils/globalFunctions";
-import { ToastMessage } from "@/utils/toastMessage.utils";
+import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Api from "../RTK/axiosAPI.handler";
 
@@ -16,6 +16,13 @@ export const asyncLoginWithEmail = createAsyncThunk("LOGIN_WITH_EMAIL", async (p
                     setCookieWithExpiration(localStorageKeys.userAccessToken, res.data.tokens.accessToken);
                     setCookieWithJwtExp(localStorageKeys.userEmail, res.data.userDetails.email, res.data.tokens.accessToken);
                 }
+                if (res.data?.emailVerified == false) {
+                    newInfoAlert("Email Verification Required", "Please check your email and verify it before attempting to log in.", "OK", "error").then(() => {
+                        return thunkAPI.rejectWithValue(res);
+                    });
+                    return;
+                }
+
                 ToastMessage.success("Logged in successfully.");
                 res.data.userDetails.profileInfo = getUserBadgeByUserName(res.data.userDetails.firstName, res.data.userDetails.lastName);
                 return thunkAPI.fulfillWithValue({

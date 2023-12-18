@@ -12,14 +12,13 @@ export const newInfoAlert = (title, message, actionButtonText, icon, isCancelBtn
             customClass: {
                 confirmButton: `ff_new_alert_btn mb-1`,
                 popup: `ff_popup_bg`,
-                title: `ff_popup_title`,
+                title: `ff_popup_title ${title === "Coming Soon" ? "mfw_popup_coming_soon_title" : ""}`,
             },
             allowOutsideClick: isBackDropAllow,
             showCloseButton: true,
             showDenyButton: isCancelBtn,
             denyButtonText: cancelButtonText,
         }).then((result) => {
-            console.log("result111: ", result);
             if (result?.isConfirmed) {
                 resolve("action button press");
             } else if (result?.isDenied) {

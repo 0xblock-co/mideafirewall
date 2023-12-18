@@ -5,11 +5,14 @@ import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilt
 import UploadTabs from "@/components/UploadBlocks/upload-tabs";
 import ProtectRoute from "@/contexts-v2/protectedRoute";
 import CommonUtility from "@/utils/common.utils";
+import { getUrlVars } from "@/utils/globalFunctions";
 
 const Uploads = () => {
     const router = useRouter();
     useEffect(() => {
-        if (CommonUtility.isNotEmptyObject(router.query) && (!("filters" in router.query) || !CommonUtility.isNotEmpty(router.query.filters))) {
+        const queryParamData = router.query || getUrlVars();
+
+        if (CommonUtility.isNotEmptyObject(queryParamData) && (!("filters" in queryParamData) || !CommonUtility.isNotEmpty(queryParamData.filters))) {
             router.push("/features-list");
         }
     }, [router.query]);

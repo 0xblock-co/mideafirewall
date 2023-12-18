@@ -14,6 +14,7 @@ import { useAppDispatch } from "@/store/hooks";
 import "@/styles/module-style.scss";
 import "@/styles/pricing.scss";
 import { DefaultSeo } from "next-seo";
+import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
@@ -29,6 +30,7 @@ const messages = {
 
 export function App({ Component, pageProps }) {
     const { locale } = useRouter();
+    const { publicRuntimeConfig } = getConfig();
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [progress, setProgress] = useState(0);
@@ -49,9 +51,30 @@ export function App({ Component, pageProps }) {
             setProgress(100);
         });
     }, [router]);
-
     useEffect(() => {
         import("bootstrap/dist/js/bootstrap.min.js");
+
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.id = "zsiqscript";
+        script.innerHTML = `
+            var $zoho = $zoho || {};
+            $zoho.salesiq = $zoho.salesiq || {
+                widgetcode: "${publicRuntimeConfig.zohoSalesIq}",
+                values: {},
+                ready: function () {}
+            };
+            var d = document;
+            var s = d.createElement("script");
+            s.type = "text/javascript";
+            s.id = "zsiqscript";
+            s.defer = true;
+            s.src = "https://salesiq.zohopublic.in/widget";
+            var t = d.getElementsByTagName("script")[0];
+            t.parentNode.insertBefore(s, t);
+        `;
+        document.head.appendChild(script);
+
         async function getMFWSatisfactionMetrics() {
             const result = await asyncUserSatisfactionMetrics();
             if (result && result?.isSuccess) {

@@ -137,19 +137,6 @@ export const getFilteredData = (dataObj) => {
     return formElements;
 };
 
-export const checkAuthRoute = () => {
-    if (typeof window !== "undefined") {
-        const user = readCookie(localStorageKeys.authKey);
-        if (user) {
-            return {
-                isActive: true,
-                route: "/features-list",
-            };
-        }
-    }
-    return { isActive: false, route: "/" };
-};
-
 export const encodeData = (data, key) => {
     return jwt_simple.encode(data, key);
 };
@@ -200,6 +187,7 @@ export const asyncGetAccessToken = async () => {
     try {
         const refreshToken = readCookie(localStorageKeys.userRefreshToken);
         const email = readCookie(localStorageKeys.userEmail);
+
         if (!refreshToken || !email) {
             return {
                 isSuccess: false,
@@ -207,22 +195,24 @@ export const asyncGetAccessToken = async () => {
             };
         }
 
-        const response = await axios.post(`https://mediafirewall-ai.themillionvisions.com/user/refreshToken`, {
-            token: refreshToken,
-            email,
-        });
+        const response = await axios.post("https://mediafirewall-ai.themillionvisions.com/user/refreshToken", { token: refreshToken, email });
 
         if (response.data) {
-            setCookieWithExpiration(localStorageKeys.userRefreshToken, response.data["refreshToken"]);
-            setCookieWithExpiration(localStorageKeys.userAccessToken, response.data["accessToken"]);
+            setCookieWithExpiration(localStorageKeys.userRefreshToken, response.data.refreshToken);
+            setCookieWithExpiration(localStorageKeys.userAccessToken, response.data.accessToken);
             return {
                 data: response.data,
-                isSuccess: response.isSuccess,
+                isSuccess: true,
             };
+        } else {
+            eraseCookie(localStorageKeys.userEmail);
+            eraseCookie(localStorageKeys.userRefreshToken);
+            localStorage.clear();
         }
 
         return response;
     } catch (error) {
+        console.error("Error in asyncGetAccessToken:", error.message);
         return { isSuccess: false, error: error.message };
     }
 };

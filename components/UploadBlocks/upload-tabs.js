@@ -59,7 +59,7 @@ export default function UploadTabs() {
                           }
                         : {},
                 },
-                false,
+                true,
                 false
             )
                 .then((response) => {
@@ -84,7 +84,7 @@ export default function UploadTabs() {
                 .catch((e) => {
                     setIsUploading(false);
 
-                    handleError(e);
+                    // handleError(e);
                 });
         } catch (error) {}
     };
@@ -152,7 +152,7 @@ export default function UploadTabs() {
 
     const handleOnClickUploadFiles = async () => {
         try {
-            setIsUploading(true);
+            await setIsUploading(true);
 
             if (router.query?.filters !== "") {
                 if (CommonUtility.isValidArray(contentData)) {
@@ -177,10 +177,12 @@ export default function UploadTabs() {
                 }
             }
         } catch (error) {
-            handleError(error);
-        } finally {
-            setIsUploading(false);
+            console.error("error:while uploading file ", error);
+            // handleError(error);
         }
+        // finally {
+        //     setIsUploading(false);
+        // }
     };
 
     const handleError = (error) => {

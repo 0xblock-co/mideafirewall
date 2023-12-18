@@ -226,6 +226,9 @@ a {
     .ff_popup_title {
         color: #000000;
         font-weight: 600;
+        &.mfw_popup_coming_soon_title {
+            color: red !important;
+        }
     }
     .swal2-html-container {
         font-size: 1rem;

@@ -29,7 +29,7 @@ export default function FooterBottom() {
         if (!feature.active) {
             setSelectedMediaContent(feature);
             if (feature.webFeatureKey === "deepfake" || feature.featureId == "134") {
-                newInfoAlert("Coming Soon", "", "Watch a Demo", "info", true, "Cancel").then(() => {
+                newInfoAlert("Coming Soon", "", "Preview", "").then(() => {
                     setIsShowVideoModel(true);
                 });
                 return;
@@ -39,9 +39,9 @@ export default function FooterBottom() {
                 "Enterprise Feature",
                 "Your request for the enterprise feature is appreciated; however, it's not enabled by default. Would you be interested in a live demonstration?",
                 "Schedule a live demo",
-                "info",
+                "",
                 true,
-                "Watch a Demo"
+                "Preview"
             )
                 .then(() => {
                     if (isLogin) {

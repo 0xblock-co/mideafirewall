@@ -4,24 +4,29 @@ import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilt
 import GoogleCaptchaWrapper from "@/components/GoogleCaptchaWrapper";
 import Loader from "@/components/Loader";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
+import OnlyForAuthRoute from "@/contexts-v2/onlyForAuth";
 import { asyncLoginWithEmail, asyncSocialAuth } from "@/services/auth/auth.service";
 import { useAppDispatch } from "@/store/hooks";
-import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
 const LoginScreen = () => {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-    const { isLogin } = useAuthV3();
+    const { isLogin, user } = useAuthV3();
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        if (isLogin) {
-            router.replace("/features-list");
-        }
-    }, [isLogin]);
+    // useEffect(() => {
+    //     if (isLogin) {
+    //         if (user && CommonUtility.isNotEmptyObject(user)) {
+    //             if (!user?.surveyAnswered) {
+    //                 router.replace("/survey");
+    //             } else {
+    //                 router.replace("/features-list");
+    //             }
+    //         }
+    //     }
+    // }, [isLogin]);
 
     useEffect(() => {
         const { value, authType } = router.query;
@@ -43,47 +48,34 @@ const LoginScreen = () => {
         setIsLoading(true);
 
         try {
-            const response = await dispatch(
+            dispatch(
                 asyncLoginWithEmail({
                     email: formData.email,
                     passWord: formData.password || "",
                     recaptchaResponse: formData.gReCaptchaToken,
                     authType: formData?.authType,
                 })
-            );
-            setIsLoading(false);
-            if (response?.payload?.isSuccess) {
-                const payload = response.payload;
-
-                if (payload.emailVerified === false) {
-                    newInfoAlert("Email Verification Required", "Please check your email and verify it before attempting to log in.", "OK", "error").then(() => {
-                        // Handle the case when email is not verified
-                    });
-                } else if (payload.surveyAnswered === false) {
-                    router.push("/survey");
-                } else {
-                    if (response?.payload?.api_secret === "") {
-                        router.push("/pricing");
-                        // newInfoAlert(
-                        //   "Free quota exceeded",
-                        //   "Unlock additional features by subscribing to access extended operations beyond the current limit.",
-                        //   "OK",
-                        //   "warning",
-                        //   true
-                        // )
-                        //   .then(() => {
-                        //     router.push("/pricing");
-                        //   })
-                        //   .catch(() => {
-                        //     router.push("/features-list");
-                        //   });
-                    } else {
-                        router.push("/features-list");
+            )
+                .unwrap()
+                .then((response) => {
+                    setIsLoading(false);
+                    if (response?.isSuccess) {
+                        if (response.surveyAnswered == false) {
+                            router.replace("/survey");
+                            return;
+                        }
+                        if (!response.surveyAnswered) {
+                            router.push("/survey");
+                        } else {
+                            router.push("/features-list");
+                        }
                     }
-                }
-            }
+                });
         } catch (error) {
+            console.error("Login Error:", error);
             setIsLoading(false);
+        } finally {
+            await setIsLoading(false);
         }
     };
 
@@ -126,4 +118,4 @@ const LoginScreen = () => {
     );
 };
 
-export default LoginScreen;
+export default OnlyForAuthRoute(LoginScreen);

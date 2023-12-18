@@ -1,10 +1,13 @@
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 import Loader from "@/components/Loader";
+import { localStorageKeys } from "@/constants/global.constants";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { asyncGetAllContents, asyncGetMFWTestCustomers } from "@/services/product/product.service";
 import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
-import { getAllHeaderDataOptions, getMfwTestCustomersSelector, setAllMediaContents, setMfwTestCustomers } from "@/store/defaultConfig.slice";
+import { getAllHeaderDataOptions, setAllMediaContents, setMfwTestCustomers } from "@/store/defaultConfig.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { readCookie } from "@/utils/cookieCreator";
+import { asyncGetAccessToken } from "@/utils/globalFunctions";
 import dynamic from "next/dynamic";
 import { Fragment, useEffect } from "react";
 
@@ -39,8 +42,7 @@ const MainLayout = ({ children }) => {
     const dispatch = useAppDispatch();
 
     const headerData = useAppSelector(getAllHeaderDataOptions);
-    const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
-    const { isLogin, isLoadingApp } = useAuthV3();
+    const { isLogin, isAuthenticated, isLoadingApp } = useAuthV3();
 
     useEffect(() => {
         import("bootstrap/dist/js/bootstrap.min.js");
@@ -64,6 +66,20 @@ const MainLayout = ({ children }) => {
         }
         if (isLogin) getMFWTestCustomers();
     }, []);
+
+    useEffect(() => {
+        if (isLogin && isAuthenticated) {
+            if (typeof window !== "undefined") {
+                const token = readCookie(localStorageKeys.userAccessToken);
+                if (!token) {
+                    const refreshToken = readCookie(localStorageKeys.userRefreshToken);
+                    if (refreshToken) {
+                        asyncGetAccessToken();
+                    }
+                }
+            }
+        }
+    });
 
     const getProducts = async () => {
         dispatch(asyncGetAllHeaderData({}));

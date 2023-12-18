@@ -18,7 +18,7 @@ const NewUserSurvey = () => {
     const [defaultValue, setDefaultValue] = useState({});
     const [formAnswerData, setFormAnswerData] = useState([]);
     const dispatch = useAppDispatch();
-    const { user, checkIsValidRoute } = useAuthV3();
+    const { user } = useAuthV3();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {

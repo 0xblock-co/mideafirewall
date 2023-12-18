@@ -1,7 +1,6 @@
 import { localStorageKeys } from "@/constants/global.constants";
 import { authActions, getUserDetails } from "@/store/auth.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import CommonUtility from "@/utils/common.utils";
 import { eraseCookie, readCookie } from "@/utils/cookieCreator";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -71,24 +70,13 @@ const AuthProvider = ({ children }) => {
         userDetails(true);
     };
 
-    const checkIsValidRoute = () => {
-        if (CommonUtility.isNotEmptyObject(user) && user?.isLoggedIn) {
-            // check isSurveyAnswered or not
-            if (currentRoute === "/survey") {
-                if (user?.surveyAnswered) {
-                    console.log("Called");
-                    replace("/features-list");
-                }
-            }
-        }
-    };
     const logout = () => {
         eraseCookie(localStorageKeys.userAccessToken);
         eraseCookie(localStorageKeys.userRefreshToken);
+        eraseCookie(localStorageKeys.userEmail);
         localStorage.clear();
         dispatch(authActions.clearAuthStore());
         setUser(null);
-        replace("/");
     };
 
     const authContextValue = {
@@ -96,7 +84,6 @@ const AuthProvider = ({ children }) => {
         setIsLoadingApp,
         setIsAuthenticated,
         checkIsLoggedIn,
-        checkIsValidRoute,
         logout,
         user,
         isLogin: !!user,

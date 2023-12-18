@@ -38,14 +38,17 @@ export default function FeaturesListBlock() {
         const { key } = query;
         if (CommonUtility.isNotEmptyObject(query) && "key" in query && headerData.some((item) => item.id === key)) {
             setActiveTab(key?.toString());
+            router.replace("/features-list");
         }
 
         function getPreSelectedDataFromLocalStorage() {
             const data = localStorage.getItem("selectedDataForDemo");
             const parsedData = JSON.parse(data);
+            if (parsedData?.activeTab) setActiveTab(parsedData?.activeTab?.toString());
 
-            if (parsedData && key) {
-                setMyRefKeyValue(`${key.toString()}-${parsedData?.selectedFeatureIds[0]}`);
+            const selectedTabIndex = key || parsedData?.activeTab;
+            if (parsedData && selectedTabIndex) {
+                setMyRefKeyValue(`${selectedTabIndex.toString()}-${parsedData?.selectedFeatureIds[0]}`);
                 setSelectedFeatureIds(parsedData.selectedFeatureIds);
                 setSelectedOptions(parsedData.selectedOptions);
                 setTimeout(() => {
@@ -91,7 +94,7 @@ export default function FeaturesListBlock() {
         if (!fullSelectedItem.active) {
             setSelectedMediaContent(fullSelectedItem);
             if (fullSelectedItem.webFeatureKey === "deepfake" || fullSelectedItem.featureId == "134") {
-                newInfoAlert("Coming Soon", "", "Watch a Demo", "info", true, "Cancel").then(() => {
+                newInfoAlert("Coming Soon", "", "Preview", "").then(() => {
                     setIsShowVideoModel(true);
                 });
                 return;
@@ -101,9 +104,9 @@ export default function FeaturesListBlock() {
                 "Enterprise Feature",
                 "Your request for the enterprise feature is appreciated; however, it's not enabled by default. Would you be interested in a live demonstration?",
                 "Schedule a live demo",
-                "info",
+                "",
                 true,
-                "Watch a Demo"
+                "Preview"
             )
                 .then(() => {
                     if (isLogin) {
@@ -146,19 +149,19 @@ export default function FeaturesListBlock() {
     };
 
     const onSubmit = useCallback(
-        (e) => {
+        async (e) => {
             e.preventDefault();
 
             if (!isLogin) {
-                localStorage.setItem("selectedDataForDemo", JSON.stringify({ selectedFeatureIds, selectedOptions }));
+                await localStorage.setItem("selectedDataForDemo", JSON.stringify({ selectedFeatureIds, selectedOptions, activeTab }));
                 router.push("/account-security/login");
                 return;
             }
 
             if (!user.surveyAnswered) {
-                newInfoAlert("Survey answers are required", "Please fill the survey questionnaires to continue with the content moderation process.", "Continue", "warning").then(() => {
-                    router.push("/survey");
-                });
+                // newInfoAlert("Survey answers are required", "Please fill the survey questionnaires to continue with the content moderation process.", "Continue", "warning").then(() => {
+                router.push("/survey");
+                // });
                 return;
             }
 

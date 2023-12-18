@@ -44,7 +44,6 @@ const ContactWithSalesChat = () => {
     useEffect(() => {
         const openChatWidget = () => {
             if (typeof window !== "undefined" && window.$zoho && window.$zoho.salesiq) {
-                console.log("window: ", window);
                 window.$zoho.salesiq?.floatbutton?.visible("show");
             }
         };

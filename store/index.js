@@ -1,12 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { createWrapper } from "next-redux-wrapper";
+import commonServiceApi from "@/services/shared/common.service";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import commonServiceApi from "@/services/shared/common.service";
-import { combineReducers } from "@reduxjs/toolkit";
-import { HYDRATE } from "next-redux-wrapper";
-import defaultConfigSlice from "./defaultConfig.slice";
 import authSlice from "./auth.slice";
+import defaultConfigSlice from "./defaultConfig.slice";
 
 export let persistor = null;
 
@@ -50,9 +48,10 @@ export const makeStore = () => {
             getDefaultMiddleware({
                 serializableCheck: false,
             }).concat(commonServiceApi.middleware),
-        devTools: true,
+        devTools: process.env.NODE_ENV !== "production" ? true : false,
     });
     persistor = persistStore(store);
     return store;
 };
-export const wrapper = createWrapper(makeStore, { debug: true });
+
+export const wrapper = createWrapper(makeStore, { debug: process.env.NODE_ENV !== "production" ? true : false });

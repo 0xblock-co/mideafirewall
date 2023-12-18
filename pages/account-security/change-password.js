@@ -3,12 +3,13 @@ import { Fragment, useState } from "react";
 
 import ChangePasswordForm from "@/components/Auth/change-password-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
-import { useRouter } from "next/router";
-import { useAppDispatch } from "@/store/hooks";
-import { asyncRestPassword } from "@/services/auth/auth.service";
-import { newInfoAlert } from "@/utils/toastMessage.utils";
 import Loader from "@/components/Loader";
+import OnlyForAuthRoute from "@/contexts-v2/onlyForAuth";
+import { asyncRestPassword } from "@/services/auth/auth.service";
+import { useAppDispatch } from "@/store/hooks";
 import { getUrlVars } from "@/utils/globalFunctions";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
+import { useRouter } from "next/router";
 
 const ForgotPasswordScreen = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -48,4 +49,4 @@ const ForgotPasswordScreen = () => {
     );
 };
 
-export default ForgotPasswordScreen;
+export default OnlyForAuthRoute(ForgotPasswordScreen);

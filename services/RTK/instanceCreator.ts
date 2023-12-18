@@ -18,6 +18,7 @@ type CustomAxiosConfig = AxiosRequestConfig & {
  */
 const instanceCreator = (baseUrl = null): AxiosInstance => {
     const { publicRuntimeConfig } = getConfig();
+    const isClientSide = typeof window !== "undefined";
     let isRefreshing = false;
 
     // Axios configuration options
@@ -29,27 +30,6 @@ const instanceCreator = (baseUrl = null): AxiosInstance => {
     const instance: AxiosInstance = axios.create(options);
 
     /**
-     * Refresh the access token using the refresh token.
-     * This function is called when the access token is expired, but a valid refresh token is available.
-     * It updates the Authorization header of the Axios instance with the new access token.
-     */
-    const refreshAccessToken = async () => {
-        if (!isRefreshing) {
-            isRefreshing = true;
-            try {
-                // Call the AuthService API to get a new access token using the refresh token
-                // return response;
-                const response = await asyncGetAccessToken();
-                return response;
-            } catch (error) {
-                return error;
-            } finally {
-                isRefreshing = false;
-            }
-        }
-    };
-
-    /**
      * Interceptor function that handles successful requests.
      * It checks if the access token is valid and updates the Authorization header if needed.
      * If the access token is not valid but a valid refresh token is available, it refreshes the access token.
@@ -59,22 +39,34 @@ const instanceCreator = (baseUrl = null): AxiosInstance => {
      * @returns The updated Axios request config.
      */
     const requestInterceptorSuccess = async (request: InternalAxiosRequestConfig<any>): Promise<InternalAxiosRequestConfig<any>> => {
-        if (typeof window !== "undefined") {
+        if (isClientSide) {
             const token = readCookie(localStorageKeys.userAccessToken);
             if (token) {
                 request.headers.Authorization = `Bearer ${token}`;
+            } else {
+                const refreshToken = readCookie(localStorageKeys.userRefreshToken);
+                if (refreshToken) {
+                    try {
+                        const result: any = await asyncGetAccessToken();
+                        if (result?.isSuccess) {
+                            // console.log("Access token retrieved successfully:", result.data);
+                        } else {
+                            handleTokenRefreshFailure();
+                        }
+                    } catch (error) {
+                        console.error("An unexpected error occurred:", error.message);
+                    }
+                }
             }
-            // else {
-            //     const refreshTokenResponse = await refreshAccessToken();
-            //     if (!refreshTokenResponse?.isSuccess) {
-            //         eraseCookie(localStorageKeys.userAccessToken);
-            //         eraseCookie(localStorageKeys.userRefreshToken);
-            //         localStorage.clear();
-            //     }
-            // }
         }
-        // request.withCredentials = true;
         return request;
+    };
+
+    const handleTokenRefreshFailure = () => {
+        eraseCookie(localStorageKeys.userEmail);
+        eraseCookie(localStorageKeys.userRefreshToken);
+        localStorage.clear();
+        console.error("Failed to retrieve access token.");
     };
 
     /**
@@ -87,17 +79,23 @@ const instanceCreator = (baseUrl = null): AxiosInstance => {
      */
     const responseInterceptorError = async (error: AxiosError) => {
         const config = error?.config as CustomAxiosConfig;
-        if (error?.response?.status === 401) {
-            // && !config._retry
-            const refreshTokenResponse = await refreshAccessToken();
-            if (!refreshTokenResponse.isSuccess) {
-                eraseCookie(localStorageKeys.userAccessToken);
-                eraseCookie(localStorageKeys.userRefreshToken);
-                localStorage.clear();
-                return Promise.reject(error);
+        if (error?.response?.status === 401 && isClientSide) {
+            const token = readCookie(localStorageKeys.userAccessToken);
+            if (!token) {
+                const refreshToken = readCookie(localStorageKeys.userRefreshToken);
+                if (refreshToken) {
+                    try {
+                        const result: any = await asyncGetAccessToken();
+                        if (result?.isSuccess) {
+                            console.log("Access token retrieved successfully:", result.data);
+                        } else {
+                            handleTokenRefreshFailure();
+                        }
+                    } catch (error) {
+                        console.error("An unexpected error occurred:", error.message);
+                    }
+                }
             }
-            // config._retry = true;
-            // config.withCredentials = true;
             return axios(config);
         }
 
@@ -106,10 +104,7 @@ const instanceCreator = (baseUrl = null): AxiosInstance => {
 
     // Add the interceptors to the instance
     instance.interceptors.request.use(requestInterceptorSuccess, (error) => Promise.reject(error));
-
-    instance.interceptors.response.use((response) => {
-        return response;
-    }, responseInterceptorError);
+    instance.interceptors.response.use((response) => response, responseInterceptorError);
 
     return instance;
 };

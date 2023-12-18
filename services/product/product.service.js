@@ -10,7 +10,7 @@ export const asyncUploadContentByUrl = async (userEmail, queryPayload) => {
             return res;
         });
     } catch (e) {
-        console.log("e: ", e);
+        console.error("error:while upload content by url ", e);
         return e;
     }
 };

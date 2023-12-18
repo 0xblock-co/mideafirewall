@@ -6,7 +6,7 @@ import { useAuthV3 } from "./auth.context";
 const ProtectRoute = (Component) => {
     const ProtectRouteComponent = (props) => {
         const authContextData = useAuthV3();
-        console.log("authContextData: ", authContextData);
+
         const { replace } = useRouter();
 
         useEffect(() => {
@@ -21,16 +21,19 @@ const ProtectRoute = (Component) => {
         }
 
         if (!authContextData?.isLoadingApp && authContextData?.isAuthenticated) {
-            if (CommonUtility.isNotEmptyObject(authContextData?.user) && authContextData?.user?.isLoggedIn) {
+            if (authContextData && CommonUtility.isNotEmptyObject(authContextData?.user) && authContextData?.user?.isLoggedIn) {
                 if (!authContextData?.user.emailVerified) {
                     replace("/account-security/login");
                     return;
                 }
+                // if (authContextData?.currentRoute == "/survey") {
+                //     if (authContextData?.user?.surveyAnswered && authContextData?.user?.surveyAnswered == true) {
+                //         replace("/features-list");
+                //     }
+                // }
 
-                if (authContextData?.currentRoute === "/survey") {
-                    if (authContextData?.user?.surveyAnswered) {
-                        replace("/features-list");
-                    }
+                if (authContextData?.user?.surveyAnswered && authContextData?.user?.surveyAnswered == false) {
+                    replace("/survey");
                 }
             }
         }

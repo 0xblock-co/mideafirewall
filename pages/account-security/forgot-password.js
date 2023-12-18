@@ -4,6 +4,7 @@ import { Fragment, useState } from "react";
 import ForgotPasswordBlock from "@/components/Auth/forgot-password-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
+import OnlyForAuthRoute from "@/contexts-v2/onlyForAuth";
 import { asyncForgotPassword } from "@/services/auth/auth.service";
 import { useAppDispatch } from "@/store/hooks";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
@@ -70,4 +71,4 @@ const ForgotPasswordScreen = () => {
     );
 };
 
-export default ForgotPasswordScreen;
+export default OnlyForAuthRoute(ForgotPasswordScreen);

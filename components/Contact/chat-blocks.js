@@ -45,7 +45,6 @@ export default function ContactChatBlock() {
                                     type="submit"
                                     variant="primary"
                                     className="w-100 mt-3 py-3 common-btn"
-                                    // onClick={() => router.push("/features-list")}
                                     onClick={() => {
                                         if (isLogin) {
                                             if (user?.meetingSurveyAnswered) {
@@ -57,7 +56,6 @@ export default function ContactChatBlock() {
                                             router.push("/account-security/login");
                                         }
                                     }}
-                                    // onClick={() => setIsShowProductDemoFormModal(true)}
                                 >
                                     Schedule now
                                 </Button>

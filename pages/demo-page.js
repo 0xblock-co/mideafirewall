@@ -599,7 +599,6 @@ const DemoPage = () => {
                                                             visible={isFetchingState}
                                                         />
                                                         AI is in the process of verifying your information. This may take a moment.
-                                                        {/* We are verifying your records, kindly wait for a moment. */}
                                                     </div>
                                                 </RenderIf>
                                             </section>

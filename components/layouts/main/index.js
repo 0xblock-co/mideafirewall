@@ -62,7 +62,7 @@ const MainLayout = ({ children }) => {
         if (headerData && headerData?.length == 0) {
             getProducts();
         }
-        if (isLogin && mfw_customersList && mfw_customersList?.length === 0) getMFWTestCustomers();
+        if (isLogin) getMFWTestCustomers();
     }, []);
 
     const getProducts = async () => {

@@ -7,7 +7,6 @@ import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilt
 import GoogleCaptchaWrapper from "@/components/GoogleCaptchaWrapper";
 import Loader from "@/components/Loader";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
-import OnlyForAuthRoute from "@/contexts-v2/onlyForAuth";
 import { asyncSignUpWithEmail, asyncSocialAuth } from "@/services/auth/auth.service";
 import { useAppDispatch } from "@/store/hooks";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
@@ -98,4 +97,4 @@ const SignupScreen = () => {
     );
 };
 
-export default OnlyForAuthRoute(SignupScreen);
+export default SignupScreen;

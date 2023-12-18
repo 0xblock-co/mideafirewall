@@ -4,7 +4,6 @@ import { Fragment, useState } from "react";
 import ChangePasswordForm from "@/components/Auth/change-password-block";
 import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilterIcon";
 import Loader from "@/components/Loader";
-import OnlyForAuthRoute from "@/contexts-v2/onlyForAuth";
 import { asyncRestPassword } from "@/services/auth/auth.service";
 import { useAppDispatch } from "@/store/hooks";
 import { getUrlVars } from "@/utils/globalFunctions";
@@ -49,4 +48,4 @@ const ForgotPasswordScreen = () => {
     );
 };
 
-export default OnlyForAuthRoute(ForgotPasswordScreen);
+export default ForgotPasswordScreen;

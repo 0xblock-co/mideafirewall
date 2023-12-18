@@ -4,7 +4,6 @@ import BoxContainerWithFilterIconWrapper from "@/components/BoxContainerWithFilt
 import GoogleCaptchaWrapper from "@/components/GoogleCaptchaWrapper";
 import Loader from "@/components/Loader";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
-import OnlyForAuthRoute from "@/contexts-v2/onlyForAuth";
 import { asyncLoginWithEmail, asyncSocialAuth } from "@/services/auth/auth.service";
 import { useAppDispatch } from "@/store/hooks";
 import { NextSeo } from "next-seo";
@@ -118,4 +117,4 @@ const LoginScreen = () => {
     );
 };
 
-export default OnlyForAuthRoute(LoginScreen);
+export default LoginScreen;

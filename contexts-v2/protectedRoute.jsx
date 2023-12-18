@@ -26,11 +26,11 @@ const ProtectRoute = (Component) => {
                     replace("/account-security/login");
                     return;
                 }
-                // if (authContextData?.currentRoute == "/survey") {
-                //     if (authContextData?.user?.surveyAnswered && authContextData?.user?.surveyAnswered == true) {
-                //         replace("/features-list");
-                //     }
-                // }
+                if (authContextData?.currentRoute == "/survey") {
+                    if (authContextData?.user?.surveyAnswered && authContextData?.user?.surveyAnswered == true) {
+                        replace("/features-list");
+                    }
+                }
 
                 if (authContextData?.user?.surveyAnswered && authContextData?.user?.surveyAnswered == false) {
                     replace("/survey");

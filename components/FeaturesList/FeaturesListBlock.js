@@ -38,7 +38,6 @@ export default function FeaturesListBlock() {
         const { key } = query;
         if (CommonUtility.isNotEmptyObject(query) && "key" in query && headerData.some((item) => item.id === key)) {
             setActiveTab(key?.toString());
-            router.replace("/features-list");
         }
 
         function getPreSelectedDataFromLocalStorage() {

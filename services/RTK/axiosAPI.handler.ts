@@ -230,6 +230,7 @@ class Api {
         if (isErrorHandle && errorData?.code === 400 && errorData?.apiMessageRes?.detail) {
             newInfoAlert(errorData?.apiMessageRes?.title || "", errorData?.apiMessageRes?.detail || "", "OK", "error").then(() => {
                 return {
+                    apiMessageRes: errorData?.apiMessageRes,
                     isSuccess: false,
                     isStore: false,
                     code: code.toString(),
@@ -242,6 +243,7 @@ class Api {
         if (isErrorHandle && errorData?.code === 403 && errorData?.apiMessageRes?.detail) {
             newInfoAlert("Authentication Error", errorData?.apiMessageRes.detail || "", "OK", "error").then(() => {
                 return {
+                    apiMessageRes: errorData?.apiMessageRes,
                     isSuccess: false,
                     isStore: false,
                     code: code.toString(),
@@ -254,6 +256,7 @@ class Api {
         if (isErrorHandle && errorData?.code === 404 && errorData?.apiMessageRes?.detail) {
             newInfoAlert("Authentication Error", errorData?.apiMessageRes.detail || "", "OK", "error").then(() => {
                 return {
+                    apiMessageRes: errorData?.apiMessageRes,
                     isSuccess: false,
                     isStore: false,
                     code: code.toString(),
@@ -271,6 +274,7 @@ class Api {
                 "error"
             ).then(() => {
                 return {
+                    apiMessageRes: errorData?.apiMessageRes,
                     isSuccess: false,
                     isStore: false,
                     code: code.toString(),
@@ -283,6 +287,7 @@ class Api {
         if (isErrorHandle && errorData?.code === 409 && errorData?.apiMessageRes) {
             newInfoAlert(errorData?.apiMessageRes?.title || "Authentication Error", errorData?.apiMessageRes?.detail || "", "OK", "error").then(() => {
                 return {
+                    apiMessageRes: errorData?.apiMessageRes,
                     isSuccess: false,
                     isStore: false,
                     code: code.toString(),
@@ -294,6 +299,7 @@ class Api {
 
         if (isErrorHandle && errorData?.code === 429 && errorData?.apiMessageRes?.detail) {
             return {
+                apiMessageRes: errorData?.apiMessageRes,
                 isSuccess: false,
                 isStore: false,
                 code: errorData?.code.toString(),
@@ -304,6 +310,7 @@ class Api {
         if (isErrorHandle && errorData?.code === 500 && errorData?.apiMessageRes?.detail) {
             newInfoAlert(errorData?.apiMessageRes.title, errorData?.apiMessageRes.detail, "OK", "error").then(() => {
                 return {
+                    apiMessageRes: errorData?.apiMessageRes,
                     isSuccess: false,
                     isStore: false,
                     code: code.toString(),

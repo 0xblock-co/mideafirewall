@@ -9,10 +9,11 @@ import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { asyncCreateStripeCustomer, asyncGetCheckoutSessionUrl, asyncGetPricingQuestions } from "@/services/product/product.service";
 import { authActions } from "@/store/auth.slice";
-import { useAppDispatch } from "@/store/hooks";
+import { getMfwTestCustomersSelector } from "@/store/defaultConfig.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { getFilteredData } from "@/utils/globalFunctions";
-import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
 
 const processQuestion = (data, questionObj) => {
     let ans = data[questionObj.name];
@@ -36,6 +37,7 @@ const PricingSurvey = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const { user } = useAuthV3();
+    const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
 
     useEffect(() => {
         getQuestions();
@@ -72,6 +74,19 @@ const PricingSurvey = () => {
                             priceSurveyAnswered: true,
                         })
                     );
+                    if (mfw_customersList && !mfw_customersList.includes(user?.userDetails?.email)) {
+                        newInfoAlert(
+                            "Thank you for your interest in our services!",
+                            "Services begin in December! Come back then for subscriptions and enjoy our offerings",
+                            // "We're excited to have you on board. Please note that our subscription services will kick off in December. Come back then to experience the full benefits! We appreciate your patience.",
+                            "Okay",
+                            "warning"
+                        ).then(() => {
+                            router.push("/features-list");
+                        });
+                        return null;
+                    }
+
                     if (CommonUtility.isNotEmpty(user.userDetails.fullName) && CommonUtility.isNotEmpty(user.userDetails.email)) {
                         try {
                             const res = await asyncCreateStripeCustomer({
@@ -116,6 +131,7 @@ const PricingSurvey = () => {
             setIsLoading(true);
             const paymentUrl = await submitAnswers(cloneFormAnswerData, user, router);
             if (paymentUrl) {
+                setIsLoading(false);
                 newInfoAlert("Thank you for submitting questions.", "By clicking on the subscribe button you will be redirected to the payment screen.", "Subscribe", "success").then(() => {
                     setIsLoading(false);
                     window.open(paymentUrl, "_self");

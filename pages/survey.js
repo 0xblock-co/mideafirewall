@@ -1,5 +1,5 @@
 import { cloneDeep } from "lodash";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import SurveyForm from "@/components/Auth//surveyForm";
@@ -20,7 +20,7 @@ const NewUserSurvey = () => {
     const dispatch = useAppDispatch();
     const { user } = useAuthV3();
     const [isLoading, setIsLoading] = useState(false);
-
+    const router = useRouter();
     useEffect(() => {
         getQuestions();
     }, []);
@@ -83,11 +83,21 @@ const NewUserSurvey = () => {
                         if (response.isSuccess) {
                             ToastMessage.success("Thank you for submitting answer.");
                             dispatch(authActions.setUserData({ ...user, surveyAnswered: true }));
-                            Router.push("/features-list");
+                            const data = localStorage.getItem("selectedDataForDemo");
+                            if (data) {
+                                const parsedData = JSON.parse(data);
+                                if (parsedData?.activeTab) {
+                                    router.push(`/features-list?key=${parsedData?.activeTab}`);
+                                    return;
+                                } else {
+                                    router.push("/features-list");
+                                }
+                            }
+                            router.push("/features-list");
                             return;
                         } else {
                             ToastMessage.error(response?.message || "Something went wrong");
-                            Router.reload();
+                            router.reload();
                         }
                     }
                 })

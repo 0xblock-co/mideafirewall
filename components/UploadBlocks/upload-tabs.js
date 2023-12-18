@@ -83,8 +83,7 @@ export default function UploadTabs() {
                 })
                 .catch((e) => {
                     setIsUploading(false);
-
-                    // handleError(e);
+                    handleError(e);
                 });
         } catch (error) {}
     };
@@ -178,7 +177,7 @@ export default function UploadTabs() {
             }
         } catch (error) {
             console.error("error:while uploading file ", error);
-            // handleError(error);
+            handleError(error);
         }
         // finally {
         //     setIsUploading(false);
@@ -186,6 +185,7 @@ export default function UploadTabs() {
     };
 
     const handleError = (error) => {
+        console.log("error: ", error);
         const errorCode = error?.code;
         let errorMessage = "Something went wrong!";
         let errorDescription = "";

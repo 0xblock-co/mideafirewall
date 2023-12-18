@@ -159,6 +159,7 @@ export default function FeaturesListBlock() {
             }
 
             if (!user.surveyAnswered) {
+                await localStorage.setItem("selectedDataForDemo", JSON.stringify({ selectedFeatureIds, selectedOptions, activeTab }));
                 // newInfoAlert("Survey answers are required", "Please fill the survey questionnaires to continue with the content moderation process.", "Continue", "warning").then(() => {
                 router.push("/survey");
                 // });

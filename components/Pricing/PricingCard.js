@@ -26,8 +26,8 @@ const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, 
                         <span className="pb-title">{CommonUtility.addDecimalCommas(item.maxOperations.value || 0)}</span>
                         <span className="pb-sub">
                             {item.dailyLimit !== "-1"
-                                ? `Operations per month (max ${item.dailyLimit} per day) + $${item.additionalCharge.value} per additional op`
-                                : `Operations per month + $${item.additionalCharge.value} per additional op`}
+                                ? `Operations per month (max ${item.dailyLimit} per day) + $${item.additionalCharge.value} per additional operations`
+                                : `Operations per month + $${item.additionalCharge.value} per additional operations`}
                         </span>
                     </li>
                     <li>

@@ -58,7 +58,7 @@ public class UrlRequest {
     UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(baseUrl)
       .queryParam("filters", '{selectedFilters}')
       .queryParam("apikey", '{api_secret}');
-      .queryParam("mediaUrl", '{MEDIA_URL}')
+      .queryParam("mediaUrl", '{MEDIA_URL}');
 
     HttpHeaders headers = new HttpHeaders();
     headers.set("Authorization", "Bearer {jwt_token}"); 

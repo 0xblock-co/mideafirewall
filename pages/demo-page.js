@@ -30,7 +30,10 @@ const shouldStopFetching = (data) => {
         if (data?.errorLog) {
             return true;
         }
-        return data?.operationStatus && Object.keys(data?.operationStatus).length == appliedFiltersLength;
+        //         if (data?.processStatus && CommonUtility.isNotEmptyObject(data?.processStatus)) {
+        //             return data?.processStatus?.complete && data?.processStatus?.inProcess == 0;
+        //         }
+        return data?.operationsPerFeature && Object.keys(data?.operationsPerFeature).length == appliedFiltersLength;
     }
 };
 
@@ -41,17 +44,26 @@ function findFalseValueKeysV2(obj1, obj2) {
 }
 
 function getMatchingValues(data) {
-    if (data && data.featureStatus && data.eventLog) {
-        const { featureStatus, eventLog, operationStatus } = data;
+    if (data && data.processStatus?.featureStatus && data?.eventLog && data?.operationsPerFeature) {
+        const { processStatus, eventLog, operationsPerFeature } = data;
         const matchingValues = {};
+        const featureStatus = processStatus?.featureStatus;
         for (const key in featureStatus) {
             if (featureStatus[key] === true) {
-                if (eventLog[key]) {
-                    matchingValues[key] = eventLog[key];
-                    matchingValues[key].isSuccess = false;
-                }
+                Object.keys(eventLog) &&
+                    Object.keys(eventLog)?.length > 0 &&
+                    Object.keys(eventLog).map((eventLogKey) => {
+                        if (eventLog[eventLogKey]?.webFeatureKey == key) {
+                            matchingValues[key] = eventLog[eventLogKey];
+                            matchingValues[key].isSuccess = false;
+                        }
+                    });
+                // if (eventLog[key]) {
+                //     matchingValues[key] = eventLog[key];
+                //     matchingValues[key].isSuccess = false;
+                // }
             } else {
-                const falseValueKeys = findFalseValueKeysV2(featureStatus, operationStatus);
+                const falseValueKeys = findFalseValueKeysV2(featureStatus, operationsPerFeature);
                 CommonUtility.isValidArray(falseValueKeys) &&
                     falseValueKeys.map((item) => {
                         matchingValues[item] = {
@@ -83,17 +95,28 @@ function getMatchingValues(data) {
 }
 
 function getMatchingValuesV3(data) {
-    if (data && data.featureStatus && data.eventLog) {
-        const { featureStatus, eventLog, operationStatus } = data;
+    if (data && data?.processStatus?.featureStatus) {
+        const { processStatus, eventLog, operationsPerFeature } = data;
+
         const matchingValues = {};
+        const featureStatus = processStatus?.featureStatus;
         for (const key in featureStatus) {
             if (featureStatus[key] === true) {
-                if (eventLog[key]) {
-                    matchingValues[key] = eventLog[key];
-                    matchingValues[key].isSuccess = false;
-                }
+                Object.keys(eventLog) &&
+                    Object.keys(eventLog)?.length > 0 &&
+                    Object.keys(eventLog).map((eventLogKey) => {
+                        if (eventLog[eventLogKey]?.webFeatureKey == key) {
+                            matchingValues[key] = eventLog[eventLogKey];
+                            matchingValues[key].isSuccess = false;
+                        }
+                    });
+                // if (eventLog[key]) {
+                //     matchingValues[key] = eventLog[key];
+                //     matchingValues[key].isSuccess = false;
+                //
+                // }
             } else {
-                const falseValueKeys = findFalseValueKeysV2(featureStatus, operationStatus);
+                const falseValueKeys = findFalseValueKeysV2(featureStatus, operationsPerFeature);
                 CommonUtility.isValidArray(falseValueKeys) &&
                     falseValueKeys.map((item) => {
                         matchingValues[item] = {
@@ -125,18 +148,26 @@ function getMatchingValuesV3(data) {
 }
 
 function getMatchingValuesV2(data) {
-    if (data && data.featureStatus && data.eventLog && data.operationStatus) {
+    if (data && data?.processStatus?.featureStatus && data.eventLog && data.operationsPerFeature) {
         const routerData = getUrlVars();
         if (CommonUtility.isNotEmpty(routerData?.filters)) {
             const appliedFiltersLength = routerData.filters.split(",").length;
-            if (data?.operationStatus && Object.keys(data?.operationStatus).length == appliedFiltersLength) {
-                const { featureStatus, eventLog } = data;
+            if (data?.operationsPerFeature && Object.keys(data?.operationsPerFeature).length == appliedFiltersLength) {
+                const { processStatus, eventLog } = data;
                 const matchingValues = {};
+                const featureStatus = processStatus?.featureStatus;
                 for (const key in featureStatus) {
                     if (featureStatus[key] === true) {
-                        if (eventLog[key]) {
-                            matchingValues[key] = eventLog[key];
-                        }
+                        Object.keys(eventLog) &&
+                            Object.keys(eventLog)?.length > 0 &&
+                            Object.keys(eventLog).map((eventLogKey) => {
+                                if (eventLog[eventLogKey]?.webFeatureKey == key) {
+                                    matchingValues[key] = eventLog[eventLogKey];
+                                }
+                            });
+                        // if (eventLog[key]) {
+                        //     matchingValues[key] = eventLog[key];
+                        // }
                     }
                 }
                 return { ...matchingValues };
@@ -337,6 +368,19 @@ const DemoPage = () => {
             </Modal>
         );
     };
+    const handleDownload = async () => {
+        // Fetch the JSON data from the server
+        const data = returnJsonFormatRes();
+
+        // Create a Blob containing the JSON data
+        const blob = new Blob([data], { type: "application/json" });
+
+        // Create a link element and trigger the download
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "response_mfw_moderation.json";
+        link.click();
+    };
 
     const highlightCode = useCallback((code, language) => {
         return (
@@ -399,6 +443,7 @@ const DemoPage = () => {
                                                                         <th>File</th>
                                                                         <th>Request Type</th>
                                                                         <th>No Of Operations</th>
+                                                                        <th>Video Id</th>
                                                                         <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                             <th>Tags</th>
                                                                         </RenderIf>
@@ -423,7 +468,7 @@ const DemoPage = () => {
                                                                             </td>
                                                                             <td>{eventLogData?.requestType}</td>
                                                                             <td>{eventLogData?.operations}</td>
-
+                                                                            <td>{eventLogData?.videoId}</td>
                                                                             <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                                 <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
                                                                             </RenderIf>
@@ -458,6 +503,7 @@ const DemoPage = () => {
                                                                     <th>File</th>
                                                                     <th>Request Type</th>
                                                                     <th>No Of Operations</th>
+                                                                    <th>Video Id</th>
                                                                     <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                         <th>Tags</th>
                                                                     </RenderIf>
@@ -484,7 +530,8 @@ const DemoPage = () => {
                                                                                 </Link>
                                                                             </td>
                                                                             <td>{eventLogData?.requestType}</td>
-                                                                            <td>{eventLogData.operationStatus[item.webFeatureKey]}</td>
+                                                                            <td>{eventLogData.operationsPerFeature[item?.webFeatureKey]}</td>
+                                                                            <td>{eventLogData?.videoId}</td>
                                                                             <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                                 {item.isSuccess ? (
                                                                                     <td>
@@ -587,7 +634,7 @@ const DemoPage = () => {
                                                         </Table>
                                                     </div>
                                                 </RenderIf>
-                                                <RenderIf isTrue={isFetchingState}>
+                                                {isFetchingState ? (
                                                     <div className="d-flex flex-column justify-content-center">
                                                         <MagnifyingGlass
                                                             height="60"
@@ -598,13 +645,47 @@ const DemoPage = () => {
                                                             wrapperClass=""
                                                             visible={isFetchingState}
                                                         />
-                                                        AI is in the process of verifying your information. This may take a moment.
+                                                        <span>
+                                                            {" "}
+                                                            AI is actively verifying your information, and as of now,{" "}
+                                                            <span style={{ fontSize: "18px" }}>
+                                                                <b> {eventLogData?.processStatus?.totalProcessingFeatures || 0}</b>
+                                                            </span>{" "}
+                                                            out of the{" "}
+                                                            <span style={{ fontSize: "18px" }}>
+                                                                <b> {eventLogData?.processStatus?.completedProcesses || 0}</b>
+                                                            </span>{" "}
+                                                            models have been successfully processed. Kindly wait for the completion of the task.
+                                                        </span>
+                                                        {/* AI is in the process of verifying your information. This may take a moment. */}
                                                     </div>
-                                                </RenderIf>
+                                                ) : (
+                                                    <div className="d-flex flex-column justify-content-center">
+                                                        <span>
+                                                            <b>Note:</b>
+                                                        </span>
+                                                        <span>
+                                                            {" "}
+                                                            The AI has successfully verified the provided information using all{" "}
+                                                            <span style={{ fontSize: "18px" }}>
+                                                                <b> {eventLogData?.processStatus?.totalProcessingFeatures || 0}</b>
+                                                            </span>{" "}
+                                                            selected models.
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </section>
+                                            {/* <section>
+                                                {eventLogData?.processStatus?.completedProcesses}/{eventLogData?.processStatus?.totalProcessingFeatures}
+                                            </section> */}
                                         </Col>
                                     </Tab>
                                     <Tab eventKey="json" className="pt-3" title="Json">
+                                        <div className="d-flex justify-content-end">
+                                            <Button variant="primary" className="rounded-pill button_primary py-2 px-4" onClick={() => handleDownload()}>
+                                                <i class="fa fa-download" aria-hidden="true" style={{ marginRight: "5px" }}></i> Download JSON Response
+                                            </Button>{" "}
+                                        </div>
                                         {highlightCode(returnJsonFormatRes(), "json")}
                                     </Tab>
                                 </Tabs>

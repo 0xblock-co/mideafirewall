@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { Button, Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
 
+import RenderIf from "@/components/ConditionalRender/RenderIf";
 import Count from "@/components/Count";
 import VideoModal from "@/components/VideoModal";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
@@ -230,9 +231,17 @@ export default function FeatureBlog({ headerData }) {
                                                                 <div className="p-0">
                                                                     <span className="d-flex justify-content-between align-items-center mb-2">
                                                                         <h6 className={`text-primary m-0 ${style.later__spacing}`}>{feature.name}</h6>
-                                                                        <Button className="bn53" size="sm" onClick={() => handleFeatureCardOnClick(feature, headerOption.id)}>
-                                                                            Demo
-                                                                        </Button>
+
+                                                                        <div className="d-flex align-items-center gap-2">
+                                                                            <RenderIf isTrue={feature?.featureId == "134"}>
+                                                                                <div className="blink" style={{ color: "#5e0496", fontSize: "16px", fontWeight: 600 }}>
+                                                                                    Coming Soon
+                                                                                </div>
+                                                                            </RenderIf>
+                                                                            <Button className="bn53" size="sm" onClick={() => handleFeatureCardOnClick(feature, headerOption.id)}>
+                                                                                Demo
+                                                                            </Button>
+                                                                        </div>
                                                                     </span>
                                                                     <p className={`${style.text_wrap}`}>
                                                                         {feature.description}

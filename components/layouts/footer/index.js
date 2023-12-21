@@ -79,7 +79,7 @@ export default function FooterBottom() {
         <>
             <section className="banner-layers1">
                 <Container>
-                    <div className="d-flex align-items-center gap-5">
+                    <div className="banner-layout-content">
                         <>
                             <div class="img has-hover x5 md-x5 lg-x0 y50 md-y50 lg-y50" id="image_1733022604">
                                 <img

@@ -37,6 +37,10 @@ a {
     width: 90px !important;
     height: auto !important;
 }
+.mdf__logo_footer1 {
+    width: 100% !important;
+    height: auto !important;
+}
 .mdf__main_top_fix {
     margin-top: 60px;
 }
@@ -829,5 +833,101 @@ div:where(.swal2-icon).swal2-info {
 @-webkit-keyframes blink-animation {
     to {
         visibility: hidden;
+    }
+}
+.banner-layers {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.banner-layers1 {
+    background-color: $primary;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    gap: 75px;
+    h1 {
+        color: #fff;
+        font-size: 28px;
+        margin: 0;
+    }
+}
+#image_1733022604 {
+    width: 40%;
+}
+@media (min-width: 550px) {
+    #image_1733022604 {
+        width: 21%;
+    }
+}
+@media (min-width: 850px) {
+    #image_1733022604 {
+        width: 17%;
+    }
+}
+.our-partner-section {
+    // background: #fff;
+    background: $section-bg-grey;
+    padding: 70px 0px;
+    // position: relative;
+    // top: -244px;
+    @include media-breakpoints-down-md {
+        padding: 30px 0px;
+    }
+    .our-partner-block-title {
+        h1 {
+            font-style: normal;
+            // font-weight: 600;
+            // font-size: 40px;
+            // line-height: 58px;
+            // color: $section-title-color;
+            text-align: center;
+            margin-bottom: 30px;
+            @include media-breakpoints-down-md {
+                font-size: 28px;
+                line-height: 42px;
+            }
+        }
+    }
+    .our-partner-img-block {
+        background: $white;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 19px;
+        padding: 32px 45px;
+        margin: 0 auto;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s ease-in-out 0s;
+        margin-bottom: 30px;
+        .our-partner-img {
+            width: 160px;
+            height: 100%;
+            min-height: 128px;
+            overflow: hidden;
+            // mix-blend-mode: luminosity;
+            transition: all 0.5s ease-in-out 0s;
+            cursor: pointer;
+            // &:hover {
+            //   mix-blend-mode: normal;
+            //   transition: all 0.5s ease-in-out 0s;
+            // }
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+}
+.our-partner-img-block {
+    &:hover {
+        box-shadow: 0px 4px 40px rgba(116, 181, 3, 0.2);
+        transform: scale(1.01);
     }
 }

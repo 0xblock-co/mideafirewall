@@ -15,7 +15,7 @@ const initialState = {
     selectedPricingPlan: null,
     satisfactionMetricsCount: 20,
     allMediaContents: null,
-    mfwTestCustomers: [],
+    // mfwTestCustomers: [],
     allHeaderDataList: {
         currentRequestId: "",
         isLoading: false,
@@ -37,9 +37,9 @@ const defaultConfigSlice = createSlice({
         setSelectedPricingPlan(state, { payload }) {
             state.selectedPricingPlan = payload;
         },
-        setMfwTestCustomers(state, { payload }) {
-            state.mfwTestCustomers = payload;
-        },
+        // setMfwTestCustomers(state, { payload }) {
+        //     state.mfwTestCustomers = payload;
+        // },
         setSatisfactionMetricsCount(state, { payload }) {
             state.satisfactionMetricsCount = payload;
         },
@@ -73,7 +73,14 @@ const defaultConfigSlice = createSlice({
     },
 });
 // Actions
-export const { setPageTitle, setHeaderDataOptions, setSelectedPricingPlan, setMfwTestCustomers, setSatisfactionMetricsCount, setAllMediaContents } = defaultConfigSlice.actions;
+export const {
+    setPageTitle,
+    setHeaderDataOptions,
+    setSelectedPricingPlan,
+    // setMfwTestCustomers,
+    setSatisfactionMetricsCount,
+    setAllMediaContents,
+} = defaultConfigSlice.actions;
 
 // Selectors
 export const getAllHeaderDataOptions = (state) => state.defaultConfig.allHeaderDataList?.data?.items || [];
@@ -87,7 +94,7 @@ export const getSelectedPlan = (state) => state.defaultConfig?.selectedPricingPl
 export const getMFWSatisfactionMetricsCount = (state) => state.defaultConfig?.satisfactionMetricsCount || null;
 export const getMFWMediaContents = (state) => state.defaultConfig?.allMediaContents || null;
 
-export const getMfwTestCustomersSelector = (state) => state.defaultConfig?.mfwTestCustomers || null;
+// export const getMfwTestCustomersSelector = (state) => state.defaultConfig?.mfwTestCustomers || null;
 
 // Reducer
 export default defaultConfigSlice.reducer;

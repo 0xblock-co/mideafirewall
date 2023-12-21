@@ -1,5 +1,6 @@
 import { localStorageKeys } from "@/constants/global.constants";
 import { authActions, getUserDetails } from "@/store/auth.slice";
+// import { setMfwTestCustomers } from "@/store/defaultConfig.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { eraseCookie, readCookie } from "@/utils/cookieCreator";
 import { useRouter } from "next/router";
@@ -76,6 +77,7 @@ const AuthProvider = ({ children }) => {
         eraseCookie(localStorageKeys.userEmail);
         localStorage.clear();
         dispatch(authActions.clearAuthStore());
+        // dispatch(setMfwTestCustomers([]));
         setUser(null);
     };
 

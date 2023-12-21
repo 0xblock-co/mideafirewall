@@ -1,3 +1,4 @@
+import * as gtag from "@/utils/gtag";
 import Router, { useRouter } from "next/router";
 import { Button, Form } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
@@ -151,6 +152,12 @@ export default function UploadTabs() {
 
     const handleOnClickUploadFiles = async () => {
         try {
+            gtag.event({
+                action: "Clicked On upload files",
+                category: "User Interaction",
+                label: "Upload Files to moderate",
+                value: router.query?.filters,
+            });
             await setIsUploading(true);
 
             if (router.query?.filters !== "") {

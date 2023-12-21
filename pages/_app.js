@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/inline-script-id */
 import en from "@/lang/en.json";
 import fr from "@/lang/fr.json";
 import nl_NL from "@/lang/nl-NL.json";
@@ -17,10 +18,15 @@ import { DefaultSeo } from "next-seo";
 import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Fragment, useEffect, useState } from "react";
+// import Script from "next/script";
+import ReactGA from "react-ga";
+
+import * as gtag from "@/utils/gtag";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { IntlProvider } from "react-intl";
 import LoadingBar from "react-top-loading-bar";
+const isProduction = process.env.NODE_ENV === "production";
 
 const messages = {
     en,
@@ -36,7 +42,11 @@ export function App({ Component, pageProps }) {
     const [progress, setProgress] = useState(0);
 
     const getLayout = Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
+
     useEffect(() => {
+        const handleRouteChange = (url) => {
+            if (isProduction) gtag.pageview(url);
+        };
         // START VALUE - WHEN LOADING WILL START
         router.events.on("routeChangeStart", (url) => {
             setProgress(40);
@@ -45,15 +55,23 @@ export function App({ Component, pageProps }) {
         // COMPLETE VALUE - WHEN LOADING IS FINISHED
         router.events.on("routeChangeComplete", (url) => {
             setProgress(100);
+            handleRouteChange(url);
         });
 
         router.events.on("routeChangeError", (url) => {
             setProgress(100);
         });
+
+        return () => {
+            router.events.off("routeChangeComplete", handleRouteChange);
+        };
     }, [router]);
+
     useEffect(() => {
         import("bootstrap/dist/js/bootstrap.min.js");
+        ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, { debug: true });
 
+        ReactGA.pageview(window.location.pathname + window.location.search);
         const script = document.createElement("script");
         script.type = "text/javascript";
         script.id = "zsiqscript";
@@ -85,11 +103,22 @@ export function App({ Component, pageProps }) {
     }, []);
 
     return (
-        <Fragment>
+        <div>
+            {/* <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`} />
+
+            <Script strategy="lazyOnload">
+                {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+                        page_path: window.location.pathname,
+                    });
+                `}
+            </Script> */}
             <DefaultSeo
                 titleTemplate="%s - Media Firewall & AI"
                 defaultTitle="Media Firewall & AI"
-                title="Media Firewall & AI"
                 description="Discover the forefront of online safety with Media Firewall & AI. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with intelligent content moderation. Dive into our comprehensive guide for insights on the synergy of Media Firewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety. Ensuring Online Community Safety: A Comprehensive Guide to AI Content Moderation and Harmful Content Prevention."
                 canonical="https://mediafirewall.ai/"
                 openGraph={{
@@ -147,7 +176,7 @@ export function App({ Component, pageProps }) {
                     </>
                 </>
             </IntlProvider>
-        </Fragment>
+        </div>
     );
 }
 

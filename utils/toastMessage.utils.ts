@@ -28,6 +28,36 @@ export const newInfoAlert = (title, message, actionButtonText, icon, isCancelBtn
     });
 };
 
+export const newInfoAlertWithHtmlBody = (title, message, actionButtonText, icon, isCancelBtn = false, cancelButtonText = "Cancel", isBackDropAllow = true) => {
+    return new Promise((resolve, reject) => {
+        Swal.fire({
+            title: title,
+            // text: message,
+            icon: icon,
+            confirmButtonText: actionButtonText,
+            // showCancelButton: isCancelBtn,
+            // cancelButtonText: cancelButtonText,
+            customClass: {
+                confirmButton: `ff_new_alert_btn mb-1`,
+                popup: `ff_popup_bg`,
+                title: `ff_popup_title ${title === "Coming Soon" ? "mfw_popup_coming_soon_title" : ""}`,
+            },
+            allowOutsideClick: isBackDropAllow,
+            showCloseButton: true,
+            showDenyButton: isCancelBtn,
+            width: "600px",
+            html: message,
+            denyButtonText: cancelButtonText,
+        }).then((result) => {
+            if (result?.isConfirmed) {
+                resolve("action button press");
+            } else if (result?.isDenied) {
+                reject("cancel Press");
+            }
+        });
+    });
+};
+
 export class ToastMessage {
     private static toastOptions = {
         toast: true,

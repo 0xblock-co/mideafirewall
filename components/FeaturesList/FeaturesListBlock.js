@@ -2,6 +2,7 @@ import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
+import * as gtag from "@/utils/gtag";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { useRouter } from "next/router";
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
@@ -90,6 +91,12 @@ export default function FeaturesListBlock() {
     };
 
     const handleCheckboxChange = (featureId, fullSelectedItem) => {
+        gtag.event({
+            action: "Click On Feature",
+            category: "User Interaction",
+            label: "Feature Card",
+            value: featureId,
+        });
         if (!fullSelectedItem.active) {
             setSelectedMediaContent(fullSelectedItem);
             if (fullSelectedItem.webFeatureKey === "deepfake" || fullSelectedItem.featureId == "134") {

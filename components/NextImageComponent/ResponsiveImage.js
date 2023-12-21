@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import { useState } from "react";
 
 const ResponsiveImage = ({ url, alt, altUrlType }) => {
     const [isError, setIsError] = useState(false);

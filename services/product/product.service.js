@@ -217,16 +217,16 @@ export const asyncCreateStripeCustomer = async (payload) => {
     }
 };
 
-export const asyncGetMFWTestCustomers = async () => {
-    try {
-        const response = api.get(`/mfw/test/customers`, {}, true, false).then(async (res) => {
-            return res;
-        });
-        return response;
-    } catch (e) {
-        return e.message;
-    }
-};
+// export const asyncGetMFWTestCustomers = async () => {
+//     try {
+//         const response = api.get(`/mfw/test/customers`, {}, true, false).then(async (res) => {
+//             return res;
+//         });
+//         return response;
+//     } catch (e) {
+//         return e.message;
+//     }
+// };
 
 export const asyncUserSatisfactionMetrics = async () => {
     try {

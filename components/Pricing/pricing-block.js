@@ -5,8 +5,7 @@ import { Button, Container } from "react-bootstrap";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { asyncChangeSubscription } from "@/services/product/product.service";
 import { authActions } from "@/store/auth.slice";
-import { getMfwTestCustomersSelector } from "@/store/defaultConfig.slice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
 import { useEffect, useState } from "react";
@@ -15,7 +14,7 @@ import style from "./pricing.module.scss";
 
 const PricingBlock = ({ priceData = [], setIsLoading }) => {
     const [isUpgrade, setIsUpgrade] = useState(false);
-    const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
+    // const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
 
     const router = useRouter();
     const { isLogin, user } = useAuthV3();
@@ -74,18 +73,28 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
         }
         const currentUserEmail = user?.userDetails?.email;
         if (currentUserEmail !== "") {
-            if (mfw_customersList && !mfw_customersList.includes(currentUserEmail)) {
-                newInfoAlert(
-                    "Thank you for your interest in our services!",
-                    "Services begin in December! Come back then for subscriptions and enjoy our offerings",
-                    // "We're excited to have you on board. Please note that our subscription services will kick off in December. Come back then to experience the full benefits! We appreciate your patience.",
-                    "Okay",
-                    "warning"
-                ).then(() => {
-                    router.push("/features-list");
-                });
-                return;
-            }
+            // if (mfw_customersList && !mfw_customersList.includes(currentUserEmail)) {
+            //             newInfoAlertWithHtmlBody(
+            //                 "Thank you for your interest in our services!",
+            //                 `<div style="text-align:left"> <p><strong>We're thrilled to announce that our services are now available for a select group of early birds! 🚀</strong></p>
+            // <p>However, due to overwhelming demand, we've had to limit access initially. Not to worry, though!</p>
+            // <p><em>Starting from <strong>January 7th</strong>, our services will be open to everyone! 🗓️</em> Mark your calendars and get ready to unlock the full potential of our offerings.</p>
+            // <p>Thank you for your interest, and we can't wait to welcome you to our community in the new year!</p></div>`,
+            //                 "Okay",
+            //                 "warning"
+            //             ).then(() => {
+            //                 router.push("/features-list");
+            //             });
+            // newInfoAlert(
+            //     "Thank you for your interest in our services!",
+            //     "Currently we have restricted access to our services to limited early birds. Services will be open to all from 7th  of January! Come back then for subscriptions and enjoy our offerings.",
+            //     "Okay",
+            //     "warning"
+            // ).then(() => {
+            //     router.push("/features-list");
+            // });
+            // return;
+            // }
         }
 
         if (isUpgrade) {

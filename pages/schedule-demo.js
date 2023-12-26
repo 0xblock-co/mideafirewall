@@ -85,7 +85,7 @@ const ScheduleDemo = () => {
                             Router.push("/book-demo?type=DEMO");
                             return;
                         } else {
-                            ToastMessage.error(response?.message || "Something went wrong");
+                            ToastMessage.error(response?.message || "");
                             Router.reload();
                         }
                     }

@@ -1,8 +1,8 @@
 export const UPLOAD_USING_CODE_STUBS = [
     {
         title: "Curl",
-        urlSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters?filters={selectedFilters}&mediaUrl=&apikey={api_secret}" ^ -H "Authorization: Bearer {jwt_token}"`,
-        fileSnippets: `curl -X POST "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters?filters={selectedFilters}&apikey={api_secret}" ^
+        urlSnippets: `curl -X POST "https://mediafirewall-ai.millionvisions.ai/mfw/media/{userEmail}/url/filters?filters={selectedFilters}&mediaUrl=&apikey={api_secret}" ^ -H "Authorization: Bearer {jwt_token}"`,
+        fileSnippets: `curl -X POST "https://mediafirewall-ai.millionvisions.ai/mfw/media/{userEmail}/filters?filters={selectedFilters}&apikey={api_secret}" ^
     -H "Authorization: Bearer {jwt_token}" ^
     -F "file=@image.png"`,
     },
@@ -10,7 +10,7 @@ export const UPLOAD_USING_CODE_STUBS = [
         title: "Python",
         urlSnippets: `import requests
 
-url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters'
+url = 'https://mediafirewall-ai.millionvisions.ai/mfw/media/{userEmail}/url/filters'
 
 params = {
   'filters': '{selectedFilters}',
@@ -26,7 +26,7 @@ response = requests.post(url, params=params, headers = headers)
 print(response.text)`,
         fileSnippets: `import requests
 
-url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters'
+url = 'https://mediafirewall-ai.millionvisions.ai/mfw/media/{userEmail}/filters'
 
 params = {
   'filters': '{selectedFilters}',
@@ -44,30 +44,33 @@ print(response.text)`,
     },
     {
         title: "Java",
-        urlSnippets: `import org.springframework.http.ResponseEntity;
+        urlSnippets: `import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import java.net.*;
+
+import java.net.URI;
 
 public class UrlRequest {    
   public static void main(String[] args) {
     ResponseEntity<String> result = null;
     RestTemplate restTemplate = new RestTemplate();
-    String baseUrl = "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters";
+    String baseUrl = "http://mediafirewall-ai.millionvisions.ai/mfw/media/{userEmail}/url/filters";
 
     UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(baseUrl)
-      .queryParam("filters", '{selectedFilters}')
-      .queryParam("apikey", '{api_secret}');
-      .queryParam("mediaUrl", '{MEDIA_URL}');
+      .queryParam("filters", "{selectedFilters}")
+      .queryParam("apikey", "{api_secret}")
+      .queryParam("mediaUrl", "{MEDIA_URL}");
 
     HttpHeaders headers = new HttpHeaders();
     headers.set("Authorization", "Bearer {jwt_token}"); 
     HttpEntity<?> requestEntity = new HttpEntity<>(headers);
-    
     URI uri = uriBuilder.build().toUri();
 
-    result = restTemplate.postForEntity(uri,null,String.class);
+    result = restTemplate.postForEntity(uri, requestEntity, String.class);
     System.out.println(result.getBody());
+
   }
 }`,
         fileSnippets: `import org.springframework.core.io.FileSystemResource;
@@ -86,10 +89,10 @@ public class UploadRequest {
         ResponseEntity<String> result = null;
         RestTemplate restTemplate = new RestTemplate();
 
-        String apiUrl = "https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters";
+        String apiUrl = "http://mediafirewall-ai.millionvisions.ai/mfw/media/{userEmail}/filters";
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(apiUrl)
-                .queryParam("filters", '{selectedFilters}')
-                .queryParam("apikey", '{api_secret}');
+                .queryParam("filters", "{selectedFilters}")
+                .queryParam("apikey", "{api_secret}");
         URI uri = uriBuilder.build().toUri();
 
         HttpHeaders headers = new HttpHeaders();
@@ -98,12 +101,13 @@ public class UploadRequest {
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
-        File fileToUpload = new File("");
+        File fileToUpload = new File("image.jpg");
         body.add("file", new FileSystemResource(fileToUpload));
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         result = restTemplate.postForEntity(uri,requestEntity,String.class);
+        System.out.println(result);
     }
 }`,
     },
@@ -111,7 +115,7 @@ public class UploadRequest {
     //         title: "PHP",
     //         urlSnippets: ` <?php
 
-    // $baseUrl = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/sams@trek.com/url/filters';
+    // $baseUrl = 'http://mediafirewall-ai.millionvisions.ai/mfw/media/sams@trek.com/url/filters';
     // $filters = 'Type(HighDefinition)';
     // $mediaUrl = 'https://media-firewall.s3.ap-south-1.amazonaws.com/Input/MEDIA/%2FVIDEO/ze.mp4';
     // $apikey = 'vMoIhSZbp9ucWNEHSwyjV1qnU2iaIxYN';
@@ -142,7 +146,7 @@ public class UploadRequest {
     // ?> `,
     //         fileSnippets: ` <?php
 
-    // $apiUrl = 'http://mediafirewall-ai.themillionvisions.com/mfw/media/sams@trek.com/filters';
+    // $apiUrl = 'http://mediafirewall-ai.millionvisions.ai/mfw/media/sams@trek.com/filters';
     // $filters = 'Type(HighDefinition)';
     // $apikey = 'vMoIhSZbp9ucWNEHSwyjV1qnU2iaIxYN';
 
@@ -184,7 +188,7 @@ public class UploadRequest {
         title: "Javascript",
         urlSnippets: `const axios = require('axios');
 
-const url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/url/filters';
+const url = 'https://mediafirewall-ai.millionvisions.ai/mfw/media/{userEmail}/url/filters';
 
 const params = {
   mediaUrl: '{MEDIA_URL}',
@@ -210,7 +214,7 @@ axios.post(url, null, {
 const FormData = require('form-data');
 const fs = require('fs');
 
-const url = 'https://mediafirewall-ai.themillionvisions.com/mfw/media/{userEmail}/filters';
+const url = 'https://mediafirewall-ai.millionvisions.ai/mfw/media/{userEmail}/filters';
 
 data = new FormData();
 data.append('file', fs.createReadStream(''));

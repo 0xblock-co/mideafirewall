@@ -1,11 +1,25 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import Script from "next/script";
 
+// export const initializeGTM = () => {
+//     (function (w, d, s, l, i) {
+//         w[l] = w[l] || [];
+//         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+//         var f = d.getElementsByTagName(s)[0],
+//             j = d.createElement(s),
+//             dl = l != "dataLayer" ? "&l=" + l : "";
+//         j.async = true;
+//         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+//         f.parentNode.insertBefore(j, f);
+//     })(window, document, "script", "dataLayer", "GTM-528HKWB4");
+// };
+
 class MyDocument extends Document {
     render() {
         return (
             <Html lang="en">
                 <Head>
+                    {/* <script dangerouslySetInnerHTML={{ __html: initializeGTM.toString() }} /> */}
                     {/* Define the viewport meta tag */}
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <meta name="robots" content="index, follow"></meta>
@@ -28,8 +42,14 @@ class MyDocument extends Document {
                     />
                     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
                     <Script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" />
+                    {/* <noscript>
+                        <iframe src={`https://www.googletagmanager.com/ns.html?id=GTM-528HKWB4`} height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe>
+                    </noscript> */}
                 </Head>
                 <body>
+                    {/* <noscript>
+                        <iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style="display:none;visibility:hidden"></iframe>
+                    </noscript> */}
                     <Main />
                     <NextScript />
                 </body>

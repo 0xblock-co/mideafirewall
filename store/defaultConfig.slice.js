@@ -15,6 +15,7 @@ const initialState = {
     selectedPricingPlan: null,
     satisfactionMetricsCount: 20,
     allMediaContents: null,
+    geoLocationData: null,
     // mfwTestCustomers: [],
     allHeaderDataList: {
         currentRequestId: "",
@@ -36,6 +37,9 @@ const defaultConfigSlice = createSlice({
         },
         setSelectedPricingPlan(state, { payload }) {
             state.selectedPricingPlan = payload;
+        },
+        setGeoLocationData(state, { payload }) {
+            state.geoLocationData = payload;
         },
         // setMfwTestCustomers(state, { payload }) {
         //     state.mfwTestCustomers = payload;
@@ -79,6 +83,7 @@ export const {
     setSelectedPricingPlan,
     // setMfwTestCustomers,
     setSatisfactionMetricsCount,
+    setGeoLocationData,
     setAllMediaContents,
 } = defaultConfigSlice.actions;
 
@@ -91,6 +96,7 @@ export const getAllHeaderDataOptionsUpdated = (state) => {
 
 export const getAllPricingPlanSelector = (state) => state.defaultConfig?.allPricingPlanList?.data?.items || [];
 export const getSelectedPlan = (state) => state.defaultConfig?.selectedPricingPlan || null;
+export const getGeoLocationData = (state) => state.defaultConfig?.geoLocationData || null;
 export const getMFWSatisfactionMetricsCount = (state) => state.defaultConfig?.satisfactionMetricsCount || null;
 export const getMFWMediaContents = (state) => state.defaultConfig?.allMediaContents || null;
 

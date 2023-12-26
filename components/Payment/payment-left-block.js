@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { HiCheck } from "react-icons/hi";
 
+import RenderIf from "../ConditionalRender/RenderIf";
 import style from "./payment.module.scss";
 export default function PaymentLeftBlock({ priceData }) {
     return (
@@ -22,7 +23,12 @@ export default function PaymentLeftBlock({ priceData }) {
                 <div className="text-white">
                     <p className="mb-0">Subscribe to {priceData?.tierName}</p>
                     <div className="d-flex align-content-center">
-                        <h1 className="fw-normal">${priceData?.basePrice?.value}</h1>
+                        <h1 className="fw-normal">
+                            <RenderIf isTrue={priceData?.basePrice?.currency === "INR"}>₹</RenderIf>
+                            <RenderIf isTrue={priceData?.basePrice?.currency === "USD"}>$</RenderIf>
+                            {priceData?.basePrice?.value}
+                        </h1>
+                        {/* <h1 className="fw-normal">${priceData?.basePrice?.value}</h1> */}
                         <span className="ms-2 text-sm">
                             per <br></br>
                             {priceData?.period.toLowerCase()}

@@ -11,7 +11,7 @@ export const asyncGetAllHeaderData = createAsyncThunk("GET_ALL_HEADER_DATA_OPTIO
             pageNumber: 0,
             pageSize: 100,
         });
-        const response = api.get(`https://mediafirewall.themillionvisions.com/mfw/web/customerCategories?${queryStringData}`, {}, false, false).then(async (res) => {
+        const response = api.get(`https://mediafirewall.millionvisions.ai/mfw/web/customerCategories?${queryStringData}`, {}, false, false).then(async (res) => {
             if (res && res?.isSuccess) {
                 let updatedData = [];
                 if (res.data && CommonUtility.isValidArray(res.data.items)) {

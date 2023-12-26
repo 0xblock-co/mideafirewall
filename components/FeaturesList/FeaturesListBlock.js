@@ -2,7 +2,6 @@ import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
-import * as gtag from "@/utils/gtag";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { useRouter } from "next/router";
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
@@ -91,12 +90,6 @@ export default function FeaturesListBlock() {
     };
 
     const handleCheckboxChange = (featureId, fullSelectedItem) => {
-        gtag.event({
-            action: "Click On Feature",
-            category: "User Interaction",
-            label: "Feature Card",
-            value: featureId,
-        });
         if (!fullSelectedItem.active) {
             setSelectedMediaContent(fullSelectedItem);
             if (fullSelectedItem.webFeatureKey === "deepfake" || fullSelectedItem.featureId == "134") {
@@ -191,25 +184,27 @@ export default function FeaturesListBlock() {
                     router.push(`upload?filters=${CommonUtility.removeStartingComma(finalString.trim())}`);
                 } else {
                     newInfoAlert(
-                        "Choose Your Preferred Modal",
-                        "Please select from the following features, along with their associated sub-features, for your desired modal.",
+                        "Choose Your Preferred Features",
+                        "Please select from the following features, along with their associated sub-features, for your desired Features.",
                         "Got It.",
                         "warning",
                         false,
                         "",
                         false
                     );
+                    setIsLoading(false);
                 }
             } else {
                 newInfoAlert(
-                    "Choose Your Preferred Modal",
-                    "Please select from the following features, along with their associated sub-features, for your desired modal.",
+                    "Choose Your Preferred Features",
+                    "Please select from the following features, along with their associated sub-features, for your desired Features.",
                     "Got It.",
                     "warning",
                     false,
                     "",
                     false
                 );
+                setIsLoading(false);
             }
         },
         [selectedFeatureIds, selectedOptions, isLogin, router, user]

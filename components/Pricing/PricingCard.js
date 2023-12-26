@@ -1,6 +1,7 @@
 import { PRICING_CARD_BG } from "@/constants/global.constants";
 import CommonUtility from "@/utils/common.utils";
 import { Button } from "react-bootstrap";
+import RenderIf from "../ConditionalRender/RenderIf";
 import style from "./pricing.module.scss";
 
 const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, isUpgrade }) => {
@@ -17,7 +18,11 @@ const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, 
                 <span className={`name ${style.title}`} style={{ textTransform: "uppercase" }}>
                     {item.tierName}
                 </span>
-                <span className="price">${item.basePrice.value}/mo</span>
+                <span className="price">
+                    <RenderIf isTrue={item?.basePrice?.currency === "INR"}>₹</RenderIf>
+                    <RenderIf isTrue={item?.basePrice?.currency === "USD"}>$</RenderIf>
+                    {item.basePrice.value}/mo
+                </span>
             </div>
             <div className="mfw__pricing-card-body">
                 <ul className="fist-list">

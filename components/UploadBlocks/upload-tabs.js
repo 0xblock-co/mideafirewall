@@ -1,4 +1,3 @@
-import * as gtag from "@/utils/gtag";
 import Router, { useRouter } from "next/router";
 import { Button, Form } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
@@ -86,7 +85,9 @@ export default function UploadTabs() {
                     setIsUploading(false);
                     handleError(e);
                 });
-        } catch (error) {}
+        } catch (error) {
+            handleError(error);
+        }
     };
 
     const onChangeContentData = async (fileData) => {
@@ -152,12 +153,6 @@ export default function UploadTabs() {
 
     const handleOnClickUploadFiles = async () => {
         try {
-            gtag.event({
-                action: "Clicked On upload files",
-                category: "User Interaction",
-                label: "Upload Files to moderate",
-                value: router.query?.filters,
-            });
             await setIsUploading(true);
 
             if (router.query?.filters !== "") {
@@ -166,36 +161,45 @@ export default function UploadTabs() {
                     const finalFiles = cloneContentData.filter((data) => data.file !== null);
 
                     if (finalFiles.length === 0) {
-                        throw new Error("No files selected for upload.");
+                        newInfoAlert("Invalid input.", "No files selected for upload.", "Okay", "error", true, "Cancel", false)
+                            .then(() => {
+                                cleanup();
+                            })
+                            .catch(cleanup);
+                        // throw new Error("No files selected for upload.");
                     }
 
                     await asyncUploadContent("file", {
                         filters: router.query.filters,
                         file: finalFiles[0].file,
                     });
-                } else if (imageUrlRef?.current) {
+                } else if (imageUrlRef?.current && imageUrlRef?.current !== "") {
                     await asyncUploadContent("url", {
                         filters: router.query.filters,
                         mediaUrl: imageUrlRef?.current,
                     });
                 } else {
-                    throw new Error("Invalid input. Please upload files or provide a valid image/video URL.");
+                    setIsUploading(false);
+                    newInfoAlert("Invalid input.", "Please upload files or provide a valid image/video URL.", "Okay", "error", true, "Cancel", false)
+                        .then(() => {
+                            cleanup();
+                        })
+                        .catch(cleanup);
+                    // throw new Error("Invalid input. Please upload files or provide a valid image/video URL.");
                 }
             }
         } catch (error) {
-            console.error("error:while uploading file ", error);
-            handleError(error);
+            setIsUploading(false);
+            handleError(error); // Use a common error handling function
         }
-        // finally {
-        //     setIsUploading(false);
-        // }
     };
 
     const handleError = (error) => {
-        console.log("error: ", error);
         const errorCode = error?.code;
-        let errorMessage = "Something went wrong!";
-        let errorDescription = "";
+        let errorMessage = "Special Preview: Website Early Access and Maintenance";
+        let errorDescription =
+            "We're thrilled to offer you early access to our website! Please note that the official website launch is scheduled for January 8th. Until then, certain features may undergo maintenance, and we appreciate your understanding and patience during this period.";
+
         if (errorCode == "429") {
             errorMessage = "Free quota exceeded";
             errorDescription = error?.apiMessageRes?.detail;
@@ -206,7 +210,7 @@ export default function UploadTabs() {
         }
         if (error?.apiMessageRes?.errorCode == "910") {
             errorMessage = error?.apiMessageRes?.title;
-            errorDescription = error?.apiMessageRes?.detail || "Please choose file less then 50mb limit.";
+            errorDescription = error?.apiMessageRes?.detail || "Please choose file less than 50mb limit.";
         }
         setIsUploading(false);
         newInfoAlert(errorMessage, errorDescription, "Okay", "error", true, "Cancel", false)

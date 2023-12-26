@@ -4,7 +4,6 @@ import { asyncGetCustomerSubscriptionData } from "@/services/product/product.ser
 import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
-import { ToastMessage } from "@/utils/toastMessage.utils";
 import { useRouter } from "next/router";
 import { Fragment, useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
@@ -27,7 +26,7 @@ const PaymentSuccess = () => {
                     })
                 );
             } else {
-                ToastMessage.error("Something went wrong");
+                // ToastMessage.error("Something went wrong");
                 router.reload();
             }
         }

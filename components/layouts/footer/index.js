@@ -81,12 +81,12 @@ export default function FooterBottom() {
                 <Container>
                     <div className="banner-layout-content">
                         <>
-                            <div class="img has-hover x5 md-x5 lg-x0 y50 md-y50 lg-y50" id="image_1733022604">
+                            <div className="img has-hover x5 md-x5 lg-x0 y50 md-y50 lg-y50" id="image_1733022604">
                                 <img
                                     width="533"
                                     height="260"
                                     src="images/svgs/nvidia-cloud-validated-lockup-rgb-wht-for-screen.svg"
-                                    class="attachment-large size-large"
+                                    className="attachment-large size-large"
                                     alt=""
                                     decoding="async"
                                     loading="lazy"

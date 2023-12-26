@@ -96,7 +96,7 @@ const NewUserSurvey = () => {
                             router.push("/features-list");
                             return;
                         } else {
-                            ToastMessage.error(response?.message || "Something went wrong");
+                            ToastMessage.error(response?.message || "");
                             router.reload();
                         }
                     }

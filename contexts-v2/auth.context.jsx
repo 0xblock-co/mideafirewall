@@ -1,8 +1,10 @@
 import { localStorageKeys } from "@/constants/global.constants";
 import { authActions, getUserDetails } from "@/store/auth.slice";
+import { getGeoLocationData, setGeoLocationData } from "@/store/defaultConfig.slice";
 // import { setMfwTestCustomers } from "@/store/defaultConfig.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { eraseCookie, readCookie } from "@/utils/cookieCreator";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -16,6 +18,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isLoadingApp, setIsLoadingApp] = useState(true);
     const [currentRoute, setCurrentRoute] = useState("");
+    const geoInfo = useAppSelector(getGeoLocationData);
 
     const userDetails = async (isRedirectedToDashboard) => {
         if (window.top === window.self) {
@@ -31,6 +34,24 @@ const AuthProvider = ({ children }) => {
             }
         }
     };
+
+    const getGeoInfo = () => {
+        axios
+            .get("https://ipapi.co/json/")
+            .then((response) => {
+                let data = response.data;
+                dispatch(setGeoLocationData(data));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        if (geoInfo == null) {
+            getGeoInfo();
+        }
+    }, []);
 
     useEffect(() => {
         const loadUserDetails = async () => {
@@ -87,6 +108,7 @@ const AuthProvider = ({ children }) => {
         setIsAuthenticated,
         checkIsLoggedIn,
         logout,
+        getGeoInfo,
         user,
         isLogin: !!user,
         currentRoute,

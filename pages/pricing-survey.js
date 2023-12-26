@@ -9,7 +9,8 @@ import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.service";
 import { asyncCreateStripeCustomer, asyncGetCheckoutSessionUrl, asyncGetPricingQuestions } from "@/services/product/product.service";
 import { authActions } from "@/store/auth.slice";
-import { useAppDispatch } from "@/store/hooks";
+import { getGeoLocationData } from "@/store/defaultConfig.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { getFilteredData } from "@/utils/globalFunctions";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
@@ -29,6 +30,8 @@ const processQuestion = (data, questionObj) => {
 };
 
 const PricingSurvey = () => {
+    const geoInfo = useAppSelector(getGeoLocationData);
+
     const [formData, setFormData] = useState([]);
     const [defaultValue, setDefaultValue] = useState({});
     const [formAnswerData, setFormAnswerData] = useState([]);
@@ -70,6 +73,10 @@ const PricingSurvey = () => {
                     dispatch(
                         authActions.setUserData({
                             ...user,
+                            subscriptionDetails: {
+                                ...user.subscriptionDetails,
+                                priceSurveyAnswered: true,
+                            },
                             priceSurveyAnswered: true,
                         })
                     );
@@ -91,8 +98,13 @@ const PricingSurvey = () => {
                                 name: user.userDetails.fullName,
                                 email: user.userDetails.email,
                             });
+
                             if (res && res.isSuccess && CommonUtility.isNotEmpty(res.data)) {
-                                const checkoutResponse = await asyncGetCheckoutSessionUrl(res.data, router.query.id);
+                                let currency = router.query.currency || "inr";
+                                if (router.query.currency == geoInfo.currency) {
+                                    currency = geoInfo.currency;
+                                }
+                                const checkoutResponse = await asyncGetCheckoutSessionUrl(res.data, router.query.id, currency);
                                 if (checkoutResponse.isSuccess && CommonUtility.isNotEmpty(checkoutResponse.data)) {
                                     return checkoutResponse.data;
                                 }
@@ -103,7 +115,7 @@ const PricingSurvey = () => {
                     }
                     return { error: "Error creating Stripe customer" };
                 } else {
-                    return { error: response?.message || "Something went wrong" };
+                    return { error: response?.message || "" };
                 }
             })
             .catch((e) => {
@@ -130,10 +142,14 @@ const PricingSurvey = () => {
             const paymentUrl = await submitAnswers(cloneFormAnswerData, user, router);
             if (paymentUrl) {
                 setIsLoading(false);
-                newInfoAlert("Thank you for submitting questions.", "By clicking on the subscribe button you will be redirected to the payment screen.", "Subscribe", "success").then(() => {
-                    setIsLoading(false);
-                    window.open(paymentUrl, "_self");
-                });
+                newInfoAlert("Thank you for submitting questions.", "By clicking on the subscribe button you will be redirected to the payment screen.", "Subscribe", "success", true, "Cancel", false)
+                    .then(() => {
+                        setIsLoading(false);
+                        window.open(paymentUrl, "_self");
+                    })
+                    .catch(() => {
+                        router.replace("/pricing");
+                    });
             } else {
                 setIsLoading(false);
                 ToastMessage.error("Error processing payment");

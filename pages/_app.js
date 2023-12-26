@@ -19,9 +19,8 @@ import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
 // import Script from "next/script";
-import ReactGA from "react-ga";
 
-import * as gtag from "@/utils/gtag";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { IntlProvider } from "react-intl";
@@ -33,6 +32,7 @@ const messages = {
     fr,
     "nl-NL": nl_NL,
 };
+export const GTM_ID = "GTM-528HKWB4";
 
 export function App({ Component, pageProps }) {
     const { locale } = useRouter();
@@ -43,10 +43,18 @@ export function App({ Component, pageProps }) {
 
     const getLayout = Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
 
+    // useEffect(() => {
+    //     if (!window.GA_INITIALIZED) {
+    //         initGA(GTM_ID);
+    //         window.GA_INITIALIZED = true;
+    //     }
+    //     logPageView();
+    // }, [router.pathname]);
+
     useEffect(() => {
-        const handleRouteChange = (url) => {
-            if (isProduction) gtag.pageview(url);
-        };
+        // const handleRouteChange = (url) => {
+        //     if (isProduction) gtag.pageview(url);
+        // };
         // START VALUE - WHEN LOADING WILL START
         router.events.on("routeChangeStart", (url) => {
             setProgress(40);
@@ -55,7 +63,7 @@ export function App({ Component, pageProps }) {
         // COMPLETE VALUE - WHEN LOADING IS FINISHED
         router.events.on("routeChangeComplete", (url) => {
             setProgress(100);
-            handleRouteChange(url);
+            // handleRouteChange(url);
         });
 
         router.events.on("routeChangeError", (url) => {
@@ -63,15 +71,15 @@ export function App({ Component, pageProps }) {
         });
 
         return () => {
-            router.events.off("routeChangeComplete", handleRouteChange);
+            // router.events.off("routeChangeComplete", handleRouteChange);
         };
     }, [router]);
 
     useEffect(() => {
         import("bootstrap/dist/js/bootstrap.min.js");
-        ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, { debug: true });
+        // ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, { debug: true });
 
-        ReactGA.pageview(window.location.pathname + window.location.search);
+        // ReactGA.pageview(window.location.pathname + window.location.search);
         const script = document.createElement("script");
         script.type = "text/javascript";
         script.id = "zsiqscript";
@@ -145,6 +153,8 @@ export function App({ Component, pageProps }) {
                     },
                 ]}
             />
+            <GoogleAnalytics measurementId="G-D02YEPWK17" />
+
             <Helmet>
                 <html lang="en" />
                 <Head>

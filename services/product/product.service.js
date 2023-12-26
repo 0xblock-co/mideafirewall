@@ -64,7 +64,7 @@ export const asyncGenerateProofsByEmail = async (apiKey, payload) => {
 
 export const asyncGetHeaderData = async () => {
     try {
-        const response = api.get("https://mediafirewall.themillionvisions.com/mfw/web/customerCategories?activate=true&pageNumber=0&pageSize=100", {}, true, false).then(async (res) => {
+        const response = api.get("https://mediafirewall.millionvisions.ai/mfw/web/customerCategories?activate=true&pageNumber=0&pageSize=100", {}, true, false).then(async (res) => {
             return res;
         });
         return response;
@@ -76,7 +76,7 @@ export const asyncGetHeaderData = async () => {
 // NEW API END
 export const asyncGetQuestions = async () => {
     try {
-        const response = api.get("https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_customer", {}, true, false).then(async (res) => {
+        const response = api.get("https://mediafirewall-ai.millionvisions.ai/mfw/web/Questionnaire/mfw_customer", {}, true, false).then(async (res) => {
             if (res && res?.isSuccess) {
                 return res;
             }
@@ -88,7 +88,7 @@ export const asyncGetQuestions = async () => {
 };
 export const asyncGetMeetingQuestions = async () => {
     try {
-        const response = api.get("https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_meeting", {}, true, false).then(async (res) => {
+        const response = api.get("https://mediafirewall-ai.millionvisions.ai/mfw/web/Questionnaire/mfw_meeting", {}, true, false).then(async (res) => {
             if (res && res?.isSuccess) {
                 return res;
             }
@@ -100,7 +100,7 @@ export const asyncGetMeetingQuestions = async () => {
 };
 export const asyncGetPricingQuoteQuestions = async () => {
     try {
-        const response = api.get("https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_pricing_quote", {}, true, false).then(async (res) => {
+        const response = api.get("https://mediafirewall-ai.millionvisions.ai/mfw/web/Questionnaire/mfw_pricing_quote", {}, true, false).then(async (res) => {
             if (res && res?.isSuccess) {
                 return res;
             }
@@ -113,7 +113,7 @@ export const asyncGetPricingQuoteQuestions = async () => {
 
 export const asyncGetPricingQuestions = async () => {
     try {
-        const response = api.get("https://mediafirewall-ai.themillionvisions.com/mfw/web/Questionnaire/mfw_pricing", {}, true, false).then(async (res) => {
+        const response = api.get("https://mediafirewall-ai.millionvisions.ai/mfw/web/Questionnaire/mfw_pricing", {}, true, false).then(async (res) => {
             if (res && res?.isSuccess) {
                 return res;
             }
@@ -124,9 +124,21 @@ export const asyncGetPricingQuestions = async () => {
     }
 };
 
+export const asyncGetAllPricingDataV2 = async (currency) => {
+    try {
+        const response = api.get(`https://mediafirewall-ai.millionvisions.ai/mfw/web/tiers/currency/${currency}`, {}, true, false).then(async (res) => {
+            if (res && res?.isSuccess) {
+                return res;
+            }
+        });
+        return response;
+    } catch (e) {
+        return e;
+    }
+};
 export const asyncGetAllPricingData = async () => {
     try {
-        const response = api.get("https://mediafirewall-ai.themillionvisions.com/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10", {}, true, false).then(async (res) => {
+        const response = api.get("https://mediafirewall-ai.millionvisions.ai/mfw/web/tiers/?active=true&pageNumber=0&pageSize=10", {}, true, false).then(async (res) => {
             if (res && res?.isSuccess) {
                 return res;
             }
@@ -139,7 +151,7 @@ export const asyncGetAllPricingData = async () => {
 
 export const asyncGetDefaultMeeting = async () => {
     try {
-        const response = api.get("https://mediafirewall-ai.themillionvisions.com/meetings/default").then(async (res) => {
+        const response = api.get("https://mediafirewall-ai.millionvisions.ai/meetings/default").then(async (res) => {
             if (res && res?.isSuccess) {
                 return res;
             }
@@ -152,7 +164,7 @@ export const asyncGetDefaultMeeting = async () => {
 
 export const asyncCreateMeeting = async (payload, user) => {
     try {
-        const response = api.post(`https://mediafirewall-ai.themillionvisions.com/mfw/web/meeting`, payload).then(async (res) => {
+        const response = api.post(`https://mediafirewall-ai.millionvisions.ai/mfw/web/meeting`, payload).then(async (res) => {
             return res;
         });
         return response;
@@ -161,10 +173,10 @@ export const asyncCreateMeeting = async (payload, user) => {
     }
 };
 
-export const asyncGetCheckoutSessionUrl = async (stripeCustomerId, selectedProductId) => {
+export const asyncGetCheckoutSessionUrl = async (stripeCustomerId, selectedProductId, currency) => {
     try {
         const response = api
-            .get(`https://mediafirewall-ai.themillionvisions.com/mfw/checkout/sessions?customerId=${stripeCustomerId}&productId=${selectedProductId}`, {}, true, false)
+            .get(`https://mediafirewall-ai.millionvisions.ai/mfw/checkout/sessions/url?customerId=${stripeCustomerId}&productId=${selectedProductId}&currency=${currency}`, {}, true, false)
             .then(async (res) => {
                 return res;
             });
@@ -176,7 +188,7 @@ export const asyncGetCheckoutSessionUrl = async (stripeCustomerId, selectedProdu
 
 export const asyncGetCustomerSubscriptionData = async () => {
     try {
-        const response = api.post(`https://mediafirewall-ai.themillionvisions.com/mfw/subscription/details`, {}, {}, true, false).then(async (res) => {
+        const response = api.post(`https://mediafirewall-ai.millionvisions.ai/mfw/subscription/details`, {}, {}, true, false).then(async (res) => {
             return res;
         });
         return response;
@@ -187,7 +199,7 @@ export const asyncGetCustomerSubscriptionData = async () => {
 
 export const asyncChangeSubscription = async (payload) => {
     try {
-        const response = api.post(`https://mediafirewall-ai.themillionvisions.com/mfw/change/subscription`, payload, {}, true, false).then(async (res) => {
+        const response = api.post(`https://mediafirewall-ai.millionvisions.ai/mfw/change/subscription`, payload, {}, true, false).then(async (res) => {
             return res;
         });
         return response;
@@ -198,7 +210,7 @@ export const asyncChangeSubscription = async (payload) => {
 
 export const asyncCancelSubscription = async (payload) => {
     try {
-        const response = api.post(`https://mediafirewall-ai.themillionvisions.com/mfw/cancel/subscription`, payload, {}, true, false).then(async (res) => {
+        const response = api.post(`https://mediafirewall-ai.millionvisions.ai/mfw/cancel/subscription`, payload, {}, true, false).then(async (res) => {
             return res;
         });
         return response;
@@ -208,7 +220,7 @@ export const asyncCancelSubscription = async (payload) => {
 };
 export const asyncCreateStripeCustomer = async (payload) => {
     try {
-        const response = api.post(`https://mediafirewall-ai.themillionvisions.com/mfw/create/customer`, payload, {}, true, false).then(async (res) => {
+        const response = api.post(`https://mediafirewall-ai.millionvisions.ai/mfw/create/customer`, payload, {}, true, false).then(async (res) => {
             return res;
         });
         return response;
@@ -252,7 +264,7 @@ export const asyncCreateMeetingLink = async (payload) => {
 
 export const asyncGetAllContents = async (payload) => {
     try {
-        const response = api.get(`https://mediafirewall.themillionvisions.com/mfw/web/content/`, {}, true, false).then(async (res) => {
+        const response = api.get(`https://mediafirewall.millionvisions.ai/mfw/web/content/`, {}, true, false).then(async (res) => {
             return res;
         });
         return response;

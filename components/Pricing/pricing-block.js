@@ -7,7 +7,7 @@ import { asyncChangeSubscription } from "@/services/product/product.service";
 import { authActions } from "@/store/auth.slice";
 import { useAppDispatch } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
-import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { useEffect, useState } from "react";
 import PricingCard from "./PricingCard";
 import style from "./pricing.module.scss";
@@ -48,11 +48,20 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
                 );
                 router.push("/account");
             } else {
-                ToastMessage.error("Something went wrong");
+                // ToastMessage.error("Something went wrong");
                 router.back();
             }
         } catch (error) {
-            console.error("Something went wrong");
+            newInfoAlert(
+                "Scheduled Service Interruption",
+                "Due to scheduled maintenance, our service is temporarily interrupted. We appreciate your understanding, and everything will be back to normal on January 8, 2024.",
+                "Okay",
+                "error",
+                true,
+                "Cancel",
+                false
+            ).then(() => {});
+            // console.error("Something went wrong");
         } finally {
             setIsLoading(false);
         }
@@ -109,7 +118,7 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
             !user.subscriptionDetails.active &&
             (!user.subscriptionDetails.priceSurveyAnswered || !user.priceSurveyAnswered)
         ) {
-            router.push(`/pricing-survey?id=${selectedPricing?.productId}`);
+            router.push(`/pricing-survey?id=${selectedPricing?.productId}&currency=${selectedPricing?.basePrice?.currency.toLowerCase()}`);
         }
     };
 

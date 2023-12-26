@@ -4,34 +4,56 @@ import Loader from "@/components/Loader";
 import PricingBanner from "@/components/Pricing/banner";
 import PricingBlock from "@/components/Pricing/pricing-block";
 import PricingFaqs from "@/components/Pricing/pricing-faqs";
-import { asyncGetAllPricingData } from "@/services/product/product.service";
+import { asyncGetAllPricingDataV2 } from "@/services/product/product.service";
+import { getGeoLocationData } from "@/store/defaultConfig.slice";
+import { useAppSelector } from "@/store/hooks";
 import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
+
 export default function Pricing() {
     const [priceData, setPriceData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const dataFetchedRef = useRef(false);
-    const router = useRouter();
+    const geoInfo = useAppSelector(getGeoLocationData);
 
     // const priceData  = useAppSelector(getAllPricingPlanSelector)
     useEffect(() => {
         if (dataFetchedRef.current) return;
         dataFetchedRef.current = true;
-        getPrices();
+        // getPrices();
     }, []);
 
-    const getPrices = async () => {
+    useEffect(() => {
+        if (geoInfo) {
+            getPricesV2();
+        }
+    }, [geoInfo]);
+
+    const getPricesV2 = async () => {
         setIsLoading(true);
         try {
-            const response = await asyncGetAllPricingData();
+            const countryRegionCurrency = geoInfo?.currency.toLowerCase() || "inr";
+            const response = await asyncGetAllPricingDataV2(countryRegionCurrency);
             if (response && response.isSuccess && response.data) {
-                setPriceData(response.data.items);
+                setPriceData(response.data.pricingTiers);
             }
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
         }
     };
+
+    // const getPrices = async () => {
+    //     setIsLoading(true);
+    //     try {
+    //         const response = await asyncGetAllPricingData();
+    //         if (response && response.isSuccess && response.data) {
+    //             setPriceData(response.data.items);
+    //         }
+    //         setIsLoading(false);
+    //     } catch (error) {
+    //         setIsLoading(false);
+    //     }
+    // };
 
     return (
         <Fragment>

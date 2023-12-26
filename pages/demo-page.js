@@ -20,7 +20,7 @@ import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import style from "../components/DemoPage/demo-page.module.scss";
 
 const fetchInterval = 5000;
-const maxTimeout = 120000; // 2 minute in milliseconds
+const maxTimeout = 180000; // 2 minute in milliseconds
 
 const shouldStopFetching = (data) => {
     const routerData = getUrlVars();
@@ -415,6 +415,19 @@ const DemoPage = () => {
                         <h1 className="fw-bold text-shadow mb-2">Content Moderation Logs & Verification</h1>
                     </div>
                     <p className="fw-semibold mb-2">Gain a deeper understanding of our content moderation procedures by delving into the event logs.</p>
+                    <p className="fw-semibold mb-2">
+                        <div className="d-flex flex-column justify-content-center">
+                            <span>
+                                {" "}
+                                Currently Selected features are{" "}
+                                <span style={{ fontSize: "18px" }}>
+                                    <b> {router?.query?.filters}</b>
+                                </span>
+                                .{" "}
+                            </span>
+                        </div>
+                    </p>
+
                     <Col lg={8}>
                         <Row>
                             {CommonUtility.doesKeyExist(eventLogData, "errorLog") && (
@@ -443,7 +456,6 @@ const DemoPage = () => {
                                                                         <th>File</th>
                                                                         <th>Request Type</th>
                                                                         <th>No Of Operations</th>
-                                                                        <th>Video Id</th>
                                                                         <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                             <th>Tags</th>
                                                                         </RenderIf>
@@ -454,6 +466,7 @@ const DemoPage = () => {
                                                                         <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
                                                                             <th>Response</th>
                                                                         </RenderIf>
+                                                                        <th>Reference Id</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -468,7 +481,6 @@ const DemoPage = () => {
                                                                             </td>
                                                                             <td>{eventLogData?.requestType}</td>
                                                                             <td>{eventLogData?.operations}</td>
-                                                                            <td>{eventLogData?.videoId}</td>
                                                                             <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                                 <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
                                                                             </RenderIf>
@@ -486,6 +498,7 @@ const DemoPage = () => {
                                                                                     <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "16px", height: "16px" }} />
                                                                                 </td>
                                                                             </RenderIf>
+                                                                            <td>{eventLogData?.videoId}</td>
                                                                         </tr>
                                                                     )}
                                                                 </tbody>
@@ -503,7 +516,6 @@ const DemoPage = () => {
                                                                     <th>File</th>
                                                                     <th>Request Type</th>
                                                                     <th>No Of Operations</th>
-                                                                    <th>Video Id</th>
                                                                     <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                         <th>Tags</th>
                                                                     </RenderIf>
@@ -514,6 +526,7 @@ const DemoPage = () => {
                                                                     <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
                                                                         <th>Response</th>
                                                                     </RenderIf>
+                                                                    <th>Reference Id</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -531,7 +544,6 @@ const DemoPage = () => {
                                                                             </td>
                                                                             <td>{eventLogData?.requestType}</td>
                                                                             <td>{eventLogData.operationsPerFeature[item?.webFeatureKey]}</td>
-                                                                            <td>{eventLogData?.videoId}</td>
                                                                             <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                                 {item.isSuccess ? (
                                                                                     <td>
@@ -627,6 +639,7 @@ const DemoPage = () => {
                                                                                     </td>
                                                                                 )}
                                                                             </RenderIf>
+                                                                            <td>{eventLogData?.videoId}</td>
                                                                         </tr>
                                                                     );
                                                                 })}
@@ -683,7 +696,7 @@ const DemoPage = () => {
                                     <Tab eventKey="json" className="pt-3" title="Json">
                                         <div className="d-flex justify-content-end">
                                             <Button variant="primary" className="rounded-pill button_primary py-2 px-4" onClick={() => handleDownload()}>
-                                                <i class="fa fa-download" aria-hidden="true" style={{ marginRight: "5px" }}></i> Download JSON Response
+                                                <i className="fa fa-download" aria-hidden="true" style={{ marginRight: "5px" }}></i> Download JSON Response
                                             </Button>{" "}
                                         </div>
                                         {highlightCode(returnJsonFormatRes(), "json")}

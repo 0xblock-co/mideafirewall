@@ -10,7 +10,7 @@ import { asyncPostSignedUpSurveySubmitAnswersV2 } from "@/services/auth/auth.ser
 import { asyncGetPricingQuoteQuestions } from "@/services/product/product.service";
 import { useAppDispatch } from "@/store/hooks";
 import { getFilteredData } from "@/utils/globalFunctions";
-import { ToastMessage, newInfoAlert } from "@/utils/toastMessage.utils";
+import { newInfoAlert } from "@/utils/toastMessage.utils";
 
 export default function PriceQoute() {
     const [formData, setFormData] = useState([]);
@@ -102,7 +102,7 @@ export default function PriceQoute() {
                                 });
                             return;
                         } else {
-                            ToastMessage.error(response?.message || "Something went wrong");
+                            // ToastMessage.error(response?.message || "");
                             Router.reload();
                         }
                     }

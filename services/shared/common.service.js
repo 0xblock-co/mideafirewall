@@ -28,7 +28,7 @@ export const commonServiceApi = createApi({
         getHeaderData: builder.query({
             query: () => {
                 return {
-                    url: "https://mediafirewall.themillionvisions.com/mfw/web/customerCategories?activate=true&pageNumber=0&pageSize=100",
+                    url: "https://mediafirewall.millionvisions.ai/mfw/web/customerCategories?activate=true&pageNumber=0&pageSize=100",
                     method: "GET",
                     isSuccessHandle: false,
                 };

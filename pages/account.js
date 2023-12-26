@@ -63,9 +63,19 @@ const AccountDetails = () => {
                                 },
                             })
                         );
-                    } else {
-                        ToastMessage.error("Something went wrong");
                     }
+                    // else {
+                    // newInfoAlert(
+                    //     "Scheduled Service Interruption",
+                    //     "Due to scheduled maintenance, our service is temporarily interrupted. We appreciate your understanding, and everything will be back to normal on January 8, 2024.",
+                    //     "Okay",
+                    //     "error",
+                    //     true,
+                    //     "Cancel",
+                    //     false
+                    // ).then(() => {});
+                    // ToastMessage.error("Something went wrong");
+                    // }
                 } catch (error) {
                 } finally {
                     setIsLoading(false);

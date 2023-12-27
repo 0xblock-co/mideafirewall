@@ -183,8 +183,8 @@ export default function FeatureBlog({ headerData }) {
                         <h1 className="fw-bold text-shadow text-lg-center">
                             <FormattedMessage id="page.home.featureBlog.mainTitle" />
                         </h1>
-                        <h4 className="d-flex justify-content-center text-center" style={{}}>
-                            Experiment the worlds best media filters in action with your own uploaded media content below, Free up to 10000 operations
+                        <h4 className="d-flex justify-content-center text-center" style={{ color: "#7b5b9e" }}>
+                            Experiment the worlds best media filters in action with your own uploaded media content below, <br/>Free up to 10000 operations
                         </h4>
                     </Col>
                 </Row>

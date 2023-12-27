@@ -7,6 +7,7 @@ import style from "./pricing.module.scss";
 const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, isUpgrade }) => {
     const className = index >= PRICING_CARD_BG.length ? PRICING_CARD_BG[index % PRICING_CARD_BG.length] : PRICING_CARD_BG[index];
 
+                    const currency = item?.basePrice?.currency === "INR" ? "₹" : "$";
     return (
         <div
             className={`mfw__pricing-col ${className} ${style.mdf__pricingcard} ${style[`card__price__${className}`]} ${
@@ -31,8 +32,8 @@ const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, 
                         <span className="pb-title">{CommonUtility.addDecimalCommas(item.maxOperations.value || 0)}</span>
                         <span className="pb-sub">
                             {item.dailyLimit !== "-1"
-                                ? `Operations per month (max ${item.dailyLimit} per day) + $${item.additionalCharge.value} per additional operations`
-                                : `Operations per month + $${item.additionalCharge.value} per additional operations`}
+                                ? `Operations per month (max ${item.dailyLimit} per day) + ${currency}${item.additionalCharge.value} per additional operations`
+                                : `Operations per month + ${currency}${item.additionalCharge.value} per additional operations`}
                         </span>
                     </li>
                     <li>
@@ -46,7 +47,8 @@ const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, 
                     item.supportOptions.map((supportOption, supportIndex) => (
                         <div key={supportIndex}>
                             <p className="text-center">
-                                {supportOption.name} at ${supportOption.price.value}
+                                {supportOption.name} at {currency}
+                                {supportOption.price.value}
                             </p>
                             <ul className="features support-list">
                                 {CommonUtility.isValidArray(supportOption.supportFeatures) &&

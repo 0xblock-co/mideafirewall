@@ -216,7 +216,7 @@ const DemoPage = () => {
 
         const fetchData = async () => {
             const startTime = Date.now(); // Record the start time
-
+            let responseData = eventLogData;
             while (isFetching && router.query.videoId && CommonUtility.isNotEmpty(router.query.videoId)) {
                 try {
                     const response = await asyncGetContentEventLogs(
@@ -234,6 +234,7 @@ const DemoPage = () => {
                         // ToastMessage.success("Uploaded successfully.");
                         const updatedEventLogObj = getMatchingValuesV3(resData);
                         resData.eventLogsV2 = updatedEventLogObj;
+                        responseData = resData;
                         setEventLogData(resData);
                     } else {
                         ToastMessage.error("Failed to fetch event logs.");
@@ -253,13 +254,13 @@ const DemoPage = () => {
                 if (elapsedTime >= maxTimeout) {
                     isFetching = false;
                     setIsFetchingState(false);
-                    if (eventLogData && eventLogData?.processStatus?.totalProcessingFeatures !== eventLogData?.processStatus?.completedProcesses) {
+                    if (responseData && responseData?.processStatus?.totalProcessingFeatures !== responseData?.processStatus?.completedProcesses) {
                         const routerDataA = getUrlVars();
                         const routerData = router?.query?.sf_id || routerDataA.sf_id;
                         const totalSelectedFeatures = routerData && routerData.split(",");
-                        const filteredFeatures = totalSelectedFeatures.filter((item) => !eventLogData.processStatus.featureStatus.hasOwnProperty(item)).toString();
+                        const filteredFeatures = totalSelectedFeatures.filter((item) => !responseData.processStatus.featureStatus.hasOwnProperty(item)).toString();
                         setEventLogData({
-                            ...eventLogData,
+                            ...responseData,
                             errorLog: {
                                 error: "NOT_PROCESS_COMPLETED",
                                 errorCode: "9001",
@@ -269,7 +270,7 @@ const DemoPage = () => {
                         return;
                     }
                     setEventLogData({
-                        ...eventLogData,
+                        ...responseData,
                         errorLog: {
                             error: "MAX_TME_EXCEED",
                             errorCode: "9000",
@@ -500,7 +501,10 @@ const DemoPage = () => {
                                                                 {eventLogData &&
                                                                     CommonUtility.isNotEmpty(router.query.sf_id) &&
                                                                     router.query.sf_id.split(",").map((filter, index) => {
-                                                                        const operationCount = eventLogData?.operationsPerFeature[filter];
+                                                                        const operationCount = eventLogData?.operationsPerFeature.hasOwnProperty(filter)
+                                                                            ? eventLogData?.operationsPerFeature[filter]
+                                                                            : 0;
+
                                                                         return (
                                                                             operationCount > 0 && (
                                                                                 <tr key={index}>

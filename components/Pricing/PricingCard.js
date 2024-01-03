@@ -7,8 +7,6 @@ import style from "./pricing.module.scss";
 const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, isUpgrade, btnName }) => {
     const className = index >= PRICING_CARD_BG.length ? PRICING_CARD_BG[index % PRICING_CARD_BG.length] : PRICING_CARD_BG[index];
     const currency = item?.basePrice?.currency === "INR" ? "₹" : "$";
-
-                    const currency = item?.basePrice?.currency === "INR" ? "₹" : "$";
     return (
         <div
             className={`mfw__pricing-col ${className} ${style.mdf__pricingcard} ${style[`card__price__${className}`]} ${

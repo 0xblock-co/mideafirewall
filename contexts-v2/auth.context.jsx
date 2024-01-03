@@ -1,7 +1,6 @@
 import { localStorageKeys } from "@/constants/global.constants";
 import { authActions, getUserDetails } from "@/store/auth.slice";
-import { getGeoLocationData, setGeoLocationData } from "@/store/defaultConfig.slice";
-// import { setMfwTestCustomers } from "@/store/defaultConfig.slice";
+import { getGeoLocationData, setGeoLocationData, setMfwTestCustomers } from "@/store/defaultConfig.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { eraseCookie, readCookie } from "@/utils/cookieCreator";
 import axios from "axios";
@@ -43,7 +42,7 @@ const AuthProvider = ({ children }) => {
                 dispatch(setGeoLocationData(data));
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
             });
     };
 
@@ -98,7 +97,7 @@ const AuthProvider = ({ children }) => {
         eraseCookie(localStorageKeys.userEmail);
         localStorage.clear();
         dispatch(authActions.clearAuthStore());
-        // dispatch(setMfwTestCustomers([]));
+        dispatch(setMfwTestCustomers([]));
         setUser(null);
     };
 

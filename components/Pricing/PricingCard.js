@@ -4,8 +4,9 @@ import { Button } from "react-bootstrap";
 import RenderIf from "../ConditionalRender/RenderIf";
 import style from "./pricing.module.scss";
 
-const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, isUpgrade }) => {
+const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, isUpgrade, btnName }) => {
     const className = index >= PRICING_CARD_BG.length ? PRICING_CARD_BG[index % PRICING_CARD_BG.length] : PRICING_CARD_BG[index];
+    const currency = item?.basePrice?.currency === "INR" ? "₹" : "$";
 
     return (
         <div
@@ -31,8 +32,8 @@ const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, 
                         <span className="pb-title">{CommonUtility.addDecimalCommas(item.maxOperations.value || 0)}</span>
                         <span className="pb-sub">
                             {item.dailyLimit !== "-1"
-                                ? `Operations per month (max ${item.dailyLimit} per day) + $${item.additionalCharge.value} per additional operations`
-                                : `Operations per month + $${item.additionalCharge.value} per additional operations`}
+                                ? `Operations per month (max ${item.dailyLimit} per day) + ${currency}${item.additionalCharge.value} per additional operations`
+                                : `Operations per month + ${currency}${item.additionalCharge.value} per additional operations`}
                         </span>
                     </li>
                     <li>
@@ -46,7 +47,8 @@ const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, 
                     item.supportOptions.map((supportOption, supportIndex) => (
                         <div key={supportIndex}>
                             <p className="text-center">
-                                {supportOption.name} at ${supportOption.price.value}
+                                {supportOption.name} at {currency}
+                                {supportOption.price.value}
                             </p>
                             <ul className="features support-list">
                                 {CommonUtility.isValidArray(supportOption.supportFeatures) &&
@@ -69,21 +71,26 @@ const PricingCard = ({ item, index, handleGetStartedClick, subscriptionDetails, 
                             </ul>
                         </div>
                     ))}
-                <Button
-                    variant="primary"
-                    className="mx-3 mb-3 text-uppercase d-flex align-items-center justify-content-center"
-                    size="lg"
-                    onClick={(e) => handleGetStartedClick(e, item)}
-                    style={{
-                        position: "absolute",
-                        bottom: "20px",
-                        left: 0,
-                        right: 0,
-                    }}
-                    disabled={subscriptionDetails?.active && subscriptionDetails?.tireName === item.tierName}
-                >
-                    {subscriptionDetails?.active && subscriptionDetails?.tireName === item.tierName ? "Active" : isUpgrade ? "Upgrade" : "Get Started"}
-                </Button>
+
+                {isUpgrade && index === 0 ? (
+                    <></>
+                ) : (
+                    <Button
+                        variant="primary"
+                        className="mx-3 mb-3 text-uppercase d-flex align-items-center justify-content-center"
+                        size="lg"
+                        onClick={(e) => handleGetStartedClick(e, item, isUpgrade ? (btnName == "Upgrade" ? 0 : 1) : 9999)}
+                        style={{
+                            position: "absolute",
+                            bottom: "20px",
+                            left: 0,
+                            right: 0,
+                        }}
+                        disabled={subscriptionDetails?.active && subscriptionDetails?.tireName === item.tierName}
+                    >
+                        {subscriptionDetails?.active && subscriptionDetails?.tireName === item.tierName ? "Active" : isUpgrade ? btnName : "Get Started"}
+                    </Button>
+                )}
             </div>
         </div>
     );

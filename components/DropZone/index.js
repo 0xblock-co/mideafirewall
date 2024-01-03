@@ -7,7 +7,7 @@ import { Form } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import { HiOutlineX } from "react-icons/hi";
 
-const DropZoneComponent = ({ onContentDrop, filePreviews, setFilePreviews }) => {
+const DropZoneComponent = ({ onContentDrop, filePreviews, setFilePreviews, supportedMediaTypesString }) => {
     const satisFactionMetricsCount = useAppSelector(getMFWSatisfactionMetricsCount);
 
     const onDrop = useCallback(
@@ -68,13 +68,16 @@ const DropZoneComponent = ({ onContentDrop, filePreviews, setFilePreviews }) => 
     return (
         <section>
             <div>
-                <div style={{ width: "15%", margin: "0 auto" }}>
-                    <Image className="mt-2" layout="fill" src="/images/upload.png" alt="A globe icon with filter and text." />
-                </div>
                 <Form.Group controlId="formFile" className="mt-4" {...getRootProps()} style={{ border: "1px dashed", padding: 20, borderRadius: 6 }}>
+                    <div style={{ width: "15%", margin: "10px auto" }}>
+                        <Image className="mt-2" layout="fill" src="/images/upload.png" alt="A globe icon with filter and text." />
+                    </div>
                     <Form.Label style={{ fontSize: "13px", color: "gray" }}>
                         Drop your files here or click to upload, making sure that the size of each file is less than {satisFactionMetricsCount?.mediaSizeLimit || 50} MB.
                     </Form.Label>
+                    <Form.Label style={{ fontSize: "13px", color: "gray" }}>{supportedMediaTypesString}</Form.Label>
+                    <p>or</p>
+                    <span className="browse-button">Browse file</span>
                     <Form.Control type="file" {...getInputProps()} />
                 </Form.Group>
             </div>

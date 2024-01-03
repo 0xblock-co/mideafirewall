@@ -100,7 +100,7 @@ const PricingSurvey = () => {
                             });
 
                             if (res && res.isSuccess && CommonUtility.isNotEmpty(res.data)) {
-                                let currency = router.query.currency || "inr";
+                                let currency = router.query.currency || "usd";
                                 if (router.query.currency == geoInfo.currency) {
                                     currency = geoInfo.currency;
                                 }

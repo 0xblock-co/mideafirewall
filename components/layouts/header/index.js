@@ -83,6 +83,11 @@ export default function HeaderTop() {
             router.push(`/features-list?key=${id}`);
         }
     };
+    useEffect(()=>{
+        if(!isLogin){
+            logout();
+        }
+    },[])
     // const { locales } = useRouter();
     return (
         <>

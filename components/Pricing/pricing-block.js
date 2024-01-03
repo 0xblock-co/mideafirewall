@@ -23,8 +23,10 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
     useEffect(() => {
         if (router.query?.isUpgrade || user?.subscriptionDetails?.active) {
             setIsUpgrade(true);
+        } else {
+            setIsUpgrade(false);
         }
-    }, [router]);
+    }, [router, user]);
 
     const upgradeSubscription = async (selectedPricing) => {
         setIsLoading(true);
@@ -67,11 +69,11 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
         }
     };
 
-    const handleGetStartedClick = async (e, selectedPricing) => {
+    const handleGetStartedClick = async (e, selectedPricing, isIncreasePlan) => {
         e.preventDefault();
         if (!isLogin) {
             newInfoAlert(
-                "Signup Required for Subscription",
+                "Login or SignUp Required for Subscription",
                 "To access the demo, you need to either log in or sign up for an account. Please proceed with login or sign-up.",
                 "Continue",
                 "warning"
@@ -107,13 +109,29 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
         }
 
         if (isUpgrade) {
-            await upgradeSubscription(selectedPricing);
+            if (isIncreasePlan === 0) {
+                newInfoAlert("Confirm Your Subscription Upgrade", "Great news! Upgrading your subscription means more operations and improved functionality coming your way.", "Okay", "warning").then(
+                    async () => {
+                        await upgradeSubscription(selectedPricing);
+                    }
+                );
+            }
+
+            if (isIncreasePlan === 1) {
+                newInfoAlert(
+                    "Confirm Subscription Downgrade",
+                    `Please note that downgrading to the ${selectedPricing?.tierName} plan reduces the number of available operations.`,
+                    "Okay",
+                    "warning"
+                ).then(async () => {
+                    await upgradeSubscription(selectedPricing);
+                });
+            }
             return;
         }
-
         if (
             user &&
-            user.userDetails.email &&
+            user.userDetails?.email &&
             CommonUtility.isNotEmpty(user.userDetails.email) &&
             !user.subscriptionDetails.active &&
             (!user.subscriptionDetails.priceSurveyAnswered || !user.priceSurveyAnswered)
@@ -122,14 +140,34 @@ const PricingBlock = ({ priceData = [], setIsLoading }) => {
         }
     };
 
+    const determineUpgradeOrDowngrade = (currentTier, selectedTier) => {
+        const tiers = priceData.map((item) => item.tierName);
+        const currentIndex = tiers.indexOf(currentTier);
+        const selectedIndex = tiers.indexOf(selectedTier);
+        return currentIndex < selectedIndex ? "Upgrade" : "Downgrade";
+    };
+
     return (
         <section className={style.mdf__pricing_block}>
             <Container className="">
                 <div className="mfw__pricing-card-wrapper">
                     {priceData &&
-                        priceData.map((item, index) => (
-                            <PricingCard key={index} item={item} index={index} handleGetStartedClick={handleGetStartedClick} subscriptionDetails={user?.subscriptionDetails} isUpgrade={isUpgrade} />
-                        ))}
+                        priceData.map((item, index) => {
+                            const currentTier = user?.subscriptionDetails?.tireName;
+                            const selectedTier = item.tierName;
+                            const btnName = determineUpgradeOrDowngrade(currentTier, selectedTier);
+                            return (
+                                <PricingCard
+                                    key={index}
+                                    item={item}
+                                    index={index}
+                                    handleGetStartedClick={handleGetStartedClick}
+                                    subscriptionDetails={user?.subscriptionDetails}
+                                    isUpgrade={isUpgrade}
+                                    btnName={btnName}
+                                />
+                            );
+                        })}
                     <div className={`mfw__pricing-col ${style.mdf__pricingcard} ${style.card__price__primary}`}>
                         <div className={`mfw__pricing-main-heading ${style.b_bottom}`}>
                             <span className={`name ${style.title}`}>ENTERPRISE</span>

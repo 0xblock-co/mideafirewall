@@ -1,5 +1,5 @@
 import { useAuthV3 } from "@/contexts-v2/auth.context";
-import { getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
+import { getAllHeaderDataOptionsUpdated, getMfwTestCustomersSelector } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
@@ -140,13 +140,41 @@ export default function FeaturesListBlock() {
         }
     };
 
-    const handleOptionChange = (featureId, selectedOption) => {
-        setSelectedOptions((prevSelectedOptions) => ({
-            ...prevSelectedOptions,
-            [featureId]: selectedOption,
-        }));
-    };
+    const handleOptionChange = (featureId, selectedOption, isMultiSelectOption) => {
+        if (isMultiSelectOption) {
+            setSelectedOptions((prevSelectedOptions) => {
+                const currentFeatureOptions = prevSelectedOptions[featureId] || ""; // Access the property within the object
+                const currentOptionsArray = currentFeatureOptions.split(",");
+                let updatedOptions = selectedOption;
 
+                if (currentOptionsArray.length > 0) {
+                    const alreadySelectedOptionIndex = currentOptionsArray.indexOf(selectedOption);
+                    if (alreadySelectedOptionIndex > -1) {
+                        if (currentOptionsArray.length == 1) {
+                            newInfoAlert("", "You cannot remove the only element. It should have at least 1.", "Got It.", "warning", false, "", false);
+                            updatedOptions = currentOptionsArray.join(",");
+                        } else {
+                            currentOptionsArray.splice(alreadySelectedOptionIndex, 1);
+                        }
+                    } else {
+                        currentOptionsArray.push(selectedOption);
+                    }
+                    updatedOptions = currentOptionsArray.join(",");
+                }
+                console.log("updatedOptions: ", updatedOptions);
+                return {
+                    ...prevSelectedOptions,
+                    [featureId]: updatedOptions,
+                };
+            });
+        } else {
+            setSelectedOptions((prevSelectedOptions) => ({
+                ...prevSelectedOptions,
+                [featureId]: selectedOption,
+            }));
+        }
+    };
+    const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
     const onSubmit = useCallback(
         async (e) => {
             e.preventDefault();
@@ -165,9 +193,24 @@ export default function FeaturesListBlock() {
                 return;
             }
 
+            const currentUserEmail = user?.userDetails?.email;
+            if (mfw_customersList && !mfw_customersList.includes(currentUserEmail)) {
+                newInfoAlert(
+                    "Service under maintenance",
+                    "Sorry for the inconvenience. We're currently going through a quarterly scheduled maintenance and upgrade. Please return on January 4, 2024 to experience our offerings! Existing customer's request and filters will not be affected. Thanks for your understanding.",
+                    "Got It.",
+                    "warning",
+                    false,
+                    "",
+                    false
+                );
+                return;
+            }
+
             setIsLoading(true);
             const formData = {
                 selectedFeatureIds,
+
                 selectedOptions,
             };
 
@@ -175,13 +218,14 @@ export default function FeaturesListBlock() {
                 let finalString = formData.selectedFeatureIds
                     .map((item) => {
                         const option = formData.selectedOptions[item];
-                        const optionString = option ? `(${CommonUtility.removeWhiteSpace(option)})` : "";
+                        const updatedOptions = option ? CommonUtility.removeStartingComma(option.trim()) : option;
+                        const optionString = updatedOptions ? `(${CommonUtility.removeWhiteSpace(updatedOptions)})` : "";
                         return `,${item}${optionString}`;
                     })
                     .join("");
 
                 if (finalString && finalString !== "") {
-                    router.push(`upload?filters=${CommonUtility.removeStartingComma(finalString.trim())}`);
+                    router.push(`upload?filters=${CommonUtility.removeStartingComma(finalString.trim())}&sf_id=${formData.selectedFeatureIds.toString()}`);
                 } else {
                     newInfoAlert(
                         "Choose Your Preferred Features",
@@ -282,12 +326,17 @@ export default function FeaturesListBlock() {
                                                                                     <div key={item.featureId + opt.name.replace(/\s/g, "")}>
                                                                                         <Form.Control
                                                                                             type="checkbox"
-                                                                                            checked={selectedOptions[item.webFeatureKey] === opt.name}
+                                                                                            // checked={isChecked}
+                                                                                            checked={
+                                                                                                item.multi
+                                                                                                    ? selectedOptions[item.webFeatureKey]?.includes(opt.name)
+                                                                                                    : selectedOptions[item.webFeatureKey] === opt.name
+                                                                                            }
                                                                                             className="btn-check"
                                                                                             value={opt.name}
                                                                                             id={item.featureId + opt.name.replace(/\s/g, "")}
                                                                                             hidden
-                                                                                            onChange={() => handleOptionChange(item.webFeatureKey, opt.name)}
+                                                                                            onChange={() => handleOptionChange(item.webFeatureKey, opt.name, item.multi)}
                                                                                         />
                                                                                         <label className="btn btn-outline-dark px-2 text-xs" htmlFor={item.featureId + opt.name.replace(/\s/g, "")}>
                                                                                             {opt.name}

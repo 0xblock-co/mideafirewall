@@ -2,9 +2,9 @@ import RenderIf from "@/components/ConditionalRender/RenderIf";
 import Loader from "@/components/Loader";
 import { localStorageKeys } from "@/constants/global.constants";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
-import { asyncGetAllContents } from "@/services/product/product.service";
+import { asyncGetAllContents, asyncGetMFWTestCustomers } from "@/services/product/product.service";
 import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
-import { getAllHeaderDataOptions, setAllMediaContents } from "@/store/defaultConfig.slice";
+import { getAllHeaderDataOptions, setAllMediaContents, setMfwTestCustomers } from "@/store/defaultConfig.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { readCookie } from "@/utils/cookieCreator";
 import { asyncGetAccessToken } from "@/utils/globalFunctions";
@@ -46,12 +46,12 @@ const MainLayout = ({ children }) => {
 
     useEffect(() => {
         import("bootstrap/dist/js/bootstrap.min.js");
-        // async function getMFWTestCustomers() {
-        //     const result = await asyncGetMFWTestCustomers();
-        //     if (result && result?.isSuccess) {
-        //         dispatch(setMfwTestCustomers(result?.data || []));
-        //     }
-        // }
+        async function getMFWTestCustomers() {
+            const result = await asyncGetMFWTestCustomers();
+            if (result && result?.isSuccess) {
+                dispatch(setMfwTestCustomers(result?.data || []));
+            }
+        }
         async function getContents() {
             const result = await asyncGetAllContents();
             if (result && result?.isSuccess) {
@@ -64,7 +64,7 @@ const MainLayout = ({ children }) => {
         if (headerData && headerData?.length == 0) {
             getProducts();
         }
-        // if (isLogin) getMFWTestCustomers();
+        if (isLogin) getMFWTestCustomers();
     }, [isLogin]);
 
     useEffect(() => {

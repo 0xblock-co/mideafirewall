@@ -7,13 +7,14 @@ import { contentUploadStaticObj } from "@/constants/global.constants";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
 import { UPLOAD_USING_CODE_STUBS } from "@/data";
 import Api from "@/services/RTK/axiosAPI.handler";
-import { getMFWSatisfactionMetricsCount } from "@/store/defaultConfig.slice";
+import { getAllHeaderDataOptionsUpdated, getMFWSatisfactionMetricsCount, getSupportedMediaTypes } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
 import { checkContentValidation } from "@/utils/contentUpload";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { cloneDeep, findIndex } from "lodash";
 import { useRef, useState } from "react";
+import RenderIf from "../ConditionalRender/RenderIf";
 import DropZoneComponent from "../DropZone";
 import Loader from "../Loader";
 import CodeBlock from "./CodeBlock";
@@ -26,6 +27,7 @@ export default function UploadTabs() {
     const { user } = useAuthV3();
     const imageUrlRef = useRef("");
     const satisFactionMetricsCount = useAppSelector(getMFWSatisfactionMetricsCount);
+    const supportedMediaTypes = useAppSelector(getSupportedMediaTypes);
 
     const [isUploading, setIsUploading] = useState(false);
 
@@ -76,7 +78,7 @@ export default function UploadTabs() {
                             .then(() => {
                                 setIsUploading(false);
                                 cleanup();
-                                router.push(`/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}`);
+                                router.push(`/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}&sf_id=${router.query.sf_id}`);
                             })
                             .catch(cleanup);
                     }
@@ -138,7 +140,10 @@ export default function UploadTabs() {
             }
 
             // check validation
-            let validationResult = await checkContentValidation(cloneContentData, true, satisFactionMetricsCount?.mediaSizeLimit || 50);
+            // const allowedExtensions = ["mp4", "mov", "png", "gif"];
+            const allowedExtensions = CommonUtility.isValidArray(supportedMediaTypes) ? supportedMediaTypes.map((item) => item.extension) : ["mp4", "mov", "jpeg", "jpg", "png", "gif"];
+
+            let validationResult = await checkContentValidation(cloneContentData, true, satisFactionMetricsCount?.mediaSizeLimit || 50, allowedExtensions);
 
             if (validationResult) {
                 setContentData(cloneContentData);
@@ -150,6 +155,36 @@ export default function UploadTabs() {
             setContentData([]);
         }
     };
+    const headerData = useAppSelector(getAllHeaderDataOptionsUpdated);
+
+    function isFileTypeSupported(webFeatureKey, file) {
+        const selectedFeature = headerData[0].features.find((feature) => feature.webFeatureKey == webFeatureKey);
+        if (selectedFeature && selectedFeature.mediaSupports) {
+            const fileType = file.type || "";
+            if (fileType.startsWith("image/") && !selectedFeature.mediaSupports.includes("IMAGE")) {
+                return { supported: false, errorMessage: `${selectedFeature.name} filter supports videos only, images format is not allowed.` };
+            }
+            if (fileType.startsWith("video/") && !selectedFeature.mediaSupports.includes("VIDEO")) {
+                return { supported: false, errorMessage: `${selectedFeature.name} filter supports images only, videos format is not allowed.` };
+            }
+        }
+
+        return { supported: true, errorMessage: null };
+    }
+
+    // Function to check if a set of features support the file type
+    function areFeaturesSupported(webFeatureKeys, file) {
+        const selectedFeatureKeys = webFeatureKeys.split(",");
+
+        for (const featureKey of selectedFeatureKeys) {
+            const result = isFileTypeSupported(featureKey.trim(), file);
+            if (!result.supported) {
+                return result.errorMessage;
+            }
+        }
+
+        return null;
+    }
 
     const handleOnClickUploadFiles = async () => {
         try {
@@ -168,16 +203,57 @@ export default function UploadTabs() {
                             .catch(cleanup);
                         // throw new Error("No files selected for upload.");
                     }
+                    if (headerData && headerData?.length > 0 && headerData[0]?.features?.length > 0) {
+                        const webFeatureKeys = router.query?.filters;
+                        const uploadedFileType = finalFiles[0].file;
+                        const errorMessage = areFeaturesSupported(webFeatureKeys, uploadedFileType);
 
+                        if (errorMessage) {
+                            await newInfoAlert("", errorMessage, "Okay", "warning", false)
+                                .then(() => {})
+                                .catch(() => {});
+                        }
+                    }
                     await asyncUploadContent("file", {
                         filters: router.query.filters,
                         file: finalFiles[0].file,
                     });
                 } else if (imageUrlRef?.current && imageUrlRef?.current !== "") {
-                    await asyncUploadContent("url", {
-                        filters: router.query.filters,
-                        mediaUrl: imageUrlRef?.current,
-                    });
+                    const allowedExtensions = CommonUtility.isValidArray(supportedMediaTypes) ? supportedMediaTypes.map((item) => item.extension) : ["mp4", "mov", "jpeg", "jpg", "png", "gif"];
+                    const isValidUrl = (url) => {
+                        const urlPattern = /^https:\/\/.*/;
+                        return urlPattern.test(url);
+                    };
+                    const isValidExtension = (url, allowedExtensions) => {
+                        const urlParts = url.split(".");
+                        const extension = urlParts[urlParts.length - 1].toLowerCase();
+                        return allowedExtensions.includes(extension);
+                    };
+
+                    const isValidMediaFile = (url, allowedExtensions) => {
+                        if (!isValidUrl(url)) {
+                            return false; // URL is not valid
+                        }
+
+                        if (!isValidExtension(url, allowedExtensions)) {
+                            return false; // Extension is not allowed
+                        }
+
+                        return true; // URL is valid with an allowed extension
+                    };
+                    if (isValidMediaFile(imageUrlRef?.current, allowedExtensions)) {
+                        await asyncUploadContent("url", {
+                            filters: router.query.filters,
+                            mediaUrl: imageUrlRef?.current,
+                        });
+                    } else {
+                        newInfoAlert("Invalid input.", `Kindly share a valid image or video URL with extensions such as ${allowedExtensions.toString()}`, "Okay", "error", true, "Cancel", false)
+                            .then(() => {
+                                cleanup();
+                            })
+                            .catch(cleanup);
+                        setIsUploading(false);
+                    }
                 } else {
                     setIsUploading(false);
                     newInfoAlert("Invalid input.", "Please upload files or provide a valid image/video URL.", "Okay", "error", true, "Cancel", false)
@@ -195,30 +271,32 @@ export default function UploadTabs() {
     };
 
     const handleError = (error) => {
-        const errorCode = error?.code;
-        let errorMessage = "Special Preview: Website Early Access and Maintenance";
-        let errorDescription =
-            "We're thrilled to offer you early access to our website! Please note that the official website launch is scheduled for January 8th. Until then, certain features may undergo maintenance, and we appreciate your understanding and patience during this period.";
+        if (error && error != undefined) {
+            const errorCode = error?.code;
+            let errorMessage = "Special Preview: Website Early Access and Maintenance";
+            let errorDescription =
+                "We're thrilled to offer you early access to our website! Please note that the official website launch is scheduled for January 8th. Until then, certain features may undergo maintenance, and we appreciate your understanding and patience during this period.";
 
-        if (errorCode == "429") {
-            errorMessage = "Free quota exceeded";
-            errorDescription = error?.apiMessageRes?.detail;
+            if (errorCode == "429") {
+                errorMessage = "Free quota exceeded";
+                errorDescription = error?.apiMessageRes?.detail;
+            }
+            if (errorCode == 400 && error?.apiMessageRes?.errorCode == "912") {
+                errorMessage = error?.apiMessageRes?.title;
+                errorDescription = error?.apiMessageRes?.detail || "Please provide the valid url to moderate the content.";
+            }
+            if (error?.apiMessageRes?.errorCode == "910") {
+                errorMessage = error?.apiMessageRes?.title;
+                errorDescription = error?.apiMessageRes?.detail || "Please choose file less than 50mb limit.";
+            }
+            setIsUploading(false);
+            newInfoAlert(errorMessage, errorDescription, "Okay", "error", true, "Cancel", false)
+                .then(() => {
+                    cleanup();
+                    if (error?.code == "429") router.push("/pricing");
+                })
+                .catch(cleanup);
         }
-        if (errorCode == 400 && error?.apiMessageRes?.errorCode == "912") {
-            errorMessage = error?.apiMessageRes?.title;
-            errorDescription = error?.apiMessageRes?.detail || "Please provide the valid url to moderate the content.";
-        }
-        if (error?.apiMessageRes?.errorCode == "910") {
-            errorMessage = error?.apiMessageRes?.title;
-            errorDescription = error?.apiMessageRes?.detail || "Please choose file less than 50mb limit.";
-        }
-        setIsUploading(false);
-        newInfoAlert(errorMessage, errorDescription, "Okay", "error", true, "Cancel", false)
-            .then(() => {
-                cleanup();
-                if (error?.code == "429") router.push("/pricing");
-            })
-            .catch(cleanup);
     };
 
     const cleanup = () => {
@@ -276,18 +354,35 @@ export default function UploadTabs() {
                                             <span className="d-flex text-start mt-1" style={{ fontSize: "13px", color: "gray", padding: "0 3px" }}>
                                                 For upload, please share the file URL, and verify that the file size is below {satisFactionMetricsCount?.mediaSizeLimit || 50} MB.
                                             </span>
+                                            <span className="d-flex text-start mt-1" style={{ fontSize: "13px", color: "gray", padding: "0 3px" }}>
+                                                Supported file types include:{" "}
+                                                {CommonUtility.isValidArray(supportedMediaTypes)
+                                                    ? supportedMediaTypes.map((item) => item.extension.toUpperCase()).toString()
+                                                    : "MP4, MOV, JPEG, JPG, PNG, GIF"}
+                                                .
+                                            </span>
                                         </Form.Group>
-
                                         <Button onClick={handleOnClickUploadFiles} type="button" variant="primary" className="mt-3 py-2 px-5">
                                             Moderate
                                         </Button>
                                     </div>
                                     <div className="tab-pane fade" id="pills-dropzone" role="tabpanel" aria-labelledby="pills-dropzone-tab">
-                                        <DropZoneComponent filePreviews={filePreviews} setFilePreviews={setFilePreviews} onContentDrop={(e) => onChangeContentData(e)} />
-
-                                        <Button onClick={handleOnClickUploadFiles} type="button" variant="primary" className="mt-3 py-2 px-5">
-                                            Upload
-                                        </Button>
+                                        <DropZoneComponent
+                                            filePreviews={filePreviews}
+                                            setFilePreviews={setFilePreviews}
+                                            onContentDrop={(e) => onChangeContentData(e)}
+                                            supportedMediaTypesString={`Supported file types include: 
+                                                ${
+                                                    CommonUtility.isValidArray(supportedMediaTypes)
+                                                        ? supportedMediaTypes.map((item) => item.extension.toUpperCase()).toString()
+                                                        : "MP4, MOV, JPEG, JPG, PNG, GIF"
+                                                }.`}
+                                        />
+                                        <RenderIf isTrue={filePreviews && filePreviews.length > 0}>
+                                            <Button onClick={handleOnClickUploadFiles} type="button" variant="primary" className="mt-3 py-2 px-5">
+                                                Upload
+                                            </Button>
+                                        </RenderIf>
                                     </div>
                                 </div>
                             </div>

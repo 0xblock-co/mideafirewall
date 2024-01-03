@@ -85,7 +85,7 @@ export default function FooterBottom() {
                                 <img
                                     width="533"
                                     height="260"
-                                    src="images/svgs/nvidia-cloud-validated-lockup-rgb-wht-for-screen.svg"
+                                    src="/images/svgs/nvidia-cloud-validated-lockup-rgb-wht-for-screen.svg"
                                     className="attachment-large size-large"
                                     alt=""
                                     decoding="async"
@@ -95,9 +95,9 @@ export default function FooterBottom() {
                             </div>
                         </>
                         <>
-                            <h1>
+                            {/* <h1>
                                 <strong>Mediafirewall is NVIDIA Cloud Validated.</strong>
-                            </h1>
+                            </h1> */}
                         </>
                     </div>
                 </Container>

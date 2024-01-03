@@ -1,5 +1,5 @@
-import { contentUploadStaticObj, durationLimit, fileLimit, regex, regexMessage } from "@/constants/global.constants";
-import { ToastMessage } from "./toastMessage.utils";
+import { contentUploadStaticObj, regex, regexMessage } from "@/constants/global.constants";
+import { ToastMessage, newInfoAlert } from "./toastMessage.utils";
 export const getStaticData = (isEdit) => {
     let staticData = [];
     if (isEdit) {
@@ -32,7 +32,7 @@ export const getVideoDuration = async (file) => {
     });
 };
 
-export const checkContentValidation = async (fileData, isContentUpload, maxUploadFileSizeInMb) => {
+export const checkContentValidation = async (fileData, isContentUpload, maxUploadFileSizeInMb, allowedExtensions) => {
     let totalContentSize = 0;
     const contentItem = [];
     const files = [];
@@ -77,6 +77,13 @@ export const checkContentValidation = async (fileData, isContentUpload, maxUploa
         if (isContentUpload && !mediaFile.type.includes("image") && !mediaFile.type.includes("video")) {
             ToastMessage.error("Only image and video files are allowed.");
             return false;
+        }
+        if (isContentUpload && (mediaFile.type.includes("image")|| mediaFile.type.includes("video"))) {
+            const invalidExtensions = allowedExtensions.filter((item) => mediaFile.type.includes(item));
+            if (invalidExtensions.length == 0) {
+                newInfoAlert("Invalid input.", `Kindly share a valid image or video URL with extensions such as ${invalidExtensions.join(", ")}`, "Okay", "error", true, "Cancel", false);
+                return false;
+            }
         }
 
         // if (isContentUpload && mediaFile.type.includes("video")) {

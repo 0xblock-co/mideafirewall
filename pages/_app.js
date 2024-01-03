@@ -10,8 +10,8 @@ import MainLayout from "@/components/layouts/main";
 import AuthProviderV3 from "@/contexts-v2/auth.context";
 import { asyncUserSatisfactionMetrics } from "@/services/product/product.service";
 import { wrapper } from "@/store";
-import { setSatisfactionMetricsCount } from "@/store/defaultConfig.slice";
-import { useAppDispatch } from "@/store/hooks";
+import { getGeoLocationData, setGeoLocationData, setPartnersData, setSatisfactionMetricsCount, setSupportedMediaTypes } from "@/store/defaultConfig.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import "@/styles/module-style.scss";
 import "@/styles/pricing.scss";
 import { DefaultSeo } from "next-seo";
@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 // import Script from "next/script";
 
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { IntlProvider } from "react-intl";
@@ -40,9 +41,9 @@ export function App({ Component, pageProps }) {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [progress, setProgress] = useState(0);
+    const geoInfo1 = useAppSelector(getGeoLocationData);
 
     const getLayout = Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
-
     // useEffect(() => {
     //     if (!window.GA_INITIALIZED) {
     //         initGA(GTM_ID);
@@ -75,6 +76,54 @@ export function App({ Component, pageProps }) {
         };
     }, [router]);
 
+    const getGeoInfo = () => {
+        axios
+            .get("https://ipapi.co/json/")
+            .then((response) => {
+                let data = response.data;
+                dispatch(setGeoLocationData(data));
+            })
+            .catch((error) => {
+                console.error("Error While Fetching geo data")
+            });
+    };
+
+    const getPartnersData = () => {
+        axios
+            .get("https://drivesafe360.millionvisions.ai/driveSafe/partners/?active=true&descend=true&pageNumber=0&pageSize=10")
+            .then((response) => {
+                let data = response.data;
+                if (data?.empty == false && data?.items?.length > 0) {
+                    dispatch(setPartnersData(data.items));
+                }
+            })
+            .catch((error) => {
+                console.error("Error While Fetching Partners data")
+            });
+    };
+
+    const getSupportedMediaType = () => {
+        axios
+            .get("https://mediafirewall.millionvisions.ai/media/mediaSupport")
+            .then((response) => {
+                let data = response.data;
+                console.log('response: ', data);
+                if (data && data?.length > 0) {
+                    dispatch(setSupportedMediaTypes(data));
+                }
+            })
+            .catch((error) => {
+                console.error("Error While Fetching Partners data");
+            });
+    };
+
+    useEffect(() => {
+        if (geoInfo1 == null) {
+            getGeoInfo();
+        }
+        getPartnersData();
+        getSupportedMediaType();
+    }, []);
     useEffect(() => {
         import("bootstrap/dist/js/bootstrap.min.js");
         // ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, { debug: true });
@@ -163,7 +212,6 @@ export function App({ Component, pageProps }) {
                     <script src="/vendor/ls.unveilhooks.min.js" strategy="lazyOnload" type="text/javascript" defer />
                 </Head>
             </Helmet>
-
             <IntlProvider locale={locale} messages={messages[locale]}>
                 <>
                     <>

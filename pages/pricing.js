@@ -31,7 +31,10 @@ export default function Pricing() {
     const getPricesV2 = async () => {
         setIsLoading(true);
         try {
-            const countryRegionCurrency = geoInfo?.currency.toLowerCase() || "inr";
+            let countryRegionCurrency = geoInfo?.currency.toLowerCase() || "usd";
+            if (countryRegionCurrency !== "inr") {
+                countryRegionCurrency = "usd";
+            }
             const response = await asyncGetAllPricingDataV2(countryRegionCurrency);
             if (response && response.isSuccess && response.data) {
                 setPriceData(response.data.pricingTiers);

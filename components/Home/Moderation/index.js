@@ -17,7 +17,7 @@ export default function Moderation() {
                 </Row>
                 <Row className="justify-content-center">
                     <Col sm={6} className="mt-3 mt-lg-5">
-                        <Card className={`p-3 p-lg-5 h-100 ${style.card_custom}`}>
+                            <Card className={`p-3 p-lg-5 h-100 ${style.card_custom}`}>
                             <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
                                 <FormattedMessage id="page.home.moderation.Traditional Manual moderation" />
                             </Card.Title>
@@ -25,48 +25,22 @@ export default function Moderation() {
                             <ul className="list-unstyled mt-3 mt-lg-5 mb-0">
                                 <li className="mb-3">
                                     <IoClose size={24} color="#FF3407" />{" "}
-                                    <FormattedMessage
-                                        id="page.home.moderation.listItem.Time-consuming"
-                                        values={{
-                                            strong: (chunks) => <strong>{chunks}</strong>,
-                                        }}
-                                    />
+                                    <strong>Time and Efficiency:</strong> Involves time-consuming, individual content review.{" "}
+                                </li>
+                                <li className="mb-3">
+                                    <IoClose size={24} color="#FF3407" />{" "} <strong>Consistency:</strong> Prone to inconsistency among human moderators.
                                 </li>
                                 <li className="mb-3">
                                     <IoClose size={24} color="#FF3407" />{" "}
-                                    <FormattedMessage
-                                        id="page.home.moderation.listItem.Inconsistent"
-                                        values={{
-                                            strong: (chunks) => <strong>{chunks}</strong>,
-                                        }}
-                                    />
+                                    <strong>Scale:</strong> Faces difficulty scaling with growing content volume.{" "}
                                 </li>
                                 <li className="mb-3">
                                     <IoClose size={24} color="#FF3407" />{" "}
-                                    <FormattedMessage
-                                        id="page.home.moderation.listItem.Limited Scale"
-                                        values={{
-                                            strong: (chunks) => <strong>{chunks}</strong>,
-                                        }}
-                                    />
-                                </li>
-                                <li className="mb-3">
-                                    <IoClose size={24} color="#FF3407" />
-                                    <FormattedMessage
-                                        id="page.home.moderation.listItem.Costly"
-                                        values={{
-                                            strong: (chunks) => <strong>{chunks}</strong>,
-                                        }}
-                                    />
+                                    <strong>Cost:</strong> Proves costly with dedicated human moderators.{" "}
                                 </li>
                                 <li className="mb-3">
                                     <IoClose size={24} color="#FF3407" />{" "}
-                                    <FormattedMessage
-                                        id="page.home.moderation.listItem.Human Error"
-                                        values={{
-                                            strong: (chunks) => <strong>{chunks}</strong>,
-                                        }}
-                                    />
+                                    <strong>Human Error:</strong> Susceptible to oversight, fatigue, and subjective judgment.{" "}
                                 </li>
                             </ul>
                         </Card>
@@ -77,22 +51,24 @@ export default function Moderation() {
                             <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
                                 <FormattedMessage id="page.home.moderation.MediaFirewall Content Moderation" />
                             </Card.Title>
-                            <Card.Img variant="top" loading="lazy" src="/images/moderation-2.png" className="lazyload mdf__img__rounded" />
+                            <Card.Img variant="top" loading="lazy" src="/images/AI-moderation.png" className={`lazyload ${style.mdf__img__rounded}`} />
                             <ul className="list-unstyled mt-3 mt-lg-5 mb-0">
                                 <li className="mb-3">
-                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Time-consuming:</strong> It requires significant time and effort.{" "}
+                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Time and Efficiency:</strong> Enables real-time analysis and efficient processing of large volumes.{" "}
                                 </li>
                                 <li className="mb-3">
-                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Inconsistent:</strong> Moderation decisions can vary between moderators.{" "}
+                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Consistency:</strong> Ensures consistent application of predefined rules.{" "}
                                 </li>
                                 <li className="mb-3">
-                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Limited Scale:</strong> Manual moderation becomes difficult at scale.{" "}
+                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Scale:</strong> Easily scales for handling large amounts of content.{" "}
                                 </li>
                                 <li className="mb-3">
-                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Costly:</strong> It requires dedicated moderators, adding costs.{" "}
+                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Cost:</strong> Achieves cost savings due to its efficiency, scalability, and reduced reliance on human
+                                    resources.{" "}
                                 </li>
                                 <li className="mb-3">
-                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Human Error:</strong>Moderators are susceptible to making mistakes.{" "}
+                                    <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Human Error:</strong> AI, following algorithms and standards, tirelessly ensures accurate content processing
+                                    with standard tools..{" "}
                                 </li>
                             </ul>
                         </Card>

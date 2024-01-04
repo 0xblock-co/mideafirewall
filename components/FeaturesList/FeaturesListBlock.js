@@ -159,7 +159,7 @@ export default function FeaturesListBlock() {
                     } else {
                         currentOptionsArray.push(selectedOption);
                     }
-                    updatedOptions = currentOptionsArray.join(",");
+                    updatedOptions = currentOptionsArray.join(".");
                 }
                 console.log("updatedOptions: ", updatedOptions);
                 return {

@@ -34,7 +34,8 @@ export default function UploadTabs() {
     const [contentData, setContentData] = useState([]);
     const [filePreviews, setFilePreviews] = useState([]);
 
-    const asyncUploadContent = async (uploadType, payload) => {
+    const asyncUploadContent = async (uploadType, payload, routerQueryData1, routerQueryData2) => {
+        console.log('routerQueryData1, routerQueryData2: ', routerQueryData1, routerQueryData2);
         try {
             setIsUploading(true);
             const isFileUpload = uploadType === "file";
@@ -78,7 +79,8 @@ export default function UploadTabs() {
                             .then(() => {
                                 setIsUploading(false);
                                 cleanup();
-                                router.push(`/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}&sf_id=${router.query.sf_id}`);
+                                router.push(`/demo-page?videoId=${response.data.videoId}&filters=${routerQueryData1}&sf_id=${routerQueryData2}`);
+                                // router.push(`/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}&sf_id=${router.query.sf_id}`);
                             })
                             .catch(cleanup);
                     }
@@ -159,13 +161,15 @@ export default function UploadTabs() {
 
     function isFileTypeSupported(webFeatureKey, file) {
         const selectedFeature = headerData[0].features.find((feature) => feature.webFeatureKey == webFeatureKey);
+        console.log("selectedFeature: ", selectedFeature);
         if (selectedFeature && selectedFeature.mediaSupports) {
             const fileType = file.type || "";
+            console.log("fileType: ", fileType);
             if (fileType.startsWith("image/") && !selectedFeature.mediaSupports.includes("IMAGE")) {
-                return { supported: false, errorMessage: `${selectedFeature.name} filter supports videos only, images format is not allowed.` };
+                return { supported: false, errorMessage: `${selectedFeature.name} filter supports videos only, images format is not allowed.`, featureName: selectedFeature.webFeatureKey };
             }
             if (fileType.startsWith("video/") && !selectedFeature.mediaSupports.includes("VIDEO")) {
-                return { supported: false, errorMessage: `${selectedFeature.name} filter supports images only, videos format is not allowed.` };
+                return { featureName: selectedFeature.webFeatureKey, supported: false, errorMessage: `${selectedFeature.name} filter supports images only, videos format is not allowed.` };
             }
         }
 
@@ -178,14 +182,20 @@ export default function UploadTabs() {
 
         for (const featureKey of selectedFeatureKeys) {
             const result = isFileTypeSupported(featureKey.trim(), file);
+            console.log("result: ", result);
             if (!result.supported) {
-                return result.errorMessage;
+                return result;
             }
         }
 
         return null;
     }
-
+    const removeStringFromArray = (stringToRemove, originalStrings) => {
+        console.log("stringToRemove, originalStrings: ", stringToRemove, originalStrings);
+        const updatedStrings = originalStrings.split(",").filter((str) => !str.includes(stringToRemove));
+        console.log("updatedStrings:", updatedStrings);
+        return updatedStrings.toString();
+    };
     const handleOnClickUploadFiles = async () => {
         try {
             await setIsUploading(true);
@@ -203,21 +213,56 @@ export default function UploadTabs() {
                             .catch(cleanup);
                         // throw new Error("No files selected for upload.");
                     }
+                    let newQuery = "";
                     if (headerData && headerData?.length > 0 && headerData[0]?.features?.length > 0) {
-                        const webFeatureKeys = router.query?.filters;
-                        const uploadedFileType = finalFiles[0].file;
-                        const errorMessage = areFeaturesSupported(webFeatureKeys, uploadedFileType);
+                        if (router.query?.sf_id && CommonUtility.isValidArray(router.query?.sf_id.split(","))) {
+                            router.query?.sf_id.split(",").map(async (key) => {
+                                const webFeatureKeys = key;
+                                console.log("webFeatureKeys: ", webFeatureKeys);
+                                const uploadedFileType = finalFiles[0].file;
+                                const errorRes = areFeaturesSupported(webFeatureKeys, uploadedFileType);
+                                if (errorRes) {
+                                            const currentQuery = router.query;
 
-                        if (errorMessage) {
-                            await newInfoAlert("", errorMessage, "Okay", "warning", false)
-                                .then(() => {})
-                                .catch(() => {});
+                                    const filterQuery =await removeStringFromArray(errorRes.featureName, currentQuery.filters);
+                                    const sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
+
+                                    await newInfoAlert("Unsupported Media Types!", errorRes.errorMessage, `Process without ${errorRes.featureName}`, "warning", true, `Cancel`)
+                                        .then(async () => {
+                                            console.log("if");
+                                            // newQuery = `filters=${filterQuery}&sf_id=${sq_id_Query}`;
+                                            // router.replace(`/upload?${newQuery}`);
+                                            await asyncUploadContent(
+                                                "file",
+                                                {
+                                                    filters: filterQuery || router.query.filters,
+                                                    file: finalFiles[0].file,
+                                                },
+                                                filterQuery,
+                                                sq_id_Query
+                                            );
+                                        })
+                                        .catch(() => {
+                                            cleanup();
+                                            return;
+                                        });
+                                    // await newInfoAlert("", errorMessage, "Okay", "warning", false)
+                                    //     .then(() => {})
+                                    //     .catch(() => {});
+                                } else {
+                                    // await asyncUploadContent(
+                                    //     "file",
+                                    //     {
+                                    //         filters: router.query.filters,
+                                    //         file: finalFiles[0].file,
+                                    //     },
+                                    //     router.query.filters,
+                                    //     router.query.sq_id
+                                    // );
+                                }
+                            });
                         }
                     }
-                    await asyncUploadContent("file", {
-                        filters: router.query.filters,
-                        file: finalFiles[0].file,
-                    });
                 } else if (imageUrlRef?.current && imageUrlRef?.current !== "") {
                     const allowedExtensions = CommonUtility.isValidArray(supportedMediaTypes) ? supportedMediaTypes.map((item) => item.extension) : ["mp4", "mov", "jpeg", "jpg", "png", "gif"];
                     const isValidUrl = (url) => {

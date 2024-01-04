@@ -721,7 +721,7 @@ const DemoPage = () => {
                                                             <span style={{ fontSize: "18px" }}>
                                                                 <b> {eventLogData?.processStatus?.totalProcessingFeatures || 0}</b>
                                                             </span>{" "}
-                                                            selected models.
+                                                            selected filters.
                                                         </span>
                                                     ) : (
                                                         <span>
@@ -730,7 +730,7 @@ const DemoPage = () => {
                                                             <span style={{ fontSize: "18px" }}>
                                                                 <b> {eventLogData?.processStatus?.totalProcessingFeatures || 0}</b>
                                                             </span>{" "}
-                                                            selected models.
+                                                            selected filters.
                                                         </span>
                                                     )}
                                                 </div>

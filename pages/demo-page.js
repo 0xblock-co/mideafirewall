@@ -435,7 +435,7 @@ const DemoPage = () => {
                         <div className="d-flex flex-column justify-content-center">
                             <span>
                                 {" "}
-                                Currently Selected features are{" "}
+                                Currently Selected filters are{" "}
                                 <span style={{ fontSize: "18px" }}>
                                     <b> {router?.query?.filters}</b>
                                 </span>
@@ -473,7 +473,7 @@ const DemoPage = () => {
                                 <Tab eventKey="table" className="pt-3" title="Table">
                                     <Col lg={12}>
                                         <section>
-                                            <RenderIf isTrue={!isFetchingState && !CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
+                                            <RenderIf isTrue={!CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
                                                 <>
                                                     <div style={{ whiteSpace: "nowrap" }}>
                                                         <Table bordered responsive>
@@ -701,7 +701,7 @@ const DemoPage = () => {
                                                         <span style={{ fontSize: "18px" }}>
                                                             <b> {eventLogData?.processStatus?.totalProcessingFeatures || 0}</b>
                                                         </span>{" "}
-                                                        models have been successfully processed. Kindly wait for the completion of the task.
+                                                        filters have been successfully processed. Kindly wait for the completion of the task.
                                                     </span>
                                                     {/* AI is in the process of verifying your information. This may take a moment. */}
                                                 </div>

@@ -68,10 +68,10 @@ export const checkContentValidation = async (fileData, isContentUpload, maxUploa
         }
 
         // for content validation
-        if (isContentUpload && !mediaFile.name.match(regex.imageVideoExt)) {
-            ToastMessage.error(regexMessage.imageVideoExtMsg);
-            return false;
-        }
+        // if (isContentUpload && !mediaFile.name.match(regex.imageVideoExt)) {
+        //     ToastMessage.error(regexMessage.imageVideoExtMsg);
+        //     return false;
+        // }
 
         totalContentSize = totalContentSize + mediaFile.size;
         if (isContentUpload && !mediaFile.type.includes("image") && !mediaFile.type.includes("video")) {

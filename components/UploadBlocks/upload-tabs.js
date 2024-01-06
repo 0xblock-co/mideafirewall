@@ -35,7 +35,6 @@ export default function UploadTabs() {
     const [filePreviews, setFilePreviews] = useState([]);
 
     const asyncUploadContent = async (uploadType, payload, routerQueryData1, routerQueryData2) => {
-        console.log('routerQueryData1, routerQueryData2: ', routerQueryData1, routerQueryData2);
         try {
             setIsUploading(true);
             const isFileUpload = uploadType === "file";
@@ -49,7 +48,7 @@ export default function UploadTabs() {
                 queryString = new URLSearchParams({
                     apikey: user?.api_secret,
                     filters: router.query.filters,
-                    mediaUrl: imageUrlRef?.current,
+                    mediaUrl: imageUrlRef?.current?.value,
                 }).toString();
             }
             api.post(
@@ -82,7 +81,7 @@ export default function UploadTabs() {
                                 router.push(`/demo-page?videoId=${response.data.videoId}&filters=${routerQueryData1}&sf_id=${routerQueryData2}`);
                                 // router.push(`/demo-page?videoId=${response.data.videoId}&filters=${router.query.filters}&sf_id=${router.query.sf_id}`);
                             })
-                            .catch(cleanup);
+                            .catch(() => cleanup());
                     }
                 })
                 .catch((e) => {
@@ -161,15 +160,13 @@ export default function UploadTabs() {
 
     function isFileTypeSupported(webFeatureKey, file) {
         const selectedFeature = headerData[0].features.find((feature) => feature.webFeatureKey == webFeatureKey);
-        console.log("selectedFeature: ", selectedFeature);
         if (selectedFeature && selectedFeature.mediaSupports) {
             const fileType = file.type || "";
-            console.log("fileType: ", fileType);
             if (fileType.startsWith("image/") && !selectedFeature.mediaSupports.includes("IMAGE")) {
-                return { supported: false, errorMessage: `${selectedFeature.name} filter supports videos only, images format is not allowed.`, featureName: selectedFeature.webFeatureKey };
+                return { supported: false, errorMessage: `${selectedFeature.name} supports video only, image format is not allowed.`, featureName: selectedFeature.webFeatureKey };
             }
             if (fileType.startsWith("video/") && !selectedFeature.mediaSupports.includes("VIDEO")) {
-                return { featureName: selectedFeature.webFeatureKey, supported: false, errorMessage: `${selectedFeature.name} filter supports images only, videos format is not allowed.` };
+                return { featureName: selectedFeature.webFeatureKey, supported: false, errorMessage: `${selectedFeature.name} supports image only, video format is not allowed.` };
             }
         }
 
@@ -182,7 +179,6 @@ export default function UploadTabs() {
 
         for (const featureKey of selectedFeatureKeys) {
             const result = isFileTypeSupported(featureKey.trim(), file);
-            console.log("result: ", result);
             if (!result.supported) {
                 return result;
             }
@@ -190,15 +186,15 @@ export default function UploadTabs() {
 
         return null;
     }
+
     const removeStringFromArray = (stringToRemove, originalStrings) => {
-        console.log("stringToRemove, originalStrings: ", stringToRemove, originalStrings);
         const updatedStrings = originalStrings.split(",").filter((str) => !str.includes(stringToRemove));
-        console.log("updatedStrings:", updatedStrings);
         return updatedStrings.toString();
     };
+
     const handleOnClickUploadFiles = async () => {
         try {
-            await setIsUploading(true);
+            // await setIsUploading(true);
 
             if (router.query?.filters !== "") {
                 if (CommonUtility.isValidArray(contentData)) {
@@ -210,102 +206,160 @@ export default function UploadTabs() {
                             .then(() => {
                                 cleanup();
                             })
-                            .catch(cleanup);
+                            .catch(() => cleanup());
                         // throw new Error("No files selected for upload.");
                     }
-                    let newQuery = "";
+                    let isError = false; // Flag to track errors
                     if (headerData && headerData?.length > 0 && headerData[0]?.features?.length > 0) {
                         if (router.query?.sf_id && CommonUtility.isValidArray(router.query?.sf_id.split(","))) {
-                            router.query?.sf_id.split(",").map(async (key) => {
-                                const webFeatureKeys = key;
-                                console.log("webFeatureKeys: ", webFeatureKeys);
-                                const uploadedFileType = finalFiles[0].file;
-                                const errorRes = areFeaturesSupported(webFeatureKeys, uploadedFileType);
-                                if (errorRes) {
-                                            const currentQuery = router.query;
+                            await Promise.all(
+                                router.query?.sf_id.split(",").map(async (key) => {
+                                    const webFeatureKeys = key.trim();
+                                    const uploadedFileType = finalFiles[0].file;
+                                    const errorRes = areFeaturesSupported(webFeatureKeys, uploadedFileType);
+                                    if (errorRes && errorRes?.supported === false) {
+                                        const currentQuery = router.query;
+                                        const filterQuery = await removeStringFromArray(errorRes.featureName, currentQuery.filters);
+                                        const sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
 
-                                    const filterQuery =await removeStringFromArray(errorRes.featureName, currentQuery.filters);
-                                    const sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
-
-                                    await newInfoAlert("Unsupported Media Types!", errorRes.errorMessage, `Process without ${errorRes.featureName}`, "warning", true, `Cancel`)
-                                        .then(async () => {
-                                            console.log("if");
-                                            // newQuery = `filters=${filterQuery}&sf_id=${sq_id_Query}`;
-                                            // router.replace(`/upload?${newQuery}`);
-                                            await asyncUploadContent(
-                                                "file",
-                                                {
-                                                    filters: filterQuery || router.query.filters,
-                                                    file: finalFiles[0].file,
-                                                },
-                                                filterQuery,
-                                                sq_id_Query
-                                            );
-                                        })
-                                        .catch(() => {
-                                            cleanup();
-                                            return;
+                                        await new Promise(async (resolve) => {
+                                            await newInfoAlert("Unsupported Media Types!", errorRes.errorMessage, `Process without ${errorRes.featureName}`, "warning", true, `Cancel`)
+                                                .then(async () => {
+                                                    isError = true;
+                                                    await asyncUploadContent(
+                                                        "file",
+                                                        {
+                                                            filters: filterQuery,
+                                                            file: finalFiles[0].file,
+                                                        },
+                                                        filterQuery,
+                                                        sq_id_Query
+                                                    );
+                                                    resolve();
+                                                })
+                                                .catch(() => {
+                                                    cleanup();
+                                                    isError = true;
+                                                    resolve();
+                                                });
                                         });
-                                    // await newInfoAlert("", errorMessage, "Okay", "warning", false)
-                                    //     .then(() => {})
-                                    //     .catch(() => {});
-                                } else {
-                                    // await asyncUploadContent(
-                                    //     "file",
-                                    //     {
-                                    //         filters: router.query.filters,
-                                    //         file: finalFiles[0].file,
-                                    //     },
-                                    //     router.query.filters,
-                                    //     router.query.sq_id
-                                    // );
-                                }
-                            });
+                                    }
+                                })
+                            );
+                            if (isError) {
+                                return;
+                            }
+                            await asyncUploadContent(
+                                "file",
+                                {
+                                    filters: router.query.filters,
+                                    file: finalFiles[0].file,
+                                },
+                                router.query.filters,
+                                router.query.sq_id
+                            );
                         }
                     }
-                } else if (imageUrlRef?.current && imageUrlRef?.current !== "") {
+                } else if (imageUrlRef?.current && imageUrlRef?.current?.value !== "") {
                     const allowedExtensions = CommonUtility.isValidArray(supportedMediaTypes) ? supportedMediaTypes.map((item) => item.extension) : ["mp4", "mov", "jpeg", "jpg", "png", "gif"];
+
                     const isValidUrl = (url) => {
-                        const urlPattern = /^https:\/\/.*/;
+                        const extensionRegex = allowedExtensions.join("|");
+                        const urlPattern = new RegExp(`^https:\/\/.*\.(${extensionRegex})$`, "i");
                         return urlPattern.test(url);
                     };
-                    const isValidExtension = (url, allowedExtensions) => {
-                        const urlParts = url.split(".");
-                        const extension = urlParts[urlParts.length - 1].toLowerCase();
-                        return allowedExtensions.includes(extension);
+
+                    let isError = false;
+                    const identifyMediaTypeByExtension = (filename) => {
+                        const knownVideoExtensions = ["mp4", "mov", "avi", "wmv", "mkv", "flv", "webm", "mpeg", "mpg"];
+                        const knownImageExtensions = ["jpeg", "jpg", "png", "gif"];
+
+                        const extension = filename.split(".").pop().toLowerCase();
+                        if (allowedExtensions.includes(extension)) {
+                            if (knownVideoExtensions.includes(extension)) {
+                                return "video/";
+                            } else if (knownImageExtensions.includes(extension)) {
+                                return "image/";
+                            }
+                        } else {
+                            return null;
+                        }
                     };
 
-                    const isValidMediaFile = (url, allowedExtensions) => {
+                    const isValidMediaFile = async (url, allowedExtensions) => {
                         if (!isValidUrl(url)) {
-                            return false; // URL is not valid
+                            await newInfoAlert(
+                                "Unsupported Media Types!",
+                                `It should start with 'https' and end with a supported file extension (${allowedExtensions.toString()}).`,
+                                `Ok`,
+                                "warning",
+                                true,
+                                `Cancel`
+                            )
+                                .then(async () => {})
+                                .catch(() => cleanup());
+                            return {
+                                isValid: false,
+                                error: `It should start with 'https' and end with a supported file extension (${allowedExtensions.toString()}).`,
+                            };
                         }
 
-                        if (!isValidExtension(url, allowedExtensions)) {
-                            return false; // Extension is not allowed
+                        if (router.query?.sf_id && CommonUtility.isValidArray(router.query?.sf_id.split(","))) {
+                            for (const key of router.query?.sf_id.split(",")) {
+                                const webFeatureKeys = key.trim();
+                                const uploadedFileType = url;
+                                const mediaType = identifyMediaTypeByExtension(uploadedFileType);
+                                const errorRes = await areFeaturesSupported(webFeatureKeys, { type: mediaType });
+
+                                if (errorRes && errorRes?.supported === false) {
+                                    const currentQuery = router.query;
+                                    const filterQuery = await removeStringFromArray(errorRes.featureName, currentQuery.filters);
+                                    const sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
+
+                                    await new Promise(async (resolve) => {
+                                        await newInfoAlert("Unsupported Media Types!", errorRes.errorMessage, `Process without ${errorRes.featureName}`, "warning", true, `Cancel`)
+                                            .then(async () => {
+                                                isError = true;
+                                                await asyncUploadContent("url", {
+                                                    filters: router.query.filters,
+                                                    mediaUrl: imageUrlRef?.current?.value,
+                                                    filterQuery,
+                                                    sq_id_Query,
+                                                });
+                                                resolve({ isValid: false, error: null });
+                                            })
+                                            .catch(() => {
+                                                cleanup();
+                                                isError = true;
+                                                resolve({ isValid: false, error: null });
+                                            });
+                                    });
+                                }
+                            }
                         }
 
-                        return true; // URL is valid with an allowed extension
+                        return { isValid: true, error: null };
                     };
-                    if (isValidMediaFile(imageUrlRef?.current, allowedExtensions)) {
+
+                    if (isError) {
+                        return;
+                    }
+                    const abc = await isValidMediaFile(imageUrlRef?.current?.value, allowedExtensions);
+                    if (abc?.isValid) {
                         await asyncUploadContent("url", {
                             filters: router.query.filters,
-                            mediaUrl: imageUrlRef?.current,
+                            mediaUrl: imageUrlRef?.current?.value,
                         });
                     } else {
-                        newInfoAlert("Invalid input.", `Kindly share a valid image or video URL with extensions such as ${allowedExtensions.toString()}`, "Okay", "error", true, "Cancel", false)
-                            .then(() => {
-                                cleanup();
-                            })
-                            .catch(cleanup);
                         setIsUploading(false);
                     }
                 } else {
                     setIsUploading(false);
-                    newInfoAlert("Invalid input.", "Please upload files or provide a valid image/video URL.", "Okay", "error", true, "Cancel", false)
+                    newInfoAlert("Invalid input", "Please upload files or provide a valid image/video URL.", "Okay", "error", true, "Cancel", false)
                         .then(() => {
                             cleanup();
                         })
-                        .catch(cleanup);
+                        .catch(() => cleanup());
                     // throw new Error("Invalid input. Please upload files or provide a valid image/video URL.");
                 }
             }
@@ -340,19 +394,19 @@ export default function UploadTabs() {
                     cleanup();
                     if (error?.code == "429") router.push("/pricing");
                 })
-                .catch(cleanup);
+                .catch(() => cleanup());
         }
     };
 
     const cleanup = () => {
-        imageUrlRef.current = "";
+        imageUrlRef.current.value = "";
         setFilePreviews([]);
         setIsUploading(false);
         setContentData([]);
     };
 
     const handleImageUrlChange = (e) => {
-        imageUrlRef.current = e.target.value;
+        imageUrlRef.current.value = e.target.value;
     };
     return (
         <>
@@ -395,7 +449,7 @@ export default function UploadTabs() {
                                 <div className="tab-content" id="pills-tabContent">
                                     <div className="tab-pane fade show active" id="pills-url" role="tabpanel" aria-labelledby="pills-url-tab">
                                         <Form.Group controlId="formFile" className="mt-4">
-                                            <Form.Control type="text" placeholder="Input URL for analysis" onChange={handleImageUrlChange} />
+                                            <Form.Control type="text" placeholder="Input URL for analysis" ref={imageUrlRef} onChange={handleImageUrlChange} />
                                             <span className="d-flex text-start mt-1" style={{ fontSize: "13px", color: "gray", padding: "0 3px" }}>
                                                 For upload, please share the file URL, and verify that the file size is below {satisFactionMetricsCount?.mediaSizeLimit || 50} MB.
                                             </span>

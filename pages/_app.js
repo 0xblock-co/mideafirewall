@@ -107,7 +107,6 @@ export function App({ Component, pageProps }) {
             .get("https://mediafirewall.millionvisions.ai/media/mediaSupport")
             .then((response) => {
                 let data = response.data;
-                console.log('response: ', data);
                 if (data && data?.length > 0) {
                     dispatch(setSupportedMediaTypes(data));
                 }

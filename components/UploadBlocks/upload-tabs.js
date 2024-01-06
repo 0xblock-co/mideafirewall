@@ -233,8 +233,8 @@ export default function UploadTabs() {
                                                 errorRes.errorMessage,
                                                 isOnlyOneFIlter == 1 ? `Update file` : `Process without ${errorRes.featureName}`,
                                                 "warning",
-                                                isOnlyOneFIlter ? false : true,
-                                                isOnlyOneFIlter ? "" : "Cancel"
+                                                isOnlyOneFIlter == 1 ? false : true,
+                                                isOnlyOneFIlter == 1 ? "" : "Cancel"
                                             )
                                                 .then(async () => {
                                                     if (isOnlyOneFIlter == 1) {
@@ -345,8 +345,8 @@ export default function UploadTabs() {
                                             errorRes.errorMessage,
                                             isOnlyOneFIlter == 1 ? `Update file` : `Process without ${errorRes.featureName}`,
                                             "warning",
-                                            isOnlyOneFIlter ? false : true,
-                                            isOnlyOneFIlter ? "" : "Cancel"
+                                            isOnlyOneFIlter == 1 ? false : true,
+                                            isOnlyOneFIlter == 1  ? "" : "Cancel"
                                         )
                                             .then(async () => {
                                                 if (isOnlyOneFIlter == 1) {

@@ -229,7 +229,7 @@ export default function UploadTabs() {
 
                                         await new Promise(async (resolve) => {
                                             await newInfoAlert(
-                                                "Unsssupported Media Types!",
+                                                "Unsupported Media Types!",
                                                 errorRes.errorMessage,
                                                 isOnlyOneFIlter == 1 ? `Update file` : `Process without ${errorRes.featureName}`,
                                                 "warning",
@@ -274,7 +274,7 @@ export default function UploadTabs() {
                                     file: finalFiles[0].file,
                                 },
                                 router.query.filters,
-                                router.query.sq_id
+                                router.query.sf_id
                             );
                         }
                     }
@@ -353,7 +353,6 @@ export default function UploadTabs() {
                                                     cleanup();
                                                     isError = true;
                                                     resolve({ isValid: false, error: null });
-
                                                 } else {
                                                     isError = true;
                                                     await asyncUploadContent("url", {

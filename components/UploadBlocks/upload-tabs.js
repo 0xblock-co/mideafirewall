@@ -195,6 +195,7 @@ export default function UploadTabs() {
     const handleOnClickUploadFiles = async () => {
         try {
             // await setIsUploading(true);
+            const isOnlyOneFIlter = router.query?.sf_id.split(",")?.length;
 
             if (router.query?.filters !== "") {
                 if (CommonUtility.isValidArray(contentData)) {
@@ -219,23 +220,40 @@ export default function UploadTabs() {
                                     const errorRes = areFeaturesSupported(webFeatureKeys, uploadedFileType);
                                     if (errorRes && errorRes?.supported === false) {
                                         const currentQuery = router.query;
-                                        const filterQuery = await removeStringFromArray(errorRes.featureName, currentQuery.filters);
-                                        const sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
+                                        let filterQuery = currentQuery.filters;
+                                        let sq_id_Query = currentQuery.sf_id;
+                                        if (isOnlyOneFIlter > 1) {
+                                            filterQuery = await removeStringFromArray(errorRes.featureName, currentQuery.filters);
+                                            sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
+                                        }
 
                                         await new Promise(async (resolve) => {
-                                            await newInfoAlert("Unsupported Media Types!", errorRes.errorMessage, `Process without ${errorRes.featureName}`, "warning", true, `Cancel`)
+                                            await newInfoAlert(
+                                                "Unsssupported Media Types!",
+                                                errorRes.errorMessage,
+                                                isOnlyOneFIlter == 1 ? `Update file` : `Process without ${errorRes.featureName}`,
+                                                "warning",
+                                                isOnlyOneFIlter ? false : true,
+                                                isOnlyOneFIlter ? "" : "Cancel"
+                                            )
                                                 .then(async () => {
-                                                    isError = true;
-                                                    await asyncUploadContent(
-                                                        "file",
-                                                        {
-                                                            filters: filterQuery,
-                                                            file: finalFiles[0].file,
-                                                        },
-                                                        filterQuery,
-                                                        sq_id_Query
-                                                    );
-                                                    resolve();
+                                                    if (isOnlyOneFIlter == 1) {
+                                                        cleanup();
+                                                        isError = true;
+                                                        resolve();
+                                                    } else {
+                                                        isError = true;
+                                                        await asyncUploadContent(
+                                                            "file",
+                                                            {
+                                                                filters: filterQuery,
+                                                                file: finalFiles[0].file,
+                                                            },
+                                                            filterQuery,
+                                                            sq_id_Query
+                                                        );
+                                                        resolve();
+                                                    }
                                                 })
                                                 .catch(() => {
                                                     cleanup();
@@ -313,20 +331,39 @@ export default function UploadTabs() {
 
                                 if (errorRes && errorRes?.supported === false) {
                                     const currentQuery = router.query;
-                                    const filterQuery = await removeStringFromArray(errorRes.featureName, currentQuery.filters);
-                                    const sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
+                                    let filterQuery = currentQuery.filters;
+                                    let sq_id_Query = currentQuery.sf_id;
+
+                                    if (isOnlyOneFIlter > 1) {
+                                        filterQuery = await removeStringFromArray(errorRes.featureName, currentQuery.filters);
+                                        sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
+                                    }
 
                                     await new Promise(async (resolve) => {
-                                        await newInfoAlert("Unsupported Media Types!", errorRes.errorMessage, `Process without ${errorRes.featureName}`, "warning", true, `Cancel`)
+                                        await newInfoAlert(
+                                            "Unsupported Media Types!",
+                                            errorRes.errorMessage,
+                                            isOnlyOneFIlter == 1 ? `Update file` : `Process without ${errorRes.featureName}`,
+                                            "warning",
+                                            isOnlyOneFIlter ? false : true,
+                                            isOnlyOneFIlter ? "" : "Cancel"
+                                        )
                                             .then(async () => {
-                                                isError = true;
-                                                await asyncUploadContent("url", {
-                                                    filters: router.query.filters,
-                                                    mediaUrl: imageUrlRef?.current?.value,
-                                                    filterQuery,
-                                                    sq_id_Query,
-                                                });
-                                                resolve({ isValid: false, error: null });
+                                                if (isOnlyOneFIlter == 1) {
+                                                    cleanup();
+                                                    isError = true;
+                                                    resolve({ isValid: false, error: null });
+
+                                                } else {
+                                                    isError = true;
+                                                    await asyncUploadContent("url", {
+                                                        filters: router.query.filters,
+                                                        mediaUrl: imageUrlRef?.current?.value,
+                                                        filterQuery,
+                                                        sq_id_Query,
+                                                    });
+                                                    resolve({ isValid: false, error: null });
+                                                }
                                             })
                                             .catch(() => {
                                                 cleanup();
@@ -345,7 +382,7 @@ export default function UploadTabs() {
                         return;
                     }
                     const abc = await isValidMediaFile(imageUrlRef?.current?.value, allowedExtensions);
-                    if (abc?.isValid) {
+                    if (!isError && abc?.isValid) {
                         await asyncUploadContent("url", {
                             filters: router.query.filters,
                             mediaUrl: imageUrlRef?.current?.value,

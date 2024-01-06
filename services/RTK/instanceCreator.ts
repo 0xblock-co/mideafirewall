@@ -87,7 +87,7 @@ const instanceCreator = (baseUrl = null): AxiosInstance => {
                     try {
                         const result: any = await asyncGetAccessToken();
                         if (result?.isSuccess) {
-                            console.log("Access token retrieved successfully:", result.data);
+                            // console.log("Access token retrieved successfully:", result.data);
                         } else {
                             handleTokenRefreshFailure();
                         }

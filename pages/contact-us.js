@@ -47,37 +47,40 @@ export default function ContactUsScreen() {
             />
             <ContactBanner />
             <ContactChatBlock />
-            <section className={`video-block-wrapper `}>
-                <Container>
-                    <div className="video-block-title">
-                        <h2>Effortless Onboarding</h2>
-                    </div>
-                    <Row>
-                        {mediaContent && CommonUtility.isNotEmptyObject(mediaContent) && CommonUtility.doesKeyExist(mediaContent, "ContactUs") ? (
-                            <>
-                                {CommonUtility.isValidArray(mediaContent.ContactUs) &&
-                                    mediaContent.ContactUs.map((item, index) => {
-                                        return (
-                                            <Col key={index} lg={3} md={6} sm={6} className="video-col-item">
-                                                <iframe
-                                                    key={index}
-                                                    loading="lazy"
-                                                    width="100%"
-                                                    height={"548"}
-                                                    src={item.mediaUrl}
-                                                    frameBorder="0"
-                                                    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                                                    allowFullScreen
-                                                    poster={item.thumbnailUrl}
-                                                />
-                                            </Col>
-                                        );
-                                    })}
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                        {/* {videos.map((video, index) => (
+            {mediaContent && CommonUtility.isNotEmptyObject(mediaContent) && CommonUtility.doesKeyExist(mediaContent, "ContactUs") && CommonUtility.isValidArray(mediaContent.ContactUs) && (
+                <section className={`video-block-wrapper `}>
+                    <Container>
+                        <div className="video-block-title">
+                            <h2>Effortless Onboarding</h2>
+                        </div>
+                        <Row>
+
+
+                            {mediaContent && CommonUtility.isNotEmptyObject(mediaContent) && CommonUtility.doesKeyExist(mediaContent, "ContactUs") ? (
+                                <>
+                                    {CommonUtility.isValidArray(mediaContent.ContactUs) &&
+                                        mediaContent.ContactUs.map((item, index) => {
+                                            return (
+                                                <Col key={index} lg={3} md={6} sm={6} className="video-col-item">
+                                                    <iframe
+                                                        key={index}
+                                                        loading="lazy"
+                                                        width="100%"
+                                                        height={"548"}
+                                                        src={item.mediaUrl}
+                                                        frameBorder="0"
+                                                        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowFullScreen
+                                                        poster={item.thumbnailUrl}
+                                                    />
+                                                </Col>
+                                            );
+                                        })}
+                                </>
+                            ) : (
+                                <></>
+                            )}
+                            {/* {videos.map((video, index) => (
                             <Col key={index} lg={3} md={6} sm={6} className="video-col-item">
                                 <iframe
                                     loading="lazy"
@@ -90,9 +93,10 @@ export default function ContactUsScreen() {
                                 />
                             </Col>
                         ))} */}
-                    </Row>
-                </Container>
-            </section>
+                        </Row>
+                    </Container>
+                </section>
+            )}
         </Fragment>
     );
 }

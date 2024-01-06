@@ -159,9 +159,8 @@ export default function FeaturesListBlock() {
                     } else {
                         currentOptionsArray.push(selectedOption);
                     }
-                    updatedOptions = currentOptionsArray.join(",");
+                    updatedOptions = currentOptionsArray.join(".");
                 }
-                console.log("updatedOptions: ", updatedOptions);
                 return {
                     ...prevSelectedOptions,
                     [featureId]: updatedOptions,
@@ -261,7 +260,7 @@ export default function FeaturesListBlock() {
                     <Row className="justify-content-center">
                         <Col xl={12} className="mt-4">
                             <Tab.Container id="left-tabs-example" activeKey={activeTab} onSelect={handleTabChange}>
-                                <Nav variant="pills" className="flex-row flex-wrap justify-content-lg-around">
+                                <Nav variant="pills" className="flex-row flex-wrap justify-content-lg-center gap-2">
                                     {headerData?.map((headerOption) => {
                                         if (headerOption.active) {
                                             return (

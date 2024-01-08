@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+// const withSitemap = require("next-sitemap");
+
 const nextConfig = {
     reactStrictMode: true,
     i18n: {
@@ -15,6 +17,11 @@ const nextConfig = {
         whatsAppContactNumber: process.env.WHATSAPP_PHONE_NUMBER,
         zohoSalesIq: process.env.ZOHO_SALES_IQ,
     },
+    // sitemap: {
+    //     hostname: "https://mediafirewall.ai",
+    //     exclude: ["/upload", "/survey", "/pricing-survey", "/price-quote", "/payment-success", "/payment-failure", "/demo-page", "/book-demo"],
+    // },
+    // generateRobotsTxt: true,
 };
 
 module.exports = nextConfig;

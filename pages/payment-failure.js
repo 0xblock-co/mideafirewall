@@ -13,7 +13,7 @@ const PaymentFailure = () => {
                     <Row className="h-100 justify-content-start align-items-center">
                         <Col md={10} className="text-start">
                             <h2 className="text-white">
-                                Thank you for considering Media Firewall.
+                                Thank you for considering MediaFirewall.
                                 <br />
                             </h2>
                             <h4 className="text-white">Unfortunately, we were unable to process your payment at this time. Please check your payment details and try again.</h4>

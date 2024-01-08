@@ -10,6 +10,7 @@
         "build:serve": "next start",
         "bump": "npm version --no-git-tag-version",
         "lint": "next lint",
+        "postbuild": "next-sitemap",
         "format": "prettier  --write \"**/*.+(js|jsx|ts|tsx|json|css|less|md)\""
     },
     "dependencies": {
@@ -37,6 +38,7 @@
         "next-auth": "^4.22.1",
         "next-redux-wrapper": "^8.1.0",
         "next-seo": "^5.15.0",
+        "next-sitemap": "^4.2.3",
         "prettier": "2.8.8",
         "react": "18.2.0",
         "react-bootstrap": "^2.9.1",

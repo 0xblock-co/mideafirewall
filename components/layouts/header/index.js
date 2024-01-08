@@ -102,7 +102,7 @@ export default function HeaderTop() {
                         <Navbar.Toggle aria-controls={`offcanvasNavbarMediaFirewall-expand-lg`} />
                         <Navbar.Offcanvas id={`offcanvasNavbarMediaFirewall-expand-lg`} aria-labelledby={`offcanvasNavbarMediaFirewallLabel-expand-lg`} placement="start">
                             <Offcanvas.Header closeButton>
-                                <Offcanvas.Title id={`offcanvasNavbarMediaFirewallLabel-expand-lg`}>Media Firewall</Offcanvas.Title>
+                                <Offcanvas.Title id={`offcanvasNavbarMediaFirewallLabel-expand-lg`}>MediaFirewall</Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">

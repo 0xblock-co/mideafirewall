@@ -15,7 +15,7 @@ const Cancellation = () => {
                     title: "Cancellation and Refund Policy",
                     description:
                         "Understand MediaFirewall's Cancellation and Refund Policy for all services provided through www.mediafirewall.ai. Learn about cancellation terms for subscription and one-time services, refund conditions, and the process for requesting cancellations or refunds. Stay informed about changes to this policy and contact us for any questions.",
-                    site_name: "Media Firewall & AI",
+                    site_name: "MediaFirewall",
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -26,7 +26,7 @@ const Cancellation = () => {
                     {
                         name: "keywords",
                         content:
-                            "Cancellation Policy, Refund Policy, Media Firewall, Subscription Services, One-Time Services, Pro-Rata Refund, Cancellation Fee, Cancellation Request, Refund Request, Customer Support, Policy Changes, Contact Information, Media Firewall & AI",
+                            "Cancellation Policy, Refund Policy, MediaFirewall, Subscription Services, One-Time Services, Pro-Rata Refund, Cancellation Fee, Cancellation Request, Refund Request, Customer Support, Policy Changes, Contact Information, MediaFirewall",
                     },
                 ]}
             />

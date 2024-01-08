@@ -346,7 +346,7 @@ export default function UploadTabs() {
                                             isOnlyOneFIlter == 1 ? `Update file` : `Process without ${errorRes.featureName}`,
                                             "warning",
                                             isOnlyOneFIlter == 1 ? false : true,
-                                            isOnlyOneFIlter == 1  ? "" : "Cancel"
+                                            isOnlyOneFIlter == 1 ? "" : "Cancel"
                                         )
                                             .then(async () => {
                                                 if (isOnlyOneFIlter == 1) {

@@ -71,7 +71,7 @@ const SignupScreen = () => {
                     title: "Signup",
                     description:
                         "Create a new MediaFirewall account effortlessly. Sign up using your email and password or opt for a quicker registration with Google, Microsoft, or LinkedIn. Enjoy a seamless onboarding experience with secure and efficient authentication methods.",
-                    site_name: "Media Firewall & AI",
+                    site_name: "MediaFirewall",
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -82,7 +82,7 @@ const SignupScreen = () => {
                     {
                         name: "keywords",
                         content:
-                            "Signup, Media Firewall, Create Account, Email and Password, Google Signup, Microsoft Signup, LinkedIn Signup, Registration, Onboarding, Authentication, Media Firewall & AI",
+                            "Signup, MediaFirewall, Create Account, Email and Password, Google Signup, Microsoft Signup, LinkedIn Signup, Registration, Onboarding, Authentication, MediaFirewall",
                     },
                 ]}
             />

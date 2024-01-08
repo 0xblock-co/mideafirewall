@@ -6,7 +6,7 @@ const ContentPage = () => {
         <>
             <NextSeo
                 title="Privacy Policy"
-                description="Learn about the types of personal information collected, how it is utilized, and the duration of retention. Discover how Media Firewall collects your information, shares it, and protects your privacy. Understand your choices and rights regarding your personal information. Find out how we treat personal information submitted to our Services and update your communication preferences. Check if our Services are intended for use by children under the age of 13."
+                description="Learn about the types of personal information collected, how it is utilized, and the duration of retention. Discover how MediaFirewall collects your information, shares it, and protects your privacy. Understand your choices and rights regarding your personal information. Find out how we treat personal information submitted to our Services and update your communication preferences. Check if our Services are intended for use by children under the age of 13."
                 canonical="https://mediafirewall.ai/privacy-policy"
                 openGraph={{
                     type: "website",
@@ -14,8 +14,8 @@ const ContentPage = () => {
                     url: "https://mediafirewall.ai/privacy-policy",
                     title: "Privacy Policy",
                     description:
-                        "Learn about the types of personal information collected, how it is utilized, and the duration of retention. Discover how Media Firewall collects your information, shares it, and protects your privacy. Understand your choices and rights regarding your personal information. Find out how we treat personal information submitted to our Services and update your communication preferences. Check if our Services are intended for use by children under the age of 13.",
-                    site_name: "Media Firewall & AI",
+                        "Learn about the types of personal information collected, how it is utilized, and the duration of retention. Discover how MediaFirewall collects your information, shares it, and protects your privacy. Understand your choices and rights regarding your personal information. Find out how we treat personal information submitted to our Services and update your communication preferences. Check if our Services are intended for use by children under the age of 13.",
+                    site_name: "MediaFirewall",
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -26,7 +26,7 @@ const ContentPage = () => {
                     {
                         name: "keywords",
                         content:
-                            "Privacy Policy, Personal Information, Data Utilization, Data Collection, Data Retention, Information Sharing, Privacy Protection, User Rights, Communication Preferences, Children Under 13, Media Firewall & AI",
+                            "Privacy Policy, Personal Information, Data Utilization, Data Collection, Data Retention, Information Sharing, Privacy Protection, User Rights, Communication Preferences, Children Under 13, MediaFirewall",
                     },
                 ]}
             />

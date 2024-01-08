@@ -1,6 +1,6 @@
 {
-  "name": "Media Firewall",
-  "short_name": "Media Firewall",
+  "name": "MediaFirewall",
+  "short_name": "MediaFirewall",
   "icons": [
     {
       "src": "/meta/android-chrome-192x192.png",

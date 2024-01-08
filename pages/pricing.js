@@ -71,7 +71,7 @@ export default function Pricing() {
                     title: "Pricing Plans",
                     description:
                         "Explore our subscription options: FREE, STARTER, STANDARD, PROFESSIONAL, and ENTERPRISE. Details on operations, parallelism limits, support levels, and custom options. FAQs on operations, plan changes, free trials, and more.",
-                    site_name: "Media Firewall & AI",
+                    site_name: "MediaFirewall",
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",

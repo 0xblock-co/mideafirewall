@@ -9,7 +9,7 @@ export default function CalculateSaving() {
             <Container>
                 <Row className="justify-content-center">
                     <Col className="text-center">
-                        <h3>Discover the potential cost savings you can achieve by utilizing Media Firewall -</h3>
+                        <h3>Discover the potential cost savings you can achieve by utilizing MediaFirewall -</h3>
                         <h1 className="text-primary text-uppercase"> calculate your savings now!</h1>
                     </Col>
                 </Row>
@@ -87,7 +87,7 @@ export default function CalculateSaving() {
                 </Row>
             </Container>
             <div className={`${style.mdf__bg__drak_banner} mt-5`}>
-                <h3 className="m-0">With Media Firewall, you can save upto Rs. </h3>
+                <h3 className="m-0">With MediaFirewall, you can save upto Rs. </h3>
             </div>
         </section>
     );

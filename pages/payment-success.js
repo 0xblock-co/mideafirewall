@@ -41,7 +41,7 @@ const PaymentSuccess = () => {
                     <Row className="h-100 justify-content-start align-items-center">
                         <Col md={10} className="text-start">
                             <h2 className="text-white">
-                                Thank you for considering Media Firewall.
+                                Thank you for considering MediaFirewall.
                                 <br />
                             </h2>
                             <h4 className="text-white">Your payment has been successfully processed.</h4>

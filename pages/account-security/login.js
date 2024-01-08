@@ -91,7 +91,7 @@ const LoginScreen = () => {
                     title: "Login",
                     description:
                         "Access your MediaFirewall account with ease. Login securely with your email and password or choose a faster option with Google, Microsoft, or LinkedIn. Experience convenient and reliable authentication for your MediaFirewall account.",
-                    site_name: "Media Firewall & AI",
+                    site_name: "MediaFirewall",
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -101,7 +101,7 @@ const LoginScreen = () => {
                 additionalMetaTags={[
                     {
                         name: "keywords",
-                        content: "Login, Media Firewall, Secure Login, Email and Password, Google Login, Microsoft Login, LinkedIn Login, Authentication, User Access, Media Firewall & AI",
+                        content: "Login, MediaFirewall, Secure Login, Email and Password, Google Login, Microsoft Login, LinkedIn Login, Authentication, User Access, MediaFirewall",
                     },
                 ]}
             />

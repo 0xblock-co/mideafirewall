@@ -21,7 +21,7 @@ export default function ContactUsScreen() {
         <Fragment>
             <NextSeo
                 title="Contact Us"
-                description="Contact us effortlessly through WhatsApp, schedule a demo, or request a price quote. Explore our onboarding videos for a seamless experience. Connect with us for the latest in AI content moderation and platform safety."
+                description="Contact us effortlessly through WhatsApp, schedule a demo, or request a price quote. Explore our onboarding videos for a seamless experience. Connect with us for the latest in content moderation and platform safety."
                 canonical="https://mediafirewall.ai/contact-us"
                 openGraph={{
                     type: "website",
@@ -30,7 +30,7 @@ export default function ContactUsScreen() {
                     title: "Contact Us",
                     description:
                         "Contact us effortlessly through WhatsApp, schedule a demo, or request a price quote. Explore our onboarding videos for a seamless experience. Connect with us for the latest in AI content moderation and platform safety.",
-                    site_name: "Media Firewall & AI",
+                    site_name: "MediaFirewall",
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -41,7 +41,7 @@ export default function ContactUsScreen() {
                     {
                         name: "keywords",
                         content:
-                            "Contact Us, Contact Methods, WhatsApp, Schedule Demo, Price Quote, Onboarding Videos, AI Safety, Digital Safety, Platform Security, Seamless Communication, AI Content Moderation, Platform Safety, Customer Inquiry",
+                            "Contact Us, Contact Methods, WhatsApp, Schedule Demo, Price Quote, Onboarding Videos, AI Safety, Digital Safety, Platform Security, Seamless Communication, AI Content Moderation, Platform Safety, Customer Inquiry, content moderation",
                     },
                 ]}
             />

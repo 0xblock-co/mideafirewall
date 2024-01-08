@@ -10,7 +10,7 @@ const FeaturesList = () => {
         <Fragment>
             <NextSeo
                 title="Features List"
-                description="Explore the comprehensive list of features categorized for efficient content moderation. From Micro-Blogging to Real Estate platforms, discover how Media Firewall & AI safeguard online communities. Dive into subfeatures like Media Type Quality Filter, Nudity Filter, Deepfake Detection, and more."
+                description="Explore the comprehensive list of features categorized for efficient content moderation. From Micro-Blogging to Real Estate platforms, discover how MediaFirewall safeguard online communities. Dive into subfeatures like Media Type Quality Filter, Nudity Filter, Deepfake Detection, and more."
                 canonical="https://mediafirewall.ai/features-list"
                 openGraph={{
                     type: "website",
@@ -19,8 +19,8 @@ const FeaturesList = () => {
                     url: "https://mediafirewall.ai/ ",
                     title: "Features List",
                     description:
-                        "Explore the comprehensive list of features categorized for efficient content moderation. From Micro-Blogging to Real Estate platforms, discover how Media Firewall & AI safeguard online communities. Dive into subfeatures like Media Type Quality Filter, Nudity Filter, Deepfake Detection, and more.",
-                    site_name: "Media Firewall & AI",
+                        "Explore the comprehensive list of features categorized for efficient content moderation. From Micro-Blogging to Real Estate platforms, discover how MediaFirewall safeguard online communities. Dive into subfeatures like Media Type Quality Filter, Nudity Filter, Deepfake Detection, and more.",
+                    site_name: "MediaFirewall",
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",

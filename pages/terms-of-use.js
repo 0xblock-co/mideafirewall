@@ -15,7 +15,7 @@ const TermsOfServices = () => {
                     title: "Terms of Service",
                     description:
                         "Explore the Terms of Service governing the use of MediaFireWall's website and services. Understand the terms applicable during free trials. By accessing or utilizing Mediafirewall's websites and services, you acknowledge and agree to abide by these Terms. Ensure compliance with the provisions outlined in these Terms to access and use MediaFireWall's services.",
-                    site_name: "Media Firewall & AI",
+                    site_name: "MediaFirewall",
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -26,7 +26,7 @@ const TermsOfServices = () => {
                     {
                         name: "keywords",
                         content:
-                            "Terms of Service, Terms of Use, Media Firewall, Website Terms, Service Utilization, Free Trial Terms, Subscriber Agreement, Legal Entity Terms, Compliance, Media Firewall & AI",
+                            "Terms of Service, Terms of Use, MediaFirewall, Website Terms, Service Utilization, Free Trial Terms, Subscriber Agreement, Legal Entity Terms, Compliance, MediaFirewall",
                     },
                 ]}
             />

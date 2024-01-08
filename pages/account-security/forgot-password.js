@@ -47,7 +47,7 @@ const ForgotPasswordScreen = () => {
                     title: "Forgot Password",
                     description:
                         "Recover your MediaFirewall account password quickly. Use the Forgot Password feature to reset your password securely. Follow the simple steps to regain access to your account. Experience hassle-free password recovery with MediaFirewall.",
-                    site_name: "Media Firewall & AI",
+                    site_name: "MediaFirewall",
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -57,7 +57,7 @@ const ForgotPasswordScreen = () => {
                 additionalMetaTags={[
                     {
                         name: "keywords",
-                        content: "Forgot Password, Password Recovery, Media Firewall, Account Access, Secure Password Reset, Hassle-Free Recovery, Password Forgot, Media Firewall & AI",
+                        content: "Forgot Password, Password Recovery, MediaFirewall, Account Access, Secure Password Reset, Hassle-Free Recovery, Password Forgot, MediaFirewall",
                     },
                 ]}
             />

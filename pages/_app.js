@@ -173,9 +173,9 @@ export function App({ Component, pageProps }) {
                 `}
             </Script> */}
             <DefaultSeo
-                titleTemplate="%s - Media Firewall & AI"
-                defaultTitle="Media Firewall & AI"
-                description="Discover the forefront of online safety with Media Firewall & AI. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with intelligent content moderation. Dive into our comprehensive guide for insights on the synergy of Media Firewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety. Ensuring Online Community Safety: A Comprehensive Guide to AI Content Moderation and Harmful Content Prevention."
+                titleTemplate="%s - MediaFirewall"
+                defaultTitle="MediaFirewall"
+                description="Discover the forefront of online safety with MediaFirewall. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with the world's most accurate, cost-effective, and world's best content moderation - an intelligent AI-based approach. Dive into our comprehensive guide for insights on the synergy of MediaFirewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety. Ensuring Online Community Safety: A Comprehensive Guide to AI Content Moderation and Harmful Content Prevention."
                 canonical="https://mediafirewall.ai/"
                 openGraph={{
                     type: "website",
@@ -183,21 +183,17 @@ export function App({ Component, pageProps }) {
                     locale: "en_US",
                     author: "https://www.themillionvisions.com/",
                     url: "https://mediafirewall.ai/",
-                    title: "Media Firewall & AI: Elevating Platform Safety with Smart Content Moderation",
+                    title: "MediaFirewall: Elevating Platform Safety with Smart Content Moderation",
                     description:
-                        "Discover the forefront of online safety with Media Firewall & AI. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with intelligent content moderation. Dive into our comprehensive guide for insights on the synergy of Media Firewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety.",
-                    site_name: "Media Firewall & AI",
+                        "Discover the forefront of online safety with MediaFirewall. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with the world's most accurate, cost-effective, and world's best content moderation - an intelligent AI-based approach. Dive into our comprehensive guide for insights on the synergy of MediaFirewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety.",
+
+                    site_name: "MediaFirewall",
                 }}
-                // twitter={{
-                //     cardType: "summary_large_image",
-                //     handle: "@yourTwitterHandle", // Replace with your Twitter handle
-                //     site: "@yourTwitterHandle", // Replace with your Twitter handle
-                // }}
                 additionalMetaTags={[
                     {
                         name: "keywords",
                         content:
-                            "AI Content Moderation, Media Firewall Technology, Online Community Safety, Digital Well-being Solutions, Harmful Content Prevention, Platform Security Innovations, User Safety Technology, Intelligent Content Moderation, Online Platform Protection, Digital Safety Measures",
+                            "Content Moderation, AI Content Moderation, MediaFirewall Technology, Online Community Safety, Digital Well-being Solutions, Harmful Content Prevention, Platform Security Innovations, User Safety Technology, Intelligent Content Moderation, Online Platform Protection, Digital Safety Measures, World's Most Accurate, Cost Effective, World's Best Content Moderation, AI-Based Content Moderation,  MediaFirewall.ai, MediaFirewall, Content moderation, Moderation services, Online content filtering, MediaFirewall content moderation, MediaFirewall moderation services, AI-powered content moderation solution, MediaFirewall.ai features, Efficient content filtering solutions, Advanced content moderation techniques, Affordable content moderation services, Reliable automated moderation, Most accurate content moderation platform, Most cost-effective AI moderation, World's best content moderation technology, Content filtering for online platforms, Social media content moderation, Website content moderation, Video content moderation services",
                     },
                 ]}
             />

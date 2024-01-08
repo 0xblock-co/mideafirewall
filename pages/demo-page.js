@@ -132,7 +132,7 @@ function getMatchingValuesV3(data) {
                                 documentReport: {
                                     report: {
                                         Model: "Success",
-                                        InputVideoUrl: "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
+                                        InputVideoUrl: processStatus?.video.inputVideoURL,
                                         TotalFramesProcessed: "",
                                         "Video processing time in minutes": "",
                                     },
@@ -147,12 +147,12 @@ function getMatchingValuesV3(data) {
     return {};
 }
 
-function getMatchingValuesV2(data) {
+function getMatchingValuesV2(data, isFetchingState) {
     if (data && data?.processStatus?.featureStatus && data.eventLog && data.operationsPerFeature) {
         const routerData = getUrlVars();
         if (CommonUtility.isNotEmpty(routerData?.filters)) {
             const appliedFiltersLength = routerData.filters.split(",").length;
-            if (data?.operationsPerFeature && Object.keys(data?.operationsPerFeature).length == appliedFiltersLength) {
+            if (data?.operationsPerFeature && (Object.keys(data?.operationsPerFeature).length == appliedFiltersLength || !isFetchingState)) {
                 const { processStatus, eventLog } = data;
                 const matchingValues = {};
                 const featureStatus = processStatus?.featureStatus;
@@ -482,8 +482,6 @@ const DemoPage = () => {
                                                                     <th>#</th>
                                                                     <th>Filter</th>
                                                                     <th>File</th>
-                                                                    <th>Request Type</th>
-                                                                    <th>No Of Operations</th>
                                                                     <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                         <th>Tags</th>
                                                                     </RenderIf>
@@ -494,6 +492,8 @@ const DemoPage = () => {
                                                                     <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
                                                                         <th>Response</th>
                                                                     </RenderIf>
+                                                                    <th>Request Type</th>
+                                                                    <th>No Of Operations</th>
                                                                     <th>Reference Id</th>
                                                                 </tr>
                                                             </thead>
@@ -515,8 +515,6 @@ const DemoPage = () => {
                                                                                             {eventLogData?.video?.videoName}
                                                                                         </Link>
                                                                                     </td>
-                                                                                    <td>{eventLogData?.requestType}</td>
-                                                                                    <td>{operationCount || "00"}</td>
                                                                                     <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                                         <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
                                                                                     </RenderIf>
@@ -546,6 +544,8 @@ const DemoPage = () => {
                                                                                             />
                                                                                         </td>
                                                                                     </RenderIf>
+                                                                                    <td>{eventLogData?.requestType}</td>
+                                                                                    <td>{operationCount || "00"}</td>
                                                                                     <td>{eventLogData?.videoId}</td>
                                                                                 </tr>
                                                                             )
@@ -564,8 +564,6 @@ const DemoPage = () => {
                                                                 <th>#</th>
                                                                 <th>Filter</th>
                                                                 <th>File</th>
-                                                                <th>Request Type</th>
-                                                                <th>No Of Operations</th>
                                                                 <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                     <th>Tags</th>
                                                                 </RenderIf>
@@ -576,6 +574,8 @@ const DemoPage = () => {
                                                                 <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
                                                                     <th>Response</th>
                                                                 </RenderIf>
+                                                                <th>Request Type</th>
+                                                                <th>No Of Operations</th>
                                                                 <th>Reference Id</th>
                                                             </tr>
                                                         </thead>
@@ -592,12 +592,9 @@ const DemoPage = () => {
                                                                                 Uploaded Link
                                                                             </Link>
                                                                         </td>
-                                                                        <td>{eventLogData?.requestType}</td>
-                                                                        <td>{eventLogData.operationsPerFeature[item?.webFeatureKey]}</td>
                                                                         <RenderIf isTrue={isTaggingModelV2 === 1}>
                                                                             {item.isSuccess ? (
                                                                                 <td>
-                                                                                    dds
                                                                                     {CommonUtility.isValidArray(tagsList) &&
                                                                                         tagsList.map((tag) => <span key={tag}>{CommonUtility.toTitleCase(tag || "")}</span>)}
                                                                                 </td>
@@ -680,6 +677,8 @@ const DemoPage = () => {
                                                                                 </td>
                                                                             )}
                                                                         </RenderIf>
+                                                                        <td>{eventLogData?.requestType}</td>
+                                                                        <td>{eventLogData.operationsPerFeature[item?.webFeatureKey]}</td>
                                                                         <td>{eventLogData?.videoId}</td>
                                                                     </tr>
                                                                 );
@@ -756,7 +755,7 @@ const DemoPage = () => {
 
                     <Col lg={4} style={{ maxHeight: "400px" }}>
                         {isTaggingModelV2 >= 2 && (
-                            <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValuesV2(eventLogData)))}>
+                            <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValuesV2(eventLogData, isFetchingState)))}>
                                 <Card
                                     className="box_show_msg h-100 shadow-lg border-primary rounded-4 d-flex justify-content-center align-items-center"
                                     style={{

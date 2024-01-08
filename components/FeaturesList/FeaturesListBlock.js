@@ -192,19 +192,19 @@ export default function FeaturesListBlock() {
                 return;
             }
 
-            const currentUserEmail = user?.userDetails?.email;
-            if (mfw_customersList && !mfw_customersList.includes(currentUserEmail)) {
-                newInfoAlert(
-                    "Service under maintenance",
-                    "Sorry for the inconvenience. We're currently going through a quarterly scheduled maintenance and upgrade. Please return on January 4, 2024 to experience our offerings! Existing customer's request and filters will not be affected. Thanks for your understanding.",
-                    "Got It.",
-                    "warning",
-                    false,
-                    "",
-                    false
-                );
-                return;
-            }
+            // const currentUserEmail = user?.userDetails?.email;
+            // if (mfw_customersList && !mfw_customersList.includes(currentUserEmail)) {
+            //     newInfoAlert(
+            //         "Service under maintenance",
+            //         "Sorry for the inconvenience. We're currently going through a quarterly scheduled maintenance and upgrade. Please return on January 4, 2024 to experience our offerings! Existing customer's request and filters will not be affected. Thanks for your understanding.",
+            //         "Got It.",
+            //         "warning",
+            //         false,
+            //         "",
+            //         false
+            //     );
+            //     return;
+            // }
 
             setIsLoading(true);
             const formData = {
@@ -260,7 +260,7 @@ export default function FeaturesListBlock() {
                     <Row className="justify-content-center">
                         <Col xl={12} className="mt-4">
                             <Tab.Container id="left-tabs-example" activeKey={activeTab} onSelect={handleTabChange}>
-                                <Nav variant="pills" className="flex-row flex-wrap justify-content-lg-center gap-2">
+                                <Nav variant="pills" className="flex-row flex-wrap justify-content-center gap-2">
                                     {headerData?.map((headerOption) => {
                                         if (headerOption.active) {
                                             return (

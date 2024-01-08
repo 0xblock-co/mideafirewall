@@ -132,7 +132,7 @@ function getMatchingValuesV3(data) {
                                 documentReport: {
                                     report: {
                                         Model: "Success",
-                                        InputVideoUrl: processStatus?.video.inputVideoURL,
+                                        InputVideoUrl: "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
                                         TotalFramesProcessed: "",
                                         "Video processing time in minutes": "",
                                     },

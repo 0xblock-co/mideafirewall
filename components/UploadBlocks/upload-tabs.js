@@ -38,8 +38,10 @@ export default function UploadTabs() {
         try {
             setIsUploading(true);
             const isFileUpload = uploadType === "file";
+            console.log("isFileUpload: ", isFileUpload);
             const endpoint = isFileUpload ? "filters" : "url/filters";
             let queryString = {};
+            console.log('user: ', user);
             if (isFileUpload) {
                 queryString = new URLSearchParams({
                     apikey: user?.api_secret,
@@ -47,7 +49,7 @@ export default function UploadTabs() {
             } else {
                 queryString = new URLSearchParams({
                     apikey: user?.api_secret,
-                    filters: router.query.filters,
+                    filters: routerQueryData1,
                     mediaUrl: imageUrlRef?.current?.value,
                 }).toString();
             }
@@ -187,7 +189,7 @@ export default function UploadTabs() {
         return null;
     }
 
-    const removeStringFromArray = (stringToRemove, originalStrings) => {
+    const removeStringFromArray = async (stringToRemove, originalStrings) => {
         const updatedStrings = originalStrings.split(",").filter((str) => !str.includes(stringToRemove));
         return updatedStrings.toString();
     };
@@ -213,69 +215,80 @@ export default function UploadTabs() {
                     let isError = false; // Flag to track errors
                     if (headerData && headerData?.length > 0 && headerData[0]?.features?.length > 0) {
                         if (router.query?.sf_id && CommonUtility.isValidArray(router.query?.sf_id.split(","))) {
+                            const sfIds = router.query.sf_id.split(",");
+                            const mediaSupportsArray = [];
+                            const currentQuery = router.query;
+                            let filterQuery = currentQuery.filters;
+                            let sq_id_Query = currentQuery.sf_id;
+
                             await Promise.all(
-                                router.query?.sf_id.split(",").map(async (key) => {
+                                sfIds.map(async (key) => {
                                     const webFeatureKeys = key.trim();
                                     const uploadedFileType = finalFiles[0].file;
                                     const errorRes = areFeaturesSupported(webFeatureKeys, uploadedFileType);
-                                    if (errorRes && errorRes?.supported === false) {
-                                        const currentQuery = router.query;
-                                        let filterQuery = currentQuery.filters;
-                                        let sq_id_Query = currentQuery.sf_id;
-                                        if (isOnlyOneFIlter > 1) {
-                                            filterQuery = await removeStringFromArray(errorRes.featureName, currentQuery.filters);
-                                            sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
-                                        }
-
-                                        await new Promise(async (resolve) => {
-                                            await newInfoAlert(
-                                                "Unsupported Media Types!",
-                                                errorRes.errorMessage,
-                                                isOnlyOneFIlter == 1 ? `Update file` : `Process without ${errorRes.featureName}`,
-                                                "warning",
-                                                isOnlyOneFIlter == 1 ? false : true,
-                                                isOnlyOneFIlter == 1 ? "" : "Cancel"
-                                            )
-                                                .then(async () => {
-                                                    if (isOnlyOneFIlter == 1) {
-                                                        cleanup();
-                                                        isError = true;
-                                                        resolve();
-                                                    } else {
-                                                        isError = true;
-                                                        await asyncUploadContent(
-                                                            "file",
-                                                            {
-                                                                filters: filterQuery,
-                                                                file: finalFiles[0].file,
-                                                            },
-                                                            filterQuery,
-                                                            sq_id_Query
-                                                        );
-                                                        resolve();
-                                                    }
-                                                })
-                                                .catch(() => {
-                                                    cleanup();
-                                                    isError = true;
-                                                    resolve();
-                                                });
-                                        });
+                                    if (errorRes && errorRes.supported === false) {
+                                        mediaSupportsArray.push(errorRes.featureName);
                                     }
                                 })
                             );
-                            if (isError) {
-                                return;
+
+                            if (mediaSupportsArray.length > 0) {
+                                const uniqueMediaSupports = [...new Set(mediaSupportsArray)];
+                                const isUpdateFile = uniqueMediaSupports.length === sfIds.length || isOnlyOneFIlter === 1;
+
+                                await new Promise(async (resolve) => {
+                                    await newInfoAlert(
+                                        "Unsupported Media Types!",
+                                        `${uniqueMediaSupports.join(", ")} do not support the uploaded file type.`,
+                                        isUpdateFile ? "Update File" : `Process without ${uniqueMediaSupports.join(", ")}`,
+                                        "warning",
+                                        isUpdateFile ? false : true,
+                                        isUpdateFile ? "" : "Cancel"
+                                    )
+                                        .then(async () => {
+                                            if (isOnlyOneFIlter == 1 || uniqueMediaSupports.length == sfIds.length) {
+                                                cleanup();
+                                            } else {
+                                                isError = true;
+                                                const supportedFilterQuery = filterQuery
+                                                    .split(",")
+                                                    .filter((feature) => !uniqueMediaSupports.some((removeFeature) => feature.trim().startsWith(removeFeature)))
+                                                    .join(",");
+
+                                                const supportedSqIdQuery = sq_id_Query
+                                                    .split(",")
+                                                    .filter((feature) => !uniqueMediaSupports.includes(feature.trim()))
+                                                    .join(",");
+                                                await asyncUploadContent(
+                                                    "file",
+                                                    {
+                                                        filters: supportedFilterQuery,
+                                                        file: finalFiles[0].file,
+                                                    },
+                                                    supportedFilterQuery,
+                                                    supportedSqIdQuery
+                                                );
+                                            }
+                                            resolve();
+                                        })
+                                        .catch(() => {
+                                            cleanup();
+                                            isError = true;
+                                            resolve();
+                                        });
+                                });
+                            } else {
+                                // All items in sf_id support the file type, proceed with upload
+                                await asyncUploadContent(
+                                    "file",
+                                    {
+                                        filters: router.query.filters,
+                                        file: finalFiles[0].file,
+                                    },
+                                    router.query.filters,
+                                    router.query.sf_id
+                                );
                             }
-                            await asyncUploadContent(
-                                "file",
-                                {
-                                    filters: router.query.filters,
-                                    file: finalFiles[0].file,
-                                },
-                                router.query.filters,
-                                router.query.sf_id
-                            );
                         }
                     }
                 } else if (imageUrlRef?.current && imageUrlRef?.current?.value !== "") {
@@ -323,55 +336,132 @@ export default function UploadTabs() {
                         }
 
                         if (router.query?.sf_id && CommonUtility.isValidArray(router.query?.sf_id.split(","))) {
-                            for (const key of router.query?.sf_id.split(",")) {
-                                const webFeatureKeys = key.trim();
-                                const uploadedFileType = url;
-                                const mediaType = identifyMediaTypeByExtension(uploadedFileType);
-                                const errorRes = await areFeaturesSupported(webFeatureKeys, { type: mediaType });
+                            const sfIds = router.query.sf_id.split(",");
+                            const mediaSupportsArray = [];
+                            const currentQuery = router.query;
+                            let filterQuery = currentQuery.filters;
+                            let sq_id_Query = currentQuery.sf_id;
 
-                                if (errorRes && errorRes?.supported === false) {
-                                    const currentQuery = router.query;
-                                    let filterQuery = currentQuery.filters;
-                                    let sq_id_Query = currentQuery.sf_id;
+                            await Promise.all(
+                                sfIds.map(async (key) => {
+                                    const webFeatureKeys = key.trim();
+                                    const uploadedFileType = url;
+                                    // const errorRes = areFeaturesSupported(webFeatureKeys, uploadedFileType);
+                                    const mediaType = identifyMediaTypeByExtension(uploadedFileType);
+                                    console.log('mediaType: ', mediaType);
+                                    const errorRes = await areFeaturesSupported(webFeatureKeys, { type: mediaType });
+                                    console.log('errorRes: ', errorRes);
 
-                                    if (isOnlyOneFIlter > 1) {
-                                        filterQuery = await removeStringFromArray(errorRes.featureName, currentQuery.filters);
-                                        sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
+                                    if (errorRes && errorRes.supported === false) {
+                                        mediaSupportsArray.push(errorRes.featureName);
                                     }
+                                })
+                            );
+                            console.log("mediaSupportsArray: ", mediaSupportsArray);
 
-                                    await new Promise(async (resolve) => {
-                                        await newInfoAlert(
-                                            "Unsupported Media Types!",
-                                            errorRes.errorMessage,
-                                            isOnlyOneFIlter == 1 ? `Update file` : `Process without ${errorRes.featureName}`,
-                                            "warning",
-                                            isOnlyOneFIlter == 1 ? false : true,
-                                            isOnlyOneFIlter == 1 ? "" : "Cancel"
-                                        )
-                                            .then(async () => {
-                                                if (isOnlyOneFIlter == 1) {
-                                                    cleanup();
-                                                    isError = true;
-                                                    resolve({ isValid: false, error: null });
-                                                } else {
-                                                    isError = true;
-                                                    await asyncUploadContent("url", {
-                                                        filters: router.query.filters,
-                                                        mediaUrl: imageUrlRef?.current?.value,
-                                                        filterQuery,
-                                                        sq_id_Query,
-                                                    });
-                                                    resolve({ isValid: false, error: null });
-                                                }
-                                            })
-                                            .catch(() => {
-                                                cleanup();
+                            if (mediaSupportsArray.length > 0) {
+                                const uniqueMediaSupports = [...new Set(mediaSupportsArray)];
+                                const isUpdateFile = uniqueMediaSupports.length === sfIds.length || isOnlyOneFIlter === 1;
+                                await new Promise(async (resolve) => {
+                                    await newInfoAlert(
+                                        "Unsupported Media Types!",
+                                        `${uniqueMediaSupports.join(", ")} do not support the uploaded file type.`,
+                                        isUpdateFile ? "Update File" : `Process without ${uniqueMediaSupports.join(", ")}`,
+                                        "warning",
+                                        isUpdateFile ? false : true,
+                                        isUpdateFile ? "" : "Cancel"
+                                    )
+                                        .then(async () => {
+                                            console.log('uniqueMediaSupports: ', uniqueMediaSupports);
+                                             if (isOnlyOneFIlter == 1 || uniqueMediaSupports.length == sfIds.length) {
+                                                 cleanup();
+                                                 isError = true;
+                                                 resolve({ isValid: false, error: null });
+                                             } else {
                                                 isError = true;
+                                                const supportedFilterQuery = filterQuery
+                                                    .split(",")
+                                                    .filter((feature) => !uniqueMediaSupports.some((removeFeature) => feature.trim().startsWith(removeFeature)))
+                                                    .join(",");
+
+                                                const supportedSqIdQuery = sq_id_Query
+                                                .split(",")
+                                                .filter((feature) => !uniqueMediaSupports.includes(feature.trim()))
+                                                .join(",");
+                                                console.log('supportedSqIdQuery: ', supportedSqIdQuery);
+
+                                                console.log('supportedFilterQuery: ', supportedFilterQuery);
+                                                await asyncUploadContent(
+                                                    "url",
+                                                    {
+                                                        filters: supportedFilterQuery,
+                                                        mediaUrl: imageUrlRef?.current?.value,
+                                                        supportedFilterQuery,
+                                                        supportedSqIdQuery,
+                                                    },
+                                                    supportedFilterQuery,
+                                                    supportedSqIdQuery
+                                                );
                                                 resolve({ isValid: false, error: null });
-                                            });
-                                    });
-                                }
+                                            }
+                                            resolve({ isValid: false, error: null });
+                                        })
+                                        .catch(() => {
+                                            cleanup();
+                                            isError = true;
+                                            resolve({ isValid: false, error: null });
+                                        });
+                                });
                             }
+                            // for (const key of router.query?.sf_id.split(",")) {
+                            //     const webFeatureKeys = key.trim();
+                            //     const uploadedFileType = url;
+                            //     const mediaType = identifyMediaTypeByExtension(uploadedFileType);
+                            //     const errorRes = await areFeaturesSupported(webFeatureKeys, { type: mediaType });
+
+                            //     if (errorRes && errorRes?.supported === false) {
+                            //         const currentQuery = router.query;
+                            //         let filterQuery = currentQuery.filters;
+                            //         let sq_id_Query = currentQuery.sf_id;
+
+                            //         if (isOnlyOneFIlter > 1) {
+                            //             filterQuery = await removeStringFromArray(errorRes.featureName, currentQuery.filters);
+                            //             sq_id_Query = await removeStringFromArray(errorRes.featureName, currentQuery.sf_id);
+                            //         }
+
+                            //         await new Promise(async (resolve) => {
+                            //             await newInfoAlert(
+                            //                 "Unsupported Media Types!",
+                            //                 errorRes.errorMessage,
+                            //                 isOnlyOneFIlter == 1 ? `Update file` : `Process without ${errorRes.featureName}`,
+                            //                 "warning",
+                            //                 isOnlyOneFIlter == 1 ? false : true,
+                            //                 isOnlyOneFIlter == 1 ? "" : "Cancel"
+                            //             )
+                            //                 .then(async () => {
+                            //                     if (isOnlyOneFIlter == 1) {
+                            //                         cleanup();
+                            //                         isError = true;
+                            //                         resolve({ isValid: false, error: null });
+                            //                     } else {
+                            //                         isError = true;
+                            //                         await asyncUploadContent("url", {
+                            //                             filters: router.query.filters,
+                            //                             mediaUrl: imageUrlRef?.current?.value,
+                            //                             filterQuery,
+                            //                             sq_id_Query,
+                            //                         });
+                            //                         resolve({ isValid: false, error: null });
+                            //                     }
+                            //                 })
+                            //                 .catch(() => {
+                            //                     cleanup();
+                            //                     isError = true;
+                            //                     resolve({ isValid: false, error: null });
+                            //                 });
+                            //         });
+                            //     }
+                            // }
                         }
 
                         return { isValid: true, error: null };
@@ -382,10 +472,15 @@ export default function UploadTabs() {
                     }
                     const abc = await isValidMediaFile(imageUrlRef?.current?.value, allowedExtensions);
                     if (!isError && abc?.isValid) {
-                        await asyncUploadContent("url", {
-                            filters: router.query.filters,
-                            mediaUrl: imageUrlRef?.current?.value,
-                        });
+                        await asyncUploadContent(
+                            "url",
+                            {
+                                filters: router.query.filters,
+                                mediaUrl: imageUrlRef?.current?.value,
+                            },
+                            router.query.filters,
+                            router.query.sf_id
+                        );
                     } else {
                         setIsUploading(false);
                     }

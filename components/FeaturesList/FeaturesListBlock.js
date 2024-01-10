@@ -144,7 +144,7 @@ export default function FeaturesListBlock() {
         if (isMultiSelectOption) {
             setSelectedOptions((prevSelectedOptions) => {
                 const currentFeatureOptions = prevSelectedOptions[featureId] || ""; // Access the property within the object
-                const currentOptionsArray = currentFeatureOptions.split(",");
+                const currentOptionsArray = currentFeatureOptions.split(".");
                 let updatedOptions = selectedOption;
 
                 if (currentOptionsArray.length > 0) {
@@ -152,7 +152,7 @@ export default function FeaturesListBlock() {
                     if (alreadySelectedOptionIndex > -1) {
                         if (currentOptionsArray.length == 1) {
                             newInfoAlert("", "You cannot remove the only element. It should have at least 1.", "Got It.", "warning", false, "", false);
-                            updatedOptions = currentOptionsArray.join(",");
+                            updatedOptions = currentOptionsArray.join(".");
                         } else {
                             currentOptionsArray.splice(alreadySelectedOptionIndex, 1);
                         }

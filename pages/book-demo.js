@@ -21,7 +21,7 @@ export default function BookMeetingScreen() {
         try {
             const result = await asyncCreateMeetingLink({ meetingTool: selectedMeeting, meetingFor: router.query.type || "DEMO" });
             if (result && result.isSuccess && result?.data !== "") {
-                window.open(result.data, "_self");
+                window.open(result.data, "_blank");
                 // showSuccessAlert(result.data);
             } else {
                 showErrorAlert();

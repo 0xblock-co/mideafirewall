@@ -56,6 +56,20 @@ export const getFilteredData = (dataObj) => {
                     });
                     break;
 
+                case "phone_number":
+                    formElements.push({
+                        id: counter++,
+                        name: "phone_number".toLowerCase(),
+                        label: component.label,
+                        title: question.question,
+                        placeholder: component.placeholder,
+                        type: "phone_number",
+                        isRender: false,
+                        defaultValues: "",
+                        validation: yup.string().required(`${component.label} is required`),
+                    });
+                    break;
+
                 case "radio":
                     const options =
                         question.options && question.options.length > 0

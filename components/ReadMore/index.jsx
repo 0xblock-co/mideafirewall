@@ -8,7 +8,7 @@ const ReadMore = ({ text, maxLength }) => {
     }
 
     return (
-        <div>
+        <div className="read-more">
             <p>
                 {isExpanded ? text : `${text.slice(0, maxLength)}...`}
                 <span className="text-primary" onClick={() => setIsExpanded(!isExpanded)} style={{ cursor: "pointer" }}>

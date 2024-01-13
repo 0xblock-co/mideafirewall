@@ -25,7 +25,7 @@ const schema = yup.object().shape({
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
             "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"
         )
-        .min(8, "Password must be at least 8 characters long")
+        .min(9, "Password must be at least 9 characters long") // Adjust the minimum length here
         .max(20, "Password must not exceed 20 characters"),
     passwordConfirmation: yup
         .string()

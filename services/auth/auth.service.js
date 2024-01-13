@@ -134,7 +134,8 @@ export const asyncRestPassword = createAsyncThunk("asyncRestPassword", async (pa
 
 export const asyncGetSignedUpSurveyQuestionsV2 = createAsyncThunk("GET_SIGNED_UP_SURVEY_QUESTIONS", async (payload, thunkAPI) => {
     try {
-        const response = api.get(`https://mediafirewall-ai.millionvisions.ai/mfw/web/Questionnaire/mfw_customer`, {}, true, false).then(async (res) => {
+        const response = api.get(`https://mediafirewall-ai.millionvisions.ai/mfw/web/Questionnaire/mfw_customer_v2`, {}, true, false).then(async (res) => {
+            // const response = api.get(`https://mediafirewall-ai.millionvisions.ai/mfw/web/Questionnaire/mfw_customer`, {}, true, false).then(async (res) => {
             if (res && res?.isSuccess) {
                 return thunkAPI.fulfillWithValue({
                     data: res.data,

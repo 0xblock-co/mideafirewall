@@ -254,17 +254,71 @@ const DemoPage = () => {
                 if (elapsedTime >= maxTimeout) {
                     isFetching = false;
                     setIsFetchingState(false);
-                    if (responseData && responseData?.processStatus?.totalProcessingFeatures !== responseData?.processStatus?.completedProcesses) {
+                    // if (responseData && responseData?.processStatus?.totalProcessingFeatures !== responseData?.processStatus?.completedProcesses) {
+                    if (responseData && (responseData?.processStatus?.totalProcessingFeatures !== responseData?.processStatus?.completedProcesses || responseData?.processStatus?.inProcess > 0)) {
                         const routerDataA = getUrlVars();
                         const routerData = router?.query?.sf_id || routerDataA.sf_id;
-                        const totalSelectedFeatures = routerData && routerData.split(",");
-                        const filteredFeatures = totalSelectedFeatures.filter((item) => !responseData.processStatus.featureStatus.hasOwnProperty(item)).toString();
+                        const totalSelectedFeatures = routerData?.split(",") || [];
+                        const notFilteredFeatures = totalSelectedFeatures.filter((item) => !responseData.processStatus.featureStatus.hasOwnProperty(item)).toString();
+
+                        const createFeatureObject = (initialValue) =>
+                            totalSelectedFeatures
+                                .filter((item) => !responseData.processStatus.featureStatus.hasOwnProperty(item))
+                                .reduce((acc, feature) => {
+                                    acc[feature] = initialValue;
+                                    return acc;
+                                }, {});
+
+                        const objPreparation = totalSelectedFeatures
+                            .filter((item) => !responseData.processStatus.featureStatus.hasOwnProperty(item))
+                            .reduce((acc, feature) => {
+                                acc[feature] = {
+                                    webFeatureKey: feature,
+                                    eventId: "",
+                                    isSuccess: false,
+                                    processingStartTime: "",
+                                    processingEndTime: "",
+                                    isTimeout: true,
+                                    report: {
+                                        imageUrls: [],
+                                        clipUrls: [],
+                                        videoUrls: [],
+                                        documentReport: {
+                                            report: {
+                                                Model: "False",
+                                                InputVideoUrl: "https://mediafirewall.s3.ap-south-1.amazonaws.com/inputvideos/half_nude_1.png",
+                                                TotalFramesProcessed: "0",
+                                                "Video processing time in minutes": "0",
+                                            },
+                                        },
+                                    },
+                                };
+                                return acc;
+                            }, {});
+
+                        const objPreparation2 = createFeatureObject(false);
+                        const objPreparation3 = createFeatureObject("99999");
                         setEventLogData({
                             ...responseData,
+                            eventLogsV2: {
+                                ...responseData.eventLogsV2,
+                                ...objPreparation,
+                            },
+                            processStatus: {
+                                ...responseData.processStatus,
+                                featureStatus: {
+                                    ...responseData.processStatus.featureStatus,
+                                    ...objPreparation2,
+                                },
+                            },
+                            operationsPerFeature: {
+                                ...responseData.operationsPerFeature,
+                                ...objPreparation3,
+                            },
                             errorLog: {
                                 error: "NOT_PROCESS_COMPLETED",
                                 errorCode: "9001",
-                                description: `${filteredFeatures} could not be processed. Please contact the administrator for assistance`,
+                                description: `${notFilteredFeatures} could not be processed. Please contact the administrator for assistance`,
                             },
                         });
                         return;
@@ -506,13 +560,13 @@ const DemoPage = () => {
                                                                             : 0;
 
                                                                         return (
-                                                                            operationCount > 0 && (
+                                                                            operationCount >= 0 && (
                                                                                 <tr key={index}>
                                                                                     <th scope="row">{index + 1}</th>
                                                                                     <td>{filter}</td>
                                                                                     <td>
                                                                                         <Link href={eventLogData.video.inputVideoURL} target="_blank">
-                                                                                            {eventLogData?.video?.videoName}
+                                                                                            {eventLogData?.video?.videoName || "Uploaded Link"}
                                                                                         </Link>
                                                                                     </td>
                                                                                     <RenderIf isTrue={isTaggingModelV2 === 1}>
@@ -520,32 +574,95 @@ const DemoPage = () => {
                                                                                     </RenderIf>
 
                                                                                     <RenderIf isTrue={isTaggingModelV2 === 3}>
-                                                                                        <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                                            <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
-                                                                                            <img
-                                                                                                loading="lazy"
-                                                                                                className="lazyload"
-                                                                                                src="/images/svgs/correct.svg"
-                                                                                                style={{ width: "16px", height: "16px" }}
-                                                                                                alt="Correct"
-                                                                                            />
-                                                                                        </td>
-                                                                                        <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
+                                                                                        <>
+                                                                                            {operationCount !== "99999" ? (
+                                                                                                <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                                                    {CommonUtility.doesKeyExist(eventLogData, "errorLog") &&
+                                                                                                    (eventLogData?.errorLog?.errorCode !== "9000" || eventLogData?.errorLog?.errorCode !== "9001") ? (
+                                                                                                        <>
+                                                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                                                            <img
+                                                                                                                src="/images/svgs/wrong.svg"
+                                                                                                                loading="lazy"
+                                                                                                                className="lazyload"
+                                                                                                                style={{
+                                                                                                                    width: "16px",
+                                                                                                                    height: "16px",
+                                                                                                                }}
+                                                                                                            />
+                                                                                                        </>
+                                                                                                    ) : (
+                                                                                                        <>
+                                                                                                            <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                                            <img
+                                                                                                                loading="lazy"
+                                                                                                                className="lazyload"
+                                                                                                                src="/images/svgs/correct.svg"
+                                                                                                                style={{ width: "16px", height: "16px" }}
+                                                                                                                alt="Correct"
+                                                                                                            />
+                                                                                                        </>
+                                                                                                    )}
+                                                                                                </td>
+                                                                                            ) : (
+                                                                                                <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                                                    <>
+                                                                                                        <span style={{ color: "gray" }}>Timeout</span>
+                                                                                                        <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                                                                                                            <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
+                                                                                                        </svg>
+                                                                                                    </>
+                                                                                                </td>
+                                                                                            )}
+
+                                                                                            <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
+                                                                                        </>
                                                                                     </RenderIf>
                                                                                     <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
-                                                                                        <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                                            <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
-                                                                                            <img
-                                                                                                loading="lazy"
-                                                                                                className="lazyload"
-                                                                                                src="/images/svgs/correct.svg"
-                                                                                                style={{ width: "16px", height: "16px" }}
-                                                                                                alt="Correct"
-                                                                                            />
-                                                                                        </td>
+                                                                                        {operationCount !== "99999" ? (
+                                                                                            <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                                                {CommonUtility.doesKeyExist(eventLogData, "errorLog") &&
+                                                                                                (eventLogData?.errorLog?.errorCode !== "9000" || eventLogData?.errorLog?.errorCode !== "9001") ? (
+                                                                                                    <>
+                                                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                                                        <img
+                                                                                                            src="/images/svgs/wrong.svg"
+                                                                                                            loading="lazy"
+                                                                                                            className="lazyload"
+                                                                                                            style={{
+                                                                                                                width: "16px",
+                                                                                                                height: "16px",
+                                                                                                            }}
+                                                                                                        />
+                                                                                                    </>
+                                                                                                ) : (
+                                                                                                    <>
+                                                                                                        <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                                        <img
+                                                                                                            loading="lazy"
+                                                                                                            className="lazyload"
+                                                                                                            src="/images/svgs/correct.svg"
+                                                                                                            style={{ width: "16px", height: "16px" }}
+                                                                                                            alt="Correct"
+                                                                                                        />
+                                                                                                    </>
+                                                                                                )}
+                                                                                            </td>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                                    <>
+                                                                                                        <span style={{ color: "gray" }}>Timeout</span>
+                                                                                                        <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                                                                                                            <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
+                                                                                                        </svg>
+                                                                                                    </>
+                                                                                                </td>
+                                                                                            </>
+                                                                                        )}
                                                                                     </RenderIf>
                                                                                     <td>{eventLogData?.requestType}</td>
-                                                                                    <td>{operationCount || "00"}</td>
+                                                                                    <td>{operationCount !== "99999" ? operationCount : "0"}</td>
                                                                                     <td>{eventLogData?.videoId}</td>
                                                                                 </tr>
                                                                             )
@@ -600,9 +717,20 @@ const DemoPage = () => {
                                                                                 </td>
                                                                             ) : (
                                                                                 <td style={{ overflowX: "auto", maxWidth: "160px" }}>
-                                                                                    <span style={{ wordBreak: "break-word" }}>
-                                                                                        {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
-                                                                                    </span>
+                                                                                    {item?.isTimeout !== true ? (
+                                                                                        <>
+                                                                                            <span style={{ wordBreak: "break-word" }}>
+                                                                                                {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                            </span>
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <span style={{ color: "gray" }}>Timeout</span>
+                                                                                            <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                                                                                                <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
+                                                                                            </svg>
+                                                                                        </>
+                                                                                    )}
                                                                                 </td>
                                                                             )}
                                                                         </RenderIf>
@@ -631,27 +759,49 @@ const DemoPage = () => {
                                                                                 </>
                                                                             ) : (
                                                                                 <>
-                                                                                    <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                                        {item.webFeatureKey !== "Tagging" ? (
-                                                                                            <>
-                                                                                                <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
-                                                                                                <img
-                                                                                                    src="/images/svgs/wrong.svg"
-                                                                                                    loading="lazy"
-                                                                                                    className="lazyload"
-                                                                                                    style={{
-                                                                                                        width: "16px",
-                                                                                                        height: "16px",
-                                                                                                    }}
-                                                                                                />
-                                                                                            </>
-                                                                                        ) : (
-                                                                                            "--"
-                                                                                        )}
-                                                                                    </td>
-                                                                                    <td style={{ overflowX: "auto", maxWidth: "160px" }}>
-                                                                                        <span>{CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}</span>
-                                                                                    </td>
+                                                                                    {item?.isTimeout !== true ? (
+                                                                                        <>
+                                                                                            <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                                {item.webFeatureKey !== "Tagging" ? (
+                                                                                                    <>
+                                                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                                                        <img
+                                                                                                            src="/images/svgs/wrong.svg"
+                                                                                                            loading="lazy"
+                                                                                                            className="lazyload"
+                                                                                                            style={{
+                                                                                                                width: "16px",
+                                                                                                                height: "16px",
+                                                                                                            }}
+                                                                                                        />
+                                                                                                    </>
+                                                                                                ) : (
+                                                                                                    "--"
+                                                                                                )}
+                                                                                            </td>
+                                                                                            <td style={{ overflowX: "auto", maxWidth: "160px" }}>
+                                                                                                <span>
+                                                                                                    {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                                <>
+                                                                                                    <span style={{ color: "gray" }}>Timeout</span>
+                                                                                                    <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                                                                                                        <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
+                                                                                                    </svg>
+                                                                                                </>
+                                                                                            </td>
+                                                                                            <td style={{ overflowX: "auto", maxWidth: "160px" }}>
+                                                                                                <span>
+                                                                                                    {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        </>
+                                                                                    )}
                                                                                 </>
                                                                             )}
                                                                         </RenderIf>
@@ -663,22 +813,37 @@ const DemoPage = () => {
                                                                                     <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "16px", height: "16px" }} />
                                                                                 </td>
                                                                             ) : (
-                                                                                <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                                    <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
-                                                                                    <img
-                                                                                        src="/images/svgs/wrong.svg"
-                                                                                        loading="lazy"
-                                                                                        className="lazyload"
-                                                                                        style={{
-                                                                                            width: "16px",
-                                                                                            height: "16px",
-                                                                                        }}
-                                                                                    />
-                                                                                </td>
+                                                                                <>
+                                                                                    {item?.isTimeout !== true ? (
+                                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                                            <img
+                                                                                                src="/images/svgs/wrong.svg"
+                                                                                                loading="lazy"
+                                                                                                className="lazyload"
+                                                                                                style={{
+                                                                                                    width: "16px",
+                                                                                                    height: "16px",
+                                                                                                }}
+                                                                                            />
+                                                                                        </td>
+                                                                                    ) : (
+                                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                            <span style={{ color: "gray" }}>Timeout</span>
+                                                                                            <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                                                                                                <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
+                                                                                            </svg>
+                                                                                        </td>
+                                                                                    )}
+                                                                                </>
                                                                             )}
                                                                         </RenderIf>
                                                                         <td>{eventLogData?.requestType}</td>
-                                                                        <td>{eventLogData.operationsPerFeature[item?.webFeatureKey]}</td>
+                                                                        <td>
+                                                                            {eventLogData.operationsPerFeature[item?.webFeatureKey] !== "99999"
+                                                                                ? eventLogData.operationsPerFeature[item?.webFeatureKey]
+                                                                                : 0}
+                                                                        </td>
                                                                         <td>{eventLogData?.videoId}</td>
                                                                     </tr>
                                                                 );
@@ -718,7 +883,7 @@ const DemoPage = () => {
                                                             </span>{" "}
                                                             out of the{" "}
                                                             <span style={{ fontSize: "18px" }}>
-                                                                <b> {eventLogData?.processStatus?.totalProcessingFeatures || 0}</b>
+                                                                <b> {eventLogData?.processStatus?.totalProcessingFeatures || router?.query?.sf_id?.split(",").length || 0}</b>
                                                             </span>{" "}
                                                             selected filters.
                                                         </span>
@@ -727,7 +892,7 @@ const DemoPage = () => {
                                                             {" "}
                                                             The AI has successfully verified the provided information using all{" "}
                                                             <span style={{ fontSize: "18px" }}>
-                                                                <b> {eventLogData?.processStatus?.totalProcessingFeatures || 0}</b>
+                                                                <b> {eventLogData?.processStatus?.totalProcessingFeatures || router?.query?.sf_id?.split(",").length || 0}</b>
                                                             </span>{" "}
                                                             selected filters.
                                                         </span>

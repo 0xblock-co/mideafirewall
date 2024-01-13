@@ -4,11 +4,12 @@ import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
-import InputCheckBoxComponent from "@/components/UI/InputCheckBox";
-import InputRadioBoxComponent from "@/components/UI/InputRadioBox";
-import InputTypeTextComponent from "@/components/UI/InputTextBox";
-import RangeBox from "@/components/UI/RangeBox";
+import InputCheckBoxComponent from "../UI/InputCheckBox";
+import InputRadioBoxComponent from "../UI/InputRadioBox";
 import InputTypeTextAreaComponent from "../UI/InputTextAreaBox";
+import InputTypeTextComponent from "../UI/InputTextBox";
+import PhoneNumberComponent from "../UI/PhoneNumber";
+import RangeBox from "../UI/RangeBox";
 
 const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
     const validationSchema = yup.object().shape(Object.fromEntries(elements.filter((element) => element.isRender).map((element) => [element.name, element.validation])));
@@ -19,6 +20,7 @@ const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
         formState: { errors },
         setValue,
         watch,
+        control,
     } = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: defaultValue,
@@ -46,6 +48,21 @@ const SurveyForm = ({ elements, defaultValue, onSubmit }) => {
                             return (
                                 <div key={index}>
                                     <InputTypeTextComponent title={element.title} placeholder={element.placeholder} register={register} name={element.name} errors={errors} />
+                                </div>
+                            );
+
+                        case "phone_number":
+                            return (
+                                <div key={index}>
+                                    <PhoneNumberComponent
+                                        title={element.title}
+                                        placeholder={"dd"}
+                                        register={register}
+                                        name={element.name}
+                                        rules={{ required: "This field is required" }}
+                                        errors={errors}
+                                        control={control}
+                                    />
                                 </div>
                             );
                         case "text-area":

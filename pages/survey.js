@@ -30,7 +30,9 @@ const NewUserSurvey = () => {
             .unwrap()
             .then((response) => {
                 if (response && response.isSuccess && response.data) {
+                    
                     const data = getFilteredData(response.data.questions);
+                    
                     if (data) {
                         const defaultValue = {};
                         data.forEach((element) => {
@@ -116,4 +118,5 @@ const NewUserSurvey = () => {
         </BoxContainerWithFilterIconWrapper>
     );
 };
+
 export default ProtectRoute(NewUserSurvey);

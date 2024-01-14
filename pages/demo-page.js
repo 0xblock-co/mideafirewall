@@ -577,10 +577,10 @@ const DemoPage = () => {
                                                                                         <>
                                                                                             {operationCount !== "99999" ? (
                                                                                                 <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                                                    {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
+                                                                                                    {/* {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
                                                                                                     (eventLogData?.errorLog_v2?.errorCode !== "9000" || eventLogData?.errorLog_v2?.errorCode !== "9001") ? (
                                                                                                         <>
-                                                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content11</span>
                                                                                                             <img
                                                                                                                 src="/images/svgs/wrong.svg"
                                                                                                                 loading="lazy"
@@ -592,7 +592,7 @@ const DemoPage = () => {
                                                                                                             />
                                                                                                         </>
                                                                                                     ) : (
-                                                                                                        <>
+                                                                                                        <> */}
                                                                                                             <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
                                                                                                             <img
                                                                                                                 loading="lazy"
@@ -601,8 +601,8 @@ const DemoPage = () => {
                                                                                                                 style={{ width: "16px", height: "16px" }}
                                                                                                                 alt="Correct"
                                                                                                             />
-                                                                                                        </>
-                                                                                                    )}
+                                                                                                        {/* </>
+                                                                                                    )} */}
                                                                                                 </td>
                                                                                             ) : (
                                                                                                 <td className="d-flex justify-content-center align-items-center gap-2">
@@ -621,10 +621,10 @@ const DemoPage = () => {
                                                                                     <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
                                                                                         {operationCount !== "99999" ? (
                                                                                             <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                                                {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
+                                                                                                {/* {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
                                                                                                 (eventLogData?.errorLog_v2?.errorCode !== "9000" || eventLogData?.errorLog_v2?.errorCode !== "9001") ? (
                                                                                                     <>
-                                                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content22</span>
                                                                                                         <img
                                                                                                             src="/images/svgs/wrong.svg"
                                                                                                             loading="lazy"
@@ -636,7 +636,7 @@ const DemoPage = () => {
                                                                                                         />
                                                                                                     </>
                                                                                                 ) : (
-                                                                                                    <>
+                                                                                                    <> */}
                                                                                                         <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
                                                                                                         <img
                                                                                                             loading="lazy"
@@ -645,8 +645,8 @@ const DemoPage = () => {
                                                                                                             style={{ width: "16px", height: "16px" }}
                                                                                                             alt="Correct"
                                                                                                         />
-                                                                                                    </>
-                                                                                                )}
+                                                                                                    {/* </>
+                                                                                                )} */}
                                                                                             </td>
                                                                                         ) : (
                                                                                             <>

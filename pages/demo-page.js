@@ -560,7 +560,7 @@ const DemoPage = () => {
                                                                             : 0;
 
                                                                         return (
-                                                                            operationCount >= 0 && (
+                                                                            operationCount > 0 && (
                                                                                 <tr key={index}>
                                                                                     <th scope="row">{index + 1}</th>
                                                                                     <td>{filter}</td>

@@ -27,7 +27,7 @@ const shouldStopFetching = (data) => {
     if (CommonUtility.isNotEmpty(routerData?.filters)) {
         const appliedFiltersLength = routerData.filters.split(",").length;
 
-        if (data?.errorLog) {
+        if (data?.errorLog || data?.errorLog_v2) {
             return true;
         }
         //         if (data?.processStatus && CommonUtility.isNotEmptyObject(data?.processStatus)) {
@@ -227,7 +227,7 @@ const DemoPage = () => {
 
                     if (response.isSuccess) {
                         const resData = response.data;
-                        if (CommonUtility.isNotEmptyObject(resData) && resData?.errorLog) {
+                        if (CommonUtility.isNotEmptyObject(resData) && (resData?.errorLog || resData?.errorLog_v2)) {
                             isFetching = false;
                             setIsFetchingState(false);
                         }
@@ -315,7 +315,7 @@ const DemoPage = () => {
                                 ...responseData.operationsPerFeature,
                                 ...objPreparation3,
                             },
-                            errorLog: {
+                            errorLog_v2: {
                                 error: "NOT_PROCESS_COMPLETED",
                                 errorCode: "9001",
                                 description: `${notFilteredFeatures} could not be processed. Please contact the administrator for assistance`,
@@ -325,7 +325,7 @@ const DemoPage = () => {
                     }
                     setEventLogData({
                         ...responseData,
-                        errorLog: {
+                        errorLog_v2: {
                             error: "MAX_TME_EXCEED",
                             errorCode: "9000",
                             description:
@@ -512,17 +512,17 @@ const DemoPage = () => {
 
                     <Col lg={8}>
                         <Row>
-                            {CommonUtility.doesKeyExist(eventLogData, "errorLog") && (
+                            {(CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") || CommonUtility.doesKeyExist(eventLogData, "errorLog")) && (
                                 <div className="mt-2 mb-2">
                                     <span style={{ color: "red", marginRight: "3px" }}>
                                         <b>Error:</b>
                                     </span>
                                     <br />
-                                    {eventLogData?.errorLog?.description || "The size of the URL is exceeding the limit of 50 MB"}
+                                    {eventLogData?.errorLog_v2?.description || eventLogData?.errorLog?.description || "The size of the URL is exceeding the limit of 50 MB"}
                                 </div>
                             )}
 
-                            {/* {!CommonUtility.doesKeyExist(eventLogData, "errorLog") && ( */}
+                            {!CommonUtility.doesKeyExist(eventLogData, "errorLog") && (
                             <Tabs defaultActiveKey="table" className={`table table-fit  ${style.upload__main__tab}`} id="">
                                 <Tab eventKey="table" className="pt-3" title="Table">
                                     <Col lg={12}>
@@ -577,8 +577,8 @@ const DemoPage = () => {
                                                                                         <>
                                                                                             {operationCount !== "99999" ? (
                                                                                                 <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                                                    {CommonUtility.doesKeyExist(eventLogData, "errorLog") &&
-                                                                                                    (eventLogData?.errorLog?.errorCode !== "9000" || eventLogData?.errorLog?.errorCode !== "9001") ? (
+                                                                                                    {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
+                                                                                                    (eventLogData?.errorLog_v2?.errorCode !== "9000" || eventLogData?.errorLog_v2?.errorCode !== "9001") ? (
                                                                                                         <>
                                                                                                             <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
                                                                                                             <img
@@ -621,8 +621,8 @@ const DemoPage = () => {
                                                                                     <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
                                                                                         {operationCount !== "99999" ? (
                                                                                             <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                                                {CommonUtility.doesKeyExist(eventLogData, "errorLog") &&
-                                                                                                (eventLogData?.errorLog?.errorCode !== "9000" || eventLogData?.errorLog?.errorCode !== "9001") ? (
+                                                                                                {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
+                                                                                                (eventLogData?.errorLog_v2?.errorCode !== "9000" || eventLogData?.errorLog_v2?.errorCode !== "9001") ? (
                                                                                                     <>
                                                                                                         <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
                                                                                                         <img
@@ -914,7 +914,7 @@ const DemoPage = () => {
                                     {highlightCode(returnJsonFormatRes(), "json")}
                                 </Tab>
                             </Tabs>
-                            {/* )} */}
+                            )}
                         </Row>
                     </Col>
 

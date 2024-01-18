@@ -32,6 +32,6 @@ export default async (req, res) => {
         }
     } catch (error) {
         console.error("Error authenticating with Microsoft:", error);
-        res.redirect("/error"); // Handle the error accordingly
+        res.redirect("/"); // Handle the error accordingly
     }
 };

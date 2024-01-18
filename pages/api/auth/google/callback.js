@@ -11,10 +11,10 @@ export default async (req, res) => {
         if (tokens && "id_token" in tokens) {
             res.redirect(`/account-security/login?authType=google&success=true&value=${id_token}`);
         } else {
-            res.redirect(`/account-security/login?authType=google&success=true&value=`);
+            res.redirect(`/account-security/login?authType=google&success=false&value=`);
         }
     } catch (error) {
         console.error("Error authenticating with Google:", error);
-        res.redirect("/error");
+        res.redirect("/");
     }
 };

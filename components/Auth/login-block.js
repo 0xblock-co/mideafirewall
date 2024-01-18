@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { HiLockClosed, HiMail } from "react-icons/hi";
 import * as yup from "yup";
 import style from "./auth.module.scss";
+
 // Validation Schema
 const schema = yup.object().shape({
     email: yup.string().email("Invalid email address").required("Email is required"),
@@ -68,9 +69,9 @@ const LoginBlock = ({ handleLoginSubmit }) => {
     );
 
     // Handle LinkedIn Login
-    // const handleLinkedInLogin = () => {
-    //     window.location.href = "/api/auth/linkedin";
-    // };
+    const handleLinkedInLogin = () => {
+        window.location.href = "/api/auth/linkedin";
+    };
     const handleMicrosoftInLogin = () => {
         window.location.href = "/api/auth/microsoft";
     };
@@ -87,15 +88,10 @@ const LoginBlock = ({ handleLoginSubmit }) => {
                     <Image className={style.social__icons} layout="fill" src="/images/google-icon.png" alt="" />
                     Google
                 </Button>
-                {/* <Button className="ms-3" onClick={handleLinkedInLogin}>
-          <Image
-            className={style.social__icons}
-            layout="fill"
-            src="/images/linkedIn.svg"
-            alt=""
-          />
-          LinkedIn
-        </Button> */}
+                <Button className="ms-3" onClick={handleLinkedInLogin}>
+                    <Image className={style.social__icons} layout="fill" src="/images/linkedIn.svg" alt="" />
+                    LinkedIn
+                </Button>
                 <Button className="ms-3" onClick={handleMicrosoftInLogin}>
                     <Image className={style.social__icons} layout="fill" src="/images/microsoft.svg" alt="" />
                     Microsoft

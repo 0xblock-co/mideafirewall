@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         client_id: LINKEDIN_CLIENT_ID,
         redirect_uri: LINKEDIN_REDIRECT_URI,
         state: crypto.randomBytes(16).toString("hex"),
-        scope: "r_liteprofile",
+        scope: "openid profile email",
     };
 
     const authorizationUrl = `${LINKEDIN_AUTHORIZATION_URL}?${querystring.stringify(params)}`;

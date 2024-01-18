@@ -546,7 +546,17 @@ export default function UploadTabs() {
                     <Tab eventKey="web" className="p-3" title="Web">
                         <div className="text-center">
                             <div className="text-center">
-                                {/* <h3>Upload Your Files or Provide Image URLs </h3> */}
+                                <RenderIf isTrue={CommonUtility.isNotEmpty(router?.query?.filters) && CommonUtility.isValidArray(router?.query?.filters.split(","))}>
+                                    <>
+                                        <p className="d-flex justify-content-start mb-1">
+                                            <b>Selected Filters</b>
+                                        </p>
+                                        <span className="d-flex justify-content-start mb-2 " style={{ fontSize: "14px", wordBreak: "break-word" }}>
+                                            {router?.query?.filters}
+                                        </span>
+                                        <hr />
+                                    </>
+                                </RenderIf>
                                 <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                                     <li className="nav-item" role="presentation">
                                         <button

@@ -20,9 +20,9 @@ export async function callbackHandler(req, res) {
         const { access_token } = tokenResponse.data;
         console.log("access_token: ", access_token);
         if ("access_token" in tokenResponse.data) {
-            res.redirect(`/account-security/login?authType=linkedin&success=true&value=${access_token}`);
+            res.redirect(`/account-security/login?authType=linkedIn&success=true&value=${access_token}`);
         } else {
-            res.redirect(`/account-security/login?authType=linkedin&success=false&value=`);
+            res.redirect(`/account-security/login?authType=linkedIn&success=false&value=`);
         }
     } catch (e) {
         console.error("Error during LinkedIn API request:", e);

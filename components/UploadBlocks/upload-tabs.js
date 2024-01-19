@@ -38,10 +38,10 @@ export default function UploadTabs() {
         try {
             setIsUploading(true);
             const isFileUpload = uploadType === "file";
-            console.log("isFileUpload: ", isFileUpload);
+
             const endpoint = isFileUpload ? "filters" : "url/filters";
             let queryString = {};
-            console.log('user: ', user);
+
             if (isFileUpload) {
                 queryString = new URLSearchParams({
                     apikey: user?.api_secret,
@@ -348,16 +348,14 @@ export default function UploadTabs() {
                                     const uploadedFileType = url;
                                     // const errorRes = areFeaturesSupported(webFeatureKeys, uploadedFileType);
                                     const mediaType = identifyMediaTypeByExtension(uploadedFileType);
-                                    console.log('mediaType: ', mediaType);
+
                                     const errorRes = await areFeaturesSupported(webFeatureKeys, { type: mediaType });
-                                    console.log('errorRes: ', errorRes);
 
                                     if (errorRes && errorRes.supported === false) {
                                         mediaSupportsArray.push(errorRes.featureName);
                                     }
                                 })
                             );
-                            console.log("mediaSupportsArray: ", mediaSupportsArray);
 
                             if (mediaSupportsArray.length > 0) {
                                 const uniqueMediaSupports = [...new Set(mediaSupportsArray)];
@@ -372,12 +370,11 @@ export default function UploadTabs() {
                                         isUpdateFile ? "" : "Cancel"
                                     )
                                         .then(async () => {
-                                            console.log('uniqueMediaSupports: ', uniqueMediaSupports);
-                                             if (isOnlyOneFIlter == 1 || uniqueMediaSupports.length == sfIds.length) {
-                                                 cleanup();
-                                                 isError = true;
-                                                 resolve({ isValid: false, error: null });
-                                             } else {
+                                            if (isOnlyOneFIlter == 1 || uniqueMediaSupports.length == sfIds.length) {
+                                                cleanup();
+                                                isError = true;
+                                                resolve({ isValid: false, error: null });
+                                            } else {
                                                 isError = true;
                                                 const supportedFilterQuery = filterQuery
                                                     .split(",")
@@ -385,12 +382,10 @@ export default function UploadTabs() {
                                                     .join(",");
 
                                                 const supportedSqIdQuery = sq_id_Query
-                                                .split(",")
-                                                .filter((feature) => !uniqueMediaSupports.includes(feature.trim()))
-                                                .join(",");
-                                                console.log('supportedSqIdQuery: ', supportedSqIdQuery);
+                                                    .split(",")
+                                                    .filter((feature) => !uniqueMediaSupports.includes(feature.trim()))
+                                                    .join(",");
 
-                                                console.log('supportedFilterQuery: ', supportedFilterQuery);
                                                 await asyncUploadContent(
                                                     "url",
                                                     {

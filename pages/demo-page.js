@@ -2,6 +2,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { asyncGenerateProofsByEmail, asyncGetContentEventLogs } from "@/services/product/product.service";
 import { cloneDeep } from "lodash";
+import CreatableSelect from 'react-select/creatable';
+
 
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
@@ -346,18 +348,31 @@ const DemoPage = () => {
         };
     }, [router]);
 
-    const { control, handleSubmit, reset } = useForm();
+    const { control, handleSubmit, reset,setValue } = useForm();
+    useEffect(() => {
+        setValue("email",[ { label: user?.userDetails?.email, value: user?.userDetails?.email }]);
+    }, [setValue]);
+    
     const onSubmit = async (data) => {
         try {
+            console.log("data ::",data)
+
             const formData = new FormData();
             formData.append("videoID", router.query.videoId);
 
             if (selectedOption === "both") {
                 // If "both" is selected, send both email and WhatsApp data
-                formData.append("recipients", `Email: ${data.email}, WhatsApp: ${data.whatsapp}`);
+                const email = data.email.map((i)=> i.value).toString();
+                    formData.append("recipients", `Email: ${email}, WhatsApp: ${data.whatsapp}`);
             } else {
-                // Otherwise, send data based on the selected option
-                formData.append("recipients", data[selectedOption].toString());
+                if(selectedOption === "email"){
+                    const email = data.email.map((i)=> i.value).toString();     
+                    formData.append("recipients", `Email: ${email}`);
+                }else{
+                    // Otherwise, send data based on the selected option
+                    formData.append("recipients", data[selectedOption].toString());
+                }
+                 
             }
 
             const res = await asyncGenerateProofsByEmail(user.api_secret, formData);
@@ -408,12 +423,12 @@ const DemoPage = () => {
                         {(selectedOption === "email" || selectedOption === "both") && (
                             <Form.Group controlId="email" className="mt-2 mb-2 position-relative">
                                 <Form.Label>Email</Form.Label>
-                                <Controller
+                              <Controller
                                     name="email"
                                     control={control}
                                     defaultValue=""
-                                    render={({ field }) => <Form.Control type="email" placeholder="Enter your correct email" className={`fs-6`} {...field} />}
-                                />
+                                    render={({ field }) =>  <CreatableSelect isMulti {...field} />}
+                                /> 
                             </Form.Group>
                         )}
 

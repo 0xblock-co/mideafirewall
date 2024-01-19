@@ -61,9 +61,9 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
     };
 
     //Form submit method
-    // const handleLinkedInLogin = () => {
-    //     window.location.href = "/api/auth/linkedin";
-    // };
+    const handleLinkedInLogin = () => {
+        window.location.href = "/api/auth/linkedin";
+    };
     const handleMicrosoftInLogin = () => {
         window.location.href = "/api/auth/microsoft";
     };
@@ -99,15 +99,10 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
                     <Image className={style.social__icons} layout="fill" src="/images/google-icon.png" alt="" />
                     Google
                 </Button>
-                {/* <Button className="ms-3" onClick={handleLinkedInLogin}>
-          <Image
-            className={style.social__icons}
-            layout="fill"
-            src="/images/linkedIn.svg"
-            alt=""
-          />
-          LinkedIn
-        </Button> */}
+                <Button className="ms-3" onClick={handleLinkedInLogin}>
+                    <Image className={style.social__icons} layout="fill" src="/images/linkedIn.svg" alt="" />
+                    LinkedIn
+                </Button>
                 <Button className="ms-3" onClick={handleMicrosoftInLogin}>
                     <Image className={style.social__icons} layout="fill" src="/images/microsoft.svg" alt="" />
                     Microsoft

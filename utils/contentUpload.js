@@ -81,7 +81,7 @@ export const checkContentValidation = async (fileData, isContentUpload, maxUploa
         if (isContentUpload && (mediaFile.type.includes("image")|| mediaFile.type.includes("video"))) {
             const invalidExtensions = allowedExtensions.filter((item) => mediaFile.type.includes(item));
             if (invalidExtensions.length == 0) {
-                newInfoAlert("Invalid input.", `Kindly share a valid image or video URL with extensions such as ${invalidExtensions.join(", ")}`, "Okay", "error", true, "Cancel", false);
+                newInfoAlert("Invalid input.", `Kindly share a valid image or video URL with extensions such as ${allowedExtensions.join(", ")}`, "Okay", "error", true, "Cancel", false);
                 return false;
             }
         }

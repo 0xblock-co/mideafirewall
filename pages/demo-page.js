@@ -367,7 +367,7 @@ const DemoPage = () => {
             } else {
                 if(selectedOption === "email"){
                     const email = data.email.map((i)=> i.value).toString();     
-                    formData.append("recipients", `Email: ${email}`);
+                    formData.append("recipients", `${email}`);
                 }else{
                     // Otherwise, send data based on the selected option
                     formData.append("recipients", data[selectedOption].toString());
@@ -378,11 +378,13 @@ const DemoPage = () => {
             const res = await asyncGenerateProofsByEmail(user.api_secret, formData);
 
             if (res.isSuccess) {
-                if (selectedOption === "both") {
-                    ToastMessage.success("Proofs are sent to email.");
-                } else {
-                    ToastMessage.success(`Proofs are sent to ${data[selectedOption].toString()}.`);
-                }
+                ToastMessage.success(res?.data?.message || "VideoID is valid, proofs are being generated");
+
+                // if (selectedOption === "both") {
+                //     ToastMessage.success("Proofs are sent to email.");
+                // } else {
+                //     ToastMessage.success(`Proofs are sent to ${data[selectedOption].toString()}.`);
+                // }
                 reset();
             } else {
                 ToastMessage.error("Failed to generate proofs.");

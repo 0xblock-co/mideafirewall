@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { Button, Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
 
@@ -153,28 +154,6 @@ export default function FeatureBlog({ headerData }) {
                                         </span>{" "}
                                     </div>
                                 </li>
-
-                                {/* <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3 ">
-                                    <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
-                                        <div style={{ width: "150px", height: "70px" }}>
-                                            <img src="images/svgs/nvidia-cloud-validated-lockup-rgb-blk-for-screen.svg" style={{ objectFit: "contain", width: "100%", height: "100%" }}></img>
-                                        </div>{" "}
-                                    </div>
-                                </li> */}
-                                {/* <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3">
-                                    <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
-                                        <span className="lead font-weight-bold trusted-text04" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
-                                            269
-                                        </span>
-                                        <span className="lead font-weight-bold" style={{ color: "#7A00DA", fontWeight: "700", fontSize: "24px" }}>
-                                            + million
-                                        </span>{" "}
-                                        <br />
-                                        <span className="font-size-normal font-weight-normal pt-1 d-inline-block" style={{ fontSize: "16px" }}>
-                                            Videos created
-                                        </span>
-                                    </div>
-                                </li> */}
                             </ul>
                         </div>
                     </>
@@ -191,10 +170,9 @@ export default function FeatureBlog({ headerData }) {
                         <h1 className="fw-bold text-shadow text-lg-center">
                             <FormattedMessage id="page.home.featureBlog.mainTitle" />
                         </h1>
-                        <h4 className="d-flex justify-content-center text-center" style={{ color: "#7b5b9e" }}>
-                            Experiment the world&apos;s best media filters in action with your own uploaded media content below, <br />
-                            Free up to 10000 operations
-                        </h4>
+                        <h2 className="d-flex justify-content-center text-center" style={{ color: "#7b5b9e" }}>
+                            Experiment the world&apos;s best media filters in action with your own uploaded media content below, Free up to 10000 operations
+                        </h2>
                     </Col>
                 </Row>
 
@@ -232,12 +210,7 @@ export default function FeatureBlog({ headerData }) {
                                                     <Card className={`${style.mdf__feature__card} ${!feature.active ? style.mdf__feature__card_inactive : ""} `}>
                                                         <Row>
                                                             <Col xs={4} xl={3}>
-                                                                {/* <Image
-                                  variant="top"
-                                  src={feature.imgUrl}
-                                  alt={feature.name}
-                                /> */}
-                                                                <img src={feature.imgUrl} alt={feature.name} loading="lazy" className="lazyload" />
+                                                                <img src={feature.imgUrl} alt={feature.name} title={feature.name} loading="lazy" className="lazyload" />
                                                             </Col>
                                                             <Col xs={8} xl={9}>
                                                                 <div className="p-0">

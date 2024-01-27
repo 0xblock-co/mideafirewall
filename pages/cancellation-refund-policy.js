@@ -15,13 +15,16 @@ const Cancellation = () => {
                     title: "Cancellation and Refund Policy",
                     description:
                         "Understand MediaFirewall's Cancellation and Refund Policy for all services provided through www.mediafirewall.ai. Learn about cancellation terms for subscription and one-time services, refund conditions, and the process for requesting cancellations or refunds. Stay informed about changes to this policy and contact us for any questions.",
-                    site_name: "MediaFirewall",
+                    site_name: "Media Firewall",
+                    images: [
+                        {
+                            url: "https://mediafirewall.ai/images/logo.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Media Firewall Logo",
+                        },
+                    ],
                 }}
-                // twitter={{
-                //     cardType: "summary_large_image",
-                //     handle: "@yourTwitterHandle", // Replace with your Twitter handle
-                //     site: "@yourTwitterHandle", // Replace with your Twitter handle
-                // }}
                 additionalMetaTags={[
                     {
                         name: "keywords",
@@ -104,7 +107,10 @@ const Cancellation = () => {
                                             </span>
                                         </span>
                                         <br />
-                                        Customers can request cancellations or refunds by contacting our customer support team at <a href="mailto:support@mediafirewall.ai">support@mediafirewall.ai</a>
+                                        Customers can request cancellations or refunds by contacting our customer support team at{" "}
+                                        <a href="mailto:support@mediafirewall.ai" title="Support Mediafirewall Email">
+                                            support@mediafirewall.ai
+                                        </a>
                                         . Please provide relevant details, such as your order number and the reason for the cancellation or refund request.
                                     </li>
                                     <li style={{ listStyle: "none" }}>
@@ -126,7 +132,11 @@ const Cancellation = () => {
                                         <br />
                                         If you have any questions about this Cancellation and Refund Policy, please contact us at <a href="mailto:info@mediafirewall.ai">
                                             info@mediafirewall.ai
-                                        </a> Or <a href="mailto:info@mediafirewall.ai">+91 99001 19968</a>.
+                                        </a> Or{" "}
+                                        <a href="tel:+919900119968" title="Support Mediafirewall Contact">
+                                            +91 99001 19968
+                                        </a>
+                                        .
                                     </li>
                                 </ol>
                             </div>

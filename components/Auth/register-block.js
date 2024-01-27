@@ -23,15 +23,15 @@ const schema = yup.object().shape({
         .required("Password is required.")
         .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
-            "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"
+            "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character. It should be at least 8 characters long and not exceed 20 characters."
         )
-        .min(9, "Password must be at least 9 characters long") // Adjust the minimum length here
         .max(20, "Password must not exceed 20 characters"),
     passwordConfirmation: yup
         .string()
         .oneOf([yup.ref("passWord"), null], "Passwords must match.")
-        .required("Confirm passWord is required."),
+        .required("Confirm password is required."),
 });
+
 
 const RegisterBlock = ({ handleSubmitSingUp }) => {
     //useForm
@@ -148,7 +148,7 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
                 <div className="text-center mt-3">
                     <p>
                         Already have an account ?{" "}
-                        <Link href="/account-security/login" className="text-primary text-decoration-none fw-bold">
+                        <Link href="/account-security/login" title="Mediafirewall Login"  className="text-primary text-decoration-none fw-bold">
                             Sign in
                         </Link>
                     </p>

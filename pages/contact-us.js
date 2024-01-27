@@ -20,28 +20,31 @@ export default function ContactUsScreen() {
     return (
         <Fragment>
             <NextSeo
-                title="Contact Us"
-                description="Contact us effortlessly through WhatsApp, schedule a demo, or request a price quote. Explore our onboarding videos for a seamless experience. Connect with us for the latest in content moderation and platform safety."
+                title="Contact Media Firewall with Your Moderation Questions"
+                description="Have questions or need assistance? Contact Media Firewall today. Reach us via email, phone, or our convenient contact form. Our dedicated support team is ready to help you with prompt and reliable assistance."
                 canonical="https://mediafirewall.ai/contact-us"
                 openGraph={{
                     type: "website",
                     locale: "en_US",
                     url: "https://mediafirewall.ai/contact-us",
-                    title: "Contact Us",
+                    title: "Contact Media Firewall with Your Moderation Questions",
                     description:
-                        "Contact us effortlessly through WhatsApp, schedule a demo, or request a price quote. Explore our onboarding videos for a seamless experience. Connect with us for the latest in AI content moderation and platform safety.",
-                    site_name: "MediaFirewall",
+                        "Have questions or need assistance? Contact Media Firewall today. Reach us via email, phone, or our convenient contact form. Our dedicated support team is ready to help you with prompt and reliable assistance.",
+                    site_name: "Media Firewall",
+                    images: [
+                        {
+                            url: "https://mediafirewall.ai/images/logo.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Media Firewall Logo",
+                        },
+                    ],
                 }}
-                // twitter={{
-                //     cardType: "summary_large_image",
-                //     handle: "@yourTwitterHandle", // Replace with your Twitter handle
-                //     site: "@yourTwitterHandle", // Replace with your Twitter handle
-                // }}
                 additionalMetaTags={[
                     {
                         name: "keywords",
                         content:
-                            "Contact Us, Contact Methods, WhatsApp, Schedule Demo, Price Quote, Onboarding Videos, AI Safety, Digital Safety, Platform Security, Seamless Communication, AI Content Moderation, Platform Safety, Customer Inquiry, content moderation",
+                            "Contact Us, Contact, Reach Out, Customer Support, Contact Information, Contact Details, Support, Assistance, Help Desk, Chat Support, Contact Options, Email, Phone Number.",
                     },
                 ]}
             />
@@ -54,8 +57,6 @@ export default function ContactUsScreen() {
                             <h2>Effortless Onboarding</h2>
                         </div>
                         <Row>
-
-
                             {mediaContent && CommonUtility.isNotEmptyObject(mediaContent) && CommonUtility.doesKeyExist(mediaContent, "ContactUs") ? (
                                 <>
                                     {CommonUtility.isValidArray(mediaContent.ContactUs) &&

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import { Col, Container, Row } from "react-bootstrap";
 
@@ -87,7 +88,8 @@ export default function FooterBottom() {
                                     height="260"
                                     src="/images/svgs/nvidia-cloud-validated-lockup-rgb-wht-for-screen.svg"
                                     className="attachment-large size-large"
-                                    alt=""
+                                    alt="Nvidia Cloud validated"
+                                    title="Nvidia Cloud validated"
                                     decoding="async"
                                     loading="lazy"
                                     sizes="(max-width: 533px) 100vw, 533px"
@@ -108,10 +110,10 @@ export default function FooterBottom() {
                         <Col lg={3} md={6}>
                             <div className="footer-menu-block">
                                 <div className="footer-logo-block">
-                                    <Image className="mdf__logo_footer" layout="fill" src="/images/footer-logo.png" alt="mfw_logo" />
+                                    <Image className="mdf__logo_footer" layout="fill" src="/images/footer-logo.png" alt="Mediafirewall Footer Logo" title="Mediafirewall Footer Logo" />
                                 </div>
                                 <div className={style.footer_content_text}>
-                                    <a href="https://www.themillionvisions.com/" target="_blank">
+                                    <a href="https://www.themillionvisions.com/" title="Million Visions" target="_blank">
                                         <u>
                                             <b>Million Visions,</b>
                                         </u>
@@ -127,7 +129,7 @@ export default function FooterBottom() {
                                             <span style={{ color: "#ca98e9", width: "auto" }}>
                                                 <i className="fa fa-envelope" aria-hidden="true" style={{ fontSize: "16px" }}></i>
                                             </span>
-                                            <a href="mailto:sales@mediafirewall.ai">
+                                            <a href="mailto:sales@mediafirewall.ai" title="Sales Mediafirewall Email">
                                                 <u>sales@mediafirewall.ai</u>
                                             </a>
                                         </div>
@@ -135,7 +137,7 @@ export default function FooterBottom() {
                                             <span style={{ color: "#ca98e9", width: "auto" }}>
                                                 <i className="fa fa-envelope" aria-hidden="true" style={{ fontSize: "16px" }}></i>
                                             </span>
-                                            <a href="mailto:support@mediafirewall.ai">
+                                            <a href="mailto:support@mediafirewall.ai" title="Support Mediafirewall Email">
                                                 <u>support@mediafirewall.ai</u>
                                             </a>
                                         </div>
@@ -150,7 +152,9 @@ export default function FooterBottom() {
                                     headerData.map((item, index) => {
                                         return (
                                             <li style={{ color: "#fff" }} className="py-2" key={item.id + "_" + index}>
-                                                <Link href={`/features-list?key=${item.id}`}>{item.name}</Link>
+                                                <Link href={`/features-list?key=${item.id}`} title={item.name}>
+                                                    {item.name}
+                                                </Link>
                                             </li>
                                         );
                                     })}
@@ -166,7 +170,7 @@ export default function FooterBottom() {
                                             if (index === 5) {
                                                 return (
                                                     <li style={{ color: "#fff" }} className="py-2" key={`n_${index}`}>
-                                                        <Link href={`/features-list?key=0`}>more...</Link>
+                                                        <Link href={`/features-list?key=0`} title="All Demo Features">more...</Link>
                                                     </li>
                                                 );
                                             }
@@ -188,22 +192,22 @@ export default function FooterBottom() {
                 <Link href="#">About</Link>
               </li> */}
                                 <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/contact-us">Contact us</Link>
+                                    <Link href="/contact-us" title="Contact Us">Contact us</Link>
                                 </li>
                                 <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/pricing">Pricing</Link>
+                                    <Link href="/pricing" title="Pricing">Pricing</Link>
                                 </li>
                                 <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/features-list">Demo</Link>
+                                    <Link href="/features-list" title="Demo">Demo</Link>
                                 </li>
                                 <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/privacy-policy">Privacy policy</Link>
+                                    <Link href="/privacy-policy" title="Privacy Policy">Privacy policy</Link>
                                 </li>
                                 <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/terms-of-use">Terms of Use</Link>
+                                    <Link href="/terms-of-use" title="Terms Of Use">Terms Of Use</Link>
                                 </li>
                                 <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/cancellation-refund-policy">Cancellation policy</Link>
+                                    <Link href="/cancellation-refund-policy" title="Subscription Cancellation Policy">Cancellation policy</Link>
                                 </li>
                             </ul>
                         </Col>

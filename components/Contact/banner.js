@@ -16,7 +16,7 @@ export default function ContactBanner() {
                                     textShadow: "3px 2px 7px rgba(0, 0, 0, 0.25)",
                                 }}
                             >
-                                We'd Love to Hear from You:
+                                We&apos;d Love to Hear from You:
                             </span>
                             <br></br>
                             Contact us today to learn more about our products and services.
@@ -24,7 +24,7 @@ export default function ContactBanner() {
                     </Col>
                     <Col xl={5} lg={6}>
                         <div className="contact-img">
-                            <Image layout="fill" src="/images/people-working-call-center.jpg" alt="" />
+                            <Image layout="fill" src="/images/people-working-call-center.jpg" alt="MediaFirewall Working People" title="MediaFirewall Working People" />
                         </div>
                     </Col>
                 </Row>

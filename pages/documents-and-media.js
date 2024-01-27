@@ -22,12 +22,7 @@ export default function DocumentationAndBlogs() {
         async (pageNumber = 0, pageSize = 10) => {
             try {
                 setIsLoading(true);
-                const response = await api.get(
-                    `https://drivesafe360.themillionvisions.com/driveSafe/blogsPosts/?active=true&descend=true&pageNumber=${pageNumber}&pageSize=${pageSize}`,
-                    {},
-                    true,
-                    false
-                );
+                const response = await api.get(`https://drivesafe360.millionvisions.ai/driveSafe/blogsPosts/?active=true&descend=true&pageNumber=${pageNumber}&pageSize=${pageSize}`, {}, true, false);
 
                 if (response.isSuccess) {
                     setIsLoading(false);

@@ -76,8 +76,11 @@ const ContentPage = () => {
                                         </span>
                                     </span>
                                     <br />
-                                    Customers can request cancellations or refunds by contacting our customer support team at <a href="mailto:support@mediafirewall.ai">support@mediafirewall.ai</a>.
-                                    Please provide relevant details, such as your order number and the reason for the cancellation or refund request.
+                                    Customers can request cancellations or refunds by contacting our customer support team at{" "}
+                                    <a href="mailto:support@mediafirewall.ai" title="Support Mediafirewall Email">
+                                        support@mediafirewall.ai
+                                    </a>
+                                    . Please provide relevant details, such as your order number and the reason for the cancellation or refund request.
                                 </li>
                                 <li style={{ listStyle: "none" }}>
                                     <span>
@@ -96,8 +99,11 @@ const ContentPage = () => {
                                         </span>
                                     </span>
                                     <br />
-                                    If you have any questions about this Cancellation and Refund Policy, please contact us at <a href="mailto:info@mediafirewall.ai">info@mediafirewall.ai</a> Or{" "}
-                                    <a href="mailto:info@mediafirewall.ai">+91 99001 19968</a>.
+                                    If you have any questions about this Cancellation and Refund Policy, please contact us at <a href="mailto:info@mediafirewall.ai" title="Mediafirewall Information Email">info@mediafirewall.ai</a> Or{" "}
+                                    <a href="tel:+919900119968" title="Support Mediafirewall Contact">
+                                        +91 99001 19968
+                                    </a>
+                                    .
                                 </li>
                             </ol>
                         </div>

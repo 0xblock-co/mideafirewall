@@ -91,7 +91,15 @@ const LoginScreen = () => {
                     title: "Login",
                     description:
                         "Access your MediaFirewall account with ease. Login securely with your email and password or choose a faster option with Google, Microsoft, or LinkedIn. Experience convenient and reliable authentication for your MediaFirewall account.",
-                    site_name: "MediaFirewall",
+                    site_name: "Media Firewall",
+                    images: [
+                        {
+                            url: "https://mediafirewall.ai/images/logo.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Media Firewall Logo",
+                        },
+                    ],
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",

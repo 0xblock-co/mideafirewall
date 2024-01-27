@@ -4,7 +4,6 @@ import { asyncGenerateProofsByEmail, asyncGetContentEventLogs } from "@/services
 import { cloneDeep } from "lodash";
 import CreatableSelect from 'react-select/creatable';
 
-
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
 import ProtectRoute from "@/contexts-v2/protectedRoute";
@@ -20,7 +19,6 @@ import { MagnifyingGlass } from "react-loader-spinner";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import style from "../components/DemoPage/demo-page.module.scss";
-
 const fetchInterval = 5000;
 const maxTimeout = 180000; // 2 minute in milliseconds
 
@@ -348,31 +346,29 @@ const DemoPage = () => {
         };
     }, [router]);
 
-    const { control, handleSubmit, reset,setValue } = useForm();
+    const { control, handleSubmit, reset, setValue } = useForm();
     useEffect(() => {
-        setValue("email",[ { label: user?.userDetails?.email, value: user?.userDetails?.email }]);
+        setValue("email", [{ label: user?.userDetails?.email, value: user?.userDetails?.email }]);
     }, [setValue]);
-    
+
     const onSubmit = async (data) => {
         try {
-            console.log("data ::",data)
 
             const formData = new FormData();
             formData.append("videoID", router.query.videoId);
 
             if (selectedOption === "both") {
                 // If "both" is selected, send both email and WhatsApp data
-                const email = data.email.map((i)=> i.value).toString();
-                    formData.append("recipients", `Email: ${email}, WhatsApp: ${data.whatsapp}`);
+                const email = data.email.map((i) => i.value).toString();
+                formData.append("recipients", `Email: ${email}, WhatsApp: ${data.whatsapp}`);
             } else {
-                if(selectedOption === "email"){
-                    const email = data.email.map((i)=> i.value).toString();     
+                if (selectedOption === "email") {
+                    const email = data.email.map((i) => i.value).toString();
                     formData.append("recipients", `${email}`);
-                }else{
+                } else {
                     // Otherwise, send data based on the selected option
                     formData.append("recipients", data[selectedOption].toString());
                 }
-                 
             }
 
             const res = await asyncGenerateProofsByEmail(user.api_secret, formData);
@@ -417,20 +413,15 @@ const DemoPage = () => {
                             <Form.Label>Select an option</Form.Label>
                             <Form.Control as="select" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
                                 <option value="email">Email</option>
-                                <option value="whatsapp">WhatsApp</option>
-                                <option value="both">Both</option> {/* New option */}
+                                {/* <option value="whatsapp">WhatsApp</option>
+                                <option value="both">Both</option> New option */}
                             </Form.Control>
                         </Form.Group>
 
                         {(selectedOption === "email" || selectedOption === "both") && (
                             <Form.Group controlId="email" className="mt-2 mb-2 position-relative">
                                 <Form.Label>Email</Form.Label>
-                              <Controller
-                                    name="email"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({ field }) =>  <CreatableSelect isMulti {...field} />}
-                                /> 
+                                <Controller name="email" control={control} defaultValue="" render={({ field }) => <CreatableSelect isMulti {...field} />} />
                             </Form.Group>
                         )}
 
@@ -540,12 +531,169 @@ const DemoPage = () => {
                             )}
 
                             {!CommonUtility.doesKeyExist(eventLogData, "errorLog") && (
-                            <Tabs defaultActiveKey="table" className={`table table-fit  ${style.upload__main__tab}`} id="">
-                                <Tab eventKey="table" className="pt-3" title="Table">
-                                    <Col lg={12}>
-                                        <section>
-                                            <RenderIf isTrue={!CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
-                                                <>
+                                <Tabs defaultActiveKey="table" className={`table table-fit  ${style.upload__main__tab}`} id="">
+                                    <Tab eventKey="table" className="pt-3" title="Table">
+                                        <Col lg={12}>
+                                            <section>
+                                                <RenderIf isTrue={!CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
+                                                    <>
+                                                        <div style={{ whiteSpace: "nowrap" }}>
+                                                            <Table bordered responsive>
+                                                                <thead>
+                                                                    <tr style={{ background: "#7b5b9e", color: "#fff" }}>
+                                                                        <th>#</th>
+                                                                        <th>Filter</th>
+                                                                        <th>File</th>
+                                                                        <RenderIf isTrue={isTaggingModelV2 === 1}>
+                                                                            <th>Tags</th>
+                                                                        </RenderIf>
+                                                                        <RenderIf isTrue={isTaggingModelV2 === 3}>
+                                                                            <th>Response</th>
+                                                                            <th>Tags</th>
+                                                                        </RenderIf>
+                                                                        <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
+                                                                            <th>Response</th>
+                                                                        </RenderIf>
+                                                                        <th>Request Type</th>
+                                                                        <th>No Of Operations</th>
+                                                                        <th>Reference Id</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {eventLogData &&
+                                                                        CommonUtility.isNotEmpty(router.query.sf_id) &&
+                                                                        router.query.sf_id.split(",").map((filter, index) => {
+                                                                            const operationCount = eventLogData?.operationsPerFeature.hasOwnProperty(filter)
+                                                                                ? eventLogData?.operationsPerFeature[filter]
+                                                                                : 0;
+
+                                                                            return (
+                                                                                operationCount > 0 && (
+                                                                                    <tr key={index}>
+                                                                                        <th scope="row">{index + 1}</th>
+                                                                                        <td>{filter}</td>
+                                                                                        <td>
+                                                                                            <Link href={eventLogData.video.inputVideoURL} target="_blank">
+                                                                                                {eventLogData?.video?.videoName || "Uploaded Link"}
+                                                                                            </Link>
+                                                                                        </td>
+                                                                                        <RenderIf isTrue={isTaggingModelV2 === 1}>
+                                                                                            <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
+                                                                                        </RenderIf>
+
+                                                                                        <RenderIf isTrue={isTaggingModelV2 === 3}>
+                                                                                            <>
+                                                                                                {operationCount !== "99999" ? (
+                                                                                                    <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                                                        {/* {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
+                                                                                                    (eventLogData?.errorLog_v2?.errorCode !== "9000" || eventLogData?.errorLog_v2?.errorCode !== "9001") ? (
+                                                                                                        <>
+                                                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content11</span>
+                                                                                                            <img
+                                                                                                                src="/images/svgs/wrong.svg"
+                                                                                                                loading="lazy"
+                                                                                                                className="lazyload"
+                                                                                                                style={{
+                                                                                                                    width: "16px",
+                                                                                                                    height: "16px",
+                                                                                                                }}
+                                                                                                            />
+                                                                                                        </>
+                                                                                                    ) : (
+                                                                                                        <> */}
+                                                                                                        <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                                        <img
+                                                                                                            loading="lazy"
+                                                                                                            className="lazyload"
+                                                                                                            src="/images/svgs/correct.svg"
+                                                                                                            style={{ width: "16px", height: "16px" }}
+                                                                                                            alt="Correct"
+                                                                                                        />
+                                                                                                        {/* </>
+                                                                                                    )} */}
+                                                                                                    </td>
+                                                                                                ) : (
+                                                                                                    <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                                                        <>
+                                                                                                            <span style={{ color: "gray" }}>Timeout</span>
+                                                                                                            <svg
+                                                                                                                width="20"
+                                                                                                                height="20"
+                                                                                                                fill="gray"
+                                                                                                                viewBox="0 0 22 22"
+                                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                            >
+                                                                                                                <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
+                                                                                                            </svg>
+                                                                                                        </>
+                                                                                                    </td>
+                                                                                                )}
+
+                                                                                                <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
+                                                                                            </>
+                                                                                        </RenderIf>
+                                                                                        <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
+                                                                                            {operationCount !== "99999" ? (
+                                                                                                <td className="d-flex justify-content-center align-items-center gap-2">
+                                                                                                    {/* {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
+                                                                                                (eventLogData?.errorLog_v2?.errorCode !== "9000" || eventLogData?.errorLog_v2?.errorCode !== "9001") ? (
+                                                                                                    <>
+                                                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content22</span>
+                                                                                                        <img
+                                                                                                            src="/images/svgs/wrong.svg"
+                                                                                                            loading="lazy"
+                                                                                                            className="lazyload"
+                                                                                                            style={{
+                                                                                                                width: "16px",
+                                                                                                                height: "16px",
+                                                                                                            }}
+                                                                                                        />
+                                                                                                    </>
+                                                                                                ) : (
+                                                                                                    <> */}
+                                                                                                    <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                                    <img
+                                                                                                        loading="lazy"
+                                                                                                        className="lazyload"
+                                                                                                        src="/images/svgs/correct.svg"
+                                                                                                        style={{ width: "16px", height: "16px" }}
+                                                                                                        alt="Correct"
+                                                                                                    />
+                                                                                                    {/* </>
+                                                                                                )} */}
+                                                                                                </td>
+                                                                                            ) : (
+                                                                                                <>
+                                                                                                    <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                                        <>
+                                                                                                            <span style={{ color: "gray" }}>Timeout</span>
+                                                                                                            <svg
+                                                                                                                width="20"
+                                                                                                                height="20"
+                                                                                                                fill="gray"
+                                                                                                                viewBox="0 0 22 22"
+                                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                            >
+                                                                                                                <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
+                                                                                                            </svg>
+                                                                                                        </>
+                                                                                                    </td>
+                                                                                                </>
+                                                                                            )}
+                                                                                        </RenderIf>
+                                                                                        <td>{eventLogData?.requestType}</td>
+                                                                                        <td>{operationCount !== "99999" ? operationCount : "0"}</td>
+                                                                                        <td>{eventLogData?.videoId}</td>
+                                                                                    </tr>
+                                                                                )
+                                                                            );
+                                                                        })}
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
+                                                    </>
+                                                </RenderIf>
+                                                <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
                                                     <div style={{ whiteSpace: "nowrap" }}>
                                                         <Table bordered responsive>
                                                             <thead>
@@ -569,35 +717,76 @@ const DemoPage = () => {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {eventLogData &&
-                                                                    CommonUtility.isNotEmpty(router.query.sf_id) &&
-                                                                    router.query.sf_id.split(",").map((filter, index) => {
-                                                                        const operationCount = eventLogData?.operationsPerFeature.hasOwnProperty(filter)
-                                                                            ? eventLogData?.operationsPerFeature[filter]
-                                                                            : 0;
-
-                                                                        return (
-                                                                            operationCount > 0 && (
-                                                                                <tr key={index}>
-                                                                                    <th scope="row">{index + 1}</th>
-                                                                                    <td>{filter}</td>
+                                                                {Object.keys(getMatchingValues(eventLogData)).map((key, index) => {
+                                                                    const item = eventLogData.eventLogsV2[key];
+                                                                    const tagsList = item?.report?.documentReport?.report?.Tag?.split(",");
+                                                                    return (
+                                                                        <tr key={key}>
+                                                                            <th scope="row">{index + 1}</th>
+                                                                            <td>{item?.report?.documentReport?.report?.Model_Name || item?.webFeatureKey}</td>
+                                                                            <td>
+                                                                                <Link href={eventLogData.video.inputVideoURL} target="_blank">
+                                                                                    Uploaded Link
+                                                                                </Link>
+                                                                            </td>
+                                                                            <RenderIf isTrue={isTaggingModelV2 === 1}>
+                                                                                {item.isSuccess ? (
                                                                                     <td>
-                                                                                        <Link href={eventLogData.video.inputVideoURL} target="_blank">
-                                                                                            {eventLogData?.video?.videoName || "Uploaded Link"}
-                                                                                        </Link>
+                                                                                        {CommonUtility.isValidArray(tagsList) &&
+                                                                                            tagsList.map((tag) => <span key={tag}>{CommonUtility.toTitleCase(tag || "")}</span>)}
                                                                                     </td>
-                                                                                    <RenderIf isTrue={isTaggingModelV2 === 1}>
-                                                                                        <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
-                                                                                    </RenderIf>
+                                                                                ) : (
+                                                                                    <td style={{ overflowX: "auto", maxWidth: "160px" }}>
+                                                                                        {item?.isTimeout !== true ? (
+                                                                                            <>
+                                                                                                <span style={{ wordBreak: "break-word" }}>
+                                                                                                    {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                                </span>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <span style={{ color: "gray" }}>Timeout</span>
+                                                                                                <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                                                                                                    <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
+                                                                                                </svg>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </td>
+                                                                                )}
+                                                                            </RenderIf>
 
-                                                                                    <RenderIf isTrue={isTaggingModelV2 === 3}>
-                                                                                        <>
-                                                                                            {operationCount !== "99999" ? (
-                                                                                                <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                                                    {/* {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
-                                                                                                    (eventLogData?.errorLog_v2?.errorCode !== "9000" || eventLogData?.errorLog_v2?.errorCode !== "9001") ? (
+                                                                            <RenderIf isTrue={isTaggingModelV2 === 3}>
+                                                                                {item.isSuccess ? (
+                                                                                    <>
+                                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                            {item.webFeatureKey !== "Tagging" ? (
+                                                                                                <>
+                                                                                                    <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                                    <img
+                                                                                                        loading="lazy"
+                                                                                                        className="lazyload"
+                                                                                                        src="/images/svgs/correct.svg"
+                                                                                                        style={{ width: "16px", height: "16px" }}
+                                                                                                    />
+                                                                                                </>
+                                                                                            ) : (
+                                                                                                "--"
+                                                                                            )}
+                                                                                        </td>
+                                                                                        <td style={{ overflowX: "auto", maxWidth: "160px" }}>
+                                                                                            <span>
+                                                                                                {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                            </span>
+                                                                                        </td>
+                                                                                    </>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        {item?.isTimeout !== true ? (
+                                                                                            <>
+                                                                                                <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                                    {item.webFeatureKey !== "Tagging" ? (
                                                                                                         <>
-                                                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content11</span>
+                                                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
                                                                                                             <img
                                                                                                                 src="/images/svgs/wrong.svg"
                                                                                                                 loading="lazy"
@@ -609,62 +798,15 @@ const DemoPage = () => {
                                                                                                             />
                                                                                                         </>
                                                                                                     ) : (
-                                                                                                        <> */}
-                                                                                                            <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
-                                                                                                            <img
-                                                                                                                loading="lazy"
-                                                                                                                className="lazyload"
-                                                                                                                src="/images/svgs/correct.svg"
-                                                                                                                style={{ width: "16px", height: "16px" }}
-                                                                                                                alt="Correct"
-                                                                                                            />
-                                                                                                        {/* </>
-                                                                                                    )} */}
+                                                                                                        "--"
+                                                                                                    )}
                                                                                                 </td>
-                                                                                            ) : (
-                                                                                                <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                                                    <>
-                                                                                                        <span style={{ color: "gray" }}>Timeout</span>
-                                                                                                        <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-                                                                                                            <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
-                                                                                                        </svg>
-                                                                                                    </>
+                                                                                                <td style={{ overflowX: "auto", maxWidth: "160px" }}>
+                                                                                                    <span>
+                                                                                                        {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                                    </span>
                                                                                                 </td>
-                                                                                            )}
-
-                                                                                            <td style={{ overflowX: "auto", maxWidth: "160px" }}>Tag</td>
-                                                                                        </>
-                                                                                    </RenderIf>
-                                                                                    <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
-                                                                                        {operationCount !== "99999" ? (
-                                                                                            <td className="d-flex justify-content-center align-items-center gap-2">
-                                                                                                {/* {CommonUtility.doesKeyExist(eventLogData, "errorLog_v2") &&
-                                                                                                (eventLogData?.errorLog_v2?.errorCode !== "9000" || eventLogData?.errorLog_v2?.errorCode !== "9001") ? (
-                                                                                                    <>
-                                                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content22</span>
-                                                                                                        <img
-                                                                                                            src="/images/svgs/wrong.svg"
-                                                                                                            loading="lazy"
-                                                                                                            className="lazyload"
-                                                                                                            style={{
-                                                                                                                width: "16px",
-                                                                                                                height: "16px",
-                                                                                                            }}
-                                                                                                        />
-                                                                                                    </>
-                                                                                                ) : (
-                                                                                                    <> */}
-                                                                                                        <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
-                                                                                                        <img
-                                                                                                            loading="lazy"
-                                                                                                            className="lazyload"
-                                                                                                            src="/images/svgs/correct.svg"
-                                                                                                            style={{ width: "16px", height: "16px" }}
-                                                                                                            alt="Correct"
-                                                                                                        />
-                                                                                                    {/* </>
-                                                                                                )} */}
-                                                                                            </td>
+                                                                                            </>
                                                                                         ) : (
                                                                                             <>
                                                                                                 <td className="d-flex justify-content-between align-items-center gap-2">
@@ -675,262 +817,138 @@ const DemoPage = () => {
                                                                                                         </svg>
                                                                                                     </>
                                                                                                 </td>
+                                                                                                <td style={{ overflowX: "auto", maxWidth: "160px" }}>
+                                                                                                    <span>
+                                                                                                        {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
+                                                                                                    </span>
+                                                                                                </td>
                                                                                             </>
                                                                                         )}
-                                                                                    </RenderIf>
-                                                                                    <td>{eventLogData?.requestType}</td>
-                                                                                    <td>{operationCount !== "99999" ? operationCount : "0"}</td>
-                                                                                    <td>{eventLogData?.videoId}</td>
-                                                                                </tr>
-                                                                            )
-                                                                        );
-                                                                    })}
+                                                                                    </>
+                                                                                )}
+                                                                            </RenderIf>
+
+                                                                            <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
+                                                                                {item.isSuccess ? (
+                                                                                    <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                        <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
+                                                                                        <img
+                                                                                            loading="lazy"
+                                                                                            className="lazyload"
+                                                                                            src="/images/svgs/correct.svg"
+                                                                                            style={{ width: "16px", height: "16px" }}
+                                                                                        />
+                                                                                    </td>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        {item?.isTimeout !== true ? (
+                                                                                            <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                                <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
+                                                                                                <img
+                                                                                                    src="/images/svgs/wrong.svg"
+                                                                                                    loading="lazy"
+                                                                                                    className="lazyload"
+                                                                                                    style={{
+                                                                                                        width: "16px",
+                                                                                                        height: "16px",
+                                                                                                    }}
+                                                                                                />
+                                                                                            </td>
+                                                                                        ) : (
+                                                                                            <td className="d-flex justify-content-between align-items-center gap-2">
+                                                                                                <span style={{ color: "gray" }}>Timeout</span>
+                                                                                                <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                                                                                                    <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
+                                                                                                </svg>
+                                                                                            </td>
+                                                                                        )}
+                                                                                    </>
+                                                                                )}
+                                                                            </RenderIf>
+                                                                            <td>{eventLogData?.requestType}</td>
+                                                                            <td>
+                                                                                {eventLogData.operationsPerFeature[item?.webFeatureKey] !== "99999"
+                                                                                    ? eventLogData.operationsPerFeature[item?.webFeatureKey]
+                                                                                    : 0}
+                                                                            </td>
+                                                                            <td>{eventLogData?.videoId}</td>
+                                                                        </tr>
+                                                                    );
+                                                                })}
                                                             </tbody>
                                                         </Table>
                                                     </div>
-                                                </>
-                                            </RenderIf>
-                                            <RenderIf isTrue={CommonUtility.isValidArray(Object.keys(getMatchingValues(eventLogData)))}>
-                                                <div style={{ whiteSpace: "nowrap" }}>
-                                                    <Table bordered responsive>
-                                                        <thead>
-                                                            <tr style={{ background: "#7b5b9e", color: "#fff" }}>
-                                                                <th>#</th>
-                                                                <th>Filter</th>
-                                                                <th>File</th>
-                                                                <RenderIf isTrue={isTaggingModelV2 === 1}>
-                                                                    <th>Tags</th>
-                                                                </RenderIf>
-                                                                <RenderIf isTrue={isTaggingModelV2 === 3}>
-                                                                    <th>Response</th>
-                                                                    <th>Tags</th>
-                                                                </RenderIf>
-                                                                <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
-                                                                    <th>Response</th>
-                                                                </RenderIf>
-                                                                <th>Request Type</th>
-                                                                <th>No Of Operations</th>
-                                                                <th>Reference Id</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {Object.keys(getMatchingValues(eventLogData)).map((key, index) => {
-                                                                const item = eventLogData.eventLogsV2[key];
-                                                                const tagsList = item?.report?.documentReport?.report?.Tag?.split(",");
-                                                                return (
-                                                                    <tr key={key}>
-                                                                        <th scope="row">{index + 1}</th>
-                                                                        <td>{item?.report?.documentReport?.report?.Model_Name || item?.webFeatureKey}</td>
-                                                                        <td>
-                                                                            <Link href={eventLogData.video.inputVideoURL} target="_blank">
-                                                                                Uploaded Link
-                                                                            </Link>
-                                                                        </td>
-                                                                        <RenderIf isTrue={isTaggingModelV2 === 1}>
-                                                                            {item.isSuccess ? (
-                                                                                <td>
-                                                                                    {CommonUtility.isValidArray(tagsList) &&
-                                                                                        tagsList.map((tag) => <span key={tag}>{CommonUtility.toTitleCase(tag || "")}</span>)}
-                                                                                </td>
-                                                                            ) : (
-                                                                                <td style={{ overflowX: "auto", maxWidth: "160px" }}>
-                                                                                    {item?.isTimeout !== true ? (
-                                                                                        <>
-                                                                                            <span style={{ wordBreak: "break-word" }}>
-                                                                                                {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
-                                                                                            </span>
-                                                                                        </>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            <span style={{ color: "gray" }}>Timeout</span>
-                                                                                            <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-                                                                                                <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
-                                                                                            </svg>
-                                                                                        </>
-                                                                                    )}
-                                                                                </td>
-                                                                            )}
-                                                                        </RenderIf>
-
-                                                                        <RenderIf isTrue={isTaggingModelV2 === 3}>
-                                                                            {item.isSuccess ? (
-                                                                                <>
-                                                                                    <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                                        {item.webFeatureKey !== "Tagging" ? (
-                                                                                            <>
-                                                                                                <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
-                                                                                                <img
-                                                                                                    loading="lazy"
-                                                                                                    className="lazyload"
-                                                                                                    src="/images/svgs/correct.svg"
-                                                                                                    style={{ width: "16px", height: "16px" }}
-                                                                                                />
-                                                                                            </>
-                                                                                        ) : (
-                                                                                            "--"
-                                                                                        )}
-                                                                                    </td>
-                                                                                    <td style={{ overflowX: "auto", maxWidth: "160px" }}>
-                                                                                        <span>{CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}</span>
-                                                                                    </td>
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {item?.isTimeout !== true ? (
-                                                                                        <>
-                                                                                            <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                                                {item.webFeatureKey !== "Tagging" ? (
-                                                                                                    <>
-                                                                                                        <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
-                                                                                                        <img
-                                                                                                            src="/images/svgs/wrong.svg"
-                                                                                                            loading="lazy"
-                                                                                                            className="lazyload"
-                                                                                                            style={{
-                                                                                                                width: "16px",
-                                                                                                                height: "16px",
-                                                                                                            }}
-                                                                                                        />
-                                                                                                    </>
-                                                                                                ) : (
-                                                                                                    "--"
-                                                                                                )}
-                                                                                            </td>
-                                                                                            <td style={{ overflowX: "auto", maxWidth: "160px" }}>
-                                                                                                <span>
-                                                                                                    {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
-                                                                                                </span>
-                                                                                            </td>
-                                                                                        </>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                                                <>
-                                                                                                    <span style={{ color: "gray" }}>Timeout</span>
-                                                                                                    <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-                                                                                                        <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
-                                                                                                    </svg>
-                                                                                                </>
-                                                                                            </td>
-                                                                                            <td style={{ overflowX: "auto", maxWidth: "160px" }}>
-                                                                                                <span>
-                                                                                                    {CommonUtility.isValidArray(tagsList) ? <>{item?.report?.documentReport?.report?.Tag}</> : "--"}
-                                                                                                </span>
-                                                                                            </td>
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-                                                                        </RenderIf>
-
-                                                                        <RenderIf isTrue={isTaggingModelV2 === 2 || isTaggingModelV2 === 4}>
-                                                                            {item.isSuccess ? (
-                                                                                <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                                    <span style={{ color: "rgb(40,201,55)" }}>Safe Content</span>
-                                                                                    <img loading="lazy" className="lazyload" src="/images/svgs/correct.svg" style={{ width: "16px", height: "16px" }} />
-                                                                                </td>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {item?.isTimeout !== true ? (
-                                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                                            <span style={{ color: "rgb(230,62,50)" }}>Unsafe Content</span>
-                                                                                            <img
-                                                                                                src="/images/svgs/wrong.svg"
-                                                                                                loading="lazy"
-                                                                                                className="lazyload"
-                                                                                                style={{
-                                                                                                    width: "16px",
-                                                                                                    height: "16px",
-                                                                                                }}
-                                                                                            />
-                                                                                        </td>
-                                                                                    ) : (
-                                                                                        <td className="d-flex justify-content-between align-items-center gap-2">
-                                                                                            <span style={{ color: "gray" }}>Timeout</span>
-                                                                                            <svg width="20" height="20" fill="gray" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-                                                                                                <path d="M9.96 2.4a.6.6 0 1 0 0 1.2h.6v1.284a8.401 8.401 0 1 0 5.742 15.383A8.4 8.4 0 0 0 18.109 7.7a.56.56 0 0 0 .015-.015l.425-.425.424.425a.6.6 0 1 0 .848-.848l-1.697-1.698a.6.6 0 1 0-.848.848l.425.425-.425.425a.611.611 0 0 0-.014.014 8.368 8.368 0 0 0-4.301-1.965V3.6h.6a.6.6 0 0 0 0-1.2h-3.6Zm2.4 6.72v4.08a.6.6 0 0 1-.6.6h-4.2a.6.6 0 1 1 0-1.2h3.6V9.12a.6.6 0 1 1 1.2 0Z"></path>
-                                                                                            </svg>
-                                                                                        </td>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-                                                                        </RenderIf>
-                                                                        <td>{eventLogData?.requestType}</td>
-                                                                        <td>
-                                                                            {eventLogData.operationsPerFeature[item?.webFeatureKey] !== "99999"
-                                                                                ? eventLogData.operationsPerFeature[item?.webFeatureKey]
-                                                                                : 0}
-                                                                        </td>
-                                                                        <td>{eventLogData?.videoId}</td>
-                                                                    </tr>
-                                                                );
-                                                            })}
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                            </RenderIf>
-                                            {isFetchingState ? (
-                                                <div className="d-flex flex-column justify-content-center">
-                                                    <MagnifyingGlass height="60" width="60" color="#7B5B9E" ariaLabel="circles-loading" wrapperStyle={{}} wrapperClass="" visible={isFetchingState} />
-                                                    <span>
-                                                        {" "}
-                                                        AI is actively verifying your information, and as of now,{" "}
-                                                        <span style={{ fontSize: "18px" }}>
-                                                            <b> {eventLogData?.processStatus?.completedProcesses || 0}</b>
-                                                        </span>{" "}
-                                                        out of the{" "}
-                                                        <span style={{ fontSize: "18px" }}>
-                                                            <b> {eventLogData?.processStatus?.totalProcessingFeatures || 0}</b>
-                                                        </span>{" "}
-                                                        filters have been successfully processed. Kindly wait for the completion of the task.
-                                                    </span>
-                                                    {/* AI is in the process of verifying your information. This may take a moment. */}
-                                                </div>
-                                            ) : (
-                                                <div className="d-flex flex-column justify-content-center mt-2">
-                                                    <span>
-                                                        <b>Note:</b>
-                                                    </span>
-                                                    {eventLogData && eventLogData?.processStatus?.totalProcessingFeatures !== eventLogData?.processStatus?.completedProcesses ? (
+                                                </RenderIf>
+                                                {isFetchingState ? (
+                                                    <div className="d-flex flex-column justify-content-center">
+                                                        <MagnifyingGlass
+                                                            height="60"
+                                                            width="60"
+                                                            color="#7B5B9E"
+                                                            ariaLabel="circles-loading"
+                                                            wrapperStyle={{}}
+                                                            wrapperClass=""
+                                                            visible={isFetchingState}
+                                                        />
                                                         <span>
                                                             {" "}
-                                                            The AI has successfully verified the provided information using{" "}
+                                                            AI is actively verifying your information, and as of now,{" "}
                                                             <span style={{ fontSize: "18px" }}>
-                                                                <b>{eventLogData?.processStatus?.completedProcesses || 0}</b>
+                                                                <b> {eventLogData?.processStatus?.completedProcesses || 0}</b>
                                                             </span>{" "}
                                                             out of the{" "}
                                                             <span style={{ fontSize: "18px" }}>
-                                                                <b> {eventLogData?.processStatus?.totalProcessingFeatures || router?.query?.sf_id?.split(",").length || 0}</b>
+                                                                <b> {eventLogData?.processStatus?.totalProcessingFeatures || 0}</b>
                                                             </span>{" "}
-                                                            selected filters.
+                                                            filters have been successfully processed. Kindly wait for the completion of the task.
                                                         </span>
-                                                    ) : (
+                                                        {/* AI is in the process of verifying your information. This may take a moment. */}
+                                                    </div>
+                                                ) : (
+                                                    <div className="d-flex flex-column justify-content-center mt-2">
                                                         <span>
-                                                            {" "}
-                                                            The AI has successfully verified the provided information using all{" "}
-                                                            <span style={{ fontSize: "18px" }}>
-                                                                <b> {eventLogData?.processStatus?.totalProcessingFeatures || router?.query?.sf_id?.split(",").length || 0}</b>
-                                                            </span>{" "}
-                                                            selected filters.
+                                                            <b>Note:</b>
                                                         </span>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </section>
-                                        {/* <section>
+                                                        {eventLogData && eventLogData?.processStatus?.totalProcessingFeatures !== eventLogData?.processStatus?.completedProcesses ? (
+                                                            <span>
+                                                                {" "}
+                                                                The AI has successfully verified the provided information using{" "}
+                                                                <span style={{ fontSize: "18px" }}>
+                                                                    <b>{eventLogData?.processStatus?.completedProcesses || 0}</b>
+                                                                </span>{" "}
+                                                                out of the{" "}
+                                                                <span style={{ fontSize: "18px" }}>
+                                                                    <b> {eventLogData?.processStatus?.totalProcessingFeatures || router?.query?.sf_id?.split(",").length || 0}</b>
+                                                                </span>{" "}
+                                                                selected filters.
+                                                            </span>
+                                                        ) : (
+                                                            <span>
+                                                                {" "}
+                                                                The AI has successfully verified the provided information using all{" "}
+                                                                <span style={{ fontSize: "18px" }}>
+                                                                    <b> {eventLogData?.processStatus?.totalProcessingFeatures || router?.query?.sf_id?.split(",").length || 0}</b>
+                                                                </span>{" "}
+                                                                selected filters.
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </section>
+                                            {/* <section>
                                                 {eventLogData?.processStatus?.completedProcesses}/{eventLogData?.processStatus?.totalProcessingFeatures}
                                             </section> */}
-                                    </Col>
-                                </Tab>
-                                <Tab eventKey="json" className="pt-3" title="Json">
-                                    <div className="d-flex justify-content-end">
-                                        <Button variant="primary" className="rounded-pill button_primary py-2 px-4" onClick={() => handleDownload()}>
-                                            <i className="fa fa-download" aria-hidden="true" style={{ marginRight: "5px" }}></i> Download JSON Response
-                                        </Button>{" "}
-                                    </div>
-                                    {highlightCode(returnJsonFormatRes(), "json")}
-                                </Tab>
-                            </Tabs>
+                                        </Col>
+                                    </Tab>
+                                    <Tab eventKey="json" className="pt-3" title="Json">
+                                        <div className="d-flex justify-content-end">
+                                            <Button variant="primary" className="rounded-pill button_primary py-2 px-4" onClick={() => handleDownload()}>
+                                                <i className="fa fa-download" aria-hidden="true" style={{ marginRight: "5px" }}></i> Download JSON Response
+                                            </Button>{" "}
+                                        </div>
+                                        {highlightCode(returnJsonFormatRes(), "json")}
+                                    </Tab>
+                                </Tabs>
                             )}
                         </Row>
                     </Col>

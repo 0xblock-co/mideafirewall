@@ -52,7 +52,7 @@ export default function OfferBlock() {
                     <Container>
                         <Row>
                             <Col lg={12}>
-                                <div className="our-partner-block-title">
+                                <div className="our-partner-block-title mb-4">
                                     <h1 className="fw-bold text-shadow text-center">Our Partners & Accelerators {/* <h2>Our PARTNERS AND ACCELERATORS</h2> */}</h1>
                                 </div>
                             </Col>

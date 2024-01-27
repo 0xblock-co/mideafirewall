@@ -38,10 +38,8 @@ export default function UploadTabs() {
         try {
             setIsUploading(true);
             const isFileUpload = uploadType === "file";
-
             const endpoint = isFileUpload ? "filters" : "url/filters";
             let queryString = {};
-
             if (isFileUpload) {
                 queryString = new URLSearchParams({
                     apikey: user?.api_secret,
@@ -348,9 +346,7 @@ export default function UploadTabs() {
                                     const uploadedFileType = url;
                                     // const errorRes = areFeaturesSupported(webFeatureKeys, uploadedFileType);
                                     const mediaType = identifyMediaTypeByExtension(uploadedFileType);
-
                                     const errorRes = await areFeaturesSupported(webFeatureKeys, { type: mediaType });
-
                                     if (errorRes && errorRes.supported === false) {
                                         mediaSupportsArray.push(errorRes.featureName);
                                     }
@@ -549,6 +545,15 @@ export default function UploadTabs() {
                                         <span className="d-flex justify-content-start mb-2 " style={{ fontSize: "14px", wordBreak: "break-word" }}>
                                             {router?.query?.filters}
                                         </span>
+                                        {/* <ul style={{ color: "#474c56", fontSize:"14px" }}>
+                                            {router?.query?.filters.split(",").map((item) => {
+                                                return (
+                                                    <li className="text-start"  key={item}>
+                                                        {item}
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul> */}
                                         <hr />
                                     </>
                                 </RenderIf>

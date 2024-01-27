@@ -70,7 +70,7 @@ const DropZoneComponent = ({ onContentDrop, filePreviews, setFilePreviews, suppo
             <div>
                 <Form.Group controlId="formFile" className="mt-4" {...getRootProps()} style={{ border: "1px dashed", padding: 20, borderRadius: 6 }}>
                     <div style={{ width: "15%", margin: "10px auto" }}>
-                        <Image className="mt-2" layout="fill" src="/images/upload.png" alt="A globe icon with filter and text." />
+                        <Image className="mt-2" layout="fill" src="/images/upload.png" alt="mediafirewall upload icon" title="mediafirewall upload icon" />
                     </div>
                     <Form.Label style={{ fontSize: "13px", color: "gray" }}>
                         Drop your files here or click to upload, making sure that the size of each file is less than {satisFactionMetricsCount?.mediaSizeLimit || 50} MB.

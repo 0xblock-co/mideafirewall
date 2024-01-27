@@ -1,7 +1,8 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
 
-import style from "./pricing.module.scss";
+import Link from "next/link";
 import Router from "next/router";
+import style from "./pricing.module.scss";
 
 export default function PricingFaqs() {
     return (
@@ -19,7 +20,7 @@ export default function PricingFaqs() {
                                 you know how many operations were used.
                             </p>
                             <p>For Video Moderation, the number of operations will depend on the frame rate you apply. The default is a frame rate of 1 per second.</p>
-                            <p>For Text Moderation, one single operation is counted up to 1,000 characters. More details</p>
+                            <p>For Text Moderation, one single operation is counted up to 1,000 characters.</p>
                         </div>
                         <div className="mt-5">
                             <h5>Can I change or terminate a plan whenever I want?</h5>
@@ -27,7 +28,9 @@ export default function PricingFaqs() {
                         </div>
                         <div className="mt-5">
                             <h5>Do you offer a free trial?</h5>
-                            <p>Yes there is a Free plan that you can use to test our API.</p>
+                            <p>
+                                Yes there is a free plan that can be used to moderate your content through our website. <Link title="Get a free trial" href="/account-security/signup">Get a free trial</Link>
+                            </p>
                         </div>
                         <div className="mt-5">
                             <h5>Can I stay on the Free plan forever?</h5>

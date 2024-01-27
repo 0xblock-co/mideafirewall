@@ -121,7 +121,7 @@ const LoginBlock = ({ handleLoginSubmit }) => {
                 </Button>
                 <div className="text-center mt-3">
                     <p>
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                         <Link href="/account-security/signup" className="text-primary text-decoration-none fw-bold">
                             Sign up
                         </Link>

@@ -61,17 +61,25 @@ export default function Pricing() {
     return (
         <Fragment>
             <NextSeo
-                title="Pricing Plans"
-                description="Explore our subscription options: FREE, STARTER, STANDARD, PROFESSIONAL, and ENTERPRISE. Details on operations, parallelism limits, support levels, and custom options. FAQs on operations, plan changes, free trials, and more."
+                title="Media firewall - Pricing plans"
+                description="Experience the power of Media Firewall with our free trial. No commitments, no costs - just dive in and explore the features. Start your trial today with media firewall."
                 canonical="https://mediafirewall.ai/pricing"
                 openGraph={{
                     type: "website",
                     locale: "en_US",
                     url: "https://mediafirewall.ai/pricing",
-                    title: "Pricing Plans",
+                    title: "Media firewall - Pricing plans",
                     description:
-                        "Explore our subscription options: FREE, STARTER, STANDARD, PROFESSIONAL, and ENTERPRISE. Details on operations, parallelism limits, support levels, and custom options. FAQs on operations, plan changes, free trials, and more.",
-                    site_name: "MediaFirewall",
+                        "Experience the power of Media Firewall with our free trial. No commitments, no costs - just dive in and explore the features. Start your trial today with media firewall.",
+                    site_name: "Media Firewall",
+                    images: [
+                        {
+                            url: "https://mediafirewall.ai/images/logo.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Media Firewall Logo",
+                        },
+                    ],
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -81,8 +89,7 @@ export default function Pricing() {
                 additionalMetaTags={[
                     {
                         name: "keywords",
-                        content:
-                            "Pricing, Subscription Plans, Operations, Parallelism Limit, Support Levels, Custom Pricing, Free Trial, Bulk Analysis, Monthly Limit, Content Moderation, Image Anonymization, Video Anonymization, Dedicated Infrastructure, Customer Support, Enterprise SLA, FAQ, Plan Changes",
+                        content: "Pricing, Plans, Cost, Subscription, Free Trial, Charges, Rates, Pricing Details, Payment Options, Affordable, Trial Period.",
                     },
                 ]}
             />

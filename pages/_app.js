@@ -14,7 +14,6 @@ import { getGeoLocationData, setGeoLocationData, setPartnersData, setSatisfactio
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import "@/styles/module-style.scss";
 import "@/styles/pricing.scss";
-import { DefaultSeo } from "next-seo";
 import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -23,7 +22,6 @@ import { useRouter } from "next/router";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
 import { IntlProvider } from "react-intl";
 import LoadingBar from "react-top-loading-bar";
 const isProduction = process.env.NODE_ENV === "production";
@@ -84,7 +82,7 @@ export function App({ Component, pageProps }) {
                 dispatch(setGeoLocationData(data));
             })
             .catch((error) => {
-                console.error("Error While Fetching geo data")
+                console.error("Error While Fetching geo data");
             });
     };
 
@@ -98,7 +96,7 @@ export function App({ Component, pageProps }) {
                 }
             })
             .catch((error) => {
-                console.error("Error While Fetching Partners data")
+                console.error("Error While Fetching Partners data");
             });
     };
 
@@ -172,41 +170,37 @@ export function App({ Component, pageProps }) {
                     });
                 `}
             </Script> */}
-            <DefaultSeo
-                titleTemplate="%s - MediaFirewall"
-                defaultTitle="MediaFirewall"
-                description="Discover the forefront of online safety with MediaFirewall. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with the world's most accurate, cost-effective, and world's best content moderation - an intelligent AI-based approach. Dive into our comprehensive guide for insights on the synergy of MediaFirewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety. Ensuring Online Community Safety: A Comprehensive Guide to AI Content Moderation and Harmful Content Prevention."
-                canonical="https://mediafirewall.ai/"
-                openGraph={{
-                    type: "website",
-                    author: "",
-                    locale: "en_US",
-                    author: "https://www.themillionvisions.com/",
-                    url: "https://mediafirewall.ai/",
-                    title: "MediaFirewall: Elevating Platform Safety with Smart Content Moderation",
-                    description:
-                        "Discover the forefront of online safety with MediaFirewall. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with the world's most accurate, cost-effective, and world's best content moderation - an intelligent AI-based approach. Dive into our comprehensive guide for insights on the synergy of MediaFirewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety.",
 
-                    site_name: "MediaFirewall",
-                }}
-                additionalMetaTags={[
-                    {
-                        name: "keywords",
-                        content:
-                            "Content Moderation, AI Content Moderation, MediaFirewall Technology, Online Community Safety, Digital Well-being Solutions, Harmful Content Prevention, Platform Security Innovations, User Safety Technology, Intelligent Content Moderation, Online Platform Protection, Digital Safety Measures, World's Most Accurate, Cost Effective, World's Best Content Moderation, AI-Based Content Moderation,  MediaFirewall.ai, MediaFirewall, Content moderation, Moderation services, Online content filtering, MediaFirewall content moderation, MediaFirewall moderation services, AI-powered content moderation solution, MediaFirewall.ai features, Efficient content filtering solutions, Advanced content moderation techniques, Affordable content moderation services, Reliable automated moderation, Most accurate content moderation platform, Most cost-effective AI moderation, World's best content moderation technology, Content filtering for online platforms, Social media content moderation, Website content moderation, Video content moderation services",
-                    },
-                ]}
-            />
+            {/* <Head>
+                <meta charSet="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta
+                    name="description"
+                    content="Best automatic content moderation API. MediaFirewall is designed to automatically detect and filter specific contents, with an unprecedented accuracy"
+                />
+                <meta
+                    name="keywords"
+                    content="World's best content moderation, image moderation, image moderation api, video moderation, video moderation api, automatic content moderation, content moderation online, content moderation, content moderation service, photo moderation, porn detection, nudity detection, api, violence detection, video moderation, nudity detector, content detection, most accurate content moderation, mfiafirewall, MediaFirewall, Media Firewall, cost effective content moderation, AI Content Moderation, Harmful Content Prevention, Platform Security Innovations, AI-Based Content Moderation, mediafirewall.ai, mediafirewall,Moderation services, Online content filtering, World's best accurate content moderation platform, World's best social media content moderation"
+                />
+                <link rel="canonical" href="https://mediafirewall.ai/" />
+                <meta property="og:type" content="website" />
+                <meta property="og:locale" content="en_US" />
+                <meta property="og:site_name" content="MediaFirewall" />
+                <meta property="og:title" content="MediaFirewall - World's best Content moderation API" />
+                <meta
+                    property="og:description"
+                    content="Discover the forefront of online safety with MediaFirewall. Explore AI content moderation tools ensuring community safety. Safeguard your platform effortlessly, eliminating harmful content for a secure digital environment. Enhance user well-being and elevate platform safety with the world's most accurate, cost-effective, and world's best content moderation - an intelligent AI-based approach. Dive into our comprehensive guide for insights on the synergy of MediaFirewall and AI in fortifying online platforms. Click now for a cutting-edge approach to digital safety."
+                />
+                <meta property="og:url" content="https://mediafirewall.ai/" />
+            </Head> */}
+
             <GoogleAnalytics measurementId="G-D02YEPWK17" />
 
-            <Helmet>
-                <html lang="en" />
-                <Head>
-                    {/* lazysizes  */}
-                    <script src="/vendor/lazysizes.min.js" strategy="lazyOnload" type="text/javascript" defer />
-                    <script src="/vendor/ls.unveilhooks.min.js" strategy="lazyOnload" type="text/javascript" defer />
-                </Head>
-            </Helmet>
+            <Head>
+                {/* lazysizes  */}
+                <script src="/vendor/lazysizes.min.js" strategy="lazyOnload" type="text/javascript" defer />
+                <script src="/vendor/ls.unveilhooks.min.js" strategy="lazyOnload" type="text/javascript" defer />
+            </Head>
             <IntlProvider locale={locale} messages={messages[locale]}>
                 <>
                     <>

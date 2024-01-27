@@ -6,7 +6,7 @@ const ContentPage = () => {
         <>
             <NextSeo
                 title="Privacy Policy"
-                description="Learn about the types of personal information collected, how it is utilized, and the duration of retention. Discover how MediaFirewall collects your information, shares it, and protects your privacy. Understand your choices and rights regarding your personal information. Find out how we treat personal information submitted to our Services and update your communication preferences. Check if our Services are intended for use by children under the age of 13."
+                description="Learn about the types of personal information collected, how it is utilized, and the duration of retention. Discover how MediaFirewall collects your information, shares it, and protects your privacy. Understand your choices and rights regarding your personal information. Find out how we treat personal information submitted to our Services and update your communication preferences."
                 canonical="https://mediafirewall.ai/privacy-policy"
                 openGraph={{
                     type: "website",
@@ -14,8 +14,16 @@ const ContentPage = () => {
                     url: "https://mediafirewall.ai/privacy-policy",
                     title: "Privacy Policy",
                     description:
-                        "Learn about the types of personal information collected, how it is utilized, and the duration of retention. Discover how MediaFirewall collects your information, shares it, and protects your privacy. Understand your choices and rights regarding your personal information. Find out how we treat personal information submitted to our Services and update your communication preferences. Check if our Services are intended for use by children under the age of 13.",
-                    site_name: "MediaFirewall",
+                        "Learn about the types of personal information collected, how it is utilized, and the duration of retention. Discover how MediaFirewall collects your information, shares it, and protects your privacy. Understand your choices and rights regarding your personal information. Find out how we treat personal information submitted to our Services and update your communication preferences.",
+                    site_name: "Media Firewall",
+                    images: [
+                        {
+                            url: "https://mediafirewall.ai/images/logo.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Media Firewall Logo",
+                        },
+                    ],
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -37,9 +45,9 @@ const ContentPage = () => {
                         <Col>
                             <div className="box">
                                 <h1 style={{ margin: "20px 0" }}>Privacy Policy</h1>
-                                <p>
+                                <h2>
                                     <b>We are committed to safeguarding the privacy of your personal information.</b>
-                                </p>
+                                </h2>
                                 <p>Your personal information will be handled securely and confidentially, adhering to all relevant laws and regulations.</p>
                                 <p>
                                     When utilizing Mediafirewall Websites and Services (as defined below), we receive information that may directly or indirectly identify you (&quot;personal
@@ -66,7 +74,11 @@ const ContentPage = () => {
                                     Depending on the context of the personal information you provide, Mediafirewall may act as the data controller or data processor under this policy. Mediafirewall
                                     serves as a processor of personal information submitted to the Services or collected through the Services on behalf of or at the direction of subscribers. For any
                                     questions or concerns regarding this Privacy Policy, our privacy practices, the processing of your personal information, or to exercise your data rights under
-                                    applicable laws, please reach out to Mediafirewall at <a href="mailto:support@mediafirewall.ai">support@mediafirewall.ai</a>.
+                                    applicable laws, please reach out to Mediafirewall at{" "}
+                                    <a href="mailto:support@mediafirewall.ai" title="Support Mediafirewall Email">
+                                        support@mediafirewall.ai
+                                    </a>
+                                    .
                                 </p>
                                 <h3 className="text lg">1. What Personal Information Does Mediafirewall Collect?</h3>
                                 <p>
@@ -400,7 +412,11 @@ const ContentPage = () => {
                                     personal information violates applicable laws.
                                 </p>
                                 <p>
-                                    To report abuse, please contact us by email at <a href="mailto:support@mediafirewall.ai">support@mediafirewall.ai</a>.
+                                    To report abuse, please contact us by email at{" "}
+                                    <a href="mailto:support@mediafirewall.ai" title="Support Mediafirewall Email">
+                                        support@mediafirewall.ai
+                                    </a>
+                                    .
                                 </p>
 
                                 <h3 className="text lg">8. Subscriber Data Submitted to Our Services or Collected Through Our Services (On Behalf of Our Subscribers)</h3>
@@ -481,10 +497,16 @@ const ContentPage = () => {
                                 <h3 className="text lg">10. Contact Information</h3>
                                 <p>If you have any questions about this Privacy Policy, the practices of Mediafirewall, or your dealings with our Services, you can contact us at:</p>
                                 <p>
-                                    <b>Email:</b> <a href="mailto:support@mediafirewall.ai">support@mediafirewall.ai</a>
+                                    <b>Email:</b>{" "}
+                                    <a href="mailto:support@mediafirewall.ai" title="Support Mediafirewall Email">
+                                        support@mediafirewall.ai
+                                    </a>
                                 </p>
                                 <p>
-                                    <b>Phone:</b> <a href="mailto:support@mediafirewall.ai">+91 99001 19968</a>
+                                    <b>Phone:</b>{" "}
+                                    <a href="tel:+919900119968" title="Support Mediafirewall Contact">
+                                        +91 99001 19968
+                                    </a>
                                 </p>
 
                                 <p>

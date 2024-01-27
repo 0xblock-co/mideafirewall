@@ -8,41 +8,41 @@ const ContentPage = () => {
                     <Col>
                         <div className="box">
                             <h1 style={{ marginTop: "20px 0" }}>Terms of Service</h1>
-                            <p>
-                                <b>Relating to the use of Mediafirewall's Website and Services.</b>
-                            </p>
+                            <h2>
+                                <b>Relating to the use of Mediafirewall&apos;s Website and Services.</b>
+                            </h2>
                             <div id="policy-content">
                                 <p className="lead">
-                                    These Terms of Service (referred to as "Terms") govern the subscription to and utilization of the services provided by MediaFireWall. If you decide to register for
-                                    a free trial of MediaFireWall's services, these Terms will also be applicable during that trial period. By accessing or utilizing the websites and services offered
-                                    by Mediafirewall, you acknowledge and agree to abide by these Terms. In the event that you are entering into or accepting these Terms on behalf of a legal entity,
-                                    you affirm and guarantee that you possess the right, authority, and capacity to legally bind such entity and its affiliates to these Terms. In such a scenario, the
-                                    term "Subscriber" pertains to this entity and its affiliates. If you lack the aforementioned authority or if you do not consent to comply with all the provisions
-                                    outlined in these Terms, refrain from accessing or using MediaFireWall's services.
+                                    These Terms of Service (referred to as &quot;Terms&quot;) govern the subscription to and utilization of the services provided by MediaFireWall. If you decide to
+                                    register for a free trial of MediaFireWall&apos;s services, these Terms will also be applicable during that trial period. By accessing or utilizing the websites and
+                                    services offered by Mediafirewall, you acknowledge and agree to abide by these Terms. In the event that you are entering into or accepting these Terms on behalf of
+                                    a legal entity, you affirm and guarantee that you possess the right, authority, and capacity to legally bind such entity and its affiliates to these Terms. In such
+                                    a scenario, the term &quot;Subscriber&quot; pertains to this entity and its affiliates. If you lack the aforementioned authority or if you do not consent to comply
+                                    with all the provisions outlined in these Terms, refrain from accessing or using MediaFireWall&apos;s services.
                                 </p>
                                 <h3>1. Agreement</h3>
                                 <p>
-                                    These Terms of Service (referred to as <b>“Terms”</b>) constitute an agreement between the party accepting them ("<b>Subscriber</b>") and Mediafirewall. This
-                                    agreement becomes effective upon acceptance by the Subscriber, and the comprehensive subscription arrangement, encompassing these Terms (the “Agreement”), is
-                                    established to provide the Subscriber with a restricted subscription enabling the use of Mediafirewall's hosted media classification, support, or other services
-                                    (the “Services”).
+                                    These Terms of Service (referred to as <b>“Terms”</b>) constitute an agreement between the party accepting them (&quot;<b>Subscriber</b>&quot;) and Mediafirewall.
+                                    This agreement becomes effective upon acceptance by the Subscriber, and the comprehensive subscription arrangement, encompassing these Terms (the “Agreement”), is
+                                    established to provide the Subscriber with a restricted subscription enabling the use of Mediafirewall&apos;s hosted media classification, support, or other
+                                    services (the “Services”).
                                 </p>
                                 <h3>2. Free Plans.</h3>
                                 <p>
-                                    2.1 If Subscriber registers at Mediafirewall's websites for a free plan ("<b>Free Plan</b>") of one or more Services, Mediafirewall will make such Services
-                                    available to Subscriber on a trial basis, free of charge, for a limited usage until the earlier of (a) the start of any paid subscription for such Services, or (b)
-                                    termination by Mediafirewall at its sole discretion. Additional terms and conditions may appear on the registration website for a Free Plan and any such additional
-                                    terms and conditions are incorporated into this Agreement by reference and are legally binding.
+                                    2.1 If Subscriber registers at Mediafirewall&apos;s websites for a free plan (&quot;<b>Free Plan</b>&quot;) of one or more Services, Mediafirewall will make such
+                                    Services available to Subscriber on a trial basis, free of charge, for a limited usage until the earlier of (a) the start of any paid subscription for such
+                                    Services, or (b) termination by Mediafirewall at its sole discretion. Additional terms and conditions may appear on the registration website for a Free Plan and any
+                                    such additional terms and conditions are incorporated into this Agreement by reference and are legally binding.
                                 </p>
                                 <p className="uppercase">
                                     2.2 ALL FREE PLANS ARE PROVIDED “AS IS” AND “AS AVAILABLE” WITHOUT ANY WARRANTY OF ANY KIND. FREE PLANS MAY BE SUSPENDED, TERMINATED, OR DISCONTINUED AT ANY TIME
                                     AND FOR ANY REASON (OR NO REASON). MEDIAFIREWALL DISCLAIMS ALL OBLIGATION AND LIABILITY UNDER THE AGREEMENT (INCLUDING LIABILITY OTHERWISE PROVIDED FOR UNDER
                                     SECTION 13 (LIMITATION OF LIABILITY)) FOR ANY HARM OR DAMAGE ARISING OUT OF OR IN CONNECTION WITH A FREE PLAN, INCLUDING ANY OBLIGATION OR LIABILITY WITH RESPECT TO
                                     SUBSCRIBER DATA. ANY CONFIGURATIONS OR SUBSCRIBER DATA ENTERED INTO A FREE PLAN, AND ANY CUSTOMIZATIONS MADE TO A FREE PLAN BY OR FOR SUBSCRIBER, MAY BE PERMANENTLY
-                                    LOST IF THE FREE PLAN IS SUSPENDED, TERMINATED, OR DISCONTINUED. MEDIAFIREWALL'S INDEMNITY OBLIGATIONS UNDER SECTION 16 (INDEMNIFICATION) DO NOT APPLY TO FREE
+                                    LOST IF THE FREE PLAN IS SUSPENDED, TERMINATED, OR DISCONTINUED. MEDIAFIREWALL&apos;S INDEMNITY OBLIGATIONS UNDER SECTION 16 (INDEMNIFICATION) DO NOT APPLY TO FREE
                                     PLANS.
                                 </p>
-                                <h3>3. Mediafirewall's Obligations.</h3>
+                                <h3>3. Mediafirewall&apos;s Obligations.</h3>
                                 <p>
                                     3.1 <b>Services</b>. Mediafirewall will make the Services available to Subscriber according to one or more online or written ordering documents (each a{" "}
                                     <b>“Service Order”</b>). The Agreement includes each Service Order incorporating the Agreement.
@@ -96,8 +96,8 @@ const ContentPage = () => {
                                     Obligations) on two or more occasions during any rolling twelve (12) month period, Mediafirewall may terminate the Agreement immediately for cause. Mediafirewall
                                     also responds to notices of alleged copyright infringement and may block access to the applicable Service or terminate accounts of repeat infringers according to
                                     the process set out in the U.S. Digital Millennium Copyright Act of 1998. All limitations of access, suspensions, and terminations for cause shall be made in
-                                    Mediafirewall's sole discretion and Mediafirewall shall not be liable to Subscriber or any third party for any termination of Subscriber’s account or access to the
-                                    Services.
+                                    Mediafirewall&apos;s sole discretion and Mediafirewall shall not be liable to Subscriber or any third party for any termination of Subscriber’s account or access to
+                                    the Services.
                                 </p>
 
                                 <h3>5. Term and Termination.</h3>
@@ -107,7 +107,7 @@ const ContentPage = () => {
                                     The notice must be provided in advance, with a delay defined in the Service Order.
                                 </p>
                                 <p>
-                                    5.2 <b>Termination for Cause.</b> In addition to Mediafirewall's right to terminate the entire Agreement under Section 4.6 (Service Notices), Subscriber or
+                                    5.2 <b>Termination for Cause.</b> In addition to Mediafirewall&apos;s right to terminate the entire Agreement under Section 4.6 (Service Notices), Subscriber or
                                     Mediafirewall may terminate the entire Agreement for cause (a) upon 30 days’ written notice to the other of a material breach if the breach remains uncured at the
                                     expiration of the notice period or (b) if the other party (i) becomes the subject of a proceeding relating to insolvency, receivership, liquidation or assignment
                                     for the benefit of creditors to the extent permitted by applicable laws or governmental regulations, (ii) goes out of business or (iii) ceases its operations.
@@ -131,13 +131,13 @@ const ContentPage = () => {
                                     number in the applicable amount (or reasonable alternative proof of Subscriber’s ability to pay the fees specified in a Service Order), and promptly notify
                                     Mediafirewall of any changes necessary for payment of an invoice. Mediafirewall will invoice Subscriber either monthly or according to the billing frequency stated
                                     in the Service Order. Invoices to be paid by credit card are due on the invoice date, all other invoices are due net 30 days from the invoice date. If any invoiced
-                                    amount is not received by Mediafirewall by the due date, then without limiting Mediafirewall's rights or remedies: (a) those charges may accrue late interest at the
-                                    rate of 1.5% of the outstanding balance per month, or the maximum rate permitted by law, whichever is lower and (b) Mediafirewall may condition future subscription
-                                    renewals and Service Orders on shorter payment terms. &nbsp;If Subscriber is paying for Services by credit card, Subscriber will provide Mediafirewall's authorized
-                                    payment processer with valid credit card information and promptly notify Mediafirewall's authorized payment processor of any changes necessary to charge the credit
-                                    card. The provision of credit card information to Mediafirewall's authorized payment processer authorizes Mediafirewall, through its authorized payment processer,
-                                    to charge the credit card for all Services specified in a Service Order, and any renewal subscription. Subscriber acknowledges that Mediafirewall will not have
-                                    access to Subscriber’s credit card information.
+                                    amount is not received by Mediafirewall by the due date, then without limiting Mediafirewall&apos;s rights or remedies: (a) those charges may accrue late interest
+                                    at the rate of 1.5% of the outstanding balance per month, or the maximum rate permitted by law, whichever is lower and (b) Mediafirewall may condition future
+                                    subscription renewals and Service Orders on shorter payment terms. &nbsp;If Subscriber is paying for Services by credit card, Subscriber will provide
+                                    Mediafirewall&apos;s authorized payment processer with valid credit card information and promptly notify Mediafirewall&apos;s authorized payment processor of any
+                                    changes necessary to charge the credit card. The provision of credit card information to Mediafirewall&apos;s authorized payment processer authorizes Mediafirewall,
+                                    through its authorized payment processer, to charge the credit card for all Services specified in a Service Order, and any renewal subscription. Subscriber
+                                    acknowledges that Mediafirewall will not have access to Subscriber’s credit card information.
                                 </p>
                                 <p>
                                     7.3 <b>Suspension of Service and Acceleration.</b> If any amount owing by Subscriber is 30 or more days overdue (or 15 or more days overdue in the case of invoices
@@ -170,14 +170,14 @@ const ContentPage = () => {
                                 <p>
                                     8.1 <b>Confidential Information.</b> <b>“Confidential Information”</b> means all information disclosed by a party ("<b>Disclosing Party</b>") to the other party ("
                                     <b>Receiving Party</b>"), whether orally or in writing, that is designated as confidential or, given the nature of the information and the circumstances of
-                                    disclosure, should be understood to be confidential. Subscriber’s Confidential Information includes the Subscriber Data; Mediafirewall's Confidential Information
-                                    includes the Services; and Confidential Information of each party includes but is not limited to the terms and conditions of the Agreement and all Service Orders,
-                                    including pricing, business and marketing plans, technology and technical information, product plans and designs, and business processes disclosed by each party in
-                                    connection with the Agreement. Confidential Information does not include information that: (a) is at the time of disclosure, or later becomes, generally known to
-                                    the public through no fault of Receiving Party; (b) was known to the Receiving Party with no obligation of confidentiality prior to disclosure by Disclosing Party,
-                                    as proven by records of Receiving Party; (c) is disclosed to Receiving Party by a third party who did not directly or indirectly obtain the information subject to
-                                    any confidentiality obligation; or (d) is at any time independently developed by Receiving Party without use of Disclosing Party’s Confidential Information as
-                                    proven by records of Receiving Party.
+                                    disclosure, should be understood to be confidential. Subscriber’s Confidential Information includes the Subscriber Data; Mediafirewall&apos;s Confidential
+                                    Information includes the Services; and Confidential Information of each party includes but is not limited to the terms and conditions of the Agreement and all
+                                    Service Orders, including pricing, business and marketing plans, technology and technical information, product plans and designs, and business processes disclosed
+                                    by each party in connection with the Agreement. Confidential Information does not include information that: (a) is at the time of disclosure, or later becomes,
+                                    generally known to the public through no fault of Receiving Party; (b) was known to the Receiving Party with no obligation of confidentiality prior to disclosure by
+                                    Disclosing Party, as proven by records of Receiving Party; (c) is disclosed to Receiving Party by a third party who did not directly or indirectly obtain the
+                                    information subject to any confidentiality obligation; or (d) is at any time independently developed by Receiving Party without use of Disclosing Party’s
+                                    Confidential Information as proven by records of Receiving Party.
                                 </p>
                                 <p>
                                     8.2 <b>Protection of Confidential</b> Information. Except as provided in Section 8.3 (Compelled Disclosure) Receiving Party shall not disclose or otherwise make
@@ -233,7 +233,7 @@ const ContentPage = () => {
                                     by Subscriber; (ii) Subscriber violation of any term of this Agreement, including without limitation breach of any of the representations and warranties in this
                                     Agreement; (iii) Subscriber violation of any third-party right, including without limitation any right of privacy or Intellectual Property Rights; (iv) Subscriber
                                     violation of any applicable law, rule or regulation; (v) any claim or damages that arise as a result of any of Subscriber Data; or (vi) any other party’s access and
-                                    use of the Service with the Subscriber's unique username, password or other appropriate security code.
+                                    use of the Service with the Subscriber&apos;s unique username, password or other appropriate security code.
                                 </p>
 
                                 <h3>11. Privacy Policy.</h3>

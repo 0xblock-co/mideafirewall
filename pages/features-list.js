@@ -9,18 +9,25 @@ const FeaturesList = () => {
     return (
         <Fragment>
             <NextSeo
-                title="Features List"
-                description="Explore the comprehensive list of features categorized for efficient content moderation. From Micro-Blogging to Real Estate platforms, discover how MediaFirewall safeguard online communities. Dive into subfeatures like Media Type Quality Filter, Nudity Filter, Deepfake Detection, and more."
+                title="Realtime Image Moderation and Video Moderation API"
+                description="Test our online demo for categories like Media Type Quality Filter, Nudity Filter, Deepfake Detection, Property Listing, AI Tagging, watermark detection and more."
                 canonical="https://mediafirewall.ai/features-list"
                 openGraph={{
                     type: "website",
                     locale: "en_US",
                     author: "https://www.themillionvisions.com/",
                     url: "https://mediafirewall.ai/ ",
-                    title: "Features List",
-                    description:
-                        "Explore the comprehensive list of features categorized for efficient content moderation. From Micro-Blogging to Real Estate platforms, discover how MediaFirewall safeguard online communities. Dive into subfeatures like Media Type Quality Filter, Nudity Filter, Deepfake Detection, and more.",
-                    site_name: "MediaFirewall",
+                    title: "Realtime Image Moderation and Video Moderation API",
+                    description: "Test our online demo for categories like Media Type Quality Filter, Nudity Filter, Deepfake Detection, Property Listing, AI Tagging, watermark detection and more.",
+                    site_name: "Media Firewall",
+                    images: [
+                        {
+                            url: "https://mediafirewall.ai/images/logo.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Media Firewall Logo",
+                        },
+                    ],
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",
@@ -31,7 +38,7 @@ const FeaturesList = () => {
                     {
                         name: "keywords",
                         content:
-                            "Features List, Content Moderation, Micro-Blogging, Social Review Sites, Blog Comments & Forum, Community Blogs, Media-Sharing, Real Estate, AI Tagging, Deepfake Detection, Nudity Filter, GDPR Violation Filter, Celebrity Detection Filter, Obscene Gestures Filter, Media Type Quality Filter, Violent Text Filter, Property Listing Media Filter, Disturbing Visual Filter, Promotional Text Filter, Promotional Voice Filter, Violent Voice Filter, Watermark Detection, Distinguished Personality Abuse Protection Filter, Unauthorized Promotion Filter",
+                            "Best image moderation, image moderation, image moderation API, content moderation, content moderation AI, image moderation service, photo moderation, porn detection, violence detection, nudity detection, video moderation, best video moderation, video moderation API, video moderation service, watermark detection, nudity detector, image quality, image light quality, GDPR, deep fake detection, celebrity detection, celebrity abuse",
                     },
                 ]}
             />

@@ -47,7 +47,15 @@ const ForgotPasswordScreen = () => {
                     title: "Forgot Password",
                     description:
                         "Recover your MediaFirewall account password quickly. Use the Forgot Password feature to reset your password securely. Follow the simple steps to regain access to your account. Experience hassle-free password recovery with MediaFirewall.",
-                    site_name: "MediaFirewall",
+                    site_name: "Media Firewall",
+                    images: [
+                        {
+                            url: "https://mediafirewall.ai/images/logo.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Media Firewall Logo",
+                        },
+                    ],
                 }}
                 // twitter={{
                 //     cardType: "summary_large_image",

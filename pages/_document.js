@@ -28,18 +28,26 @@ class MyDocument extends Document {
                     <link rel="apple-touch-icon" sizes="180x180" href="/meta/apple-touch-icon.png" />
                     <link rel="icon" type="image/png" sizes="32x32" href="/meta/favicon-32x32.png" />
                     <link rel="icon" type="image/png" sizes="16x16" href="/meta/favicon-16x16.png" />
-                    <link
+                    {/* <link
                         rel="stylesheet"
                         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
                         integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
                         crossOrigin="anonymous"
                         referrerPolicy="no-referrer"
+                    /> */}
+                    <link
+                        rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+                        integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+                        crossorigin="anonymous"
+                        referrerpolicy="no-referrer"
                     />
                     <link rel="manifest" href="/meta/site.webmanifest" />
                     <meta
                         name="keywords"
-                        content="MediaFirewall, World's Most Accurate, Cost Effective, World's Best Content Moderation, AI-Based Content Moderation, AI content moderation, online communities, platform safety, harmful content prevention, content filtering, community well-being, digital safety, moderation tool, content security"
+                        content="World's best content moderation, image moderation, image moderation api, video moderation, video moderation api, automatic content moderation, content moderation online, content moderation, content moderation service, photo moderation, porn detection, nudity detection, api, violence detection, video moderation, nudity detector, content detection, most accurate content moderation, mfiafirewall, MediaFirewall, Media Firewall, cost effective content moderation, AI Content Moderation, Harmful Content Prevention, Platform Security Innovations, AI-Based Content Moderation, mediafirewall.ai, mediafirewall,Moderation services, Online content filtering, World's best accurate content moderation platform, World's best social media content moderation"
                     />
+                    <meta name="google-site-verification" content="M8IQA2B1cpI0vz31uwakUXZfdc8FdEgI3LfyIGJ3Suc" />
                     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
                     <Script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" />
                     {/* <noscript>

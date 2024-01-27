@@ -83,20 +83,20 @@ export default function HeaderTop() {
             router.push(`/features-list?key=${id}`);
         }
     };
-    useEffect(()=>{
-        if(!isLogin){
+    useEffect(() => {
+        if (!isLogin) {
             logout();
         }
-    },[])
+    }, []);
     // const { locales } = useRouter();
     return (
         <>
             {["lg"].map((expand, index) => (
                 <Navbar key={expand + index} expand={expand} fixed="top" className={styles.mdf__top_navbar}>
                     <Container fluid="md">
-                        <Link href="/">
+                        <Link href="/" title="Mediafirewall">
                             <Navbar.Brand>
-                                <Image className="mdf__logo_modal" layout="fill" src="/images/logo.png" alt="A globe icon with filter and text." />
+                                <Image className="mdf__logo_modal" layout="fill" src="/images/logo.png" alt="mediafirewall logo" title="mediafirewall logo" />
                             </Navbar.Brand>
                         </Link>
                         <Navbar.Toggle aria-controls={`offcanvasNavbarMediaFirewall-expand-lg`} />
@@ -140,6 +140,7 @@ export default function HeaderTop() {
                                                                     onClick={() => handleFeatureCardOnClick(feature, headerOption.id)}
                                                                     className={`nav-link sub-features`}
                                                                     style={{ lineHeight: "16px", fontSize: "14px" }}
+                                                                    title={feature.name}
                                                                     // className={`nav-link ${isActiveLink(`/features-list?key=${feature.id}`) ? "nav-active" : ""}`}
                                                                 >
                                                                     {feature.name}
@@ -149,40 +150,27 @@ export default function HeaderTop() {
                                                 </NavDropdown>
                                             ))}
                                     </NavDropdown>
-                                    <Link href="/pricing" className={`nav-link ${isActiveLink("/pricing") ? "nav-active" : ""}`}>
+                                    <Link href="/pricing" title="Pricing" className={`nav-link ${isActiveLink("/pricing") ? "nav-active" : ""}`}>
                                         Pricing
                                     </Link>
 
-                                    {/* <Link href="/documents-and-media" className={`nav-link`}>
-                    Documentation & Media
-                  </Link> */}
+                                    <Link href="/documents-and-media" className={`nav-link`}>
+                                        Documentation & Media
+                                    </Link>
                                     {/* {userDetails?.isLoggedIn && ( */}
-                                    <Link href="/features-list" className={`nav-link ${isActiveLink("/features-list") ? "nav-active" : ""}`}>
+                                    <Link href="/features-list" title="Demo" className={`nav-link ${isActiveLink("/features-list") ? "nav-active" : ""}`}>
                                         Demo
                                     </Link>
-                                    <Link href="/contact-us" className={`nav-link ${isActiveLink("/contact-us") ? "nav-active" : ""}`}>
+                                    <Link href="/contact-us" title="Contact Us" className={`nav-link ${isActiveLink("/contact-us") ? "nav-active" : ""}`}>
                                         Contact
                                     </Link>
                                     {/* )} */}
 
                                     {!userDetails?.isLoggedIn && (
-                                        <Link href="/account-security/login" className={`nav-link ${isActiveLink("/account-security/login") ? "nav-active" : ""}`}>
+                                        <Link href="/account-security/login" title="Mediafirewall Login" className={`nav-link ${isActiveLink("/account-security/login") ? "nav-active" : ""}`}>
                                             Log In
                                         </Link>
                                     )}
-
-                                    {/* <div>
-                    {[...locales].sort().map((locale) => (
-                      <Link
-                        key={locale}
-                        href="/"
-                        locale={locale}
-                        style={{ marginRight: "10px" }}
-                      >
-                        {locale}
-                      </Link>
-                    ))}
-                  </div> */}
                                 </Nav>
 
                                 {!userDetails?.isLoggedIn ? (
@@ -211,9 +199,6 @@ export default function HeaderTop() {
                                             <Dropdown.Menu className="nav__dropdown_toggle">
                                                 <h6 style={{ padding: "4px 16px", color: "#7b5b9e" }}>{user?.userDetails?.fullName}</h6>
                                                 <NavDropdown.Divider />
-                                                {/* <Dropdown.Item as={Link} href="/contact-us">
-                          Settings
-                        </Dropdown.Item> */}
                                                 <Dropdown.Item onClick={() => router.push("/account")}>Account</Dropdown.Item>
                                                 <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
                                             </Dropdown.Menu>

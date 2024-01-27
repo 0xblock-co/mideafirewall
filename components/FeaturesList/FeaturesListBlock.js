@@ -309,12 +309,7 @@ export default function FeaturesListBlock() {
                                                                 >
                                                                     <div>
                                                                         <div>
-                                                                            <img
-                                                                                loading="lazy"
-                                                                                className={`lazyload ${style.mdf__card_img}`}
-                                                                                src={item.imgUrl}
-                                                                                alt="A globe icon with filter and text."
-                                                                            />
+                                                                            <img title={item?.name} loading="lazy" className={`lazyload ${style.mdf__card_img}`} src={item.imgUrl} alt={item?.name} />
                                                                         </div>
                                                                         <h5 className="text-dark mt-3 mb-3">{item.name}</h5>
                                                                         <ReadMore text={item.description} maxLength={130} />

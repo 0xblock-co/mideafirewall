@@ -110,7 +110,7 @@ const ChangePasswordForm = ({ handleResetPasswordSubmit }) => {
                 <div className="text-center mt-3">
                     <p>
                         Already have an account ?{" "}
-                        <Link href="/account-security/login" className="text-primary text-decoration-none fw-bold">
+                        <Link href="/account-security/login" title="Mediafirewall Login" className="text-primary text-decoration-none fw-bold">
                             Sign in
                         </Link>
                     </p>

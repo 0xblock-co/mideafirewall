@@ -15,14 +15,14 @@ export default function ContactChatBlock() {
                 <Row>
                     <Col lg={12}>
                         <div className="three-block-title ">
-                            <h2
+                            <h1
                                 style={{
                                     letterSpacing: "0.055em",
                                     textShadow: "3px 2px 7px rgba(0, 0, 0, 0.25)",
                                 }}
                             >
                                 Contact us using the following methods
-                            </h2>
+                            </h1>
                         </div>
                     </Col>
                 </Row>

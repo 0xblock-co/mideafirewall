@@ -1,0 +1,301 @@
+@import "mixins";
+.blog-first-section {
+  padding: 117px 0 40px;
+  background: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include media-breakpoints-down-xs {
+    padding: 97px 0 10px;
+  }
+  .blog-img {
+    height: 424px;
+    overflow: hidden;
+    border: 7px solid $image-border-color;
+    border-radius: 43px;
+    @include media-breakpoints-down-md {
+      height: 298px;
+      margin: 40px 0 0px;
+    }
+    @include media-breakpoints-down-xs {
+      margin: 0px;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 35px;
+    }
+    &.blog-detail-img-block {
+      height: 548px;
+      border-radius: 20px;
+      @include media-breakpoints-down-md {
+        height: 340px;
+        margin: 40px 0 0px;
+      }
+      img {
+        border-radius: 12px;
+      }
+    }
+  }
+  .blog-detail-text {
+    span {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 32px;
+      color: $section-title-color;
+      text-align: left;
+      text-transform: capitalize;
+      margin: 0 0 12px;
+      cursor: pointer;
+    }
+    h1 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 36px;
+      line-height: 44px;
+      color: $primary;
+      text-align: left;
+      margin: 0 0 17px;
+      cursor: pointer;
+      @include media-breakpoints-down-xs {
+        font-size: 24px;
+        line-height: 34px;
+      }
+    }
+    h3 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 28px;
+      line-height: 38px;
+      color: $secondary;
+      text-align: left;
+      margin: 0 0 14px;
+      cursor: pointer;
+      @include media-breakpoints-down-xs {
+        font-size: 22px;
+        line-height: 32px;
+      }
+    }
+    p {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 30px;
+      color: $text-dark;
+      text-align: left;
+      @include media-breakpoints-down-xs {
+        font-size: 16px;
+        line-height: 26px;
+      }
+    }
+  }
+}
+.two-block-section {
+  background: $section-bg-grey;
+  padding: 50px 0px;
+  @include media-breakpoints-down-md {
+    padding: 40px 0px;
+  }
+  .recent-blog-main {
+    background: $white;
+    box-shadow: 0px 4px 40px rgba(76, 86, 95, 0.2);
+    padding: 0;
+    border-radius: 18px;
+    margin-bottom: 30px;
+  }
+  .two-block-title {
+    h2 {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 28px;
+      line-height: 38px;
+      color: $section-title-color;
+      text-align: left;
+      margin-bottom: 30px;
+
+      @include media-breakpoints-down-xs {
+        font-size: 26px;
+        line-height: 38px;
+      }
+    }
+  }
+  .recent-blog-img {
+    height: 324px;
+    overflow: hidden;
+    // border: 7px solid $image-border-color;
+    // border-radius: 20px;
+    @include media-breakpoints-down-md {
+      height: 298px;
+      margin: 40px 0 0px;
+    }
+    @include media-breakpoints-down-xs {
+      margin: 0px;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 18px 18px 0px 0px;
+    }
+  }
+  .recent-blog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 20px 20px;
+    @include media-breakpoints-down-md {
+      align-items: center;
+    }
+    h3 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 28px;
+      color: $primary;
+      text-align: left;
+      margin: 0 0 14px;
+      cursor: pointer;
+
+      @include media-breakpoints-down-xs {
+        font-size: 18px;
+        line-height: 28px;
+      }
+    }
+    p {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: $section-title-color;
+      text-align: left;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      @include media-breakpoints-down-xs {
+        font-size: 14px;
+        line-height: 22px;
+      }
+    }
+    ul {
+      margin: 0px;
+      padding: 0px;
+      display: flex;
+      li {
+        list-style: none;
+        margin: 0 10px;
+        &:first-child {
+          margin: 0 10px 0 0px;
+        }
+        span {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 28px;
+          color: $text-dark;
+          text-align: center;
+          margin: 0 0 12px;
+        }
+        a {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 28px;
+          color: $primary;
+          text-align: center;
+          margin: 0 0 12px;
+          text-decoration: underline !important;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+.blog-details-contents {
+  margin: 30px 0;
+  @include media-breakpoints-down-xs {
+    margin: 15px 0;
+  }
+  ul {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    li {
+      list-style: none;
+      margin: 0 10px;
+      &:first-child {
+        margin: 0 10px 0 0px;
+      }
+      span {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 32px;
+        color: $text-dark;
+        text-align: center;
+        margin: 0 0 12px;
+        @include media-breakpoints-down-xs {
+          font-size: 14px;
+          line-height: 28px;
+        }
+      }
+      a {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 32px;
+        color: $primary;
+        text-align: center;
+        margin: 0 0 12px;
+        text-decoration: underline !important;
+        cursor: pointer;
+        @include media-breakpoints-down-xs {
+          font-size: 14px;
+          line-height: 28px;
+        }
+      }
+    }
+  }
+}
+.recent-blogs-block {
+  margin-left: 20px;
+  h3 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 38px;
+    color: $primary;
+    text-align: left;
+    margin: 10px 0 14px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $secondary;
+    @include media-breakpoints-down-xs {
+      font-size: 22px;
+      line-height: 32px;
+    }
+  }
+  ul {
+    border-bottom: none;
+    padding-bottom: 20px;
+    padding-left: 0px !important;
+    li {
+      border-bottom: 1px solid #e6e6e6;
+      padding: 20px 0 !important;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 21px;
+      a {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: $secondary;
+      }
+    }
+  }
+}

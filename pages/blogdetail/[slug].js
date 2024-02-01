@@ -96,7 +96,13 @@ export default function BlogDetail() {
                                       </ul>
                                   </div>
                                   <div className="blog-detail-text">
-                                      <p>{selectedBlog?.content}</p>
+                                      <p
+                                          className={`ff_description`}
+                                          dangerouslySetInnerHTML={{
+                                              __html: selectedBlog?.content,
+                                          }}
+                                      />
+                                      {/* <p>{selectedBlog?.content}</p> */}
                                   </div>
                               </Col>
                           </Col>

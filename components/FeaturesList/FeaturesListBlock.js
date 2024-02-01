@@ -285,132 +285,139 @@ export default function FeaturesListBlock() {
                                                         }
 
                                                         return (
-                                                            <Col
-                                                                md={6}
-                                                                xl={4}
-                                                                className="mt-4"
-                                                                key={item.name}
-                                                                id={item.webFeatureKey}
-                                                                ref={featureRefs.current[`${headerOption.id}-${item.webFeatureKey}`]}
-                                                            >
-                                                                <Form.Control
-                                                                    type="checkbox"
-                                                                    checked={selectedFeatureIds.includes(item.webFeatureKey)}
-                                                                    className="btn-check"
-                                                                    value={item.webFeatureKey}
-                                                                    name={`tab-${activeTab}-${item.featureId}`}
-                                                                    id={`btn-check-outlined tab-${activeTab}-${item.featureId}`}
-                                                                    hidden
-                                                                    onChange={() => handleCheckboxChange(item.webFeatureKey, item)}
-                                                                />
-                                                                <label
-                                                                    className={`btn btn-outline-info ${style.card__primary} ${!item.active ? style.mdf__feature__card_inactive : ""}`}
-                                                                    htmlFor={`btn-check-outlined tab-${activeTab}-${item.featureId}`}
+                                                            item.active && (
+                                                                <Col
+                                                                    md={6}
+                                                                    xl={4}
+                                                                    className="mt-4"
+                                                                    key={item.name}
+                                                                    id={item.webFeatureKey}
+                                                                    ref={featureRefs.current[`${headerOption.id}-${item.webFeatureKey}`]}
                                                                 >
-                                                                    <div>
+                                                                    <Form.Control
+                                                                        type="checkbox"
+                                                                        checked={selectedFeatureIds.includes(item.webFeatureKey)}
+                                                                        className="btn-check"
+                                                                        value={item.webFeatureKey}
+                                                                        name={`tab-${activeTab}-${item.featureId}`}
+                                                                        id={`btn-check-outlined tab-${activeTab}-${item.featureId}`}
+                                                                        hidden
+                                                                        onChange={() => handleCheckboxChange(item.webFeatureKey, item)}
+                                                                    />
+                                                                    <label
+                                                                        className={`btn btn-outline-info ${style.card__primary} ${!item.active ? style.mdf__feature__card_inactive : ""}`}
+                                                                        htmlFor={`btn-check-outlined tab-${activeTab}-${item.featureId}`}
+                                                                    >
                                                                         <div>
-                                                                            <img title={item?.name} loading="lazy" className={`lazyload ${style.mdf__card_img}`} src={item.imgUrl} alt={item?.name} />
-                                                                        </div>
-                                                                        <h5 className="text-dark mt-3 mb-3">{item.name}</h5>
-                                                                        <ReadMore text={item.description} maxLength={130} />
-
-                                                                        <div className="d-flex flex-wrap mt-3 gap-3">
-                                                                            {item.options?.map((opt, i) => {
-                                                                                return (
-                                                                                    <div key={item.featureId + opt.name.replace(/\s/g, "")}>
-                                                                                        <Form.Control
-                                                                                            type="checkbox"
-                                                                                            // checked={isChecked}
-                                                                                            checked={
-                                                                                                item.multi
-                                                                                                    ? selectedOptions[item.webFeatureKey]?.includes(opt.name)
-                                                                                                    : selectedOptions[item.webFeatureKey] === opt.name
-                                                                                            }
-                                                                                            className="btn-check"
-                                                                                            value={opt.name}
-                                                                                            id={item.featureId + opt.name.replace(/\s/g, "")}
-                                                                                            hidden
-                                                                                            onChange={() => handleOptionChange(item.webFeatureKey, opt.name, item.multi)}
-                                                                                        />
-                                                                                        <label className="btn btn-outline-dark px-2 text-xs" htmlFor={item.featureId + opt.name.replace(/\s/g, "")}>
-                                                                                            {opt.name}
-                                                                                        </label>
-                                                                                    </div>
-                                                                                );
-                                                                            })}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <RenderIf isTrue={CommonUtility.isValidArray(item.mediaSupports)}>
-                                                                            <div className="d-flex justify-content-between align-items-center mt-3">
-                                                                                {" "}
-                                                                                <div className={`d-flex align-items-center  ${style.supported_moderation}`}>
-                                                                                    <h6
-                                                                                        className="text-dark "
-                                                                                        style={{
-                                                                                            fontSize: "14px",
-                                                                                            marginBottom: "unset",
-                                                                                        }}
-                                                                                    >
-                                                                                        Supports:
-                                                                                    </h6>
-                                                                                    {item.mediaSupports.map((item, index) => {
-                                                                                        return (
-                                                                                            <span
-                                                                                                key={index}
-                                                                                                className={style.supported_item}
-                                                                                                style={{
-                                                                                                    marginLeft: "10px",
-                                                                                                    fontSize: "12px",
-                                                                                                }}
-                                                                                            >
-                                                                                                <RenderIf isTrue={item.toLowerCase() === "image"}>
-                                                                                                    <svg
-                                                                                                        width="20"
-                                                                                                        height="20"
-                                                                                                        fill="currentColor"
-                                                                                                        viewBox="0 0 24 24"
-                                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                                    >
-                                                                                                        <path d="M19.5 3h-15a3.003 3.003 0 0 0-3 3v12a3.003 3.003 0 0 0 3 3h15a3.004 3.004 0 0 0 3-3V6a3.003 3.003 0 0 0-3-3Zm-3.75 3a2.25 2.25 0 1 1 0 4.5 2.25 2.25 0 0 1 0-4.5ZM4.5 19.5A1.5 1.5 0 0 1 3 18v-3.17l4.446-3.952a2.253 2.253 0 0 1 3.084.09l3.045 3.037L8.08 19.5H4.5ZM21 18a1.5 1.5 0 0 1-1.5 1.5h-9.299l5.692-5.692a2.237 2.237 0 0 1 2.89-.007L21 15.649V18Z"></path>
-                                                                                                    </svg>
-                                                                                                </RenderIf>
-                                                                                                <RenderIf isTrue={item.toLowerCase() === "video"}>
-                                                                                                    <svg
-                                                                                                        width="20"
-                                                                                                        height="20"
-                                                                                                        fill="currentColor"
-                                                                                                        viewBox="0 0 24 24"
-                                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                                    >
-                                                                                                        <path d="M21.75 18.02a1.5 1.5 0 0 1-.61-.13.74.74 0 0 1-.126-.072l-3.877-2.729a1.5 1.5 0 0 1-.637-1.226v-3.722a1.5 1.5 0 0 1 .637-1.226l3.877-2.73a.742.742 0 0 1 .127-.071 1.5 1.5 0 0 1 2.109 1.37v9.036a1.5 1.5 0 0 1-1.5 1.5Z"></path>
-                                                                                                        <path d="M12.563 18.75H3.937A3.19 3.19 0 0 1 .75 15.562V8.439A3.19 3.19 0 0 1 3.938 5.25h8.647a3.169 3.169 0 0 1 3.165 3.165v7.148a3.19 3.19 0 0 1-3.188 3.187Z"></path>
-                                                                                                    </svg>
-                                                                                                </RenderIf>
-                                                                                                <RenderIf isTrue={item.toLowerCase() === "text"}>
-                                                                                                    <svg
-                                                                                                        width="20"
-                                                                                                        height="20"
-                                                                                                        fill="currentColor"
-                                                                                                        viewBox="0 0 24 24"
-                                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                                    >
-                                                                                                        <path d="M20.063 10.5H13.5a2.25 2.25 0 0 1-2.25-2.25V1.687a.188.188 0 0 0-.188-.187H6.75a3 3 0 0 0-3 3v15a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-8.813a.188.188 0 0 0-.188-.187ZM15.75 18h-7.5a.75.75 0 1 1 0-1.5h7.5a.75.75 0 1 1 0 1.5Zm0-3.75h-7.5a.75.75 0 1 1 0-1.5h7.5a.75.75 0 1 1 0 1.5Z"></path>
-                                                                                                        <path d="m19.65 8.839-6.74-6.741a.093.093 0 0 0-.16.066v6.085a.75.75 0 0 0 .75.75h6.085a.094.094 0 0 0 .066-.16Z"></path>
-                                                                                                    </svg>
-                                                                                                </RenderIf>
-                                                                                                {item}
-                                                                                            </span>
-                                                                                        );
-                                                                                    })}
-                                                                                </div>
-                                                                                <RenderIf isTrue={item?.featureId == "134"}>
-                                                                                    <div className="blink" style={{ color: "#5e0496", fontSize: "16px", fontWeight: 600 }}>
-                                                                                        Coming Soon
-                                                                                    </div>
-                                                                                </RenderIf>
+                                                                            <div>
+                                                                                <img
+                                                                                    title={item?.name}
+                                                                                    loading="lazy"
+                                                                                    className={`lazyload ${style.mdf__card_img}`}
+                                                                                    src={item.imgUrl}
+                                                                                    alt={item?.name}
+                                                                                />
                                                                             </div>
-                                                                            {/* <div className="d-flex align-items-center">
+                                                                            <h5 className="text-dark mt-3 mb-3">{item.name}</h5>
+                                                                            <ReadMore text={item.description} maxLength={130} />
+
+                                                                            <div className="d-flex flex-wrap mt-3 gap-3">
+                                                                                {item.options?.map((opt, i) => {
+                                                                                    return (
+                                                                                        <div key={item.featureId + opt.name.replace(/\s/g, "")}>
+                                                                                            <Form.Control
+                                                                                                type="checkbox"
+                                                                                                // checked={isChecked}
+                                                                                                checked={
+                                                                                                    item.multi
+                                                                                                        ? selectedOptions[item.webFeatureKey]?.includes(opt.name)
+                                                                                                        : selectedOptions[item.webFeatureKey] === opt.name
+                                                                                                }
+                                                                                                className="btn-check"
+                                                                                                value={opt.name}
+                                                                                                id={item.featureId + opt.name.replace(/\s/g, "")}
+                                                                                                hidden
+                                                                                                onChange={() => handleOptionChange(item.webFeatureKey, opt.name, item.multi)}
+                                                                                            />
+                                                                                            <label className="btn btn-outline-dark px-2 text-xs" htmlFor={item.featureId + opt.name.replace(/\s/g, "")}>
+                                                                                                {opt.name}
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    );
+                                                                                })}
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <RenderIf isTrue={CommonUtility.isValidArray(item.mediaSupports)}>
+                                                                                <div className="d-flex justify-content-between align-items-center mt-3">
+                                                                                    {" "}
+                                                                                    <div className={`d-flex align-items-center  ${style.supported_moderation}`}>
+                                                                                        <h6
+                                                                                            className="text-dark "
+                                                                                            style={{
+                                                                                                fontSize: "14px",
+                                                                                                marginBottom: "unset",
+                                                                                            }}
+                                                                                        >
+                                                                                            Supports:
+                                                                                        </h6>
+                                                                                        {item.mediaSupports.map((item, index) => {
+                                                                                            return (
+                                                                                                <span
+                                                                                                    key={index}
+                                                                                                    className={style.supported_item}
+                                                                                                    style={{
+                                                                                                        marginLeft: "10px",
+                                                                                                        fontSize: "12px",
+                                                                                                    }}
+                                                                                                >
+                                                                                                    <RenderIf isTrue={item.toLowerCase() === "image"}>
+                                                                                                        <svg
+                                                                                                            width="20"
+                                                                                                            height="20"
+                                                                                                            fill="currentColor"
+                                                                                                            viewBox="0 0 24 24"
+                                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                                        >
+                                                                                                            <path d="M19.5 3h-15a3.003 3.003 0 0 0-3 3v12a3.003 3.003 0 0 0 3 3h15a3.004 3.004 0 0 0 3-3V6a3.003 3.003 0 0 0-3-3Zm-3.75 3a2.25 2.25 0 1 1 0 4.5 2.25 2.25 0 0 1 0-4.5ZM4.5 19.5A1.5 1.5 0 0 1 3 18v-3.17l4.446-3.952a2.253 2.253 0 0 1 3.084.09l3.045 3.037L8.08 19.5H4.5ZM21 18a1.5 1.5 0 0 1-1.5 1.5h-9.299l5.692-5.692a2.237 2.237 0 0 1 2.89-.007L21 15.649V18Z"></path>
+                                                                                                        </svg>
+                                                                                                    </RenderIf>
+                                                                                                    <RenderIf isTrue={item.toLowerCase() === "video"}>
+                                                                                                        <svg
+                                                                                                            width="20"
+                                                                                                            height="20"
+                                                                                                            fill="currentColor"
+                                                                                                            viewBox="0 0 24 24"
+                                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                                        >
+                                                                                                            <path d="M21.75 18.02a1.5 1.5 0 0 1-.61-.13.74.74 0 0 1-.126-.072l-3.877-2.729a1.5 1.5 0 0 1-.637-1.226v-3.722a1.5 1.5 0 0 1 .637-1.226l3.877-2.73a.742.742 0 0 1 .127-.071 1.5 1.5 0 0 1 2.109 1.37v9.036a1.5 1.5 0 0 1-1.5 1.5Z"></path>
+                                                                                                            <path d="M12.563 18.75H3.937A3.19 3.19 0 0 1 .75 15.562V8.439A3.19 3.19 0 0 1 3.938 5.25h8.647a3.169 3.169 0 0 1 3.165 3.165v7.148a3.19 3.19 0 0 1-3.188 3.187Z"></path>
+                                                                                                        </svg>
+                                                                                                    </RenderIf>
+                                                                                                    <RenderIf isTrue={item.toLowerCase() === "text"}>
+                                                                                                        <svg
+                                                                                                            width="20"
+                                                                                                            height="20"
+                                                                                                            fill="currentColor"
+                                                                                                            viewBox="0 0 24 24"
+                                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                                        >
+                                                                                                            <path d="M20.063 10.5H13.5a2.25 2.25 0 0 1-2.25-2.25V1.687a.188.188 0 0 0-.188-.187H6.75a3 3 0 0 0-3 3v15a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-8.813a.188.188 0 0 0-.188-.187ZM15.75 18h-7.5a.75.75 0 1 1 0-1.5h7.5a.75.75 0 1 1 0 1.5Zm0-3.75h-7.5a.75.75 0 1 1 0-1.5h7.5a.75.75 0 1 1 0 1.5Z"></path>
+                                                                                                            <path d="m19.65 8.839-6.74-6.741a.093.093 0 0 0-.16.066v6.085a.75.75 0 0 0 .75.75h6.085a.094.094 0 0 0 .066-.16Z"></path>
+                                                                                                        </svg>
+                                                                                                    </RenderIf>
+                                                                                                    {item}
+                                                                                                </span>
+                                                                                            );
+                                                                                        })}
+                                                                                    </div>
+                                                                                    <RenderIf isTrue={item?.featureId == "134"}>
+                                                                                        <div className="blink" style={{ color: "#5e0496", fontSize: "16px", fontWeight: 600 }}>
+                                                                                            Coming Soon
+                                                                                        </div>
+                                                                                    </RenderIf>
+                                                                                </div>
+                                                                                {/* <div className="d-flex align-items-center">
                                                                             <h6
                                                                                 className="text-dark mt-3"
                                                                                 style={{ fontSize: "12px" }}
@@ -428,10 +435,11 @@ export default function FeaturesListBlock() {
                                                                                 {item.mediaSupports.join(" & ")}
                                                                             </span>
                                                                         </div> */}
-                                                                        </RenderIf>
-                                                                    </div>
-                                                                </label>
-                                                            </Col>
+                                                                            </RenderIf>
+                                                                        </div>
+                                                                    </label>
+                                                                </Col>
+                                                            )
                                                         );
                                                     })}
                                                 </Row>

@@ -18,7 +18,7 @@ export async function callbackHandler(req, res) {
     try {
         const tokenResponse = await axios.post(LINKEDIN_ACCESS_TOKEN_URL, payloadString);
         const { access_token } = tokenResponse.data;
-        console.log("access_token: ", access_token);
+        // console.log("access_token: ", access_token);
         if ("access_token" in tokenResponse.data) {
             res.redirect(`/account-security/login?authType=linkedIn&success=true&value=${access_token}`);
         } else {

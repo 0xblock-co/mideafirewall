@@ -166,8 +166,8 @@ export default function FooterBottom() {
                                 {CommonUtility.isValidArray(headerDataV2) &&
                                     CommonUtility.isValidArray(headerDataV2[0].features) &&
                                     headerDataV2[0].features.map((feature, index) => {
-                                        if (index > 4) {
-                                            if (index === 5) {
+                                        if (index > 8) {
+                                            if (index === 9) {
                                                 return (
                                                     <li style={{ color: "#fff" }} className="py-2" key={`n_${index}`}>
                                                         <Link href={`/features-list?key=0`} title="All Demo Features">more...</Link>
@@ -176,7 +176,7 @@ export default function FooterBottom() {
                                             }
                                             return null; // Don't render additional "more..." items
                                         } else {
-                                            return (
+                                            return feature?.active && (
                                                 <li style={{ color: "#fff" }} className="py-2" key={`n_${feature.name}`} onClick={() => handleFeatureCardOnClick(feature, 0)}>
                                                     {feature.name}
                                                 </li>

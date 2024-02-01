@@ -134,7 +134,7 @@ export default function HeaderTop() {
                                                 >
                                                     {CommonUtility.isValidArray(headerOption.features) &&
                                                         headerOption.features.map((feature, featureIndex) => {
-                                                            return (
+                                                            return feature.active &&(
                                                                 <a
                                                                     key={featureIndex}
                                                                     onClick={() => handleFeatureCardOnClick(feature, headerOption.id)}

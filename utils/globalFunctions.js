@@ -196,6 +196,7 @@ export const getComponentType = (type) => {
             return "";
     }
 };
+const baseApi = process.env.NEXT_PUBLIC_API_PATH;
 
 export const asyncGetAccessToken = async () => {
     try {
@@ -209,7 +210,7 @@ export const asyncGetAccessToken = async () => {
             };
         }
 
-        const response = await axios.post("https://mediafirewall-ai.millionvisions.ai/user/refreshToken", { token: refreshToken, email });
+        const response = await axios.post(`${baseApi}/user/refreshToken`, { token: refreshToken, email });
 
         if (response.data) {
             setCookieWithExpiration(localStorageKeys.userRefreshToken, response.data.refreshToken);

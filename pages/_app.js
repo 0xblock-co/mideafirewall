@@ -82,7 +82,7 @@ export function App({ Component, pageProps }) {
                 dispatch(setGeoLocationData(data));
             })
             .catch((error) => {
-                console.error("Error While Fetching geo data");
+                
             });
     };
 
@@ -96,22 +96,21 @@ export function App({ Component, pageProps }) {
                 }
             })
             .catch((error) => {
-                console.error("Error While Fetching Partners data");
+                
             });
     };
 
     const getSupportedMediaType = () => {
+        const baseUrl = process.env.NEXT_PUBLIC_API_PATH_V2;
         axios
-            .get("https://mediafirewall.millionvisions.ai/media/mediaSupport")
+            .get(`${baseUrl}/media/mediaSupport`)
             .then((response) => {
                 let data = response.data;
                 if (data && data?.length > 0) {
                     dispatch(setSupportedMediaTypes(data));
                 }
             })
-            .catch((error) => {
-                console.error("Error While Fetching Partners data");
-            });
+            .catch((error) => {});
     };
 
     useEffect(() => {

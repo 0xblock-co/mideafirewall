@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 const api = new Api();
+const baseApi = process.env.NEXT_PUBLIC_API_PATH;
 
 export default function DocumentationAndBlogs() {
     const router = useRouter();
@@ -21,7 +22,7 @@ export default function DocumentationAndBlogs() {
         async (pageNumber = 0, pageSize = 10) => {
             try {
                 setIsLoading(true);
-                const url = `https://mediafirewall-ai.millionvisions.ai/qa/mfw/web/content/type/BLOG?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+                const url = `${baseApi}/qa/mfw/web/content/type/BLOG?pageNumber=${pageNumber}&pageSize=${pageSize}`;
                 const response = await api.get(url, {}, true, false);
                 console.log("response: ", response);
 

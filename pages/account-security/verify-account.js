@@ -6,6 +6,7 @@ import CommonUtility from "@/utils/common.utils";
 import { ToastMessage } from "@/utils/toastMessage.utils";
 import axios from "axios";
 import { useRouter } from "next/router";
+const baseApi = process.env.NEXT_PUBLIC_API_PATH;
 
 // Function to verify account by email and token
 const asyncVerifyAccountByEmailAndToken = async (params) => {
@@ -19,7 +20,7 @@ const asyncVerifyAccountByEmailAndToken = async (params) => {
         }
 
         const queryString = CommonUtility.objectToParams(params);
-        const response = await axios.post(`https://mediafirewall-ai.millionvisions.ai/verify/email?${queryString}`, {});
+        const response = await axios.post(`${baseApi}/verify/email?${queryString}`, {});
 
         if (response?.data) {
             return { success: true };
@@ -82,7 +83,7 @@ const VerifyAccountScreen = ({ verificationData }) => {
             saveEmailToStorage(email);
 
             setIsLoading(true);
-            const response = await axios.post(`https://mediafirewall-ai.millionvisions.ai/verify/resend/email?email=${email}`, {});
+            const response = await axios.post(`${baseApi}/verify/resend/email?email=${email}`, {});
 
             if (response?.data) {
                 setScreenTitle("Verification link has been shared to the email address!!");

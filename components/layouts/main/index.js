@@ -2,6 +2,7 @@ import RenderIf from "@/components/ConditionalRender/RenderIf";
 import Loader from "@/components/Loader";
 import { localStorageKeys } from "@/constants/global.constants";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
+import { useServiceStatus } from "@/contexts-v2/serviceStatusContext";
 import { asyncGetAllContents, asyncGetMFWTestCustomers } from "@/services/product/product.service";
 import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
 import { getAllHeaderDataOptions, setAllMediaContents, setMfwTestCustomers } from "@/store/defaultConfig.slice";
@@ -10,6 +11,7 @@ import { readCookie } from "@/utils/cookieCreator";
 import { asyncGetAccessToken } from "@/utils/globalFunctions";
 import dynamic from "next/dynamic";
 import { Fragment, useEffect } from "react";
+import UnderMaintenance from "../UnderMaintanceBanner";
 
 const FooterComponent = dynamic(() => import("@/components/layouts/footer"), {
     ssr: false,
@@ -40,6 +42,7 @@ function organizeDataByPageId(data) {
 
 const MainLayout = ({ children }) => {
     const dispatch = useAppDispatch();
+    const { isServiceAvailable } = useServiceStatus();
 
     const headerData = useAppSelector(getAllHeaderDataOptions);
     const { isLogin, isAuthenticated, isLoadingApp } = useAuthV3();
@@ -92,8 +95,17 @@ const MainLayout = ({ children }) => {
                 <RenderIf isTrue={isLoadingApp}>
                     <Loader isLoading={isLoadingApp} />
                 </RenderIf>
-                {children}
-                <FooterComponent />
+                {isServiceAvailable ? (
+                    <>
+                        {children}
+                        <FooterComponent />
+                    </>
+                ) : (
+                    <>
+                        <UnderMaintenance />
+                        <FooterComponent />
+                    </>
+                )}
             </main>
         </Fragment>
     );

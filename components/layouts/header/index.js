@@ -8,8 +8,10 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
+import RenderIf from "@/components/ConditionalRender/RenderIf";
 import VideoModal from "@/components/VideoModal";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
+import { useServiceStatus } from "@/contexts-v2/serviceStatusContext";
 import { getUserDetails } from "@/store/auth.slice";
 import { getAllHeaderDataOptions } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
@@ -21,6 +23,8 @@ import styles from "./header.module.scss";
 
 export default function HeaderTop() {
     const router = useRouter();
+    const { isServiceAvailable } = useServiceStatus();
+
     const userDetails = useAppSelector(getUserDetails);
     const headerData = useAppSelector(getAllHeaderDataOptions);
     const isActiveLink = (href) => {
@@ -106,54 +110,57 @@ export default function HeaderTop() {
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <NavDropdown title="Products" id="navbarScrollingDropdown">
-                                        {headerData &&
-                                            headerData?.map((headerOption, index) => (
-                                                <NavDropdown
-                                                    style={{ width: "100%" }}
-                                                    title={
-                                                        <span style={{ width: "100%" }}>
-                                                            <OverlayTrigger
-                                                                key={index}
-                                                                placement="left"
-                                                                overlay={
-                                                                    <Tooltip id={`tooltip-${index}`}>
-                                                                        Example: <br />
-                                                                        {headerOption?.examples.join(", ")}
-                                                                    </Tooltip>
-                                                                }
-                                                            >
-                                                                <i className="fa fa-info-circle" style={{ marginRight: "10px", color: "#7b5b9e" }} aria-hidden="true"></i>
-                                                            </OverlayTrigger>
-                                                            <span className="ml-5">{headerOption.name}</span>
-                                                        </span>
-                                                    }
-                                                    id={`nested-dropdown-${index}`}
-                                                    key={`nested-dropdown-${index}`}
-                                                    drop="end"
-                                                >
-                                                    {CommonUtility.isValidArray(headerOption.features) &&
-                                                        headerOption.features.map((feature, featureIndex) => {
-                                                            return feature.active &&(
-                                                                <a
-                                                                    key={featureIndex}
-                                                                    onClick={() => handleFeatureCardOnClick(feature, headerOption.id)}
-                                                                    className={`nav-link sub-features`}
-                                                                    style={{ lineHeight: "16px", fontSize: "14px" }}
-                                                                    title={feature.name}
-                                                                    // className={`nav-link ${isActiveLink(`/features-list?key=${feature.id}`) ? "nav-active" : ""}`}
+                                    <RenderIf isTrue={isServiceAvailable}>
+                                        <NavDropdown title="Products" id="navbarScrollingDropdown">
+                                            {headerData &&
+                                                headerData?.map((headerOption, index) => (
+                                                    <NavDropdown
+                                                        style={{ width: "100%" }}
+                                                        title={
+                                                            <span style={{ width: "100%" }}>
+                                                                <OverlayTrigger
+                                                                    key={index}
+                                                                    placement="left"
+                                                                    overlay={
+                                                                        <Tooltip id={`tooltip-${index}`}>
+                                                                            Example: <br />
+                                                                            {headerOption?.examples.join(", ")}
+                                                                        </Tooltip>
+                                                                    }
                                                                 >
-                                                                    {feature.name}
-                                                                </a>
-                                                            );
-                                                        })}
-                                                </NavDropdown>
-                                            ))}
-                                    </NavDropdown>
-                                    <Link href="/pricing" title="Pricing" className={`nav-link ${isActiveLink("/pricing") ? "nav-active" : ""}`}>
-                                        Pricing
-                                    </Link>
-
+                                                                    <i className="fa fa-info-circle" style={{ marginRight: "10px", color: "#7b5b9e" }} aria-hidden="true"></i>
+                                                                </OverlayTrigger>
+                                                                <span className="ml-5">{headerOption.name}</span>
+                                                            </span>
+                                                        }
+                                                        id={`nested-dropdown-${index}`}
+                                                        key={`nested-dropdown-${index}`}
+                                                        drop="end"
+                                                    >
+                                                        {CommonUtility.isValidArray(headerOption.features) &&
+                                                            headerOption.features.map((feature, featureIndex) => {
+                                                                return (
+                                                                    feature.active && (
+                                                                        <a
+                                                                            key={featureIndex}
+                                                                            onClick={() => handleFeatureCardOnClick(feature, headerOption.id)}
+                                                                            className={`nav-link sub-features`}
+                                                                            style={{ lineHeight: "16px", fontSize: "14px" }}
+                                                                            title={feature.name}
+                                                                            // className={`nav-link ${isActiveLink(`/features-list?key=${feature.id}`) ? "nav-active" : ""}`}
+                                                                        >
+                                                                            {feature.name}
+                                                                        </a>
+                                                                    )
+                                                                );
+                                                            })}
+                                                    </NavDropdown>
+                                                ))}
+                                        </NavDropdown>
+                                        <Link href="/pricing" title="Pricing" className={`nav-link ${isActiveLink("/pricing") ? "nav-active" : ""}`}>
+                                            Pricing
+                                        </Link>
+                                    </RenderIf>
                                     <Link href="/documents-and-media" className={`nav-link`}>
                                         Documentation & Media
                                     </Link>
@@ -165,7 +172,6 @@ export default function HeaderTop() {
                                         Contact
                                     </Link>
                                     {/* )} */}
-
                                     {!userDetails?.isLoggedIn && (
                                         <Link href="/account-security/login" title="Mediafirewall Login" className={`nav-link ${isActiveLink("/account-security/login") ? "nav-active" : ""}`}>
                                             Log In

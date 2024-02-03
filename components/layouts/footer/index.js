@@ -2,8 +2,10 @@
 import Image from "next/image";
 import { Col, Container, Row } from "react-bootstrap";
 
+import RenderIf from "@/components/ConditionalRender/RenderIf";
 import VideoModal from "@/components/VideoModal";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
+import { useServiceStatus } from "@/contexts-v2/serviceStatusContext";
 import { getAllHeaderDataOptions, getAllHeaderDataOptionsUpdated } from "@/store/defaultConfig.slice";
 import { useAppSelector } from "@/store/hooks";
 import CommonUtility from "@/utils/common.utils";
@@ -16,6 +18,7 @@ import style from "./footer.module.scss";
 export default function FooterBottom() {
     const headerData = useAppSelector(getAllHeaderDataOptions);
     const headerDataV2 = useAppSelector(getAllHeaderDataOptionsUpdated);
+    const { isServiceAvailable } = useServiceStatus();
 
     const { isLogin, user } = useAuthV3();
     const [isShowVideoModel, setIsShowVideoModel] = useState(false);
@@ -78,10 +81,10 @@ export default function FooterBottom() {
     };
     return (
         <>
-            <section className="banner-layers1">
-                <Container>
-                    <div className="banner-layout-content">
-                        <>
+            <RenderIf isTrue={isServiceAvailable}>
+                <section className="banner-layers1">
+                    <Container>
+                        <div className="banner-layout-content">
                             <div className="img has-hover x5 md-x5 lg-x0 y50 md-y50 lg-y50" id="image_1733022604">
                                 <img
                                     width="533"
@@ -95,15 +98,10 @@ export default function FooterBottom() {
                                     sizes="(max-width: 533px) 100vw, 533px"
                                 />
                             </div>
-                        </>
-                        <>
-                            {/* <h1>
-                                <strong>Mediafirewall is NVIDIA Cloud Validated.</strong>
-                            </h1> */}
-                        </>
-                    </div>
-                </Container>
-            </section>
+                        </div>
+                    </Container>
+                </section>
+            </RenderIf>
             <footer className={style.mdf__footer}>
                 <Container>
                     <Row>
@@ -118,12 +116,16 @@ export default function FooterBottom() {
                                             <b>Million Visions,</b>
                                         </u>
                                     </a>
-                                    <br /> Hustlehub Tech Park - #36/5,
-                                    <br /> Somasandra Palya, <br />
-                                    Haralukunte Village, Sector2, <br /> adjacent 27th MainRoad,
-                                    <br />
-                                    HSR Layout, Bengaluru,
-                                    <br /> Karnataka 560102.
+                                    <RenderIf isTrue={isServiceAvailable}>
+                                        <>
+                                            <br /> Hustlehub Tech Park - #36/5,
+                                            <br /> Somasandra Palya, <br />
+                                            Haralukunte Village, Sector2, <br /> adjacent 27th MainRoad,
+                                            <br />
+                                            HSR Layout, Bengaluru,
+                                            <br /> Karnataka 560102.
+                                        </>
+                                    </RenderIf>
                                     <div>
                                         <div className="d-flex flex-row align-items-center gap-3" style={{ color: "white", fontSize: "14px" }}>
                                             <span style={{ color: "#ca98e9", width: "auto" }}>
@@ -145,72 +147,92 @@ export default function FooterBottom() {
                                 </div>
                             </div>
                         </Col>
-                        <Col lg={3} md={6}>
-                            <h5 className="mt-3">Products</h5>
-                            <ul className="list-unstyled">
-                                {CommonUtility.isValidArray(headerData) &&
-                                    headerData.map((item, index) => {
-                                        return (
-                                            <li style={{ color: "#fff" }} className="py-2" key={item.id + "_" + index}>
-                                                <Link href={`/features-list?key=${item.id}`} title={item.name}>
-                                                    {item.name}
-                                                </Link>
-                                            </li>
-                                        );
-                                    })}
-                            </ul>
-                        </Col>
-                        <Col lg={3} md={6}>
-                            <h5 className="mt-3">Features</h5>
-                            <ul className="list-unstyled">
-                                {CommonUtility.isValidArray(headerDataV2) &&
-                                    CommonUtility.isValidArray(headerDataV2[0].features) &&
-                                    headerDataV2[0].features.map((feature, index) => {
-                                        if (index > 8) {
-                                            if (index === 9) {
+                        <RenderIf isTrue={isServiceAvailable}>
+                            <>
+                                <Col lg={3} md={6}>
+                                    <h5 className="mt-3">Products</h5>
+                                    <ul className="list-unstyled">
+                                        {CommonUtility.isValidArray(headerData) &&
+                                            headerData.map((item, index) => {
                                                 return (
-                                                    <li style={{ color: "#fff" }} className="py-2" key={`n_${index}`}>
-                                                        <Link href={`/features-list?key=0`} title="All Demo Features">more...</Link>
+                                                    <li style={{ color: "#fff" }} className="py-2" key={item.id + "_" + index}>
+                                                        <Link href={`/features-list?key=${item.id}`} title={item.name}>
+                                                            {item.name}
+                                                        </Link>
                                                     </li>
                                                 );
-                                            }
-                                            return null; // Don't render additional "more..." items
-                                        } else {
-                                            return feature?.active && (
-                                                <li style={{ color: "#fff" }} className="py-2" key={`n_${feature.name}`} onClick={() => handleFeatureCardOnClick(feature, 0)}>
-                                                    {feature.name}
-                                                </li>
-                                            );
-                                        }
-                                    })}
-                            </ul>
-                        </Col>
-                        <Col lg={3} md={6}>
-                            <h5 className="mt-3">Useful Links</h5>
-                            <ul className="list-unstyled">
-                                {/* <li style={{ color: "#fff" }} className="py-2">
+                                            })}
+                                    </ul>
+                                </Col>
+                                <Col lg={3} md={6}>
+                                    <h5 className="mt-3">Features</h5>
+                                    <ul className="list-unstyled">
+                                        {CommonUtility.isValidArray(headerDataV2) &&
+                                            CommonUtility.isValidArray(headerDataV2[0].features) &&
+                                            headerDataV2[0].features.map((feature, index) => {
+                                                if (index > 8) {
+                                                    if (index === 9) {
+                                                        return (
+                                                            <li style={{ color: "#fff" }} className="py-2" key={`n_${index}`}>
+                                                                <Link href={`/features-list?key=0`} title="All Demo Features">
+                                                                    more...
+                                                                </Link>
+                                                            </li>
+                                                        );
+                                                    }
+                                                    return null; // Don't render additional "more..." items
+                                                } else {
+                                                    return (
+                                                        feature?.active && (
+                                                            <li style={{ color: "#fff" }} className="py-2" key={`n_${feature.name}`} onClick={() => handleFeatureCardOnClick(feature, 0)}>
+                                                                {feature.name}
+                                                            </li>
+                                                        )
+                                                    );
+                                                }
+                                            })}
+                                    </ul>
+                                </Col>
+                                <Col lg={3} md={6}>
+                                    <h5 className="mt-3">Useful Links</h5>
+                                    <ul className="list-unstyled">
+                                        {/* <li style={{ color: "#fff" }} className="py-2">
                 <Link href="#">About</Link>
               </li> */}
-                                <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/contact-us" title="Contact Us">Contact us</Link>
-                                </li>
-                                <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/pricing" title="Pricing">Pricing</Link>
-                                </li>
-                                <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/features-list" title="Demo">Demo</Link>
-                                </li>
-                                <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/privacy-policy" title="Privacy Policy">Privacy policy</Link>
-                                </li>
-                                <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/terms-of-use" title="Terms Of Use">Terms Of Use</Link>
-                                </li>
-                                <li style={{ color: "#fff" }} className="py-2">
-                                    <Link href="/cancellation-refund-policy" title="Subscription Cancellation Policy">Cancellation policy</Link>
-                                </li>
-                            </ul>
-                        </Col>
+                                        <li style={{ color: "#fff" }} className="py-2">
+                                            <Link href="/contact-us" title="Contact Us">
+                                                Contact us
+                                            </Link>
+                                        </li>
+                                        <li style={{ color: "#fff" }} className="py-2">
+                                            <Link href="/pricing" title="Pricing">
+                                                Pricing
+                                            </Link>
+                                        </li>
+                                        <li style={{ color: "#fff" }} className="py-2">
+                                            <Link href="/features-list" title="Demo">
+                                                Demo
+                                            </Link>
+                                        </li>
+                                        <li style={{ color: "#fff" }} className="py-2">
+                                            <Link href="/privacy-policy" title="Privacy Policy">
+                                                Privacy policy
+                                            </Link>
+                                        </li>
+                                        <li style={{ color: "#fff" }} className="py-2">
+                                            <Link href="/terms-of-use" title="Terms Of Use">
+                                                Terms Of Use
+                                            </Link>
+                                        </li>
+                                        <li style={{ color: "#fff" }} className="py-2">
+                                            <Link href="/cancellation-refund-policy" title="Subscription Cancellation Policy">
+                                                Cancellation policy
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </Col>
+                            </>
+                        </RenderIf>
                     </Row>
                 </Container>
                 {selectedMediaContent && isShowVideoModel && (

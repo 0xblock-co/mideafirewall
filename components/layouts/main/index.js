@@ -7,6 +7,7 @@ import { asyncGetAllContents, asyncGetMFWTestCustomers } from "@/services/produc
 import { asyncGetAllHeaderData } from "@/services/shared/defaultConfig.service";
 import { getAllHeaderDataOptions, setAllMediaContents, setMfwTestCustomers } from "@/store/defaultConfig.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import CommonUtility from "@/utils/common.utils";
 import { readCookie } from "@/utils/cookieCreator";
 import { asyncGetAccessToken } from "@/utils/globalFunctions";
 import dynamic from "next/dynamic";
@@ -24,7 +25,7 @@ function organizeDataByPageId(data) {
     const organizedData = {};
 
     // Iterate over the input data array
-    data.forEach((item) => {
+    CommonUtility.isValidArray(data) && data.forEach((item) => {
         // Extract the pageId from the current item
         const { pageId } = item;
 

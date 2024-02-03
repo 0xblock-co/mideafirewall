@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 const api = new Api();
-const baseApi = process.env.NEXT_PUBLIC_API_PATH;
+const baseApi = process.env.NEXT_PUBLIC_API_PATH_V2;
 
 export default function DocumentationAndBlogs() {
     const router = useRouter();
@@ -22,9 +22,8 @@ export default function DocumentationAndBlogs() {
         async (pageNumber = 0, pageSize = 10) => {
             try {
                 setIsLoading(true);
-                const url = `${baseApi}/qa/mfw/web/content/type/BLOG?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+                const url = `${baseApi}/mfw/web/content/type/BLOG?pageNumber=${pageNumber}&pageSize=${pageSize}`;
                 const response = await api.get(url, {}, true, false);
-                console.log("response: ", response);
 
                 if (response.isSuccess) {
                     setIsLoading(false);
@@ -63,7 +62,6 @@ export default function DocumentationAndBlogs() {
     };
 
     const latestBlog = blogsDetails.items[0];
-    console.log("blogsDetails: ", blogsDetails);
 
     return (
         <main>

@@ -8,6 +8,7 @@ import "select2/dist/css/select2.min.css";
 import ToastContainerConfig from "@/components/ToastContainer";
 import MainLayout from "@/components/layouts/main";
 import AuthProviderV3 from "@/contexts-v2/auth.context";
+import ServiceStatusProvider from "@/contexts-v2/serviceStatusContext";
 import { asyncUserSatisfactionMetrics } from "@/services/product/product.service";
 import { wrapper } from "@/store";
 import { getGeoLocationData, setGeoLocationData, setPartnersData, setSatisfactionMetricsCount, setSupportedMediaTypes } from "@/store/defaultConfig.slice";
@@ -203,7 +204,7 @@ export function App({ Component, pageProps }) {
             </Head>
             <IntlProvider locale={locale} messages={messages[locale]}>
                 <>
-                    <>
+                    <ServiceStatusProvider>
                         <AuthProviderV3>
                             {getLayout(
                                 <>
@@ -220,7 +221,7 @@ export function App({ Component, pageProps }) {
                                 </>
                             )}
                         </AuthProviderV3>
-                    </>
+                    </ServiceStatusProvider>
                 </>
             </IntlProvider>
         </div>

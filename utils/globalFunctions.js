@@ -265,3 +265,15 @@ export function getUserBadgeByUserName(fName, lName) {
 
     return { text: userBadgeText, color: randomColor };
 }
+export const checkServiceStatus = async () => {
+    try {
+        const response = await fetch("https://payvwljfwa.execute-api.ap-south-1.amazonaws.com/prod/get_status?product_id=MFW");
+        if (response.status === 550) {
+            return false; // Service unavailable
+        }
+        return true; // Service available
+    } catch (error) {
+        console.error("Error:", error);
+        return false; // Handle error
+    }
+};

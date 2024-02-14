@@ -182,12 +182,12 @@ export default function FeatureBlogV2({ headerData }) {
                             className="mt-4"
                         >
                             <Tab.Container id="left-tabs-example" activeKey={activeTab} onSelect={handleTabChange}>
-                                <Nav variant="pills" className="flex-row flex-wrap justify-content-lg-center gap-3">
+                                <Nav className="flex-row flex-wrap justify-content-lg-center gap-3">
                                     {headerData?.map(
                                         (headerOption) =>
                                             headerOption.active && (
                                                 <Nav.Item key={headerOption.id}>
-                                                    <Nav.Link className={style.mdf__btn_large} eventKey={headerOption.id}>
+                                                    <Nav.Link className={`${style.mdf__btn_large} ${activeTab === headerOption.id ? style.mdf__btn_large_selected : ""}`} eventKey={headerOption.id}>
                                                         {headerOption.name}
                                                     </Nav.Link>
                                                 </Nav.Item>
@@ -239,6 +239,7 @@ export default function FeatureBlogV2({ headerData }) {
                                                                             <Button className={style.read_more_button}>Read More</Button>
                                                                         </div>
                                                                     </div>
+                                                                    <div></div>
                                                                 </Col>
                                                             </Row>
                                                             <RenderIf isTrue={!feature.active}>

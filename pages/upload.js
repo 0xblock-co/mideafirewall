@@ -10,7 +10,7 @@ import { getUrlVars } from "@/utils/globalFunctions";
 
 const Uploads = () => {
     const router = useRouter();
-        const { user, isLogin } = useAuthV3();
+    const { user, isLogin } = useAuthV3();
 
     // const mfw_customersList = useAppSelector(getMfwTestCustomersSelector);
     // useEffect(() => {

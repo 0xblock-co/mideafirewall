@@ -29,7 +29,10 @@ export default function PricingFaqs() {
                         <div className="mt-5">
                             <h5>Do you offer a free trial?</h5>
                             <p>
-                                Yes there is a free plan that can be used to moderate your content through our website. <Link title="Get a free trial" href="/account-security/signup">Get a free trial</Link>
+                                Yes there is a free plan that can be used to moderate your content through our website.{" "}
+                                <Link title="Get a free trial" href="/account-security/signup">
+                                    Get a free trial
+                                </Link>
                             </p>
                         </div>
                         <div className="mt-5">

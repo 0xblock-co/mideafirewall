@@ -10,14 +10,14 @@ export default function UnderMaintenance() {
                 <Row className="justify-content-between">
                     <Col xl={8} className="mt-4">
                         <div className={style.mdf__banner_text}>
-                            <h1 >
+                            <h1>
                                 Website Under Routine Maintenance – We Will Be Back{" "}
                                 <span className="text_gredient1" style={{ color: "rgb(232 125 48)" }}>
                                     Soon!
                                 </span>
                             </h1>
                             <p className="fw-semibold mb-0" style={{ fontSize: "20px", marginTop: "20px" }}>
-                                We're currently undergoing routine maintenance to revamp our website. Please leave us your email in the chat, and we'll get back to you soon. <br/> Thank you for your
+                                We're currently undergoing routine maintenance to revamp our website. Please leave us your email in the chat, and we'll get back to you soon. <br /> Thank you for your
                                 understanding and patience!
                             </p>
                         </div>

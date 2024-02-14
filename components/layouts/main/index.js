@@ -25,18 +25,19 @@ function organizeDataByPageId(data) {
     const organizedData = {};
 
     // Iterate over the input data array
-    CommonUtility.isValidArray(data) && data.forEach((item) => {
-        // Extract the pageId from the current item
-        const { pageId } = item;
+    CommonUtility.isValidArray(data) &&
+        data.forEach((item) => {
+            // Extract the pageId from the current item
+            const { pageId } = item;
 
-        // If the pageId is not a key in the organizedData object, initialize it with an empty array
-        if (!organizedData[pageId]) {
-            organizedData[pageId] = [];
-        }
+            // If the pageId is not a key in the organizedData object, initialize it with an empty array
+            if (!organizedData[pageId]) {
+                organizedData[pageId] = [];
+            }
 
-        // Push the current item to the array corresponding to the pageId
-        organizedData[pageId].push(item);
-    });
+            // Push the current item to the array corresponding to the pageId
+            organizedData[pageId].push(item);
+        });
 
     return organizedData;
 }

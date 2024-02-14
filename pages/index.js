@@ -10,13 +10,22 @@ import { Fragment } from "react";
 const Banner = dynamic(() => import("@/components/Home/Banner1"), {
     ssr: false,
 });
-const Feature = dynamic(() => import("@/components/Home/Features"), {
+// const Feature = dynamic(() => import("@/components/Home/Features"), {
+//     ssr: false,
+// });
+const Feature = dynamic(() => import("@/components/Home/FeaturesV2"), {
     ssr: false,
 });
-const Moderation = dynamic(() => import("@/components/Home/Moderation"), {
+// const Moderation = dynamic(() => import("@/components/Home/Moderation"), {
+//     ssr: false,
+// });
+const Moderation = dynamic(() => import("@/components/Home/ModerationV2"), {
     ssr: false,
 });
-const OfferBlock = dynamic(() => import("@/components/Home/Offer"), {
+// const OfferBlock = dynamic(() => import("@/components/Home/Offer"), {
+//     ssr: false,
+// });
+const OfferBlock = dynamic(() => import("@/components/Home/OfferV2"), {
     ssr: false,
 });
 

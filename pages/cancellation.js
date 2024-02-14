@@ -99,7 +99,11 @@ const ContentPage = () => {
                                         </span>
                                     </span>
                                     <br />
-                                    If you have any questions about this Cancellation and Refund Policy, please contact us at <a href="mailto:info@mediafirewall.ai" title="Mediafirewall Information Email">info@mediafirewall.ai</a> Or{" "}
+                                    If you have any questions about this Cancellation and Refund Policy, please contact us at{" "}
+                                    <a href="mailto:info@mediafirewall.ai" title="Mediafirewall Information Email">
+                                        info@mediafirewall.ai
+                                    </a>{" "}
+                                    Or{" "}
                                     <a href="tel:+919900119968" title="Support Mediafirewall Contact">
                                         +91 99001 19968
                                     </a>

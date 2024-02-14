@@ -32,7 +32,6 @@ const schema = yup.object().shape({
         .required("Confirm password is required."),
 });
 
-
 const RegisterBlock = ({ handleSubmitSingUp }) => {
     //useForm
     const {
@@ -148,7 +147,7 @@ const RegisterBlock = ({ handleSubmitSingUp }) => {
                 <div className="text-center mt-3">
                     <p>
                         Already have an account ?{" "}
-                        <Link href="/account-security/login" title="Mediafirewall Login"  className="text-primary text-decoration-none fw-bold">
+                        <Link href="/account-security/login" title="Mediafirewall Login" className="text-primary text-decoration-none fw-bold">
                             Sign in
                         </Link>
                     </p>

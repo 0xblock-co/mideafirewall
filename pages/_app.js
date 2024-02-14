@@ -82,9 +82,7 @@ export function App({ Component, pageProps }) {
                 let data = response.data;
                 dispatch(setGeoLocationData(data));
             })
-            .catch((error) => {
-                
-            });
+            .catch((error) => {});
     };
 
     const getPartnersData = () => {
@@ -96,9 +94,7 @@ export function App({ Component, pageProps }) {
                     dispatch(setPartnersData(data.items));
                 }
             })
-            .catch((error) => {
-                
-            });
+            .catch((error) => {});
     };
 
     const getSupportedMediaType = () => {

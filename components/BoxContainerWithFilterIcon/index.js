@@ -5,7 +5,7 @@ import style from "@/components/Auth/auth.module.scss";
 import { useRouter } from "next/router";
 
 function BoxContainerWithFilterIconWrapper({ children, lg = 12, xl = 7, xxl = 6 }) {
-    const router = useRouter()
+    const router = useRouter();
     return (
         <section className={style.mdf__authpage__section}>
             <Container>
@@ -17,7 +17,6 @@ function BoxContainerWithFilterIconWrapper({ children, lg = 12, xl = 7, xxl = 6 
                             </Col>
                             <Col lg={lg} xl={xl} xxl={xxl}>
                                 <div className="min-h-50v">
-
                                     <div className="d-flex align-items-center">
                                         <div onClick={() => router.back()} style={{ cursor: "pointer" }}>
                                             <svg

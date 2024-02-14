@@ -68,7 +68,7 @@ const LandingPage = (props) => {
 
 // Specifies the default values for props:
 LandingPage.defaultProps = {
-  pathname: "/",
+    pathname: "/",
 };
 
 export async function getServerSideProps(context) {

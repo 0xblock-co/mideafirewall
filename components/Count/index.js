@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Count = ({number}) => {
-    
+const Count = ({ number }) => {
     const duration = 2;
     // number displayed by component
     const [count, setCount] = useState("0");

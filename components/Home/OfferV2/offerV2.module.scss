@@ -1,0 +1,10 @@
+@import "@/styles/common.scss";
+
+.mdf__offer__block {
+    padding: 80px 0;
+    background: #fff;
+    // background: $section-bg-grey;
+    @include media-breakpoints-down-lg {
+        padding: 40px 0;
+    }
+}

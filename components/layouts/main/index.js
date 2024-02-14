@@ -17,7 +17,10 @@ import UnderMaintenance from "../UnderMaintanceBanner";
 const FooterComponent = dynamic(() => import("@/components/layouts/footer"), {
     ssr: false,
 });
-const HeaderComponent = dynamic(() => import("@/components/layouts/header"), {
+// const HeaderComponent = dynamic(() => import("@/components/layouts/header"), {
+//     ssr: false,
+// });
+const HeaderComponentV2 = dynamic(() => import("@/components/layouts/headerV2"), {
     ssr: false,
 });
 function organizeDataByPageId(data) {
@@ -92,7 +95,8 @@ const MainLayout = ({ children }) => {
 
     return (
         <Fragment>
-            <HeaderComponent />
+            {/* <HeaderComponent /> */}
+            <HeaderComponentV2 />
             <main className="mdf__main_top_fix">
                 <RenderIf isTrue={isLoadingApp}>
                     <Loader isLoading={isLoadingApp} />

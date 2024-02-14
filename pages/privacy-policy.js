@@ -101,8 +101,8 @@ const ContentPage = () => {
                                     <li>Transaction details from activities carried out on our Websites or related to orders of our Services.</li>
                                 </ul>
                                 <p>
-                                    Additionally, as a contributing user, you may provide information that is published or displayed ("posted") on public areas of our Websites or transmitted to other
-                                    users or third parties. Your user contributions are posted and transmitted at your own risk.
+                                    Additionally, as a contributing user, you may provide information that is published or displayed (&quot;posted&quot;) on public areas of our Websites or transmitted
+                                    to other users or third parties. Your user contributions are posted and transmitted at your own risk.
                                 </p>
 
                                 <h3 className="text lg">2. How Mediafirewall Utilizes Your Personal Information</h3>
@@ -185,8 +185,8 @@ const ContentPage = () => {
                                 </p>
                                 <p>
                                     We use third-party payment processors, such as Stripe, to handle payments made to us. In this process, we do not retain any personally identifiable information or
-                                    financial details like credit card numbers. Instead, such information is directly provided to our third-party processors. You can view Stripe's privacy policy at{" "}
-                                    <a href="https://stripe.com/us/privacy">https://stripe.com/us/privacy</a>.
+                                    financial details like credit card numbers. Instead, such information is directly provided to our third-party processors. You can view Stripe&apos;s privacy policy
+                                    at <a href="https://stripe.com/us/privacy">https://stripe.com/us/privacy</a>.
                                 </p>
                                 <h3 className="text lg">4. Duration of Personal Information Retention by Mediafirewall</h3>
                                 <p>
@@ -201,7 +201,6 @@ const ContentPage = () => {
                                     Additionally, we may retain your personal information for the time necessary to pursue our legitimate business interests, conduct audits, fulfill legal obligations,
                                     resolve disputes, and enforce our agreements.
                                 </p>
-
                                 <h3 className="text lg">5. When and How Mediafirewall Shares Your Personal Information with Others</h3>
                                 <p>
                                     <i>
@@ -221,9 +220,9 @@ const ContentPage = () => {
                                         maintain the confidentiality of personal information and can use it only for the purposes for which we disclose the information to them.
                                     </li>
                                     <li>
-                                        In the event of a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Mediafirewall's assets, we may
-                                        share personal information about our Websites users. You will be notified via email and/or a prominent notice on our Websites of any change in ownership or uses
-                                        of your personal information, as well as any choices you may have regarding your personal information.
+                                        In the event of a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Mediafirewall&apos;s assets, we
+                                        may share personal information about our Websites users. You will be notified via email and/or a prominent notice on our Websites of any change in ownership or
+                                        uses of your personal information, as well as any choices you may have regarding your personal information.
                                     </li>
                                     <li>
                                         To comply with any court order, law, or legal process (such as a subpoena), investigate fraud, respond to government or regulatory requests, lawful requests by
@@ -247,7 +246,6 @@ const ContentPage = () => {
                                     Occasionally, we may include links to other websites whose privacy practices may differ from ours. If you submit personal information to any of those sites, your
                                     information will be governed by the privacy policies of those third parties. Please carefully read the privacy policy of any website you visit.
                                 </p>
-
                                 <h3 className="text lg">6. How Mediafirewall Ensures the Security of Your Information</h3>
                                 <p>
                                     <i>
@@ -257,8 +255,8 @@ const ContentPage = () => {
                                 </p>
                                 <p>
                                     Mediafirewall is committed to maintaining appropriate technical and organizational security measures designed to protect your personal information from accidental
-                                    loss, unauthorized use, alteration, or disclosure. While we implement and uphold security measures suitable for our business activities, it's essential to note that
-                                    no security measures are flawless or invulnerable, and any transmission of personal information is done at your own risk.
+                                    loss, unauthorized use, alteration, or disclosure. While we implement and uphold security measures suitable for our business activities, it&apos;s essential to note
+                                    that no security measures are flawless or invulnerable, and any transmission of personal information is done at your own risk.
                                 </p>
                                 <p>
                                     Additionally, it is your responsibility to ensure the safety and security of your information. We are not liable if you bypass any privacy settings or security
@@ -396,8 +394,8 @@ const ContentPage = () => {
                                 <ul>
                                     <li>
                                         use certain web browser and opt-out options discussed in this Privacy Policy to limit the personal information you provide to us or our third-party partners
-                                        (please see Section 4 “Does Mediafirewall collect personal information automatically?”, Section 6 “When and how does Mediafirewall share my personal information
-                                        with others?” and Section 10 "Communication Preferences and Subscriptions”),
+                                        (please see Section 4 &ldquo;Does Mediafirewall collect personal information automatically?&rdquo;, Section 6 &ldquo;When and how does Mediafirewall share my
+                                        personal information with others?&rdquo; and Section 10 &ldquo;Communication Preferences and Subscriptions&rdquo;),
                                     </li>
                                     <li>log into the appropriate Website or Service and contact us through the Support Center,</li>
                                     <li>follow the unsubscribe instructions included in emails,</li>
@@ -418,7 +416,6 @@ const ContentPage = () => {
                                     </a>
                                     .
                                 </p>
-
                                 <h3 className="text lg">8. Subscriber Data Submitted to Our Services or Collected Through Our Services (On Behalf of Our Subscribers)</h3>
                                 <p>
                                     Mediafirewall subscribers electronically submit (or cause to be submitted) data to the Services for analysis, moderation, and related processing. Mediafirewall
@@ -426,8 +423,8 @@ const ContentPage = () => {
                                     <a href="https://www.mediafirewall.ai/terms-of-use">https://www.mediafirewall.ai/terms-of-use</a>.
                                 </p>
                                 <p>
-                                    As subscribers (or, in some cases, their internet clients or end users) control the data to be processed, Mediafirewall's network, platform, and Services may be
-                                    used as a conduit for information.
+                                    As subscribers (or, in some cases, their internet clients or end users) control the data to be processed, Mediafirewall&apos;s network, platform, and Services may
+                                    be used as a conduit for information.
                                 </p>
                                 <p>
                                     The use of personal information collected through our Services at the direction of our subscribers shall be limited to the purpose of providing the Services for
@@ -493,7 +490,6 @@ const ContentPage = () => {
                                     It is your responsibility to review this Privacy Policy periodically for updates or changes. By continuing to access or use our Services after those changes become
                                     effective, you agree to be bound by the revised Privacy Policy.
                                 </p>
-
                                 <h3 className="text lg">10. Contact Information</h3>
                                 <p>If you have any questions about this Privacy Policy, the practices of Mediafirewall, or your dealings with our Services, you can contact us at:</p>
                                 <p>
@@ -508,7 +504,6 @@ const ContentPage = () => {
                                         +91 99001 19968
                                     </a>
                                 </p>
-
                                 <p>
                                     <b>Postal Mail:</b>
                                     MillionVisions PVT LTD.
@@ -524,7 +519,6 @@ const ContentPage = () => {
                                     <br />
                                 </p>
                                 <p>This Privacy Policy was last updated on 01-12-2023.</p>
-
                                 <h3 className="text lg">11 Miscellaneous</h3>
                                 <p>
                                     If any provision of this Privacy Policy is found to be unenforceable or invalid, that provision will be limited or eliminated to the minimum extent necessary so

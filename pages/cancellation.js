@@ -10,7 +10,7 @@ const ContentPage = () => {
                             <h1>Cancellation and Refund Policy</h1>
                             <p>
                                 <span>
-                                    This Cancellation and Refund Policy ("Policy") applies to all services provided by MediaFirewall through our website at{" "}
+                                    This Cancellation and Refund Policy (&quot;Policy&quot;) applies to all services provided by MediaFirewall through our website at{" "}
                                     <a href="http://www.mediafirewall.ai/" target="_blank" rel="noreferrer">
                                         www.mediafirewall.ai
                                     </a>

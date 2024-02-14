@@ -17,8 +17,8 @@ export default function UnderMaintenance() {
                                 </span>
                             </h1>
                             <p className="fw-semibold mb-0" style={{ fontSize: "20px", marginTop: "20px" }}>
-                                We're currently undergoing routine maintenance to revamp our website. Please leave us your email in the chat, and we'll get back to you soon. <br /> Thank you for your
-                                understanding and patience!
+                                We&apos;re currently undergoing routine maintenance to revamp our website. Please leave us your email in the chat, and we&apos;ll get back to you soon. <br /> Thank you
+                                for your understanding and patience!
                             </p>
                         </div>
                     </Col>

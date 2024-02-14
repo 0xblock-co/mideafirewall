@@ -58,9 +58,9 @@ const ContentPage = () => {
                                 <p>
                                     3.4 <b>Security Measures.</b> Mediafirewall will maintain administrative, physical, and technical safeguards for the security and integrity of the Services (the “
                                     <b>Security Measures</b>”) consistent with industry standard practices. Mediafirewall will store, process, transmit and disclose electronic data and configurations
-                                    submitted to the Services or collected by the Service at the direction of or on behalf of Subscriber ("<b>Subscriber Data</b>") only according to the Agreement and
-                                    the Documentation. The Services, independent of Subscriber Data, will not transmit code, files, scripts, agents, or programs intended to do harm, including,
-                                    viruses, worms, time bombs, and Trojan horses ("<b>Malicious Code</b>"). &nbsp;
+                                    submitted to the Services or collected by the Service at the direction of or on behalf of Subscriber (&quot;<b>Subscriber Data</b>&quot;) only according to the
+                                    Agreement and the Documentation. The Services, independent of Subscriber Data, will not transmit code, files, scripts, agents, or programs intended to do harm,
+                                    including, viruses, worms, time bombs, and Trojan horses (&quot;<b>Malicious Code</b>&quot;). &nbsp;
                                 </p>
                                 <h3>4. Subscriber’s Obligations.</h3>
                                 <p>
@@ -72,20 +72,20 @@ const ContentPage = () => {
                                     the Agreement. Subscriber enters into the Agreement on behalf of its Affiliates that make use of the Services. &nbsp;
                                 </p>
                                 <p>
-                                    4.3 <b>Non-Mediafirewall Services.</b> Subscriber may choose to use services not provided by Mediafirewall ("<b>Non-Mediafirewall Services</b>") with the Services
-                                    and in doing so grants Mediafirewall permission to interoperate with the Non-Mediafirewall Services as directed by Subscriber or the Non-Mediafirewall Services.
-                                    &nbsp;Unless specified in a Service Order: (a) Mediafirewall does not warrant or support Non-Mediafirewall Services, (b) as between Mediafirewall and Subscriber,
-                                    Subscriber assumes all responsibility for the Non-Mediafirewall Services and any disclosure, modification or deletion of Subscriber Data by the Non-Mediafirewall
-                                    Services and (c) Mediafirewall shall have no liability for, and Subscriber is not relieved of any obligations under the Agreement or entitled to any refund, credit,
-                                    or other compensation due to any unavailability of the Non-Mediafirewall Services or any change in the ability of Mediafirewall to interoperate with the
-                                    Non-Mediafirewall Services.
+                                    4.3 <b>Non-Mediafirewall Services.</b> Subscriber may choose to use services not provided by Mediafirewall (&quot;<b>Non-Mediafirewall Services</b>&quot;) with the
+                                    Services and in doing so grants Mediafirewall permission to interoperate with the Non-Mediafirewall Services as directed by Subscriber or the Non-Mediafirewall
+                                    Services. &nbsp;Unless specified in a Service Order: (a) Mediafirewall does not warrant or support Non-Mediafirewall Services, (b) as between Mediafirewall and
+                                    Subscriber, Subscriber assumes all responsibility for the Non-Mediafirewall Services and any disclosure, modification or deletion of Subscriber Data by the
+                                    Non-Mediafirewall Services and (c) Mediafirewall shall have no liability for, and Subscriber is not relieved of any obligations under the Agreement or entitled to
+                                    any refund, credit, or other compensation due to any unavailability of the Non-Mediafirewall Services or any change in the ability of Mediafirewall to interoperate
+                                    with the Non-Mediafirewall Services.
                                 </p>
                                 <p>
-                                    4.4 <b>Third Party Reports.</b> &nbsp;As an intermediary, Mediafirewall may receive notices from third parties ("<b>Reporters</b>") regarding Subscriber Data or
-                                    Subscriber’s use of the Services ("<b>Reports</b>"). Mediafirewall will forward all Reports directly to the email address provided by Subscriber. &nbsp;Upon receipt
-                                    of a Report, Subscriber will (i) acknowledge receipt of such report to Mediafirewall within two (2) business days of receipt and (ii) address the Report promptly
-                                    with the Reporter, including informing the Reporter that Subscriber (and not Mediafirewall) is the appropriate party to address the matter. &nbsp;Mediafirewall may
-                                    provide the Contact to a Reporter inquiring about Subscriber Data or Subscriber’s use of the Services.
+                                    4.4 <b>Third Party Reports.</b> &nbsp;As an intermediary, Mediafirewall may receive notices from third parties (&quot;<b>Reporters</b>&quot;) regarding Subscriber
+                                    Data or Subscriber’s use of the Services (&quot;<b>Reports</b>&quot;). Mediafirewall will forward all Reports directly to the email address provided by Subscriber.
+                                    &nbsp;Upon receipt of a Report, Subscriber will (i) acknowledge receipt of such report to Mediafirewall within two (2) business days of receipt and (ii) address the
+                                    Report promptly with the Reporter, including informing the Reporter that Subscriber (and not Mediafirewall) is the appropriate party to address the matter.
+                                    &nbsp;Mediafirewall may provide the Contact to a Reporter inquiring about Subscriber Data or Subscriber’s use of the Services.
                                 </p>
                                 <p>
                                     4.5 <b>Service Notices.</b> &nbsp;If Mediafirewall becomes aware that Subscriber may violate Subscriber’s obligations under this Section 4 (Subscriber’s
@@ -168,8 +168,9 @@ const ContentPage = () => {
                                 </p>
                                 <h3>8. Confidentiality.</h3>
                                 <p>
-                                    8.1 <b>Confidential Information.</b> <b>“Confidential Information”</b> means all information disclosed by a party ("<b>Disclosing Party</b>") to the other party ("
-                                    <b>Receiving Party</b>"), whether orally or in writing, that is designated as confidential or, given the nature of the information and the circumstances of
+                                    8.1 <b>Confidential Information.</b> <b>“Confidential Information”</b> means all information disclosed by a party (&quot;<b>Disclosing Party</b>&quot;) to the other
+                                    party (&quot;
+                                    <b>Receiving Party</b>&quot;), whether orally or in writing, that is designated as confidential or, given the nature of the information and the circumstances of
                                     disclosure, should be understood to be confidential. Subscriber’s Confidential Information includes the Subscriber Data; Mediafirewall&apos;s Confidential
                                     Information includes the Services; and Confidential Information of each party includes but is not limited to the terms and conditions of the Agreement and all
                                     Service Orders, including pricing, business and marketing plans, technology and technical information, product plans and designs, and business processes disclosed

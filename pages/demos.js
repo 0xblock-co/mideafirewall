@@ -1,10 +1,7 @@
-import { Fragment } from "react";
-
-// import FeaturesListBlock from "@/components/FeaturesList/FeaturesListBlock";
-import FeaturesListScreenBanner from "@/components/FeaturesList/FeaturesListScreenBanner";
 import style from "@/components/FeaturesList/featuresList.module.scss";
-import FeaturesListBlock from "@/components/FeaturesList_v2/FeaturesListBlock";
+import FeaturesListV2Block from "@/components/FeaturesList_v2/FeaturesListBlock";
 import { NextSeo } from "next-seo";
+import { Fragment } from "react";
 
 const FeaturesList = () => {
     return (
@@ -44,8 +41,7 @@ const FeaturesList = () => {
                 ]}
             />
             <div className={style.bg__light_blue}>
-                <FeaturesListScreenBanner />
-                <FeaturesListBlock />
+                <FeaturesListV2Block />
             </div>
         </Fragment>
     );

@@ -13,7 +13,7 @@ const VideoModal = ({ show, handleClose, videoUrl, posterImage }) => {
             <Modal.Body style={{ padding: "unset" }}>
                 <>
                     {isGifFile(videoUrl) ? (
-                        <img src={videoUrl} style={{ height: "100%", width:"100%", objectFit:"contain", maxHeight: "500px", paddingBottom: "5px" }} />
+                        <img src={videoUrl} style={{ height: "100%", width: "100%", objectFit: "contain", maxHeight: "500px", paddingBottom: "5px" }} />
                     ) : (
                         <iframe
                             loading="lazy"

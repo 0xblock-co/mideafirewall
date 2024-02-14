@@ -78,7 +78,7 @@ export const checkContentValidation = async (fileData, isContentUpload, maxUploa
             ToastMessage.error("Only image and video files are allowed.");
             return false;
         }
-        if (isContentUpload && (mediaFile.type.includes("image")|| mediaFile.type.includes("video"))) {
+        if (isContentUpload && (mediaFile.type.includes("image") || mediaFile.type.includes("video"))) {
             const invalidExtensions = allowedExtensions.filter((item) => mediaFile.type.includes(item));
             if (invalidExtensions.length == 0) {
                 newInfoAlert("Invalid input.", `Kindly share a valid image or video URL with extensions such as ${allowedExtensions.join(", ")}`, "Okay", "error", true, "Cancel", false);

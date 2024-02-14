@@ -35,7 +35,6 @@ export default function HomeBanner() {
 
                             <div style={{ width: "150px", height: "70px" }}>
                                 <img
-                                    // src="/images/svgs/nvidia-cloud-validated-lockup-rgb-blk-for-screen.svg"
                                     src="/images/svgs/nvidia-cloud-validated-lockup-rgb-wht-for-screen.svg"
                                     title="Nvidia Cloud validated"
                                     alt="Nvidia Cloud validated"

@@ -1,5 +1,16 @@
 @import "@/styles/common.scss";
 
+@mixin media-breakpoints-up-md {
+    @media (min-width: 768px) {
+        @content;
+    }
+}
+@mixin media-breakpoints-up-lg {
+    @media (min-width: 1024px) {
+        @content;
+    }
+}
+
 .mdf__moderation__back {
     // background: conic-gradient(
     //   from 180deg at 50% 0%,
@@ -14,15 +25,64 @@
     @include media-breakpoints-down-lg {
         padding: 40px 0;
     }
-    .card_custom {
+    .card_custom_1 {
         box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+        background-image: url("../../../public/images/ladyOpacity.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 100%;
+        width: 100%;
+
+        ul li strong {
+            color: #333;
+        }
+    }
+    .card_custom_2 {
+        box-shadow: 0 4px 15px 0 rgba(18, 18, 18, 0.15);
+        background-image: url("../../../public/images/aiBlue.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        width: 45%;
+        top: 3%;
+        right: 10%;
+
+        h2 {
+            color: #fff;
+        }
+
+        ul li {
+            color: #fff;
+            font-weight: 400;
+        }
     }
     .mdf__img__rounded {
         height: 307px;
+        object-fit: contain;
         filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
         border-radius: 45px;
         @include media-breakpoints-down-lg {
             border-radius: 10px;
+        }
+    }
+
+    .card_custom_1,
+    .card_custom_2 {
+        @include media-breakpoints-down-sm {
+            width: 100%;
+            margin-bottom: 20px;
+            position: static;
+        }
+    }
+
+    .card_custom_2 {
+        @include media-breakpoints-up-md {
+            top: 0%;
+        }
+        @include media-breakpoints-up-lg {
+            top: 2%;
         }
     }
 }

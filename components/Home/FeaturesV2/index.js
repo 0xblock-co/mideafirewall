@@ -215,13 +215,12 @@ export default function FeatureBlogV2({ headerData }) {
                                                                     <div className="p-0">
                                                                         <span className="d-flex justify-content-between align-items-center mb-2">
                                                                             <h6 className={`text-primary m-0 ${style.later__spacing} text_gradient_effect`}>{feature.name} </h6>
-
                                                                             <div className="d-flex align-items-center gap-2">
-                                                                                <RenderIf isTrue={feature?.featureId == "134"}>
+                                                                                {/* <RenderIf isTrue={feature?.featureId == "134"}>
                                                                                     <div className="blink" style={{ color: "#5e0496", fontSize: "16px", fontWeight: 600 }}>
                                                                                         Coming Soon
                                                                                     </div>
-                                                                                </RenderIf>
+                                                                                </RenderIf> */}
 
                                                                                 <Button
                                                                                     className={`${style.mdf__demo_button} bn53`}
@@ -242,6 +241,11 @@ export default function FeatureBlogV2({ headerData }) {
                                                                     </div>
                                                                 </Col>
                                                             </Row>
+                                                            <RenderIf isTrue={!feature.active}>
+                                                                <span className={style.mfw_permium_feature_badge}>
+                                                                    <img src="images/Vector.png" />
+                                                                </span>
+                                                            </RenderIf>
                                                         </Card>
                                                     </div>
                                                 ))}

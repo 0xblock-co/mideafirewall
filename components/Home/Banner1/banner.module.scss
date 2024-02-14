@@ -1,7 +1,6 @@
 @import "@/styles/common.scss";
 
 .mdf__banner__back {
-    // background: #e8e7f3;p
     background: linear-gradient(97.07deg, #7b5b9e 0.83%, #000000 100%);
     min-height: 620px;
     background-position: center;
@@ -41,6 +40,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        &:hover {
+            background-color: #ccc2d7;
         }
     }
     .mdf__banner__video {

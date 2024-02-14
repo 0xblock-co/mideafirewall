@@ -15,21 +15,16 @@ export default function ModerationV2() {
                         </h1>
                     </Col>
                 </Row>
-                <Row className="justify-content-center">
+                <Row className="justify-content-center" style={{ position: "relative" }}>
                     <Col sm={6} className="mt-3 mt-lg-5">
-                        <Card className={`p-3 p-lg-5 h-100 ${style.card_custom}`}>
-                            <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
-                                <FormattedMessage id="page.home.moderation.Traditional Manual moderation" />
+                        <Card className={`p-3 p-lg-5 ${style.card_custom_1}`}>
+                            <Card.Title className="text-center text-primary text_gradient_effect">
+                                <h2>
+                                    <FormattedMessage id="page.home.moderation.Traditional Manual moderation" />
+                                </h2>
                             </Card.Title>
-                            <Card.Img
-                                loading="lazy"
-                                alt="Traditional Manual moderation"
-                                title="Traditional Manual moderation"
-                                variant="top"
-                                src="/images/moderation-1.png"
-                                className={`lazyload ${style.mdf__img__rounded}`}
-                            />
-                            <ul className="list-unstyled mt-3 mt-lg-5 mb-0">
+
+                            <ul className="list-unstyled mb-0 p-3">
                                 <li className="mb-3">
                                     <IoClose size={24} color="#FF3407" /> <strong>Time and Efficiency:</strong> Involves time-consuming, individual content review.{" "}
                                 </li>
@@ -48,20 +43,14 @@ export default function ModerationV2() {
                             </ul>
                         </Card>
                     </Col>
-                    <Col sm={6} className="mt-3 mt-lg-5">
+                    <Col sm={6} className="mt-3 mt-lg-5  ">
                         {/* TODO:: Need to update the features list based on the market competitors  */}
-                        <Card className={`p-3 p-lg-5 h-100 ${style.card_custom}`}>
-                            <Card.Title className="text-center mb-3 mb-lg-5 text-primary">
-                                <FormattedMessage id="page.home.moderation.MediaFirewall Content Moderation" />
+                        <Card className={`p-3 p-lg-5  ${style.card_custom_2}`}>
+                            <Card.Title className="text-center">
+                                <h2>
+                                    <FormattedMessage id="page.home.moderation.MediaFirewall Content Moderation" />
+                                </h2>
                             </Card.Title>
-                            <Card.Img
-                                variant="top"
-                                alt="MediaFirewall Content Moderation"
-                                title="MediaFirewall Content Moderation"
-                                loading="lazy"
-                                src="/images/AI-moderation.png"
-                                className={`lazyload ${style.mdf__img__rounded}`}
-                            />
                             <ul className="list-unstyled mt-3 mt-lg-5 mb-0">
                                 <li className="mb-3">
                                     <IoCheckmarkSharp size={24} color="#5E0496" /> <strong>Time and Efficiency:</strong> Enables real-time analysis and efficient processing of large volumes.{" "}

@@ -30,25 +30,31 @@ export default function OfferBlock() {
                     </Row>
                     <Row className="flex justify-content-center align-items-center">
                         <Col sm={4} lg={3} xl={2}>
-                            <Button variant="primary" className="mt-4 rounded-pill w-100" onClick={() => Router.push("/features-list")}>
-                                <FormattedMessage id="button.See Demo" />
+                            <Button variant="primary" className={`mt-4 rounded-pill w-100 ${style.mdf__offer__btn}`} onClick={() => Router.push("/features-list")}>
+                                <span>
+                                    <FormattedMessage id="button.See Demo" />
+                                </span>
                             </Button>
                         </Col>
                         <Col sm={4} lg={3} xl={2}>
-                            <Button variant="outline-primary" className="mt-4 rounded-pill w-100" onClick={() => Router.push("/pricing")}>
-                                <FormattedMessage id="button.See pricing" />
+                            <Button variant="outline-primary" className={`mt-4 rounded-pill w-100 ${style.mdf__offer__btn}`} onClick={() => Router.push("/pricing")}>
+                                <span>
+                                    <FormattedMessage id="button.See pricing" />
+                                </span>
                             </Button>
                         </Col>
                         <Col sm={4} lg={3} xl={2}>
-                            <Button variant="outline-primary" className="mt-4 rounded-pill w-100" onClick={() => Router.push("/contact-us")}>
-                                <FormattedMessage id="button.Contact Us" />
+                            <Button variant="outline-primary" className={`mt-4 rounded-pill w-100 ${style.mdf__offer__btn}`} onClick={() => Router.push("/contact-us")}>
+                                <span>
+                                    <FormattedMessage id="button.Contact Us" />
+                                </span>
                             </Button>
                         </Col>
                     </Row>
                 </Container>
             </section>
             {CommonUtility.isValidArray(partnersDataFromStore) && (
-                <section className="our-partner-section" data-aos="fade-up" data-aos-delay="100">
+                <section className="our-partner-section" data-aos="fade-up" data-aos-delay="100" style={{ backgroundColor: "#fff" }}>
                     <Container>
                         <Row>
                             <Col lg={12}>

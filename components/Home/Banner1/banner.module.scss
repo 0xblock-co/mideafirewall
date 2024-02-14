@@ -43,7 +43,12 @@
         }
 
         &:hover {
-            background-color: #ccc2d7;
+            background: linear-gradient(97.07deg, #7b5b9e 0.83%, #000000 100%);
+
+            span {
+                color: #fff;
+                -webkit-text-fill-color: #fff;
+            }
         }
     }
     .mdf__banner__video {

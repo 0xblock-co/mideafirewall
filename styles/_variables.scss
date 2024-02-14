@@ -1,6 +1,8 @@
-$font-family-sans-serif: "Inter", -apple-system, "Segoe UI", Roboto,
-  "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
-  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+// $font-family-sans-serif: "Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+//     "Noto Color Emoji" !default;
+
+$font-family-sans-serif: "Montserrat", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji" !default;
 
 $enable-smooth-scroll: false !default;
 $primary_v0: #5e0496;
@@ -17,12 +19,12 @@ $image-border-color: #dce1d3;
 $box-shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.51) !default;
 
 $grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1400px,
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px,
 ) !default;
 $headings-font-family: "Lato";
 $headings-font-weight: 900;

@@ -124,7 +124,51 @@ export default function HeaderTopV2() {
                                     </Link>
                                     <div className={`dropdown-menu shadow container mega-content p-0 ${styles.megaMenuProduct}`}>
                                         <div className="row g-3 g-md-0 g-lg-0">
-                                            <div className="col-12 col-sm-6 col-md-3 border-end">
+                                            {/* Mobile layout */}
+                                            <div className="col-12 d-block d-sm-none">
+                                                {/* Render a single column for mobile */}
+                                                <ul className="nav flex-column">
+                                                    {headerData &&
+                                                        headerData?.map((headerOption, index) => (
+                                                            <li
+                                                                key={index}
+                                                                className={`nav-item  ${styles.purpleToWhiteGradient_mobileview} ${
+                                                                    selectedHeader && headerOption.id === selectedHeader.id ? styles.purpleToWhiteGradient_mobileview_active : ""
+                                                                }`}
+                                                            >
+                                                                <div>
+                                                                <a className={`dropdown-toggle ${styles.menuLink_mobileview}`} onClick={() => setSelectedHeader(headerOption)}>
+                                                                    {headerOption.name}
+                                                                </a>
+                                                                </div>
+                                                                {selectedHeader && selectedHeader.id === headerOption.id && (
+                                                                    <div className="row">
+                                                                        {selectedHeader.features &&
+                                                                            selectedHeader.features.map(
+                                                                                (feature, featureIndex) =>
+                                                                                    feature.active && (
+                                                                                        <div key={featureIndex} className="col-12">
+                                                                                            <a
+                                                                                                className={`nav-link ${styles.subFeatures_mobileview}`}
+                                                                                                title={feature.name}
+                                                                                                onClick={() => {
+                                                                                                    handleFeatureCardOnClick(feature, selectedHeader.id);
+                                                                                                }}
+                                                                                            >
+                                                                                                {feature.name}
+                                                                                            </a>
+                                                                                         </div>
+                                                                                    )
+                                                                            )}
+                                                                    </div>
+                                                                )}
+                                                            </li>
+                                                        ))}
+                                                </ul>
+                                            </div>
+
+                                            {/* Desktop layout */}
+                                            <div className="col-12 col-sm-6 col-md-3 border-end d-none d-sm-block">
                                                 <ul className="nav flex-column" id="left-tabs-example">
                                                     {headerData &&
                                                         headerData?.map((headerOption, index) => (
@@ -134,37 +178,45 @@ export default function HeaderTopV2() {
                                                                         selectedHeader && headerOption.id === selectedHeader.id ? styles.purpleToWhiteGradient_active : ""
                                                                     }`}
                                                                 >
-                                                                    <a
-                                                                        className={`nav-link ${styles.navLinkStyle}`}
-                                                                        id={`${numberToString(headerOption.id)}-tab`}
-                                                                        data-bs-toggle="pill"
-                                                                        href={`#${numberToString(headerOption.id)}`}
-                                                                        onClick={() => {
-                                                                            setSelectedHeader(headerOption);
-                                                                        }}
-                                                                    >
-                                                                        {headerOption.name}
-                                                                    </a>
-                                                                    <p
-                                                                        className={styles.navExample}
-                                                                        id={`${numberToString(headerOption.id)}-tab`}
-                                                                        data-bs-toggle="pill"
-                                                                        href={`#${numberToString(headerOption.id)}`}
-                                                                        onClick={() => {
-                                                                            setSelectedHeader(headerOption);
-                                                                        }}
-                                                                    >
-                                                                        {`eg. ${headerOption?.examples.join(", ")}`}
-                                                                    </p>
+                                                                    <div>
+                                                                        <a
+                                                                            className={styles.menuLink}
+                                                                            id={`${numberToString(headerOption.id)}-tab`}
+                                                                            onClick={() => {
+                                                                                setSelectedHeader(headerOption);
+                                                                            }}
+                                                                        >
+                                                                            <div>
+                                                                                <a className={`nav-link ${styles.navLinkStyle}`} data-bs-toggle="pill">
+                                                                                    {headerOption.name}
+                                                                                </a>
+                                                                                <p className={styles.navExample} data-bs-toggle="pill">
+                                                                                    {`eg. ${headerOption?.examples.join(", ")}`}
+                                                                                </p>
+                                                                            </div>
+
+                                                                            <div className={styles.subMenuSelectImage}>
+                                                                                <Image
+                                                                                    src="/images/svgs/submenuSelectIcon.svg"
+                                                                                    alt="submenuSelectIcon"
+                                                                                    loading="lazy"
+                                                                                    className="lazyload"
+                                                                                    style={{
+                                                                                        width: "6px",
+                                                                                        height: "10px",
+                                                                                    }}
+                                                                                />
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
                                                                 </li>
                                                             </ul>
                                                         ))}
                                                 </ul>
                                             </div>
 
-                                            <div class="col-12 col-sm-6 col-md-9">
-                                                <div class="tab-content">
-                                                    {console.log(selectedHeader, "herer")}
+                                            <div className="col-12 col-sm-6 col-md-9 d-none d-sm-block">
+                                                <div className={`tab-content ${styles.subMenuMainStyle}`}>
                                                     {selectedHeader && (
                                                         <div id={`${numberToString(selectedHeader.id)}`}>
                                                             <div className="row">

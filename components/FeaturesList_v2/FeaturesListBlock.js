@@ -262,49 +262,53 @@ export default function FeaturesListV2Block() {
         handleTabChange(selectedData[0].id);
         setSelectedCategoryData(selectedData[0]);
     };
+
     const customStyles = {
-        // control: (styles) => ({ ...styles, backgroundColor: "white" }),
         control: (styles) => ({
             ...styles,
-            borderColor: "#3498db", // Set the default border color
-            "&:hover": {
-                borderColor: "#2980b9", // Set the border color on hover
-            },
-            "&:focus": {
-                borderColor: "#2980b9", // Set the border color when focused
-            },
+            borderColor: "#DADADA",
+            cursor: "pointer",
+        }),
+        menu: (provided) => ({
+            ...provided,
+            boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.1)",
+            border: "1px solid rgba(218, 218, 218, 1)",
         }),
         option: (styles, { isFocused, isSelected }) => ({
             ...styles,
             borderColor: "#3498db",
             color: isSelected ? "#7b5b9e" : isFocused ? "#7B5B9E" : "black",
             backgroundColor: "none",
+            cursor: "pointer",
+            ":active": {
+                backgroundColor: "none",
+            },
         }),
     };
+
     return (
         <section className={`p-3 p-xl-5 ${style.mdf__network__block_tabs}`}>
             <Form onSubmit={onSubmit}>
                 <Container>
-                    <div className="px-3 justify-content-between d-flex">
-                        <div>
+                    <div className="px-3 justify-content-between d-flex flex-md-row flex-column align-items-center">
+                        <div className="mb-2 mb-md-0">
                             <span>5</span> filters selected
                         </div>
-                        <div class="w-25">
+                        <div className={style.responsive_select}>
                             <Select
                                 value={getTransformedData(filterData(activeTab))}
                                 isSearchable={false}
                                 options={getTransformedData(headerData)}
                                 onChange={handleSelectChange}
                                 styles={customStyles}
-                                // theme={(theme) => ({
-                                //     ...theme,
-                                //     borderRadius: 0,
-                                //     colors: {
-                                //         ...theme.colors,
-                                //         primary25: "#7B5B9E",
-                                //         primary: "#7b5b9e",
-                                //     },
-                                // })}
+                                theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: 0,
+                                    colors: {
+                                        ...theme.colors,
+                                        primary: "#7b5b9e",
+                                    },
+                                })}
                             />
                         </div>
                     </div>

@@ -138,30 +138,91 @@
 }
 
 .purpleToWhiteGradient:hover,
-.purpleToWhiteGradient:active{
-  background: linear-gradient(90deg, #EBDAFF 0%, #FFFFFF 100%);
-}
-.purpleToWhiteGradient_active{
+.purpleToWhiteGradient:active {
   background: linear-gradient(90deg, #EBDAFF 0%, #FFFFFF 100%);
 
+  .subMenuSelectImage {
+    display: flex;
+    margin-right: 10px;
+    align-items: center;
+  }
+}
+
+.purpleToWhiteGradient_mobileview {
+  padding: 5px;
+}
+
+.purpleToWhiteGradient_active {
+  background: linear-gradient(90deg, #EBDAFF 0%, #FFFFFF 100%);
+
+  .subMenuSelectImage {
+    display: flex;
+    margin-right: 10px;
+    align-items: center;
+  }
+}
+
+.purpleToWhiteGradient_mobileview:hover,
+.purpleToWhiteGradient_mobileview:active {
+  background: #f5f5f5;
+  .subMenuSelectImage {
+    display: flex;
+    margin-right: 10px;
+    align-items: center;
+  }
+}
+
+
+
+.purpleToWhiteGradient_mobileview_active {
+  background: #f5f5f5;
+
+  .subMenuSelectImage {
+    display: flex;
+    margin-right: 10px;
+    align-items: center;
+  }
 }
 
 .navLinkStyle {
-  padding-left: 2% !important;
+  padding-left: 10px !important;
   color: #333;
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.menuLink {
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.menuLink_mobileview {
+  text-decoration: none;
+}
+
+
+.subMenuSelectImage {
+  margin-right: 10px;
+  align-items: center;
+  display: none;
 }
 
 .navExample {
-  padding-left: 2% !important;
+  padding-left: 10px !important;
   display: block;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   font-weight: 400;
-  font-size: 9px;
+  font-size: 12px;
   color: #333
 }
 
 .subFeatures {
+  font-size: 14px;
+  font-weight: 500;
+}
+.subFeatures_mobileview {
   font-size: 12px;
+  color: #333;
 }

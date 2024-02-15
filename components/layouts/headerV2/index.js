@@ -157,7 +157,7 @@ export default function HeaderTopV2() {
                                                                                             >
                                                                                                 {feature.name}
                                                                                             </a>
-                                                                                        </div>
+                                                                                         </div>
                                                                                     )
                                                                             )}
                                                                     </div>
@@ -215,8 +215,8 @@ export default function HeaderTopV2() {
                                                 </ul>
                                             </div>
 
-                                            <div class="col-12 col-sm-6 col-md-9 d-none d-sm-block">
-                                                <div class="tab-content">
+                                            <div className="col-12 col-sm-6 col-md-9 d-none d-sm-block">
+                                                <div className={`tab-content ${styles.subMenuMainStyle}`}>
                                                     {selectedHeader && (
                                                         <div id={`${numberToString(selectedHeader.id)}`}>
                                                             <div className="row">

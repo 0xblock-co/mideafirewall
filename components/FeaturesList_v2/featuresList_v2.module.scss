@@ -52,7 +52,7 @@
         cursor: pointer;
 
         display: flex;
-        // justify-content: space-between;
+        justify-content: space-between;
         flex-direction: column;
         &.mdf__feature__card_inactive {
             background-color: rgb(62 60 64 / 16%);
@@ -103,15 +103,55 @@
             font-size: 16px;
             font-weight: 500;
         }
+
+        .mdf_card_checkbox_option {
+            border-radius: 50px;
+        }
+
+        .mdf_card_checked {
+            background-color: #7b5b9e;
+        }
+
+        .mdf_card_unchecked {
+            // background-color: #f6eeff;
+        }
+
+        .mdf_card_common {
+            border: 0.5px solid rgba(85, 85, 85, 1);
+            border-radius: 50px;
+        }
+
+        .mdf_card_label_checked {
+            color: white;
+            border-color: #7b5b9e;
+        }
+
+        .mdf_card_label_unchecked {
+            color: rgba(85, 85, 85, 1);
+        }
+        .custom_checkbox {
+            font-size: large;
+        }
+        .custom_checkbox:checked {
+            background-color: #74b504 !important;
+            border-color: #74b504 !important;
+
+            // border-color: black !important;
+        }
     }
 
     .btn-outline-dark {
         padding: 0.25rem;
     }
+    .category_title {
+        font-size: 16px;
+        font-weight: 500;
+        margin-right: 15px;
+    }
 }
 
 .responsive_select {
-    width: 30%;
+    width: 50%;
 }
 
 @media (max-width: 767px) {

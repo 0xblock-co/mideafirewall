@@ -5,7 +5,7 @@ import CommonUtility from "@/utils/common.utils";
 import { newInfoAlert } from "@/utils/toastMessage.utils";
 import { useRouter } from "next/router";
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Image, Modal, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
@@ -28,6 +28,15 @@ export default function FeaturesListV2Block() {
     const [isShowVideoModel, setIsShowVideoModel] = useState(false);
     const [selectedMediaContent, setSelectedMediaContent] = useState(null);
     const [selectedCategoryData, setSelectedCategoryData] = useState(headerData[0]);
+    const [seletedFilterCount, setSeletedFilterCount] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState("");
+
+    const handleReadMoreClick = (feature, id) => {
+        setModalContent(feature);
+        setShowModal(true);
+    };
+
     const featureRefs = useRef({});
 
     useEffect(() => {
@@ -56,6 +65,7 @@ export default function FeaturesListV2Block() {
 
             const selectedTabIndex = key || parsedData?.activeTab;
             if (parsedData && selectedTabIndex) {
+                setSeletedFilterCount(1);
                 setMyRefKeyValue(`${selectedTabIndex.toString()}-${parsedData?.selectedFeatureIds[0]}`);
                 setSelectedFeatureIds(parsedData.selectedFeatureIds);
                 setSelectedOptions(parsedData.selectedOptions);
@@ -98,7 +108,8 @@ export default function FeaturesListV2Block() {
         }
     };
 
-    const handleCheckboxChange = (featureId, fullSelectedItem) => {
+    const handleCheckboxChange = (featureId, fullSelectedItem, isClicked) => {
+        setSeletedFilterCount(isClicked ? seletedFilterCount + 1 : seletedFilterCount - 1);
         if (!fullSelectedItem.active) {
             setSelectedMediaContent(fullSelectedItem);
             if (fullSelectedItem.webFeatureKey === "deepfake" || fullSelectedItem.featureId == "134") {
@@ -300,7 +311,7 @@ export default function FeaturesListV2Block() {
                 <Container>
                     <div className="px-3 justify-content-between d-flex flex-md-row flex-column align-items-center">
                         <div className="mb-2 mb-md-0">
-                            <span>5</span> filters selected
+                            <span>{seletedFilterCount}</span> filters selected
                         </div>
                         <div className="w-50 d-flex align-items-center justify-content-end">
                             <label className={style.category_title}>Business Categories</label>
@@ -368,7 +379,7 @@ export default function FeaturesListV2Block() {
                                                         name={`tab-${activeTab}-${item.featureId}`}
                                                         id={`btn-check-outlined tab-${activeTab}-${item.featureId}`}
                                                         hidden
-                                                        onChange={() => handleCheckboxChange(item.webFeatureKey, item)}
+                                                        onChange={(event) => handleCheckboxChange(item.webFeatureKey, item, event.target.checked)}
                                                     />
                                                     <label
                                                         className={`btn btn-outline-info ${style.card__primary} ${!item.active ? style.mdf__feature__card_inactive : ""}`}
@@ -386,7 +397,7 @@ export default function FeaturesListV2Block() {
                                                                     value={item.webFeatureKey}
                                                                     id="flexCheckDefault"
                                                                     checked={selectedFeatureIds.includes(item.webFeatureKey)}
-                                                                    onChange={() => handleCheckboxChange(item.webFeatureKey, item)}
+                                                                    onChange={(event) => handleCheckboxChange(item.webFeatureKey, item, event.target.checked)}
                                                                 />
 
                                                                 {/* <div className={style.responsive_select}></div> */}
@@ -523,7 +534,17 @@ export default function FeaturesListV2Block() {
                                                                                 );
                                                                             })}
                                                                         </div>
-                                                                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg" className="m-0">
+                                                                        {/* info icon */}
+                                                                        {/* <Button onClick={() => handleReadMoreClick(item)}> */}
+                                                                        <svg
+                                                                            width="21"
+                                                                            height="21"
+                                                                            viewBox="0 0 21 21"
+                                                                            fill="none"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            className="m-0"
+                                                                            onClick={() => handleReadMoreClick(item)}
+                                                                        >
                                                                             <circle cx="10.9883" cy="10.293" r="7.5" stroke="#333333" stroke-width="1.66667" />
                                                                             <path
                                                                                 d="M11.4049 6.54313C11.4049 6.77325 11.2183 6.9598 10.9882 6.9598C10.7581 6.9598 10.5715 6.77325 10.5715 6.54313C10.5715 6.31301 10.7581 6.12646 10.9882 6.12646C11.2183 6.12646 11.4049 6.31301 11.4049 6.54313Z"
@@ -533,6 +554,7 @@ export default function FeaturesListV2Block() {
                                                                             />
                                                                             <path d="M10.9883 14.4598V8.62646" stroke="#333333" stroke-width="1.66667" />
                                                                         </svg>
+                                                                        {/* </Button> */}
                                                                     </div>
                                                                     <RenderIf isTrue={item?.featureId == "134"}>
                                                                         <div className="blink" style={{ color: "#5e0496", fontSize: "16px", fontWeight: 600 }}>
@@ -571,6 +593,14 @@ export default function FeaturesListV2Block() {
                 />
             )}
             <Loader isLoading={isLoading} />
+            <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+                <Modal.Header closeButton style={{ borderBottom: "none" }} />
+                <Modal.Body>
+                    <Image src={modalContent.imgUrl} alt={modalContent.name} />
+                    <h2 className="d-flex justify-content-center mt-3">{modalContent.name}</h2>
+                    <p className="d-flex justify-content-center mt-3">{modalContent.description}</p>
+                </Modal.Body>
+            </Modal>
         </section>
     );
 }

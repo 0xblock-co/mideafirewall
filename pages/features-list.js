@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 
 // import FeaturesListBlock from "@/components/FeaturesList/FeaturesListBlock";
-import FeaturesListScreenBanner from "@/components/FeaturesList/FeaturesListScreenBanner";
 import style from "@/components/FeaturesList/featuresList.module.scss";
 import FeaturesListBlock from "@/components/FeaturesList_v2/FeaturesListBlock";
 import { NextSeo } from "next-seo";
@@ -44,7 +43,7 @@ const FeaturesList = () => {
                 ]}
             />
             <div className={style.bg__light_blue}>
-                <FeaturesListScreenBanner />
+                {/* <FeaturesListScreenBanner /> */}
                 <FeaturesListBlock />
             </div>
         </Fragment>

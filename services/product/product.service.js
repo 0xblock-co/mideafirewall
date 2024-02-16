@@ -12,7 +12,6 @@ export const asyncUploadContentByUrl = async (userEmail, queryPayload) => {
             return res;
         });
     } catch (e) {
-        
         return e;
     }
 };
@@ -176,11 +175,9 @@ export const asyncCreateMeeting = async (payload, user) => {
 
 export const asyncGetCheckoutSessionUrl = async (stripeCustomerId, selectedProductId, currency) => {
     try {
-        const response = api
-            .get(`/mfw/checkout/sessions/url?customerId=${stripeCustomerId}&productId=${selectedProductId}&currency=${currency}`, {}, true, false)
-            .then(async (res) => {
-                return res;
-            });
+        const response = api.get(`/mfw/checkout/sessions/url?customerId=${stripeCustomerId}&productId=${selectedProductId}&currency=${currency}`, {}, true, false).then(async (res) => {
+            return res;
+        });
         return response;
     } catch (error) {
         return error;

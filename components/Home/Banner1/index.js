@@ -16,7 +16,8 @@ export default function HomeBanner() {
                 <Row className="justify-content-between">
                     <Col xl={6} className="mt-4">
                         <div className={style.mdf__banner_text}>
-                            <h1>
+                            <h1>World&apos;s most accurate and pure AI based Voice, Image and Video RealTime Content Moderation Service</h1>
+                            {/* <h1>
                                 World&apos;s{" "}
                                 <span className="text_gredient1" style={{ color: "#5e0496" }}>
                                     most accurate and pure AI based{" "}
@@ -25,21 +26,8 @@ export default function HomeBanner() {
                                     Voice, Image and Video
                                 </span>{" "}
                                 RealTime Content Moderation Service
-                            </h1>
-                            {/* <h1>
-                                <span className="text_gredient">World&apos;s most accurate</span> and pure <span className="text_gredient">AI powered Content Moderation platform </span>
                             </h1> */}
-                            {/* <p>
-                                <span className="text_gredient">
-                                    <strong>Mediafirewall</strong>
-                                </span>{" "}
-                                is now{" "}
-                                <span className="text_gredient">
-                                    <strong>NVIDIA Cloud Validated</strong>
-                                </span>{" "}
-                                for enhanced performance and reliability.
-                            </p> */}
-                            <p className="fw-semibold mb-0">
+                            <p className="mb-0">
                                 Media Firewall is your ultimate solution for online safety. Our powerful AI-based content moderation tool specializes in image, voice, and video moderation, ensuring
                                 your platform remains free from harmful content. With real-time detection of offensive material, our multimedia moderation platform serves as your first line of
                                 defense, guaranteeing a secure digital environment for all users.
@@ -47,15 +35,17 @@ export default function HomeBanner() {
 
                             <div style={{ width: "150px", height: "70px" }}>
                                 <img
-                                    src="/images/svgs/nvidia-cloud-validated-lockup-rgb-blk-for-screen.svg"
+                                    src="/images/svgs/nvidia-cloud-validated-lockup-rgb-wht-for-screen.svg"
                                     title="Nvidia Cloud validated"
                                     alt="Nvidia Cloud validated"
                                     style={{ objectFit: "contain", width: "100%", height: "100%" }}
                                 ></img>
                             </div>
 
-                            <Button variant="primary" className="rounded-pill button_primary py-2 px-4" onClick={() => Router.push("/features-list")}>
-                                <FormattedMessage id="button.See Demo" />
+                            <Button variant="primary" className={`rounded-pill ${style.mdf__banner_demo_btn}`} onClick={() => Router.push("/features-list")}>
+                                <span>
+                                    <FormattedMessage id="button.See Demo" />
+                                </span>
                             </Button>
                         </div>
                     </Col>

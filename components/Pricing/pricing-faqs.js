@@ -29,7 +29,10 @@ export default function PricingFaqs() {
                         <div className="mt-5">
                             <h5>Do you offer a free trial?</h5>
                             <p>
-                                Yes there is a free plan that can be used to moderate your content through our website. <Link title="Get a free trial" href="/account-security/signup">Get a free trial</Link>
+                                Yes there is a free plan that can be used to moderate your content through our website.{" "}
+                                <Link title="Get a free trial" href="/account-security/signup">
+                                    Get a free trial
+                                </Link>
                             </p>
                         </div>
                         <div className="mt-5">
@@ -41,8 +44,8 @@ export default function PricingFaqs() {
                         <div className="mt-5">
                             <h5>What happens if I exceed my paid plan?</h5>
                             <p>
-                                No worries if you exceed your quota. We know this can happen and your service shouldn't be affected. If you exceed your quota we will simply apply the per operation
-                                rate and charge you for this additional usage a few days later.
+                                No worries if you exceed your quota. We know this can happen and your service shouldn&apos;t be affected. If you exceed your quota we will simply apply the per
+                                operation rate and charge you for this additional usage a few days later.
                             </p>
                         </div>
                         <div className="mt-5">
@@ -54,7 +57,7 @@ export default function PricingFaqs() {
                         </div>
                         <div className="mt-5">
                             <h5>If my request results in an error, will that be counted towards my monthly limit?</h5>
-                            <p>No, we only count requests that result in a successful response. You won't get a higher bill because of errors or invalid photos.</p>
+                            <p>No, we only count requests that result in a successful response. You won&apos;t get a higher bill because of errors or invalid photos.</p>
                         </div>
                     </Col>
                 </Row>

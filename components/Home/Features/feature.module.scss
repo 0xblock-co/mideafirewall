@@ -1,71 +1,72 @@
 @import "@/styles/common.scss";
 
 .mdf__personalized_feature {
-  padding: 80px 0;
-  @include media-breakpoints-down-lg {
-    padding: 40px 0;
-  }
-  .mdf__btn_large {
-    margin-bottom: 0.5rem;
-    background: #fff;
-    border: 1px solid #7b5b9e;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
-    color: $text-dark;
-    font-weight: 800;
-    padding: 1rem 2rem;
-
-    &:hover {
-      color: #fff;
-      background: #7b5b9e;
-    }
+    padding: 80px 0;
     @include media-breakpoints-down-lg {
-      padding: 0.5rem 1rem;
-      border-radius: 12px;
+        padding: 40px 0;
     }
-  }
-  .mdf__feature__card_block {
-    margin-top: 2rem;
-    .mdf__feature__card {
-      display: -webkit-box;
-      border: 1px solid #c8c8c8;
-      border-radius: 20px;
-      height: 100%;
-      box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
-      padding: 1rem;
-      // cursor: pointer;
-      &.mdf__feature__card_inactive {
-        background-color: rgb(62 60 64 / 16%);
-        // background-color: #5e04965a;
-        // mix-blend-mode: overlay;
-        cursor: not-allowed;
-      }
-      img {
-        border-radius: 18px;
-        width: 100%;
-        border: 1px solid #c8c8c8;
-        height: 120px;
-        object-fit: cover;
-      }
+    .mdf__btn_large {
+        margin-bottom: 0.5rem;
+        background: #fff;
+        border: 1px solid #7b5b9e;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 16px;
+        color: $text-dark;
+        font-weight: 800;
+        padding: 1rem 2rem;
+
+        &:hover {
+            color: #fff;
+            background: #7b5b9e;
+        }
+        @include media-breakpoints-down-lg {
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+        }
     }
-    .later__spacing {
-      margin-top: 1rem;
-      font-size: 1.15rem;
+
+    .mdf__feature__card_block {
+        margin-top: 2rem;
+        .mdf__feature__card {
+            display: -webkit-box;
+            border: 1px solid #c8c8c8;
+            border-radius: 20px;
+            height: 100%;
+            box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
+            padding: 1rem;
+            // cursor: pointer;
+            &.mdf__feature__card_inactive {
+                background-color: rgb(62 60 64 / 16%);
+                // background-color: #5e04965a;
+                // mix-blend-mode: overlay;
+                cursor: not-allowed;
+            }
+            img {
+                border-radius: 18px;
+                width: 100%;
+                border: 1px solid #c8c8c8;
+                height: 120px;
+                object-fit: cover;
+            }
+        }
+        .later__spacing {
+            margin-top: 1rem;
+            font-size: 1.15rem;
+        }
+        a,
+        p {
+            font-size: 12px;
+            text-decoration: none;
+            color: #595959;
+            line-height: 1.5;
+        }
+        .text_wrap {
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 0;
+        }
     }
-    a,
-    p {
-      font-size: 12px;
-      text-decoration: none;
-      color: #595959;
-      line-height: 1.5;
-    }
-    .text_wrap {
-      display: -webkit-box;
-      -webkit-line-clamp: 5;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 0;
-    }
-  }
 }

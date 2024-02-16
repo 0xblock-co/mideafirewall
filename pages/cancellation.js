@@ -10,7 +10,7 @@ const ContentPage = () => {
                             <h1>Cancellation and Refund Policy</h1>
                             <p>
                                 <span>
-                                    This Cancellation and Refund Policy ("Policy") applies to all services provided by MediaFirewall through our website at{" "}
+                                    This Cancellation and Refund Policy (&quot;Policy&quot;) applies to all services provided by MediaFirewall through our website at{" "}
                                     <a href="http://www.mediafirewall.ai/" target="_blank" rel="noreferrer">
                                         www.mediafirewall.ai
                                     </a>
@@ -99,7 +99,11 @@ const ContentPage = () => {
                                         </span>
                                     </span>
                                     <br />
-                                    If you have any questions about this Cancellation and Refund Policy, please contact us at <a href="mailto:info@mediafirewall.ai" title="Mediafirewall Information Email">info@mediafirewall.ai</a> Or{" "}
+                                    If you have any questions about this Cancellation and Refund Policy, please contact us at{" "}
+                                    <a href="mailto:info@mediafirewall.ai" title="Mediafirewall Information Email">
+                                        info@mediafirewall.ai
+                                    </a>{" "}
+                                    Or{" "}
                                     <a href="tel:+919900119968" title="Support Mediafirewall Contact">
                                         +91 99001 19968
                                     </a>

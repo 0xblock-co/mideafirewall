@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { asyncGenerateProofsByEmail, asyncGetContentEventLogs } from "@/services/product/product.service";
 import { cloneDeep } from "lodash";
-import CreatableSelect from 'react-select/creatable';
+import CreatableSelect from "react-select/creatable";
 
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 import { useAuthV3 } from "@/contexts-v2/auth.context";
@@ -353,7 +353,6 @@ const DemoPage = () => {
 
     const onSubmit = async (data) => {
         try {
-
             const formData = new FormData();
             formData.append("videoID", router.query.videoId);
 

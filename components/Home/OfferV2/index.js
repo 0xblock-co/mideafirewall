@@ -18,11 +18,11 @@ export default function OfferBlock() {
                 <Container>
                     <Row className="justify-content-center">
                         <Col lg={10} xxl={7}>
-                            <h1 className="fw-bold text-shadow text-center text_gradient_effect">
+                            <h1 className="fw-bold text-shadow text-center   ">
                                 <FormattedMessage
                                     id="page.home.offerBlock.mainTitle"
                                     values={{
-                                        span: (chunks) => <span className="fw-bolder">{chunks}</span>,
+                                        span: (chunks) => <span className={`fw-bolder ${style.offer_main_text_percentage_style}`}>{chunks}</span>,
                                     }}
                                 />
                             </h1>
@@ -59,7 +59,7 @@ export default function OfferBlock() {
                         <Row>
                             <Col lg={12}>
                                 <div className="our-partner-block-title mb-4">
-                                    <h1 className="fw-bold text-shadow text-center text_gradient_effect">Our Partners & Accelerators {/* <h2>Our PARTNERS AND ACCELERATORS</h2> */}</h1>
+                                    <h1 className="fw-bold text-shadow text-center">Our Partners & Accelerators {/* <h2>Our PARTNERS AND ACCELERATORS</h2> */}</h1>
                                 </div>
                             </Col>
                         </Row>

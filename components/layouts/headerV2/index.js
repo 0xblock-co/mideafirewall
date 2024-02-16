@@ -162,8 +162,8 @@ export default function HeaderTopV2() {
                                                 </ul>
                                             </div>
 
-                                            <div class="col-12 col-sm-6 col-md-9">
-                                                <div class="tab-content">
+                                            <div className="col-12 col-sm-6 col-md-9">
+                                                <div className="tab-content">
                                                     {console.log(selectedHeader, "herer")}
                                                     {selectedHeader && (
                                                         <div id={`${numberToString(selectedHeader.id)}`}>

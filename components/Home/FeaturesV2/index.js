@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-html-link-for-pages */
-import { Button, Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
-
+import { Button, Card, Col, Container, Image, Modal, Nav, Row, Tab } from "react-bootstrap";
+// import Image from "react-bootstrap/Image";
 import RenderIf from "@/components/ConditionalRender/RenderIf";
 import Count from "@/components/Count";
 import VideoModal from "@/components/VideoModal";
@@ -21,6 +21,16 @@ export default function FeatureBlogV2({ headerData }) {
 
     const [isShowVideoModel, setIsShowVideoModel] = useState(false);
     const [selectedMediaContent, setSelectedMediaContent] = useState(null);
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState("");
+    const [featureID, setFeatureID] = useState("");
+
+    const handleReadMoreClick = (feature, id) => {
+        setModalContent(feature);
+        setFeatureID(id);
+        setShowModal(true);
+    };
 
     const handleTabChange = (key) => setActiveTab(key);
     const router = useRouter();
@@ -236,10 +246,11 @@ export default function FeatureBlogV2({ headerData }) {
                                                                                 {feature.description}
                                                                                 {/* <Link title={feature.description} id={feature.index}></Link>{" "} */}
                                                                             </p>
-                                                                            <Button className={style.read_more_button}>Read More</Button>
+                                                                            <Button className={style.read_more_button} onClick={() => handleReadMoreClick(feature, headerOption.id)}>
+                                                                                Read More
+                                                                            </Button>
                                                                         </div>
                                                                     </div>
-                                                                    <div></div>
                                                                 </Col>
                                                             </Row>
                                                             <RenderIf isTrue={!feature.active}>
@@ -281,6 +292,16 @@ export default function FeatureBlogV2({ headerData }) {
                 />
             )} */}
             </section>
+
+            <Modal className={style.jay} show={showModal} onHide={() => setShowModal(false)} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+                <Modal.Header closeButton style={{ borderBottom: "none" }} />
+                <Modal.Body className={style.mdf__feature__model}>
+                    <Image src={modalContent.imgUrl} alt={modalContent.name} />
+                    <h2 className="d-flex justify-content-center mt-3">{modalContent.name}</h2>
+                    <p className="d-flex justify-content-center mt-3">{modalContent.description}</p>
+                    <Button onClick={() => handleFeatureCardOnClick(modalContent, featureID)}>Demo</Button>
+                </Modal.Body>
+            </Modal>
         </>
     );
 }

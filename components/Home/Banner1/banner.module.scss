@@ -1,7 +1,7 @@
 @import "@/styles/common.scss";
 
 .mdf__banner__back {
-    background: linear-gradient(97.07deg, #7b5b9e 0.83%, #000000 100%);
+    // background: linear-gradient(97.07deg, #7b5b9e 0.83%, #000000 100%);
     min-height: 620px;
     background-position: center;
     background-repeat: no-repeat;
@@ -21,11 +21,11 @@
     }
     .mdf__banner_text {
         h1 {
-            color: #fff;
+            color: #000000;
             letter-spacing: 0.055em;
         }
         p {
-            color: #fff;
+            color: #000000;
             font-weight: 300;
             font-family: $font-family-sans-serif;
         }
@@ -36,14 +36,15 @@
         font-weight: 600;
         font-size: 20px;
         span {
-            background: linear-gradient(97.07deg, #7b5b9e 0.83%, #000000 100%);
+            background: #7B5B9E;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        &:hover {
-            background: linear-gradient(97.07deg, #7b5b9e 0.83%, #000000 100%);
+        &:hover ,&:active
+         {
+            background: #7B5B9E;
 
             span {
                 color: #fff;

@@ -1,0 +1,38 @@
+@import "@/styles/common.scss";
+
+.mdf__moderation__back {
+  // background: conic-gradient(
+  //   from 180deg at 50% 0%,
+  //   #d3cbe6 0deg,
+  //   #7b5b9e 360deg
+  // );
+  background: #fff;
+  padding: 80px 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  @include media-breakpoints-down-lg {
+    padding: 40px 0;
+  }
+  .card_custom {
+    // box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    border: 0;
+    background: #F2F2F2;
+    border-radius: 15px;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.15);
+  }
+  .card_text {
+    // box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    font-size: 22px !important;
+  }
+  .mdf__img__rounded {
+    height: 307px;
+box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    @include media-breakpoints-down-lg {
+      border-radius: 10px;
+    }
+
+    // box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
+
+  }
+}

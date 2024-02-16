@@ -19,7 +19,7 @@ const Feature = dynamic(() => import("@/components/Home/FeaturesV2"), {
 // const Moderation = dynamic(() => import("@/components/Home/Moderation"), {
 //     ssr: false,
 // });
-const Moderation = dynamic(() => import("@/components/Home/ModerationV2"), {
+const Moderation = dynamic(() => import("@/components/Home/ModerationV3"), {
     ssr: false,
 });
 // const OfferBlock = dynamic(() => import("@/components/Home/Offer"), {

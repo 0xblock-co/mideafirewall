@@ -95,15 +95,15 @@ export default function FeatureBlogV2({ headerData }) {
                 <Container fluid="md">
                     <Row className="justify-content-center" style={{ borderRadius: "1rem" }}>
                         <div className="my-5">
-                            <ul style={{ listStyle: "none", paddingLeft: "unset", margin: "0px" }} className="d-flex justify-content-md-center justify-content-start flex-wrap align-items-center">
+                            <ul style={{ listStyle: "none", paddingLeft: "unset", margin: "0px", color:"#FFFFFF" }} className="d-flex justify-content-md-center justify-content-start flex-wrap align-items-center">
                                 <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3">
                                     <div className="section4-datashow" style={{ lineHeight: "16px" }}>
-                                        <span className="lead font-weight-bold trusted-text01 text_gradient_effect" style={{ fontWeight: 600, fontSize: "35px" }}>
+                                        <span className="lead font-weight-bold trusted-text01  " style={{ fontWeight: 600, fontSize: "35px" }}>
                                             <Count number={satisFactionMetricsCount?.numberOfActiveCustomers?.toString() || "85"} />
                                         </span>
                                         <br />
                                         <span
-                                            className="font-size-normal font-weight-normal p-3 d-inline-block text-shadow text_gradient_effect heading_text"
+                                            className="font-size-normal font-weight-normal p-3 d-inline-block text-shadow   heading_text"
                                             style={{
                                                 fontSize: "20px",
                                                 fontWeight: 500,
@@ -115,12 +115,12 @@ export default function FeatureBlogV2({ headerData }) {
                                 </li>
                                 <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3 ">
                                     <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
-                                        <span className="lead font-weight-bold trusted-text01 text_gradient_effect" style={{ fontWeight: 600, fontSize: "35px" }}>
+                                        <span className="lead font-weight-bold trusted-text01  " style={{ fontWeight: 600, fontSize: "35px" }}>
                                             <Count number={satisFactionMetricsCount?.numberOfOperationsProcessed?.toString() || "0"} />
                                         </span>
                                         <br />
                                         <span
-                                            className="font-size-normal font-weight-normal p-3 d-inline-block text-shadow text_gradient_effect"
+                                            className="font-size-normal font-weight-normal p-3 d-inline-block text-shadow  "
                                             style={{
                                                 fontSize: "20px",
                                                 fontWeight: 500,
@@ -132,16 +132,16 @@ export default function FeatureBlogV2({ headerData }) {
                                 </li>
                                 <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3">
                                     <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
-                                        <span className="lead font-weight-bold trusted-text02 text_gradient_effect" style={{ fontWeight: 600, fontSize: "35px" }}>
+                                        <span className="lead font-weight-bold trusted-text02  " style={{ fontWeight: 600, fontSize: "35px" }}>
                                             <Count number={satisFactionMetricsCount?.numberOfContentModerated?.toString() || "0"} />
                                         </span>
-                                        <span className="lead font-weight-bold trusted-text text_gradient_effect" style={{ fontWeight: 600, fontSize: "35px" }}>
+                                        <span className="lead font-weight-bold trusted-text  " style={{ fontWeight: 600, fontSize: "35px" }}>
                                             {" "}
                                             TB
                                         </span>{" "}
                                         <br />
                                         <span
-                                            className="font-size-normal font-weight-normal p-3 d-inline-block text-shadow text_gradient_effect"
+                                            className="font-size-normal font-weight-normal p-3 d-inline-block text-shadow  "
                                             style={{
                                                 fontSize: "20px",
                                                 fontWeight: 500,
@@ -153,12 +153,12 @@ export default function FeatureBlogV2({ headerData }) {
                                 </li>
                                 <li className="text-center px-0 col-md-auto col-6 mt-3 px-xxl-3 px-lg-2 px-md-3">
                                     <div className="px-2 section4-datashow" style={{ lineHeight: "16px" }}>
-                                        <span className="lead font-weight-bold trusted-text03 text_gradient_effect" style={{ fontWeight: 600, fontSize: "35px" }}>
+                                        <span className="lead font-weight-bold trusted-text03  " style={{ fontWeight: 600, fontSize: "35px" }}>
                                             <Count number={satisFactionMetricsCount?.numberOfRegions?.toString() || "0"} />
                                         </span>{" "}
                                         <br />
                                         <span
-                                            className="font-size-normal font-weight-normal p-3 d-inline-block text-shadow text_gradient_effect"
+                                            className="font-size-normal font-weight-normal p-3 d-inline-block text-shadow  "
                                             style={{
                                                 fontSize: "20px",
                                                 fontWeight: 500,
@@ -177,7 +177,7 @@ export default function FeatureBlogV2({ headerData }) {
                 <Container fluid="md">
                     <Row className="d-flex justify-content-center pt-5">
                         <Col>
-                            <h1 className="fw-bold text-shadow text-lg-center text_gradient_effect">
+                            <h1 className="fw-bold text-shadow text-lg-center  ">
                                 <FormattedMessage id="page.home.featureBlog.mainTitle" />
                             </h1>
                             <h2 className="d-flex justify-content-center text-center" style={{ color: "#555555", fontWeight: "400" }}>
@@ -210,22 +210,26 @@ export default function FeatureBlogV2({ headerData }) {
                                             <Row className="justify-left-lg-left row">
                                                 {headerOption.features.map((feature, index) => (
                                                     <div
+                                                    
                                                         key={index}
                                                         className={`${style.mdf__feature__card_block} col-md-6 `}
                                                         // onClick={() =>
                                                         //   handleFeatureCardOnClick(feature, headerOption.id)
                                                         // }
-                                                    >
+                                                    > 
                                                         <Card className={`${style.mdf__feature__card} ${!feature.active ? style.mdf__feature__card_inactive : ""} `}>
                                                             <Row>
                                                                 <Col xs={4} xl={3}>
+                                                                    
                                                                     <img src={feature.imgUrl} alt={feature.name} title={feature.name} loading="lazy" className="lazyload" />
                                                                 </Col>
                                                                 <Col xs={8} xl={9}>
                                                                     <div className="p-0">
+                                                                        
                                                                         <span className="d-flex justify-content-between align-items-center mb-2">
-                                                                            <h6 className={`text-primary m-0 ${style.later__spacing} text_gradient_effect`}>{feature.name} </h6>
+                                                                            <h6 className={`m-0 ${style.later__spacing}  `}>{feature.name} </h6>
                                                                             <div className="d-flex align-items-center gap-2">
+                                                                                
                                                                                 {/* <RenderIf isTrue={feature?.featureId == "134"}>
                                                                                     <div className="blink" style={{ color: "#5e0496", fontSize: "16px", fontWeight: 600 }}>
                                                                                         Coming Soon
@@ -246,9 +250,9 @@ export default function FeatureBlogV2({ headerData }) {
                                                                                 {feature.description}
                                                                                 {/* <Link title={feature.description} id={feature.index}></Link>{" "} */}
                                                                             </p>
-                                                                            <Button className={style.read_more_button} onClick={() => handleReadMoreClick(feature, headerOption.id)}>
+                                                                            <a className={style.read_more_button} onClick={() => handleReadMoreClick(feature, headerOption.id)}>
                                                                                 Read More
-                                                                            </Button>
+                                                                            </a>
                                                                         </div>
                                                                     </div>
                                                                 </Col>
